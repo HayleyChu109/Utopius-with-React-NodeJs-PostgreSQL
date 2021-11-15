@@ -1,28 +1,26 @@
 @import "basic";
 
 * {
-  font-family: "Sora", sans-serif;
+  font-family: $sora;
 }
 
 .landing-page {
   min-width: 100vw;
   min-height: 60vh;
-  background-color: #f5c4c4;
-  background: #ffffff;
+  background: $white;
 }
 
 .landing-card {
-  background-color: #ffffff;
+  background-color: $white;
   border-radius: 20px;
 }
 
 .landing-form {
-  min-width: 400px;
-  max-width: 500px;
+  width: 450px;
 }
 
 h3 {
-  color: #f37235;
+  color: $dark-orange;
   font-size: 1.7em;
   letter-spacing: 2px;
 }
@@ -38,12 +36,12 @@ label {
 
 .btn-orange,
 .btn-orange:focus {
-  background: #f37235;
-  color: #ffffff;
-  font-family: "Nunito", sans-serif;
+  background: $dark-orange;
+  color: $white;
+  font-family: $nunito;
   font-size: 15px;
   letter-spacing: 2px;
-  border: 2px solid #f37235;
+  border: 2px solid $dark-orange;
   border-radius: 20px;
   outline: none;
   box-shadow: none;
@@ -53,44 +51,44 @@ label {
 
 .btn-orange:hover,
 .btn-orange:focus:hover {
-  background: #fea735;
-  border: 2px solid #fea735;
+  background: $light-orange;
+  border: 2px solid $light-orange;
 }
 
 .input-text {
-  border: 2px solid #fcf5ef;
+  border: 2px solid $beige;
   border-radius: 10px;
   width: 100%;
-  background-color: #fcf5ef;
+  background-color: $beige;
 }
 
 .input-text:focus {
   box-shadow: none;
-  border: 2px solid #0077ff;
-  background-color: #ffffff;
+  border: 2px solid $dark-blue;
+  background-color: $white;
 }
 
 .err-msg {
   font-size: 15px;
-  color: #f37235;
+  color: $dark-orange;
 }
 
 .custom-modal-style {
   border: none;
   border-radius: 20px;
   min-height: 200px;
-  background-color: #ffffff;
+  background-color: $white;
 }
 
 .success-msg {
-  color: #0077ff;
+  color: $dark-blue;
   font-weight: 900;
   letter-spacing: 2px;
 }
 
 .modal-footer {
   border: none;
-  background-color: #fea735;
+  background-color: $light-orange;
 }
 
 .modal-footer:last-child {
@@ -122,6 +120,6 @@ label {
 .btn-white-lg:hover,
 .btn-white-lg:focus:hover {
   background-color: $white;
-  border: 2px solid $dark-orange;
+  border: 2px solid $dark-blue;
   color: $dark-blue;
 }
