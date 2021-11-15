@@ -16,10 +16,10 @@ class AuthRouter {
   async postLogin(req, res, next) {
     console.log(req.body);
     try {
-      if (req.body.username && req.body.password) {
-        let username = req.body.username;
+      if (req.body.email && req.body.password) {
+        let email = req.body.email;
         let password = req.body.password;
-        let result = await this.authService.login(username, password);
+        let result = await this.authService.login(email, password);
 
         if (result.token) {
           res.status(200).json({

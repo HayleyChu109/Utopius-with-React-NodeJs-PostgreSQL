@@ -19,7 +19,6 @@ $nunito: "Nunito", sans-serif;
 @mixin anchor-text {
   font-family: $sora;
   font-size: 13px;
-  font-weight: bolder;
   text-decoration: none;
   color: $white;
   margin-left: 5px;
@@ -29,5 +28,4 @@ $nunito: "Nunito", sans-serif;
 @mixin flex {
   display: flex;
   align-items: center;
-  justify-content: center;
 }

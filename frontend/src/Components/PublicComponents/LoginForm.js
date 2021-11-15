@@ -11,18 +11,18 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/todolist");
+      history.push("/");
     }
   }, [isAuthenticated, history]);
 
   const login = () => {
-    if (username !== "" && password !== "") {
-      dispatch(loginUserThunk(username, password));
+    if (email !== "" && password !== "") {
+      dispatch(loginUserThunk(email, password));
     }
   };
 
@@ -32,13 +32,13 @@ const LoginForm = () => {
         <div className="landing-form my-4">
           <h3>LOGIN</h3>
           <form>
-            <label className="my-2">Username</label>
+            <label className="my-2">Email</label>
             <br />
             <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.currentTarget.value)}
-              className="input-text form-control bc-fcf5ef"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.currentTarget.value)}
+              className="input-text form-control"
               required
             />
             <label className="my-2">Password</label>
@@ -47,7 +47,7 @@ const LoginForm = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.currentTarget.value)}
-              className="input-text form-control bc-fcf5ef "
+              className="input-text form-control"
               required
             />
             <br />
@@ -58,6 +58,9 @@ const LoginForm = () => {
               </Button>
             </div>
           </form>
+          <hr className="login-hr" />
+          <Button className="btn-white-lg">LOGIN WITH FACEBOOK</Button>
+          <Button className="btn-white-lg">LOGIN WITH GOOGLE</Button>
         </div>
       </div>
     </>
