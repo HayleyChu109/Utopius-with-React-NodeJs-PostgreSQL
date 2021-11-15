@@ -9,11 +9,16 @@
   }
 }
 
+.navbar > div {
+  width: 100%;
+  color: #ffffff;
+  letter-spacing: 2px;
+}
+
 .nav-logo {
   text-decoration: none;
   color: $white;
   font-size: 20px;
-  font-weight: bolder;
 }
 
 .nav-logo:hover {
@@ -24,15 +29,18 @@
   a {
     @include anchor-text;
   }
+  span {
+    @include anchor-text;
+  }
 }
 
 .nav-search {
-  font-size: 15px;
-  border: 2px solid $white;
-  font-family: $sora;
-  border-radius: 20px;
   width: 100%;
   background-color: #ffffff;
+  font-size: 15px;
+  font-family: $sora;
+  border: 2px solid $white;
+  border-radius: 20px;
   padding: 1px 15px 1px 15px;
   margin: 0px 10px 0px 10px;
 }

@@ -10,23 +10,21 @@ const SignupForm = () => {
 
   const dispatch = useDispatch();
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const [modalBoolean, setModalBoolean] = useState(false);
 
   useEffect(() => {
     if (successMsg !== null) {
       setModalBoolean(true);
-      setUsername("");
+      setEmail("");
       setPassword("");
-      setName("");
     }
   }, [successMsg]);
 
   const signup = () => {
-    if (username !== "" && password !== "" && name !== "") {
-      dispatch(signupUserThunk(username, password, name));
+    if (email !== "" && password !== "") {
+      dispatch(signupUserThunk(email, password));
     }
   };
 
@@ -40,21 +38,12 @@ const SignupForm = () => {
         <div className="landing-form my-4">
           <h3>SIGNUP A NEW ACCOUNT</h3>
           <form>
-            <label className="my-2">Name</label>
+            <label className="my-2">Email</label>
             <br />
             <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.currentTarget.value)}
-              className="input-text form-control"
-              required
-            />
-            <label className="my-2">Username</label>
-            <br />
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.currentTarget.value)}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.currentTarget.value)}
               className="input-text form-control"
               required
             />

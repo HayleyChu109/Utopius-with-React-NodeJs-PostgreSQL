@@ -7,8 +7,8 @@ class AuthService {
     this.knex = knex;
   }
 
-  async login(username, password) {
-    let matchedUser = await this.knex("users").where("username", username);
+  async login(email, password) {
+    let matchedUser = await this.knex("users").where("email", email);
 
     if (matchedUser.length > 0) {
       let result = await hashFunction.checkPassowrd(
@@ -18,7 +18,7 @@ class AuthService {
       if (result) {
         let payload = {
           id: matchedUser[0].id,
-          name: matchedUser[0].name,
+          username: matchedUser[0].username,
         };
         let token = jwt.sign(payload, config.jwtSecret);
         return { token };
@@ -26,12 +26,12 @@ class AuthService {
         return { message: "Incorrect password" };
       }
     } else {
-      return { message: "Incorrect username" };
+      return { message: "User does not exist" };
     }
   }
 
-  async checkExist(username) {
-    let matchedUser = await this.knex("users").where("username", username);
+  async checkExist(email) {
+    let matchedUser = await this.knex("users").where("email", email);
     if (matchedUser.length > 0) {
       return true;
     } else {
