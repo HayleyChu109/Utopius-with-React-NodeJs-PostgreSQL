@@ -4,7 +4,7 @@ const initialState = {
   search: "",
 };
 
-export function reqReducer(state = initialState, action) {
+export function requestReducer(state = initialState, action) {
   switch (action.type) {
     case SEARCH_REQ_ACTION:
       return { ...state, search: action.payload };

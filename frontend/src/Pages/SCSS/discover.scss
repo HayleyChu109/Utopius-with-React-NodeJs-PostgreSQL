@@ -12,3 +12,22 @@
   letter-spacing: 2px;
   color: $dark-blue;
 }
+
+.discover-card {
+  background-color: $white;
+  border: none;
+  border-radius: 20px;
+  font-family: $nunito;
+}
+
+.discover-tagname {
+  a {
+    @include anchor-text;
+    font-size: 16px;
+    color: $dark;
+  }
+
+  a:hover {
+    color: $dark-orange;
+  }
+}
