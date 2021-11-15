@@ -15,24 +15,24 @@ const DiscoverCard = (props) => {
     <>
       <div className="col-2">
         <Card className="discover-card">
-          <div className="discover-icons p-4">
-            <img
-              src={help}
-              alt="homecare-logo"
-              className="card-img-top mx-auto"
-            />
-          </div>
-          <div className="discover-tagname text-center p-3">
-            <a
-              href="#0"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSearch(props.tagname.replace(/\s/g, ""));
-              }}
-            >
+          <a
+            href="#0"
+            onClick={(e) => {
+              e.preventDefault();
+              handleSearch(props.tagname.replace(/\s/g, ""));
+            }}
+          >
+            <div className="discover-icons p-4">
+              <img
+                src={help}
+                alt="homecare-logo"
+                className="card-img-top mx-auto"
+              />
+            </div>
+            <div className="discover-tagname text-center p-2">
               {props.tagname}
-            </a>
-          </div>
+            </div>
+          </a>
         </Card>
       </div>
     </>

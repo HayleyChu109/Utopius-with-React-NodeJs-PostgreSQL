@@ -3,31 +3,46 @@
 .discover-div {
   min-height: 30vh;
   background-color: $beige;
+  // -webkit-font-smoothing: antialiased;
 }
 
 .discover-title {
   font: $sora;
   font-weight: 700;
-  font-size: 23px;
-  letter-spacing: 2px;
+  font-size: 20px;
+  letter-spacing: 4px;
   color: $dark-blue;
+  -webkit-font-smoothing: antialiased;
 }
 
 .discover-card {
   background-color: $white;
   border: none;
-  border-radius: 20px;
+  border-radius: 15px;
   font-family: $nunito;
+  a {
+    @include anchor-text;
+  }
+}
+
+.discover-card:hover {
+  border-right: 3px solid $dark-blue;
+  border-bottom: 3px solid $dark-blue;
+  transform: translateX(-3px);
+  transform: translateY(-6px);
+  filter: drop-shadow(0px 0px 7px $light-grey);
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  div {
+    color: $dark-blue;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+  }
 }
 
 .discover-tagname {
-  a {
-    @include anchor-text;
-    font-size: 16px;
-    color: $dark;
-  }
-
-  a:hover {
-    color: $dark-orange;
-  }
+  @include anchor-text;
+  font-size: 16px;
+  color: $dark;
+  letter-spacing: 1px;
 }
