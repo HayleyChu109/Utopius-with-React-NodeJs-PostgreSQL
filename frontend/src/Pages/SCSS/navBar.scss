@@ -1,0 +1,43 @@
+@import "basic";
+
+.navbar {
+  background-color: #fea735;
+  div {
+    @include flex;
+    color: #ffffff;
+    letter-spacing: 2px;
+  }
+}
+
+.nav-logo {
+  text-decoration: none;
+  color: $white;
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.nav-logo:hover {
+  color: $white;
+}
+
+.navitems {
+  a {
+    @include anchor-text;
+  }
+}
+
+.nav-search {
+  font-size: 15px;
+  border: 2px solid $white;
+  font-family: $sora;
+  border-radius: 20px;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 1px 15px 1px 15px;
+  margin: 0px 10px 0px 10px;
+}
+
+.nav-search:focus {
+  box-shadow: none;
+  border: 2px solid #ffffff;
+}

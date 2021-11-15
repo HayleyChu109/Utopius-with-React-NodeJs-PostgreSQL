@@ -1,0 +1,99 @@
+@import "basic";
+
+* {
+  font-family: "Sora", sans-serif;
+}
+
+.landing-page {
+  min-width: 100vw;
+  min-height: 60vh;
+  background-color: #f5c4c4;
+  background: #ffffff;
+}
+
+.landing-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+}
+
+.landing-form {
+  min-width: 400px;
+  max-width: 500px;
+}
+
+h3 {
+  color: #f37235;
+  font-size: 1.7em;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.form {
+  width: 500px;
+}
+
+label {
+  font-weight: 900;
+}
+
+.btn-orange,
+.btn-orange:focus {
+  background: #f37235;
+  color: #ffffff;
+  font-family: "Nunito", sans-serif;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  border: 2px solid #f37235;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.btn-orange:hover,
+.btn-orange:focus:hover {
+  background: #fea735;
+  border: 2px solid #fea735;
+}
+
+.input-text {
+  border: 2px solid #fcf5ef;
+  border-radius: 10px;
+  width: 100%;
+  background-color: #fcf5ef;
+}
+
+.input-text:focus {
+  box-shadow: none;
+  border: 2px solid #0077ff;
+  background-color: #ffffff;
+}
+
+.err-msg {
+  font-size: 15px;
+  color: #f37235;
+}
+
+.custom-modal-style {
+  border: none;
+  border-radius: 20px;
+  min-height: 200px;
+  background-color: #ffffff;
+}
+
+.success-msg {
+  color: #0077ff;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.modal-footer {
+  border: none;
+  background-color: #fea735;
+}
+
+.modal-footer:last-child {
+  border-radius: 0 0 20px 20px;
+}
