@@ -1,0 +1,31 @@
+$light-orange: #fea735;
+$dark-orange: #f37235;
+
+$light-blue: #00c3ff;
+$dark-blue: #0077ff;
+
+$white: #ffffff;
+$beige: #fcf5ef;
+
+$light-grey: #e5e5e5;
+$dark-grey: #aaaaaa;
+
+$dark: #333333;
+
+$sora: "Sora", sans-serif;
+$manrope: "Manrope", sans-serif;
+$nunito: "Nunito", sans-serif;
+
+@mixin anchor-text {
+  font-family: $sora;
+  font-size: 13px;
+  text-decoration: none;
+  color: $white;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+@mixin flex {
+  display: flex;
+  align-items: center;
+}
