@@ -5,12 +5,12 @@ export const LOGIN_FAILURE_ACTION = "LOGIN_FAILURE_ACTION";
 export const LOGOUT_ACTION = "LOGOUT_ACTION";
 export const CLEAR_ERR_MSG = "CLEAR_ERR_MSG";
 
-export const loginUserThunk = (username, password) => async (dispatch) => {
+export const loginUserThunk = (email, password) => async (dispatch) => {
   try {
     const response = await axios.post(
       `${process.env.REACT_APP_API_SERVER}/login`,
       {
-        username: username,
+        email: email,
         password: password,
       }
     );

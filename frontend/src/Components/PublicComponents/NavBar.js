@@ -1,7 +1,7 @@
 // import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import { useHistory } from "react-router-dom";
-
+import { FaRegHandshake } from "react-icons/fa";
 import "../../Pages/SCSS/navBar.scss";
 
 import { logoutUser } from "../../Redux/login/actions";
@@ -13,7 +13,8 @@ const NavBar = () => {
 
   const dispatch = useDispatch();
 
-  const logout = () => {
+  const logout = (e) => {
+    e.preventDefault();
     dispatch(logoutUser());
   };
 
@@ -23,12 +24,20 @@ const NavBar = () => {
         <div className="mx-3 py-2 row">
           <div className="col-2">
             <a href="/" className="nav-logo">
+              <FaRegHandshake className="mx-2" />
               UTOPIUS
             </a>
           </div>
           <div className="navitems col-10 d-flex justify-content-end">
             {isAuthenticated ? (
-              <span onClick={logout}>LOG OUT</span>
+              <a
+                href="/logout"
+                onClick={(e) => {
+                  logout(e);
+                }}
+              >
+                LOG OUT
+              </a>
             ) : (
               <a href="/login">LOGIN SIGNUP</a>
             )}

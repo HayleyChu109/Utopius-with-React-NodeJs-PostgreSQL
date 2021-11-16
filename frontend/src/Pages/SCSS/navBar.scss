@@ -1,17 +1,17 @@
 @import "basic";
 
 .navbar {
-  background-color: #fea735;
+  background-color: $light-orange;
   div {
     @include flex;
-    color: #ffffff;
+    color: $white;
     letter-spacing: 2px;
   }
 }
 
 .navbar > div {
   width: 100%;
-  color: #ffffff;
+  color: $white;
   letter-spacing: 2px;
 }
 
@@ -29,6 +29,9 @@
   a {
     @include anchor-text;
   }
+  a:hover {
+    color: $light-grey;
+  }
   span {
     @include anchor-text;
   }
@@ -36,7 +39,7 @@
 
 .nav-search {
   width: 100%;
-  background-color: #ffffff;
+  background-color: $white;
   font-size: 15px;
   font-family: $sora;
   border: 2px solid $white;
@@ -47,5 +50,5 @@
 
 .nav-search:focus {
   box-shadow: none;
-  border: 2px solid #ffffff;
+  border: 2px solid $white;
 }
