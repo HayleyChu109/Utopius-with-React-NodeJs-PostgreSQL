@@ -41,7 +41,7 @@ const NavBar = () => {
             ) : (
               <a href="/login">LOGIN SIGNUP</a>
             )}
-            |<a href="/member/info">INFO</a>|<a href="/member/req">REQ</a>|
+            |<a href="/member/profile">INFO</a>|<a href="/member/req">REQ</a>|
             <a href="/member/res">RES</a>|
             <a href="/member/bookmark">BOOKMARK</a>|
             <a href="/member/token">TOKEN</a>|<span>SEARCH</span>

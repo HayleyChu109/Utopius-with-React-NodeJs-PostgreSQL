@@ -19,7 +19,7 @@ const Discover = () => {
     <>
       <div className="discover-div">
         <div className="container py-4">
-          <div className="m-4 discover-title">
+          <div className="my-4 px-4 discover-title">
             <AiFillFire className="me-2 mb-1" />
             DISCOVER
           </div>

@@ -5,6 +5,7 @@ import { Collapse } from "reactstrap";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
 import Discover from "../../Components/PublicComponents/Discover";
+import SearchResult from "../../Components/PublicComponents/SearchResult";
 
 const LandingPage = () => {
   const { search } = useSelector((state) => state.requestStore);
@@ -25,6 +26,7 @@ const LandingPage = () => {
       <Collapse isOpen={show}>
         <Discover />
       </Collapse>
+      <SearchResult />
       <div className="text-center">WELCOM TO UTOPIUS</div>
     </>
   );
