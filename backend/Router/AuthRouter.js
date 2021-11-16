@@ -37,20 +37,22 @@ class AuthRouter {
 
   async postSignup(req, res, next) {
     try {
-      if (req.body.username && req.body.password && req.body.name) {
-        let username = req.body.username;
+      if (req.body.email && req.body.password) {
+        let email = req.body.email;
         let password = req.body.password;
-        let name = req.body.name;
 
-        let repeatedUser = await this.authService.checkExist(username);
+        let repeatedUser = await this.authService.checkExist(email);
         if (repeatedUser) {
           res.json({ message: "User already exist" });
         } else {
           let hashedPassword = await hashFunction.hashPassword(password);
           let newUser = {
-            username: username,
+            email: email,
             password: hashedPassword,
-            name: name,
+            isAdmin: false,
+            token: 100,
+            grade: "-",
+            blacklist: false,
           };
           await this.authService.signup(newUser).then((data) => {
             res.status(200).json({

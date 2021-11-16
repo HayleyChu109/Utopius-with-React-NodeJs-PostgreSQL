@@ -8,7 +8,7 @@ class AuthService {
   }
 
   async login(email, password) {
-    let matchedUser = await this.knex("users").where("email", email);
+    let matchedUser = await this.knex("account").where("email", email);
 
     if (matchedUser.length > 0) {
       let result = await hashFunction.checkPassowrd(
@@ -18,7 +18,6 @@ class AuthService {
       if (result) {
         let payload = {
           id: matchedUser[0].id,
-          username: matchedUser[0].username,
         };
         let token = jwt.sign(payload, config.jwtSecret);
         return { token };
@@ -31,7 +30,7 @@ class AuthService {
   }
 
   async checkExist(email) {
-    let matchedUser = await this.knex("users").where("email", email);
+    let matchedUser = await this.knex("account").where("email", email);
     if (matchedUser.length > 0) {
       return true;
     } else {
@@ -40,7 +39,7 @@ class AuthService {
   }
 
   async signup(newUser) {
-    let userId = await this.knex("users").insert(newUser).returning("id");
+    let userId = await this.knex("account").insert(newUser).returning("id");
     return { id: userId };
   }
 }
