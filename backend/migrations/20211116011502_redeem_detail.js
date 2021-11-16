@@ -3,7 +3,7 @@ exports.up = function (knex) {
     table.increments();
     table.integer("token_transaction_id").unsigned();
     table.foreign("token_transaction_id").references("tokenTransaction.id");
-    table.integer("redeem_item_id").unisgned();
+    table.integer("redeem_item_id").unsigned();
     table.foreign("redeem_item_id").references("redeem_item.id");
     table.integer("amount");
     table.string("status");
