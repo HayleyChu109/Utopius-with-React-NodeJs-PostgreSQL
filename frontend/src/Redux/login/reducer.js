@@ -7,6 +7,7 @@ import {
 const initialState = {
   isAuthenticated: false || localStorage.getItem("token") != null,
   errorMsg: null,
+  isAdmin:false
 };
 
 export function loginReducer(state = initialState, action) {
@@ -16,6 +17,7 @@ export function loginReducer(state = initialState, action) {
         ...state,
         isAuthenticated: true,
         errorMsg: null,
+        isAdmin:false
       };
 
     case LOGIN_FAILURE_ACTION:
