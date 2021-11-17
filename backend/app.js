@@ -36,9 +36,16 @@ const MemberRouter = require("./Router/MemberRouter");
 const memberService = new MemberService(knex);
 const memberRouter = new MemberRouter(memberService);
 
+// Setup public service and router
+const PublicService = require("./Service/PublicService");
+const PublicRouter = require("./Router/PublicRouter");
+const publicService = new PublicService(knex);
+const publicRouter = new PublicRouter(publicService);
+
 app.use("/", authRouter.router());
+app.use("/", publicRouter.router());
 // app.use("/admin", auth.authenticate(), auth.isAdmin(), adminRouter.router());
-// app.use("/member", auth.authenticate(), memberRouter.router());
+app.use("/member", auth.authenticate(), memberRouter.router());
 
 // Set up port
 const port = 8080;

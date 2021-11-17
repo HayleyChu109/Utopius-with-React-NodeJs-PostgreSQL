@@ -7,14 +7,32 @@ class MemberRouter {
 
   router() {
     let router = express.Router();
-    router.put("/bookmark", this.postBookmark.bind(this));
-
+    router.post("/memberinfo/:id", this.postMemberInfo.bind(this));
     return router;
   }
 
-  // postBookmark(req, res) {
-  //   this.memberService.update
-  // }
+  postMemberInfo(req, res) {
+    console.log("Submit member info");
+    console.log(req.params);
+    console.log(req.body);
+    return this.memberService
+      .postMemberInfo(
+        req.params.id,
+        req.body.username,
+        req.body.firstName,
+        req.body.lastName,
+        req.body.phone,
+        req.body.district,
+        req.body.profilePath
+      )
+      .then((id) => {
+        console.log(id);
+        res.json(id);
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  }
 }
 
 module.exports = MemberRouter;

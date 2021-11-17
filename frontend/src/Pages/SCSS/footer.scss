@@ -1,0 +1,53 @@
+@import "basic";
+
+.footer-page {
+  min-width: 100vw;
+  min-height: 60vh;
+  background: $light-orange;
+  h3,
+  p {
+    color: $white;
+  }
+}
+
+.footer-card {
+  background-color: $white;
+  border-radius: 20px;
+  h3 {
+    color: $dark-blue;
+  }
+  .msgTextarea {
+    height: 150px;
+  }
+}
+
+.btn-blue,
+.btn-blue:focus {
+  background: $dark-blue;
+  color: $white;
+  font-family: $nunito;
+  font-size: 15px;
+  letter-spacing: 2px;
+  border: 2px solid $dark-blue;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.btn-blue:hover,
+.btn-blue:focus:hover {
+  background: $light-blue;
+  border: 2px solid $light-blue;
+}
+
+.copyright {
+  background-color: $light-orange;
+  color: $white;
+  text-align: end;
+}
+
+.msgModal {
+  color: $dark-orange;
+}

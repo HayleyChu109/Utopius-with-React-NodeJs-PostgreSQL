@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./Components/PrivateRoute";
 import LandingPage from "./Pages/PublicPages/LandingPage";
 import LoginPage from "./Pages/PublicPages/LoginPage";
+import SignupPage from "./Pages/MemberPages/SignupPage";
 import MemberProfile from "./Pages/MemberPages/MemberProfile";
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <Switch>
       <Route exact path="/" component={LandingPage} />
       <Route exact path="/login" component={LoginPage} />
+      <PrivateRoute path="/member/signup" component={SignupPage} />
       <PrivateRoute path="/member/profile" component={MemberProfile} />
       <Route
         component={() => {
