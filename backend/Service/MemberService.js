@@ -3,7 +3,7 @@ class MemberService {
     this.knex = knex;
   }
 
-  postMemberInfo(
+  putMemberInfo(
     userId,
     username,
     firstName,
@@ -12,8 +12,8 @@ class MemberService {
     district,
     profilePath
   ) {
-    return this.knex
-      .insert({
+    return this.knex("account")
+      .update({
         username: username,
         firstName: firstName,
         lastName: lastName,
@@ -21,7 +21,6 @@ class MemberService {
         district: district,
         profilePath: profilePath,
       })
-      .into("account")
       .where("account.id", userId)
       .returning("account.id");
   }

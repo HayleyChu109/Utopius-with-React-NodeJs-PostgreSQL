@@ -7,16 +7,16 @@ class MemberRouter {
 
   router() {
     let router = express.Router();
-    router.post("/memberinfo/:id", this.postMemberInfo.bind(this));
+    router.put("/memberinfo/:id", this.putMemberInfo.bind(this));
     return router;
   }
 
-  postMemberInfo(req, res) {
+  putMemberInfo(req, res) {
     console.log("Submit member info");
     console.log(req.params);
     console.log(req.body);
     return this.memberService
-      .postMemberInfo(
+      .putMemberInfo(
         req.params.id,
         req.body.username,
         req.body.firstName,
