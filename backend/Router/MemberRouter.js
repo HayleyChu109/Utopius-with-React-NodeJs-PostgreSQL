@@ -18,15 +18,12 @@ class MemberRouter {
     return this.memberService
       .postMemberInfo(
         req.params.id,
-        req.body.isAdmin,
         req.body.username,
         req.body.firstName,
         req.body.lastName,
         req.body.phone,
         req.body.district,
-        req.body.profilePath,
-        req.body.token,
-        req.body.blacklist
+        req.body.profilePath
       )
       .then((id) => {
         console.log(id);

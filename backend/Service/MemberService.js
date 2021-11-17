@@ -5,30 +5,24 @@ class MemberService {
 
   postMemberInfo(
     userId,
-    isAdmin,
     username,
     firstName,
     lastName,
     phone,
     district,
-    profilePath,
-    token,
-    blacklist
+    profilePath
   ) {
     return this.knex
       .insert({
-        isAdmin: isAdmin,
         username: username,
         firstName: firstName,
         lastName: lastName,
         phone: phone,
         district: district,
         profilePath: profilePath,
-        token: token,
-        blacklist: blacklist,
       })
       .into("account")
-      .where("account.id", id)
+      .where("account.id", userId)
       .returning("account.id");
   }
 }
