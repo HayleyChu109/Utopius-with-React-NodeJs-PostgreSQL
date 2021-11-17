@@ -15,6 +15,7 @@ export const loginUserThunk = (email, password) => async (dispatch) => {
       }
     );
     const { data } = response;
+    console.log(data);
 
     if (data == null) {
       dispatch({
@@ -24,10 +25,12 @@ export const loginUserThunk = (email, password) => async (dispatch) => {
     } else if (!data.token) {
       console.log("No token, data.message: ", data.message);
       dispatch({ type: LOGIN_FAILURE_ACTION, message: data.message || "" });
-    } else {
+    } else if (data.token && !data.isAdmin) {
       localStorage.setItem("token", data.token);
       dispatch({ type: LOGIN_SUCCESS_ACTION });
       dispatch({ type: CLEAR_ERR_MSG });
+    } else {
+      localStorage.setItem("token", data.token);
     }
   } catch (err) {
     console.log("Error: ", err);

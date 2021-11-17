@@ -5,11 +5,37 @@ class MemberRouter {
     this.memberService = memberService;
   }
 
-  // router() {
-  //   let router = express.Router();
+  router() {
+    let router = express.Router();
+    router.post("/memberinfo/:id", this.postMemberInfo.bind(this));
+    return router;
+  }
 
-  //   return router;
-  // }
+  postMemberInfo(req, res) {
+    console.log("Submit member info");
+    console.log(req.params);
+    console.log(req.body);
+    return this.memberService
+      .postMemberInfo(
+        req.params.id,
+        req.body.isAdmin,
+        req.body.username,
+        req.body.firstName,
+        req.body.lastName,
+        req.body.phone,
+        req.body.district,
+        req.body.profilePath,
+        req.body.token,
+        req.body.blacklist
+      )
+      .then((id) => {
+        console.log(id);
+        res.json(id);
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  }
 }
 
 module.exports = MemberRouter;

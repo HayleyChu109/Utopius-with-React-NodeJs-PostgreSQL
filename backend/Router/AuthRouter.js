@@ -24,6 +24,7 @@ class AuthRouter {
         if (result.token) {
           res.status(200).json({
             token: result.token,
+            isAdmin: result.isAdmin,
           });
         } else {
           res.json({ message: result.message });
