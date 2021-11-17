@@ -5,10 +5,37 @@
   background-color: $beige;
 }
 
-.discover-title {
-  font: $sora;
-  font-weight: 700;
-  font-size: 23px;
-  letter-spacing: 2px;
-  color: $dark-blue;
+.discover-title,
+.new-search-title {
+  @include heading;
+  span {
+    color: $dark-orange;
+  }
+}
+
+.discover-card {
+  background-color: $white;
+  border: none;
+  border-radius: 15px;
+  font-family: $nunito;
+  filter: drop-shadow(4px 4px 3px $light-grey);
+  a {
+    @include anchor-text;
+  }
+}
+
+.discover-card:hover {
+  @include card-hover;
+  div {
+    color: $dark-blue;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+  }
+}
+
+.discover-tagname {
+  @include anchor-text;
+  font-size: 16px;
+  color: $dark;
+  letter-spacing: 1px;
 }

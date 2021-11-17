@@ -2,6 +2,10 @@
 
 .navbar {
   background-color: $light-orange;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   div {
     @include flex;
     color: $white;
@@ -16,9 +20,13 @@
 }
 
 .nav-logo {
+  font-family: $sora;
   text-decoration: none;
   color: $white;
   font-size: 20px;
+  letter-spacing: 4px;
+  -webkit-text-stroke: 1.5px $white;
+  -webkit-font-smoothing: antialiased;
 }
 
 .nav-logo:hover {
@@ -50,5 +58,5 @@
 
 .nav-search:focus {
   box-shadow: none;
-  border: 2px solid $white;
+  border: 2px solid $dark-blue;
 }
