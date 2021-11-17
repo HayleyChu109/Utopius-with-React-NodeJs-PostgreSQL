@@ -12,9 +12,9 @@ class MemberRouter {
     return router;
   }
 
-  postBookmark(req, res) {
-    this.memberService.update
-  }
+  // postBookmark(req, res) {
+  //   this.memberService.update
+  // }
 }
 
 module.exports = MemberRouter;
