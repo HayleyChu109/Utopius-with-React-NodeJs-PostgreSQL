@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode";
 
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { bookmarkToggleThunk } from "../../Redux/request/actions";
@@ -15,6 +15,7 @@ const SearchResult = () => {
   const userId = jwt_decode(localStorage.getItem("token")).id;
 
   const handleBookmark = (requestId) => {
+    console.log(requestId.substring(2));
     dispatch(bookmarkToggleThunk(requestId.substring(2), userId));
   };
 

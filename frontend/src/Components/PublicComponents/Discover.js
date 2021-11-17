@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+// import { useState } from "react";
 
 import DiscoverCard from "./DiscoverCard";
 
@@ -6,14 +6,23 @@ import { AiFillFire } from "react-icons/ai";
 import "../../Pages/SCSS/discover.scss";
 
 const Discover = () => {
-  const [discoverTag, setDiscoverTag] = useState([
+  // Reserve below code for customizing discover tag cards
+  // const [discoverTag, setDiscoverTag] = useState([
+  //   { tagname: "Home Care", key: "homecare" },
+  //   { tagname: "Lost n Found", key: "lostnfound" },
+  //   { tagname: "Team Up", key: "teamup" },
+  //   { tagname: "Bartar", key: "bartar" },
+  //   { tagname: "Pet", key: "pet" },
+  //   { tagname: "Repair", key: "repair" },
+  // ]);
+  const discoverTag = [
     { tagname: "Home Care", key: "homecare" },
     { tagname: "Lost n Found", key: "lostnfound" },
     { tagname: "Team Up", key: "teamup" },
     { tagname: "Bartar", key: "bartar" },
     { tagname: "Pet", key: "pet" },
     { tagname: "Repair", key: "repair" },
-  ]);
+  ];
 
   return (
     <>

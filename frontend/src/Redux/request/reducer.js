@@ -39,7 +39,8 @@ const initialState = {
       username: "Tester02",
       userId: 2,
       createdAt: "2021-11-15 22:12",
-      detail: "Testing req cards",
+      detail:
+        "Testing req cards, this is a really long description. Hello hi hey I'm making it to the 3rd line",
       tag: ["Pet", "Meow", "NailTrimming", "Dangerous"],
       reward: 100,
       requiredPpl: 99,

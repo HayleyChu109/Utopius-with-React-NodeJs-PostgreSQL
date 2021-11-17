@@ -12,6 +12,7 @@
   border-radius: 25px;
   filter: drop-shadow(2px 2px 4px $light-grey);
   cursor: pointer;
+  font-size: 18px;
 }
 
 .search-card-photo {
@@ -31,6 +32,24 @@
   div {
     padding: 5px;
   }
+}
+
+.search-card-req-detail {
+  // display: -webkit-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  // -webkit-line-clamp: 2;
+}
+
+.search-card-req-tag {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-card-req-tag > span {
+  color: $dark-orange;
 }
 
 .search-card-main:last-child {
@@ -54,10 +73,35 @@
   cursor: pointer;
 }
 
+.coin {
+  color: $coin;
+}
+
+.person-icon,
+.district-icon {
+  font-size: 25px;
+}
+
+.person {
+  color: $people;
+}
+
+.district {
+  color: $district;
+}
+
 .bookmark {
   position: absolute;
   cursor: pointer;
   font-size: 30px;
   right: 10px;
   bottom: 3px;
+}
+
+.bookmark-icon-true {
+  color: $bookmark-true;
+}
+
+.bookmark-icon-false {
+  color: $bookmark-false;
 }

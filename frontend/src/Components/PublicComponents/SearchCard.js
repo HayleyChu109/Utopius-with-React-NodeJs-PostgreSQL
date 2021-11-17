@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+// import { useState, useEffect } from "react";
+// import { useSelector } from "react-redux";
 
-import { Card, CardBody, CardFooter } from "reactstrap";
+import { Card, CardBody, CardFooter, Tooltip } from "reactstrap";
 import { AiFillHeart } from "react-icons/ai";
+import { FaCoins } from "react-icons/fa";
+import { BsFillPersonPlusFill } from "react-icons/bs";
+import { HiLocationMarker } from "react-icons/hi";
 
 import "../../Pages/SCSS/searchCard.scss";
 import help from "../../Images/help.png";
@@ -17,7 +20,7 @@ const SearchCard = ({ request, handleBookmark }) => {
               <img
                 src={help}
                 className="img-fluid rounded-start"
-                alt="request-photo"
+                alt="request"
               />
             </div>
             <div className="search-card-main col-7">
@@ -32,11 +35,8 @@ const SearchCard = ({ request, handleBookmark }) => {
                   {request.username} #{request.userId}
                 </div>
                 <div>Created at : {request.createdAt}</div>
-                <div>
-                  Detail :<br />
-                  {request.detail}
-                </div>
-                <div>
+                <div className="search-card-req-detail">{request.detail}</div>
+                <div className="search-card-req-tag">
                   {request.tag.map((tagname) => (
                     <span key={tagname} className="mx-1 tagname">
                       #{tagname}
@@ -46,16 +46,39 @@ const SearchCard = ({ request, handleBookmark }) => {
               </CardBody>
               <CardFooter className="search-card-footer">
                 <div className="search-card-footer-info">
-                  <span className="mx-3">{request.reward}</span>
-                  <span className="mx-3">{request.requiredPpl}</span>
-                  <span className="mx-3">{request.district}</span>
+                  <FaCoins className="mx-2 coin" />
+                  <span className="coin me-2">{request.reward}</span>
+                  <BsFillPersonPlusFill className="mx-2 person person-icon" />
+                  <span className="person me-2">{request.requiredPpl}</span>
+                  <HiLocationMarker className="mx-2 district district-icon" />
+                  <span className="district">{request.district}</span>
                   <span className="bookmark">
-                    <AiFillHeart
-                      id={"bm" + request.id}
-                      onClick={(e) => {
-                        handleBookmark(e.currentTarget.id);
-                      }}
-                    />
+                    {request.bookmark ? (
+                      <>
+                        <AiFillHeart
+                          id={"bm" + request.requestId}
+                          className="bookmark-icon-true"
+                          onClick={(e) => {
+                            handleBookmark(e.currentTarget.id);
+                          }}
+                        />
+                        <Tooltip
+                          flip
+                          target={"bm" + request.requestId}
+                          toggle={function noRefCheck() {}}
+                        >
+                          Bookmark Me!
+                        </Tooltip>
+                      </>
+                    ) : (
+                      <AiFillHeart
+                        id={"bm" + request.id}
+                        className="bookmark-icon-false"
+                        onClick={(e) => {
+                          handleBookmark(e.currentTarget.id);
+                        }}
+                      />
+                    )}
                   </span>
                 </div>
               </CardFooter>
