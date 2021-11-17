@@ -29,7 +29,7 @@ const LoginForm = () => {
   return (
     <>
       <div className="d-flex align-items-center justify-content-center">
-        <div className="landing-form my-4">
+        <div className="login-form my-4">
           <h3>LOGIN</h3>
           <form>
             <label className="my-2">Email</label>
