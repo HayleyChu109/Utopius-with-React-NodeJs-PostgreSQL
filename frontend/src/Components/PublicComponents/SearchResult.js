@@ -15,8 +15,8 @@ const SearchResult = () => {
   const userId = jwt_decode(localStorage.getItem("token")).id;
 
   const handleBookmark = (requestId) => {
-    console.log(requestId.substring(2));
-    dispatch(bookmarkToggleThunk(requestId.substring(2), userId));
+    console.log(requestId);
+    // dispatch(bookmarkToggleThunk(requestId, userId));
   };
 
   return (
@@ -30,15 +30,17 @@ const SearchResult = () => {
                 WHAT'S NEW
               </div>
               <div className="col-12 row g-3 m-0">
-                {requestList && requestList.length > 0
-                  ? requestList.map((req) => (
-                      <SearchCard
-                        key={req.requestId}
-                        request={req}
-                        handleBookmark={handleBookmark}
-                      />
-                    ))
-                  : null}
+                {requestList && requestList.length > 0 ? (
+                  requestList.map((req) => (
+                    <SearchCard
+                      key={req.requestId}
+                      request={req}
+                      handleBookmark={handleBookmark}
+                    />
+                  ))
+                ) : (
+                  <div>No open request !</div>
+                )}
               </div>
             </div>
           ) : (
@@ -46,6 +48,36 @@ const SearchResult = () => {
               <div className="m-4 new-search-title">
                 <BsStars className="mb-1 me-2" />
                 SEARCH RESULT FOR : <span>{search.toUpperCase()}</span>
+              </div>
+              <div className="col-12 row g-3 m-0">
+                {requestList && requestList.length > 0 ? (
+                  requestList
+                    .filter(
+                      (req) =>
+                        req.detail
+                          .toLowerCase()
+                          .includes(search.toLowerCase()) ||
+                        req.title
+                          .toLowerCase()
+                          .includes(search.toLowerCase()) ||
+                        req.requestId === Number(search) ||
+                        req.district
+                          .toLowerCase()
+                          .includes(search.toLowerCase()) ||
+                        String(req.tag)
+                          .toLowerCase()
+                          .includes(search.toLowerCase())
+                    )
+                    .map((req) => (
+                      <SearchCard
+                        key={req.requestId}
+                        request={req}
+                        handleBookmark={handleBookmark}
+                      />
+                    ))
+                ) : (
+                  <div>No matching request !</div>
+                )}
               </div>
             </div>
           )}
