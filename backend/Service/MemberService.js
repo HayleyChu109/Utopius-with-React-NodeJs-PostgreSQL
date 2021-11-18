@@ -3,6 +3,23 @@ class MemberService {
     this.knex = knex;
   }
 
+  getMemberInfo(userId) {
+    return this.knex("account")
+      .select(
+        "id",
+        "username",
+        "email",
+        "firstName",
+        "lastName",
+        "phone",
+        "district",
+        "profilePath",
+        "grade",
+        "token"
+      )
+      .where("account.id", userId);
+  }
+
   putMemberInfo(
     userId,
     username,

@@ -4,7 +4,7 @@ import PrivateRoute from "./Components/PrivateRoute";
 import LandingPage from "./Pages/PublicPages/LandingPage";
 import LoginPage from "./Pages/PublicPages/LoginPage";
 import SignupPage from "./Pages/MemberPages/SignupPage";
-import MemberProfile from "./Pages/MemberPages/MemberProfile";
+import MemberProfilePage from "./Pages/MemberPages/MemberProfilePage";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
       <Route exact path="/" component={LandingPage} />
       <Route exact path="/login" component={LoginPage} />
       <PrivateRoute path="/member/signup" component={SignupPage} />
-      <PrivateRoute path="/member/profile" component={MemberProfile} />
+      <PrivateRoute path="/member/profile" component={MemberProfilePage} />
       <Route
         component={() => {
           return (

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import { memberInfoFormSubmitThunk } from "../../Redux/signup/memberInfoFormActions";
 import SuccessModal from "../PublicComponents/SuccessModal";
 import FailureModal from "../PublicComponents/FailureModal";
@@ -15,6 +16,9 @@ import anonymous from "../../Images/anonymous.jpeg";
 const MemberInfoForm = () => {
   const memberInfoFormStore = useSelector((state) => state.memberInfoFormStore);
   const { successMsg, errorMsg } = memberInfoFormStore;
+
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const [{ src, alt }, setPreviewImg] = useState({
     src: anonymous,
@@ -33,8 +37,6 @@ const MemberInfoForm = () => {
   const [modalBoolean, setModalBoolean] = useState(false);
   const [failureModalBoolean, setFailureModalBoolean] = useState(false);
   const [missingInfoMsg, setMissingInfoMsg] = useState("");
-
-  const dispatch = useDispatch();
 
   const ImgPreview = (e) => {
     console.log(e.currentTarget.files[0]);
@@ -99,8 +101,9 @@ const MemberInfoForm = () => {
   useEffect(() => {
     if (successMsg !== null) {
       setModalBoolean(true);
+      history.push("/member/profile");
     }
-  }, [successMsg]);
+  }, [successMsg, history]);
 
   const closeModal = () => {
     setModalBoolean(false);
