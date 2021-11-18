@@ -7,6 +7,7 @@ import SignupPage from "./Pages/MemberPages/SignupPage";
 import MemberProfile from "./Pages/MemberPages/MemberProfile";
 import RequestDetail from "./Pages/MemberPages/RequestDetail";
 import NewRequest from "./Components/PrivateComponents/NewRequest";
+import MemberProfilePage from "./Pages/MemberPages/MemberProfilePage";
 
 function App() {
   return (
@@ -14,9 +15,9 @@ function App() {
       <Route exact path="/" component={LandingPage} />
       <Route exact path="/login" component={LoginPage} />
       <PrivateRoute path="/member/signup" component={SignupPage} />
-      <PrivateRoute path="/member/profile" component={MemberProfile} />
       <PrivateRoute path="/member/request/detail" component={RequestDetail} />
       <PrivateRoute path="/member/request/new" component={NewRequest} />
+      <PrivateRoute path="/member/profile" component={MemberProfilePage} />
       <Route
         component={() => {
           return (

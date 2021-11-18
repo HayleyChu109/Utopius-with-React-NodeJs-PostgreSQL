@@ -1,16 +1,20 @@
-import { SEND_MSG } from "./footerAction";
+import {
+  SEND_MSG_FAILURE_ACTION,
+  SEND_MSG_SUCCESS_ACTION,
+} from "./footerAction";
 
 const initialState = {
-  message: [],
+  successMsg: null,
+  errorMsg: null,
 };
 
 export function footerReducer(state = initialState, action) {
   switch (action.type) {
-    case SEND_MSG:
-      console.log("SEND_MSG");
-      return {
-        message: state.message.concat(action.payload),
-      };
+    case SEND_MSG_SUCCESS_ACTION:
+      return { ...state, successMsg: action.message };
+
+    case SEND_MSG_FAILURE_ACTION:
+      return { ...state, errorMsg: action.message };
 
     default:
       return state;
