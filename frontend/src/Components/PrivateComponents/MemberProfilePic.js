@@ -10,7 +10,7 @@ function MemberProfilePic() {
         <div className="row d-flex justify-content-center text-center">
           <div className="col-lg-12 mx-auto my-4 position-relative memberProfilePic-bg-beige"></div>
           <div className="position-absolute memberProfilePic-position">
-            <img src={anonymous} className="memberProfilePic" />
+            <img src={anonymous} alt="anonymous" className="memberProfilePic" />
           </div>
           <div className="col-lg-12 mx-auto my-4 position-relative memberProfilePic-bg-white"></div>
         </div>

@@ -8,14 +8,14 @@ import "../../Pages/SCSS/memberProfile.scss";
 
 function MemberProfileInfo() {
   const memberProfileFromStore = useSelector(
-    (state) => state.memberProfileStore.memberInfo[0]
+    (state) => state.memberProfileStore.memberInfo
   );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(memberInfoThunk());
-  }, [memberProfileFromStore, dispatch]);
+  }, [dispatch]);
 
   return (
     <>
@@ -24,11 +24,11 @@ function MemberProfileInfo() {
           <div className="memberProfileInfo">
             <span
               className="dot text-center me-2"
-              //   style={{ background: request.gradeColor }}
+              style={{ background: "#000000" }}
             >
-              {/* {memberProfileFromStore.grade} */}
+              {memberProfileFromStore.grade}
             </span>
-            <span>{memberProfileFromStore.username}</span>
+            {/* <span>{memberProfileFromStore[0].username}</span> */}
             <br />
             <p>First Name: {memberProfileFromStore.firstName}</p>
             <p>Last Name: {memberProfileFromStore.lastName}</p>
