@@ -7,16 +7,31 @@ class MemberRouter {
 
   router() {
     let router = express.Router();
-    router.post("/memberinfo/:id", this.postMemberInfo.bind(this));
+    router.get("/memberinfo/:id", this.getMemberInfo.bind(this));
+    router.put("/memberinfo/:id", this.putMemberInfo.bind(this));
     return router;
   }
 
-  postMemberInfo(req, res) {
+  async getMemberInfo(req, res, next) {
+    console.log("Get member info");
+    try {
+      let info = await this.memberService.getMemberInfo(req.params.id);
+      if (info) {
+        console.log("Get member info", info);
+        res.json(info);
+      }
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  putMemberInfo(req, res) {
     console.log("Submit member info");
     console.log(req.params);
     console.log(req.body);
     return this.memberService
-      .postMemberInfo(
+      .putMemberInfo(
         req.params.id,
         req.body.username,
         req.body.firstName,
