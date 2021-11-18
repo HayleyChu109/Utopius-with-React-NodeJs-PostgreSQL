@@ -1,5 +1,7 @@
 // import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { searchReq } from "../../Redux/request/actions";
 
 import { Card, CardBody, CardFooter, Tooltip } from "reactstrap";
@@ -13,15 +15,25 @@ import help from "../../Images/help.png";
 
 const SearchCard = ({ request, handleBookmark }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleSearch = (val) => {
     dispatch(searchReq(val));
   };
 
+  const showRequestDetail = (requestId) => {
+    history.push(`/member/request/detail/${requestId}`);
+  };
+
   return (
     <>
       <div className="col-md-6 col-sm-12 col-xs-12 p-4">
-        <Card className="search-req-card">
+        <Card
+          className="search-req-card"
+          onClick={() => {
+            showRequestDetail(request.requestId);
+          }}
+        >
           <div className="row g-0">
             <div className="search-card-photo col-5">
               <img

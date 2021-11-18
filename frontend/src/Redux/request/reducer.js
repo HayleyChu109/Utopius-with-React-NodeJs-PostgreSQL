@@ -3,6 +3,7 @@ import { BOOKMARK_TOGGLE } from "./actions";
 
 const initialState = {
   search: "",
+  requestDetail: {},
   requestList: [
     {
       requestId: 0,
