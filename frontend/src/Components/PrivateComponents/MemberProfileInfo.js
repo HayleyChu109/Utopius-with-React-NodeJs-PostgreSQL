@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions";
 
@@ -8,14 +8,18 @@ import "../../Pages/SCSS/memberProfile.scss";
 
 function MemberProfileInfo() {
   const memberProfileFromStore = useSelector(
-    (state) => state.memberProfileStore.memberInfo[0]
+    (state) => state.memberProfileStore.memberInfo
   );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(memberInfoThunk());
-  }, [memberProfileFromStore, dispatch]);
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   console.log("setMemberInfo: ", memberProfileFromStore.memberInfo);
+  // }, [memberProfileFromStore]);
 
   return (
     <>

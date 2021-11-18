@@ -7,8 +7,17 @@ class MemberRouter {
 
   router() {
     let router = express.Router();
+    // Profile routes
     router.get("/memberinfo/:id", this.getMemberInfo.bind(this));
+    // router.post("/memberinfo/:id", this.postMemberInfo.bind(this));
     router.put("/memberinfo/:id", this.putMemberInfo.bind(this));
+
+    // Request routes
+    router.get(
+      "/request/detail/:requestId/:userId",
+      this.getRequestDetail.bind(this)
+    );
+
     return router;
   }
 
@@ -47,6 +56,34 @@ class MemberRouter {
       .catch((err) => {
         res.status(500).json(err);
       });
+  }
+
+  async getRequestDetail(req, res, next) {
+    try {
+      let reqDetail = await this.memberService.getRequestDetail(
+        req.params.requestId
+      );
+      let reqTag = await this.memberService.getRequestTag(req.params.requestId);
+      let reqPublicComment = await this.memberService.getRequestPublicComment(
+        req.params.requestId
+      );
+      res.json({ reqDetail, reqTag, reqPublicComment });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async getRequestPrivateComment(req, res, next) {
+    try {
+      let reqPrivateComment = await this.memberService.getRequestPrivateComment(
+        req.params.requestId
+      );
+      res.json({ reqPrivateComment });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
   }
 }
 

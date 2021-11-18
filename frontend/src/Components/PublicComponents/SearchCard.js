@@ -1,5 +1,8 @@
 // import { useState, useEffect } from "react";
-// import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { searchReq } from "../../Redux/request/actions";
 
 import { Card, CardBody, CardFooter, Tooltip } from "reactstrap";
 import { AiFillHeart } from "react-icons/ai";
@@ -11,10 +14,26 @@ import "../../Pages/SCSS/searchCard.scss";
 import help from "../../Images/help.png";
 
 const SearchCard = ({ request, handleBookmark }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleSearch = (val) => {
+    dispatch(searchReq(val));
+  };
+
+  const showRequestDetail = (requestId) => {
+    history.push(`/member/request/detail/${requestId}`);
+  };
+
   return (
     <>
       <div className="col-md-6 col-sm-12 col-xs-12 p-4">
-        <Card className="search-req-card">
+        <Card
+          className="search-req-card"
+          onClick={() => {
+            showRequestDetail(request.requestId);
+          }}
+        >
           <div className="row g-0">
             <div className="search-card-photo col-5">
               <img
@@ -25,20 +44,30 @@ const SearchCard = ({ request, handleBookmark }) => {
             </div>
             <div className="search-card-main col-7">
               <CardBody>
-                <div>
+                <div className="username-id">
                   <span
                     className="dot text-center me-2"
                     style={{ background: request.gradeColor }}
                   >
                     {request.grade}
                   </span>
-                  {request.username} #{request.userId}
+                  {request.username} UID#{request.userId}
                 </div>
-                <div>Created at : {request.createdAt}</div>
+                <div className="createdAt">
+                  Created at : {request.createdAt}
+                </div>
+                <div className="search-card-req-title">{request.title}</div>
                 <div className="search-card-req-detail">{request.detail}</div>
                 <div className="search-card-req-tag">
                   {request.tag.map((tagname) => (
-                    <span key={tagname} className="mx-1 tagname">
+                    <span
+                      key={tagname}
+                      className="mx-1 tagname"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleSearch(tagname.replace(/\s/g, ""));
+                      }}
+                    >
                       #{tagname}
                     </span>
                   ))}
@@ -56,26 +85,24 @@ const SearchCard = ({ request, handleBookmark }) => {
                     {request.bookmark ? (
                       <>
                         <AiFillHeart
-                          id={"bm" + request.requestId}
                           className="bookmark-icon-true"
-                          onClick={(e) => {
-                            handleBookmark(e.currentTarget.id);
+                          onClick={() => {
+                            handleBookmark(request.requestId);
                           }}
                         />
-                        <Tooltip
+                        {/* <Tooltip
                           flip
-                          target={"bm" + request.requestId}
+                          // target={"bm" + request.requestId}
                           toggle={function noRefCheck() {}}
                         >
                           Bookmark Me!
-                        </Tooltip>
+                        </Tooltip> */}
                       </>
                     ) : (
                       <AiFillHeart
-                        id={"bm" + request.id}
                         className="bookmark-icon-false"
-                        onClick={(e) => {
-                          handleBookmark(e.currentTarget.id);
+                        onClick={() => {
+                          handleBookmark(request.requestId);
                         }}
                       />
                     )}

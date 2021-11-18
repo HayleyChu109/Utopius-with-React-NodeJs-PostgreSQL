@@ -37,5 +37,9 @@ module.exports = (knex) => {
     isAdmin: function () {
       // Code to verify admin boolean here
     },
+
+    isSetup: function() {
+      // Code to check if member finished setting up
+    }
   };
 };
