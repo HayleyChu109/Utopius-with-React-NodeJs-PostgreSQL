@@ -3,6 +3,7 @@ import { BOOKMARK_TOGGLE } from "./actions";
 
 const initialState = {
   search: "",
+  requestDetail: {},
   requestList: [
     {
       requestId: 0,
@@ -11,6 +12,7 @@ const initialState = {
       username: "Tester01",
       userId: 0,
       createdAt: "2021-11-16 22:12",
+      title: "Testing title",
       detail: "Testing req cards",
       tag: ["Pet", "Meow", "NailTrimming"],
       reward: 20,
@@ -25,6 +27,7 @@ const initialState = {
       username: "Tester01",
       userId: 1,
       createdAt: "2021-11-16 22:12",
+      title: "Testing title",
       detail: "Testing req cards",
       tag: ["Pet", "Meow", "NailTrimming"],
       reward: 20,
@@ -39,6 +42,7 @@ const initialState = {
       username: "Tester02",
       userId: 2,
       createdAt: "2021-11-15 22:12",
+      title: "Testing title",
       detail:
         "Testing req cards, this is a really long description. Hello hi hey I'm making it to the 3rd line",
       tag: ["Pet", "Meow", "NailTrimming", "Dangerous"],
@@ -54,6 +58,7 @@ const initialState = {
       username: "Tester03",
       userId: 3,
       createdAt: "2020-11-16 22:12",
+      title: "Testing title",
       detail: "Testing req cards",
       tag: ["Pet", "Meow", "NailTrimming", "Dangerous"],
       reward: 100,
@@ -68,6 +73,7 @@ const initialState = {
       username: "Tester04",
       userId: 4,
       createdAt: "2021-11-16 11:12",
+      title: "Testing title",
       detail: "Testing req cards",
       tag: ["Pet", "Meow", "NailTrimming", "Dangerous"],
       reward: 100,
@@ -82,6 +88,7 @@ const initialState = {
       username: "Tester05",
       userId: 5,
       createdAt: "2021-11-18 22:12",
+      title: "Testing title",
       detail: "Testing req cards",
       tag: ["Pet", "Meow", "NailTrimming", "Dangerous"],
       reward: 100,
@@ -96,6 +103,7 @@ const initialState = {
       username: "Tester06",
       userId: 6,
       createdAt: "2021-11-16 22:12",
+      title: "Testing title",
       detail: "Testing req cards",
       tag: ["Pet", "Meow", "NailTrimming", "Dangerous"],
       reward: 100,
@@ -110,6 +118,7 @@ const initialState = {
       username: "Tester07",
       userId: 7,
       createdAt: "2021-11-16 22:12",
+      title: "Testing title",
       detail: "Testing req cards",
       tag: ["Pet", "Meow", "NailTrimming", "Dangerous"],
       reward: 100,
