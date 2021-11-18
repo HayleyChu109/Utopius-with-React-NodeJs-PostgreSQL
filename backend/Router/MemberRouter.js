@@ -8,8 +8,8 @@ class MemberRouter {
   router() {
     let router = express.Router();
     // Profile routes
-    router.post("/memberinfo/:id", this.postMemberInfo.bind(this));
     router.get("/memberinfo/:id", this.getMemberInfo.bind(this));
+    // router.post("/memberinfo/:id", this.postMemberInfo.bind(this));
     router.put("/memberinfo/:id", this.putMemberInfo.bind(this));
 
     // Request routes

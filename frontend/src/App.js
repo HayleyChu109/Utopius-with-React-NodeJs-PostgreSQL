@@ -4,7 +4,6 @@ import PrivateRoute from "./Components/PrivateRoute";
 import LandingPage from "./Pages/PublicPages/LandingPage";
 import LoginPage from "./Pages/PublicPages/LoginPage";
 import SignupPage from "./Pages/MemberPages/SignupPage";
-import MemberProfile from "./Pages/MemberPages/MemberProfile";
 import RequestDetail from "./Pages/MemberPages/RequestDetail";
 import NewRequest from "./Components/PrivateComponents/NewRequest";
 import MemberProfilePage from "./Pages/MemberPages/MemberProfilePage";

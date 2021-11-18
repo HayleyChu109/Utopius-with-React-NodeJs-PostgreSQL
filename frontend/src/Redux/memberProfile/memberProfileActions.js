@@ -21,6 +21,7 @@ export const memberInfoThunk = () => async (dispatch) => {
 
     const { data } = response;
     if (data) {
+      console.log(data);
       dispatch({
         type: MEMBER_INFO_SUCCESS_ACTION,
         payload: data,
