@@ -1,6 +1,60 @@
 @import "basic";
 
+.new-req-modal {
+  min-width: 600px;
+}
+
 .new-req-heading {
+  font-family: $sora;
   color: $dark-orange;
   font-size: 20px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.new-req-form {
+  font-size: 15px;
+}
+
+.new-req-modal-footer {
+  border: none;
+  background-color: $white;
+}
+
+.new-req-modal-footer:last-child {
+  border-radius: 0 0 20px 20px;
+}
+
+.btn-dark-orange,
+.btn-dark-orange:focus {
+  background: $dark-orange;
+  color: $white;
+  font-family: $nunito;
+  font-size: 15px;
+  letter-spacing: 2px;
+  border: 2px solid $dark-orange;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.btn-dark-orange:hover,
+.btn-dark-orange:focus:hover {
+  background: $light-orange;
+  border: 2px solid $light-orange;
+}
+
+.new-req-coin,
+.new-req-people,
+.new-req-district {
+  padding-top: 7px;
+  padding-left: 4px;
+}
+
+.errMsg {
+  color: $bookmark-true;
 }

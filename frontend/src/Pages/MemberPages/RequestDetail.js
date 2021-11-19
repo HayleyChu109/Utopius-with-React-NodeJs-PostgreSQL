@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import jwt_decode from "jwt-decode";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
+import { getRequestDetailThunk } from "../../Redux/request/actions";
 
 import { Card, CardBody, CardFooter, Tooltip } from "reactstrap";
 import { BsStars } from "react-icons/bs";
@@ -13,15 +15,19 @@ import { HiLocationMarker } from "react-icons/hi";
 import help from "../../Images/help.png";
 
 const RequestDetail = (props) => {
-  const { request, search } = useSelector((state) => state.requestStore);
+  const { requestDetail, search } = useSelector((state) => state.requestStore);
+  const requestId = localStorage.getItem("requestId");
+  const userId = jwt_decode(localStorage.getItem("token")).id;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (props.location.state) {
-      console.log(props.location.state);
-    } else {
-      console.log("No props");
-    }
-  }, []);
+    dispatch(getRequestDetailThunk(requestId, userId));
+    // return () => {
+    //   // Clean up the requestId
+    //   localStorage.clear("requestId");
+    // };
+  }, [dispatch]);
 
   return (
     <>
@@ -43,11 +49,11 @@ const RequestDetail = (props) => {
                 <div className="username-id">
                   <span
                     className="dot text-center me-2"
-                    style={{ background: request.gradeColor }}
+                    style={{ background: requestDetail.gradeColor }}
                   >
-                    {request.grade}
+                    {requestDetail.grade}
                   </span>
-                  {request.username} UID#{request.userId}
+                  {requestDetail.username} UID#{requestDetail.userId}
                 </div>
               </div>
             </div>

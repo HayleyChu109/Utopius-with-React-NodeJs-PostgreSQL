@@ -1,8 +1,11 @@
 import { SEARCH_REQ_ACTION } from "./actions";
 import { BOOKMARK_TOGGLE } from "./actions";
+import { POST_NEW_REQUEST } from "./actions";
+import { GET_REQUEST_DETAIL } from "./actions";
 
 const initialState = {
   search: "",
+  requestId: null,
   requestDetail: {},
   requestList: [
     {
@@ -135,6 +138,10 @@ export function requestReducer(state = initialState, action) {
       return { ...state, search: action.payload };
     case BOOKMARK_TOGGLE:
       return { ...state, requestList: action.payload };
+    case POST_NEW_REQUEST:
+      return { ...state, requestId: action.payload };
+    case GET_REQUEST_DETAIL:
+      return { ...state, requestDetail: action.payload };
 
     default:
       return state;
