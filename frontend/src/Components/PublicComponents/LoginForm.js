@@ -16,7 +16,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/member/profile");
+      history.push("/");
     }
   }, [isAuthenticated, history]);
 

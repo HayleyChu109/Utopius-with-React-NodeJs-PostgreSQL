@@ -7,17 +7,11 @@ class MemberRouter {
 
   router() {
     let router = express.Router();
-    // Profile routes
+
     router.get("/memberinfo/:id", this.getMemberInfo.bind(this));
     router.put("/memberinfo/:id", this.putMemberInfo.bind(this));
     router.get("/memberreq/:id", this.getMemberReqDetail.bind(this));
     router.get("/memberres/:id", this.getMemberResDetail.bind(this));
-
-    // Request routes
-    router.get(
-      "/request/detail/:requestId/:userId",
-      this.getRequestDetail.bind(this)
-    );
 
     return router;
   }

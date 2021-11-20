@@ -1,18 +1,22 @@
-import jwt_decode from "jwt-decode";
-
-// import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { bookmarkToggleThunk } from "../../Redux/request/actions";
+import {
+  getRequestListThunk,
+  // bookmarkToggleThunk,
+} from "../../Redux/request/actions";
+import SearchCard from "./SearchCard";
 
 import { BsStars } from "react-icons/bs";
-import SearchCard from "./SearchCard";
 
 const SearchResult = () => {
   const { search, requestList } = useSelector((state) => state.requestStore);
 
   const dispatch = useDispatch();
-  const userId = jwt_decode(localStorage.getItem("token")).id;
+
+  useEffect(() => {
+    dispatch(getRequestListThunk());
+  }, [dispatch]);
 
   const handleBookmark = (requestId) => {
     console.log(requestId);
@@ -33,7 +37,7 @@ const SearchResult = () => {
                 {requestList && requestList.length > 0 ? (
                   requestList.map((req) => (
                     <SearchCard
-                      key={req.requestId}
+                      key={req.id}
                       request={req}
                       handleBookmark={handleBookmark}
                     />
@@ -60,7 +64,7 @@ const SearchResult = () => {
                         req.title
                           .toLowerCase()
                           .includes(search.toLowerCase()) ||
-                        req.requestId === Number(search) ||
+                        req.id === Number(search) ||
                         req.district
                           .toLowerCase()
                           .includes(search.toLowerCase()) ||
@@ -70,7 +74,7 @@ const SearchResult = () => {
                     )
                     .map((req) => (
                       <SearchCard
-                        key={req.requestId}
+                        key={req.id}
                         request={req}
                         handleBookmark={handleBookmark}
                       />
