@@ -3,13 +3,26 @@ class RequestService {
     this.knex = knex;
   }
 
-  async getRequestDetail(requestId, userId) {
+  async getRequestDetail(requestId) {
+    console.log("Service: ", requestId);
     try {
       let requestQuery = await this.knex
         .select("*")
         .from("request")
         .where("id", requestId);
       return requestQuery[0];
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async getRequesterDetail(requesterId) {
+    try {
+      let requesterQuery = await this.knex
+        .select("id", "username", "grade", "profilePath")
+        .from("account")
+        .where("id", requesterId);
+      return requesterQuery[0];
     } catch (err) {
       throw new Error(err);
     }
@@ -23,7 +36,7 @@ class RequestService {
         .where("requestId", requestId);
       if (requestQuery.length > 0) {
         console.log("Member Service getRequestTag: ", requestQuery[0]);
-        return requestQuery[0];
+        return requestQuery;
       } else {
         return [];
       }
@@ -134,7 +147,9 @@ class RequestService {
         let tagQuery = await this.knex("tag")
           .select("id")
           .where("tagName", tagname);
-        tagIdArray.push(tagQuery[0].id);
+        if (tagQuery && tagQuery.length > 0) {
+          tagIdArray.push(tagQuery[0].id);
+        }
       }
       console.log("Tagidarr: ", tagIdArray);
 

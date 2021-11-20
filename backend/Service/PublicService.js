@@ -3,6 +3,21 @@ class PublicService {
     this.knex = knex;
   }
 
+  async getOpenRequest() {
+    try {
+      let openReq = await this.knex("request")
+        .select("*")
+        .where("status", "Open");
+      if (openReq && openReq.length > 0) {
+        return openReq;
+      } else {
+        return [];
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   postMsg(email, name, title, message) {
     return this.knex
       .insert({

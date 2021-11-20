@@ -1,7 +1,6 @@
-// import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-// import { Link } from "react-router-dom";
 import { searchReq } from "../../Redux/request/actions";
 
 import { Card, CardBody, CardFooter, Tooltip } from "reactstrap";
@@ -14,6 +13,8 @@ import "../../Pages/SCSS/searchCard.scss";
 import help from "../../Images/help.png";
 
 const SearchCard = ({ request, handleBookmark }) => {
+  const [gradeColor, setGradeColor] = useState("");
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -22,8 +23,37 @@ const SearchCard = ({ request, handleBookmark }) => {
   };
 
   const showRequestDetail = (requestId) => {
+    localStorage.setItem("requestId", requestId);
     history.push(`/member/request/detail/${requestId}`);
   };
+
+  useEffect(() => {
+    switch (request.grade) {
+      case "S":
+        setGradeColor("#fac77c");
+        break;
+      case "A":
+        setGradeColor("#fa7c92");
+        break;
+      case "B":
+        setGradeColor("#7c97fa");
+        break;
+      case "C":
+        setGradeColor("#52b46e");
+        break;
+      case "D":
+        setGradeColor("#152e87");
+        break;
+      case "E":
+        setGradeColor("#875915");
+        break;
+      case "F":
+        setGradeColor("#333333");
+        break;
+      default:
+        setGradeColor("#c4c4c4");
+    }
+  }, [request.grade]);
 
   return (
     <>
@@ -31,7 +61,7 @@ const SearchCard = ({ request, handleBookmark }) => {
         <Card
           className="search-req-card"
           onClick={() => {
-            showRequestDetail(request.requestId);
+            showRequestDetail(request.id);
           }}
         >
           <div className="row g-0">
@@ -47,15 +77,13 @@ const SearchCard = ({ request, handleBookmark }) => {
                 <div className="username-id">
                   <span
                     className="dot text-center me-2"
-                    style={{ background: request.gradeColor }}
+                    style={{ backgroundColor: gradeColor }}
                   >
                     {request.grade}
                   </span>
-                  {request.username} UID#{request.userId}
+                  {request.username} UID#{request.requesterId}
                 </div>
-                <div className="createdAt">
-                  Created at : {request.createdAt}
-                </div>
+                <div className="createdAt">{request.created_at}</div>
                 <div className="search-card-req-title">{request.title}</div>
                 <div className="search-card-req-detail">{request.detail}</div>
                 <div className="search-card-req-tag">

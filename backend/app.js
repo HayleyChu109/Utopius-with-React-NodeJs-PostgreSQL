@@ -46,7 +46,7 @@ const requestRouter = new RequestRouter(requestService);
 const PublicService = require("./Service/PublicService");
 const PublicRouter = require("./Router/PublicRouter");
 const publicService = new PublicService(knex);
-const publicRouter = new PublicRouter(publicService);
+const publicRouter = new PublicRouter(publicService, requestService);
 
 app.use("/", authRouter.router());
 app.use("/", publicRouter.router());
