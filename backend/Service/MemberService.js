@@ -3,7 +3,7 @@ class MemberService {
     this.knex = knex;
   }
 
-  async getMemberInfo(userId) {
+  async getMemberInfo(memberId) {
     try {
       let memberInfo = await this.knex("account")
         .select(
@@ -18,7 +18,7 @@ class MemberService {
           "grade",
           "token"
         )
-        .where("id", userId);
+        .where("id", memberId);
       console.log(memberInfo);
       if (memberInfo.length > 0) {
         return memberInfo[0];
@@ -31,7 +31,7 @@ class MemberService {
   }
 
   putMemberInfo(
-    userId,
+    memberId,
     username,
     firstName,
     lastName,
@@ -48,8 +48,30 @@ class MemberService {
         district: district,
         profilePath: profilePath,
       })
-      .where("account.id", userId)
+      .where("account.id", memberId)
       .returning("account.id");
+  }
+
+  async getMemberReqDetail(memberId) {
+    try {
+      let memberReq = await this.knex("request")
+        .select("*")
+        .where("requesterId", memberId);
+      return memberReq;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async getMemberResDetail(memberId) {
+    try {
+      let memberRes = await this.knex("response")
+        .select("*")
+        .where("responserId", memberId);
+      return memberRes;
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
   async getRequestDetail(requestId, userId) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions";
 import { memberInfoFormSubmitThunk } from "../../Redux/signup/memberInfoFormActions";
 import SuccessModal from "../PublicComponents/SuccessModal";
 import FailureModal from "../PublicComponents/FailureModal";
@@ -14,6 +15,12 @@ import "../../Pages/SCSS/loginPage.scss";
 import anonymous from "../../Images/anonymous.jpeg";
 
 const MemberInfoForm = () => {
+  // Get existing member info from the store
+  const memberProfileFromStore = useSelector(
+    (state) => state.memberProfileStore.memberInfo
+  );
+
+  // Get msg from store
   const memberInfoFormStore = useSelector((state) => state.memberInfoFormStore);
   const { successMsg, errorMsg } = memberInfoFormStore;
 
@@ -26,7 +33,7 @@ const MemberInfoForm = () => {
   });
   const [{ bucketSrc, bucketAlt }, setBucketImg] = useState({
     bucketSrc: "",
-    bucketAlt: "",
+    bucketAlt: "Profile pic",
   });
   const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
@@ -54,21 +61,24 @@ const MemberInfoForm = () => {
 
   const memberInfoFormSubmit = (e) => {
     e.preventDefault();
-    if (bucketSrc.length === 0) {
+
+    if (bucketSrc.length == 0) {
       setFailureModalBoolean(true);
       setMissingInfoMsg("Please insert your profile picture");
       return;
     }
-    if (phone.length !== 8) {
+
+    if (phone.toString().length != 8) {
       setFailureModalBoolean(true);
       setMissingInfoMsg("Please input correct phone number");
       return;
     }
-    let file = bucketSrc;
-    let newFileName = bucketAlt;
-    const ReactS3Client = new S3(s3Config);
-    ReactS3Client.uploadFile(file, newFileName)
-      .then((data) => {
+
+    if (src.includes("localhost") == true) {
+      let file = bucketSrc;
+      let newFileName = bucketAlt;
+      const ReactS3Client = new S3(s3Config);
+      ReactS3Client.uploadFile(file, newFileName).then((data) => {
         dispatch(
           memberInfoFormSubmitThunk(
             username,
@@ -79,30 +89,96 @@ const MemberInfoForm = () => {
             data.location
           )
         );
-        setUsername("");
-        setFirstname("");
-        setLastname("");
-        setPhone("");
-        setDistrict("");
-        setPreviewImg({
-          src: anonymous,
-          alt: "Upload an image",
-        });
-        setBucketImg({
-          bucketSrc: "",
-          bucketAlt: "",
-        });
-      })
-      .catch((err) => {
-        throw new Error(err);
       });
+    } else {
+      dispatch(
+        memberInfoFormSubmitThunk(
+          username,
+          firstname,
+          lastname,
+          phone,
+          district
+        )
+      );
+    }
+    setUsername("");
+    setFirstname("");
+    setLastname("");
+    setPhone("");
+    setDistrict("");
+    setPreviewImg({
+      src: anonymous,
+      alt: "Upload an image",
+    });
+    setBucketImg({
+      bucketSrc: "",
+      bucketAlt: "",
+    });
+
+    // let file = bucketSrc;
+    // let newFileName = bucketAlt;
+    // const ReactS3Client = new S3(s3Config);
+    // ReactS3Client.uploadFile(file, newFileName)
+    //   .then((data) => {
+    //     dispatch(
+    //       memberInfoFormSubmitThunk(
+    //         username,
+    //         firstname,
+    //         lastname,
+    //         phone,
+    //         district,
+    //         data.location
+    //       )
+    //     );
+    //     setUsername("");
+    //     setFirstname("");
+    //     setLastname("");
+    //     setPhone("");
+    //     setDistrict("");
+    //     setPreviewImg({
+    //       src: anonymous,
+    //       alt: "Upload an image",
+    //     });
+    //     setBucketImg({
+    //       bucketSrc: "",
+    //       bucketAlt: "",
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     throw new Error(err);
+    //   });
   };
+
+  useEffect(() => {
+    dispatch(memberInfoThunk());
+  }, [dispatch]);
+
+  useEffect(() => {
+    localStorage.setItem("Member-info", JSON.stringify(memberProfileFromStore));
+  });
+
+  useEffect(() => {
+    const memberInfo = JSON.parse(localStorage.getItem("Member-info"));
+    setUsername(memberInfo.username);
+    setFirstname(memberInfo.firstName);
+    setLastname(memberInfo.lastName);
+    setPhone(memberInfo.phone);
+    setDistrict(memberInfo.district);
+    setPreviewImg({ src: memberInfo.profilePath, alt: "Upload an image" });
+    setBucketImg({
+      bucketSrc: memberInfo.profilePath,
+      bucketAlt: "Profile pic",
+    });
+  }, []);
 
   useEffect(() => {
     if (successMsg !== null) {
       setModalBoolean(true);
       history.push("/member/profile");
     }
+    return () => {
+      localStorage.removeItem("Member-info");
+    };
   }, [successMsg, history]);
 
   const closeModal = () => {

@@ -1,18 +1,24 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
-import "../../Pages/SCSS/memberProfile.scss";
-import anonymous from "../../Images/anonymous.jpeg";
+function MemberProfilePic(props) {
+  const memberProfileFromStore = useSelector(
+    (state) => state.memberProfileStore.memberInfo
+  );
 
-function MemberProfilePic() {
   return (
     <>
-      <div className="container py-4">
+      <div className="container">
         <div className="row d-flex justify-content-center text-center">
-          <div className="col-lg-12 mx-auto my-4 position-relative memberProfilePic-bg-beige"></div>
+          <div className="col-lg-12 mx-auto my-4 position-relative memberProfileBg-beige"></div>
           <div className="position-absolute memberProfilePic-position">
-            <img src={anonymous} alt="anonymous" className="memberProfilePic" />
+            <img
+              src={memberProfileFromStore.profilePath}
+              alt="profile pic"
+              className="memberProfilePic"
+            />
           </div>
-          <div className="col-lg-12 mx-auto my-4 position-relative memberProfilePic-bg-white"></div>
+          <div className="col-lg-12 mx-auto my-4 position-relative memberProfileBg-white"></div>
         </div>
       </div>
     </>

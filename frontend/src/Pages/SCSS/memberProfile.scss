@@ -2,23 +2,29 @@
 
 .memberProfile-title {
   @include heading;
+  span {
+    font-size: 20px;
+    text-transform: uppercase;
+    color: $dark-orange;
+  }
 }
 
 // Member Profile Pic
-.memberProfilePic-bg-beige {
-  background-color: $beige;
-  width: 50vw;
-  height: 20vh;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+.memberProfileBg-beige {
+  @include memberProfileBg;
 }
 
-.memberProfilePic-bg-white {
-  background-color: $white;
-  width: 50vw;
+.memberProfileBg-white {
+  @include memberProfileBg($memberProfileBg: $white);
   height: 15vh;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+}
+
+.memberProfileBg-orange {
+  background-color: $dark-orange;
+  width: 55vw;
+  height: 10vh;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .memberProfilePic-position {
@@ -35,5 +41,60 @@
 // Member Profile Info
 .memberProfileInfo {
   width: 50vw;
-  margin-left: 5vw;
+  margin-left: 10vw;
+  font-size: 15px;
+  letter-spacing: 4px;
+  color: $dark;
+}
+
+.REQ {
+  @include ReqResButton;
+}
+
+.REQ:disabled {
+  @include ReqResButton($theme: $dark-grey);
+}
+
+.RES {
+  @include ReqResButton($theme: $dark-blue);
+}
+
+.RES:disabled {
+  @include ReqResButton($theme: $dark-grey);
+}
+
+// Member Profile Edit
+.btn-white-orange,
+.btn-white-orange:focus {
+  background: $white;
+  color: $dark-orange;
+  font-family: $nunito;
+  font-size: 15px;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  border: 2px solid $dark-orange;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.btn-white-orange:hover,
+.btn-white-orange:focus:hover {
+  background: $white;
+  border: 2px solid $light-orange;
+}
+
+// Member Req Collapse
+.memberProfileMiddie-beige {
+  background-color: $beige;
+  width: 55vw;
+  height: 5vh;
+  button {
+    background-color: $beige;
+    color: $dark-orange;
+    font-weight: bolder;
+    border: none;
+  }
 }

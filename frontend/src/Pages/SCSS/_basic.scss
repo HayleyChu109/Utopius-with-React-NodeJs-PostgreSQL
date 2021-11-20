@@ -75,3 +75,20 @@ $nunito: "Nunito", sans-serif;
   transition-duration: 0.1s;
   transition-timing-function: ease;
 }
+
+@mixin memberProfileBg($memberProfileBg: $beige) {
+  background-color: $memberProfileBg;
+  width: 55vw;
+  height: 20vh;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+@mixin ReqResButton($theme: $dark-orange) {
+  background-color: $white;
+  color: $theme;
+  font-size: 15px;
+  font-weight: bolder;
+  letter-spacing: 4px;
+  border: none;
+}

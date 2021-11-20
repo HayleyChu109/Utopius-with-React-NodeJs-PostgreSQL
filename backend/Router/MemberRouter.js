@@ -9,8 +9,9 @@ class MemberRouter {
     let router = express.Router();
     // Profile routes
     router.get("/memberinfo/:id", this.getMemberInfo.bind(this));
-    // router.post("/memberinfo/:id", this.postMemberInfo.bind(this));
     router.put("/memberinfo/:id", this.putMemberInfo.bind(this));
+    router.get("/memberreq/:id", this.getMemberReqDetail.bind(this));
+    router.get("/memberres/:id", this.getMemberResDetail.bind(this));
 
     // Request routes
     router.get(
@@ -21,6 +22,7 @@ class MemberRouter {
     return router;
   }
 
+  // Get member profile
   async getMemberInfo(req, res, next) {
     console.log("Get member info");
     try {
@@ -35,10 +37,9 @@ class MemberRouter {
     }
   }
 
+  // Edit member profile
   putMemberInfo(req, res) {
     console.log("Submit member info");
-    console.log(req.params);
-    console.log(req.body);
     return this.memberService
       .putMemberInfo(
         req.params.id,
@@ -56,6 +57,42 @@ class MemberRouter {
       .catch((err) => {
         res.status(500).json(err);
       });
+  }
+
+  // Get member request details
+  async getMemberReqDetail(req, res, next) {
+    try {
+      let memberReq = await this.memberService.getMemberReqDetail(
+        req.params.id
+      );
+      if (memberReq) {
+        console.log("Member request", memberReq);
+        res.json(memberReq);
+      } else {
+        res.json([]);
+      }
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  // Get member response details
+  async getMemberResDetail(req, res, next) {
+    try {
+      let memberRes = await this.memberService.getMemberResDetail(
+        req.params.id
+      );
+      if (memberRes) {
+        console.log("Member response", memberRes);
+        res.json(memberRes);
+      } else {
+        res.json([]);
+      }
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
   }
 
   async getRequestDetail(req, res, next) {

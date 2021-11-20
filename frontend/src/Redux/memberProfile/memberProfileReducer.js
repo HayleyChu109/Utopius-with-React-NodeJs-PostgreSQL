@@ -1,4 +1,7 @@
-import { MEMBER_INFO_SUCCESS_ACTION } from "./memberProfileActions";
+import {
+  MEMBER_INFO_SUCCESS_ACTION,
+  MEMBER_REQ_SUCCESS_ACTION,
+} from "./memberProfileActions";
 // import { MEMBER_INFO_FAILURE_ACTION } from "./memberProfileActions";
 
 const initialState = {
@@ -8,6 +11,7 @@ const initialState = {
 export function memberProfileReducer(state = initialState, action) {
   switch (action.type) {
     case MEMBER_INFO_SUCCESS_ACTION:
+      console.log(action.payload);
       return {
         memberInfo: Object.assign({}, action.payload),
       };
