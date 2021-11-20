@@ -43,7 +43,7 @@ const SearchResult = () => {
                     />
                   ))
                 ) : (
-                  <div>No open request !</div>
+                  <div className="ps-4">No open request !</div>
                 )}
               </div>
             </div>

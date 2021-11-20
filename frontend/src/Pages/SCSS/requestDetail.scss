@@ -2,16 +2,20 @@
 
 .request-detail-card {
   background-color: $white;
+  max-width: 900px;
+  height: auto;
+  border-radius: 20px 20px 0 0;
+  border: none;
 }
 
 .request-photo {
   position: relative;
   max-height: 500px;
-  max-width: 500px;
+  width: auto;
+  border-radius: 20px 0 0 0;
   img {
-    height: 100%;
-    width: 100%;
-    // position: absolute;
+    height: 23em;
+    width: 23em;
     top: 0;
     left: 0;
   }
@@ -19,30 +23,36 @@
 
 .request-main {
   background-color: $beige;
+  border-radius: 0 20px 0 0;
 }
 
 .requester-username {
   color: $dark-blue;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
   letter-spacing: 2px;
 }
 
 .requester-id {
   color: $dark-orange;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
   letter-spacing: 2px;
 }
 
-.request-detail-createdAt,
-.request-detail-detail {
+.request-detail-createdAt {
   color: $dark;
   letter-spacing: 2px;
+  font-size: 15px;
 }
 
 .request-detail-detail {
-  min-height: 50%;
+  color: $dark;
+  letter-spacing: 2px;
+  font-size: 15px;
+  height: 80px;
+  overflow-y: scroll;
+  height: 38%;
 }
 
 .request-detail-title {
@@ -55,10 +65,24 @@
 .request-detail-tag {
   color: $dark-orange;
   font-weight: bolder;
-  font-size: 18px;
+  font-size: 15px;
   letter-spacing: 2px;
 }
 
 .request-detail-footer {
-  font-size: 18px;
+  font-size: 15px;
+}
+
+.request-detail-tag-search {
+  cursor: pointer;
+}
+
+.bookmark-icon-true {
+  color: $bookmark-true;
+  cursor: pointer;
+}
+
+.bookmark-icon-false {
+  color: $bookmark-false;
+  cursor: pointer;
 }

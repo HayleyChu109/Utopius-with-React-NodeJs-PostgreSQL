@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
 import {
+  searchReq,
   getRequestDetailThunk,
+  getBookmarkListThunk,
   bookmarkToggleThunk,
 } from "../../Redux/request/actions";
 
@@ -19,12 +22,15 @@ import help from "../../Images/help.png";
 import "../SCSS/requestDetail.scss";
 
 const RequestDetail = (props) => {
-  const { requestDetail } = useSelector((state) => state.requestStore);
+  const { requestDetail, bookmarkList } = useSelector(
+    (state) => state.requestStore
+  );
   const [gradeColor, setGradeColor] = useState("");
   const requestId = localStorage.getItem("requestId");
   const userId = jwt_decode(localStorage.getItem("token")).id;
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     console.log("request id: ", requestId);
@@ -61,8 +67,18 @@ const RequestDetail = (props) => {
     }
   }, [requestDetail.requesterGrade]);
 
-  const handleBookmark = (requestId, userId) => {
-    dispatch(bookmarkToggleThunk(requestId, userId));
+  useEffect(() => {
+    dispatch(getBookmarkListThunk(userId));
+    console.log(bookmarkList);
+  }, [userId, dispatch]);
+
+  const handleBookmark = (bookmarked) => {
+    dispatch(bookmarkToggleThunk(requestId, userId, bookmarked));
+  };
+
+  const handleSearch = (val) => {
+    history.push("/");
+    dispatch(searchReq(val));
   };
 
   return (
@@ -76,13 +92,13 @@ const RequestDetail = (props) => {
         </div>
       </div>
       <div className="container">
-        <Card className="request-detail-card">
+        <Card className="request-detail-card mx-auto">
           <CardBody className="p-0">
             <div className="row g-0 m-0 p-0">
-              <div className="request-photo col-md-5 col-sm-12 col-xs-12">
+              <div className="request-photo mx-auto col-md-5 col-sm-12 col-xs-12">
                 <img src={help} alt="request" />
               </div>
-              <div className="request-main col-md-7 col-sm-12-col-xs-12 p-5">
+              <div className="request-main mx-auto col-md-7 col-sm-12 col-xs-12 p-3">
                 <div className="py-2">
                   <span
                     className="dot text-center me-2"
@@ -100,22 +116,36 @@ const RequestDetail = (props) => {
                 <div className="request-detail-createdAt py-2">
                   Created at : {requestDetail.createdAt}
                 </div>
-                <div className="request-detail-title pt-4 pb-2">
+                <div className="request-detail-title py-2">
                   {requestDetail.title}
                 </div>
-                <div className="request-detail-detail pt-2 pb-4">
-                  {requestDetail.detail}
+                <div className="request-detail-detail pt-2 pb-3">
+                  {requestDetail.detail
+                    ? requestDetail.detail.split("\n").map((line, i) => (
+                        <span key={i}>
+                          {line}
+                          <br />
+                        </span>
+                      ))
+                    : null}
                 </div>
                 <div className="request-detail-tag">
                   {requestDetail.tag && requestDetail.tag.length > 0
                     ? requestDetail.tag.map((tag) => (
-                        <span key={tag.tagName} className="me-2">
+                        <span
+                          key={tag.tagName}
+                          className="me-2 request-detail-tag-search"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleSearch(tag.tagName.replace(/\s/g, ""));
+                          }}
+                        >
                           #{tag.tagName}
                         </span>
                       ))
                     : requestDetail.tag}
                 </div>
-                <div className="request-detail-footer pt-4">
+                <div className="request-detail-footer py-3">
                   <div className="search-card-footer-info">
                     <FaCoins className="mx-2 coin" />
                     <span className="coin me-2">{requestDetail.reward}</span>
@@ -126,13 +156,14 @@ const RequestDetail = (props) => {
                     <HiLocationMarker className="mx-2 district district-icon" />
                     <span className="district">{requestDetail.district}</span>
                     <span className="bookmark p-2">
-                      {requestDetail.bookmark ? (
+                      {bookmarkList &&
+                      bookmarkList.includes(requestDetail.id) ? (
                         <>
                           <AiFillHeart
                             className="bookmark-icon-true fs-1"
-                            // onClick={() => {
-                            //   handleBookmark(request.requestId);
-                            // }}
+                            onClick={() => {
+                              handleBookmark(true);
+                            }}
                           />
                           {/* <Tooltip
                           flip
@@ -143,12 +174,14 @@ const RequestDetail = (props) => {
                         </Tooltip> */}
                         </>
                       ) : (
-                        <AiFillHeart
-                          className="bookmark-icon-false fs-1"
-                          // onClick={() => {
-                          //   handleBookmark(request.requestId);
-                          // }}
-                        />
+                        <>
+                          <AiFillHeart
+                            className="bookmark-icon-false fs-1"
+                            onClick={() => {
+                              handleBookmark(false);
+                            }}
+                          />
+                        </>
                       )}
                     </span>
                   </div>

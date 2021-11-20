@@ -1,3 +1,5 @@
+const { request } = require("express");
+
 class RequestService {
   constructor(knex) {
     this.knex = knex;
@@ -165,6 +167,53 @@ class RequestService {
     } else {
       console.log("Tag array empty");
       return;
+    }
+  }
+
+  async postBookmark(requestId, userId) {
+    try {
+      let repeatedBookmark = await this.knex("bookmark")
+        .select("id")
+        .where("accountId", userId)
+        .andWhere("requestId", requestId);
+      if (repeatedBookmark && repeatedBookmark.length > 0) {
+        console.log("Bookmark already exist");
+      } else {
+        console.log("Posting new bookmark");
+        return this.knex
+          .insert({ accountId: userId, requestId: requestId })
+          .into("bookmark");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async deleteBookmark(requestId, userId) {
+    try {
+      return await this.knex("bookmark")
+        .where("requestId", requestId)
+        .andWhere("accountId", userId)
+        .del();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async getBookmarkList(userId) {
+    console.log(userId);
+    try {
+      let bookmarkQuery = await this.knex("bookmark")
+        .select("*")
+        .where("accountId", userId);
+      if (bookmarkQuery && bookmarkQuery.length > 0) {
+        return bookmarkQuery;
+      } else {
+        console.log("This man has no bookmark");
+        return [];
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 }

@@ -35,6 +35,7 @@
 }
 
 .search-card-req-title {
+  font-weight: bolder;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -102,7 +103,6 @@
 
 .bookmark {
   position: absolute;
-  cursor: pointer;
   font-size: 30px;
   right: 10px;
   bottom: 3px;
@@ -110,8 +110,10 @@
 
 .bookmark-icon-true {
   color: $bookmark-true;
+  cursor: pointer;
 }
 
 .bookmark-icon-false {
   color: $bookmark-false;
+  cursor: pointer;
 }

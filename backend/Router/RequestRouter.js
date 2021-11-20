@@ -7,12 +7,19 @@ class RequestRouter {
 
   router() {
     let router = express.Router();
+    // Routers for request
     router.get(
       "/request/detail/:requestId/:userId",
       this.getRequestDetail.bind(this)
     );
     router.post("/request/create", this.postNewRequest.bind(this));
-
+    // Routes for bookmark
+    router.get("/bookmarklist/:userId", this.getBookmarkList.bind(this));
+    router.post("/bookmark", this.postBookmark.bind(this));
+    router.delete(
+      "/bookmark/:requestId/:userId",
+      this.deleteBookmark.bind(this)
+    );
     return router;
   }
 
@@ -28,25 +35,25 @@ class RequestRouter {
         req.params.requestId
       );
 
-      let gradeColor = "";
-      switch (requesterDetail.grade) {
-        case "S":
-          gradeColor = "#fac77c";
-        case "A":
-          gradeColor = "#fa7c92";
-        case "B":
-          gradeColor = "#7c97fa";
-        case "C":
-          gradeColor = "#52b46e";
-        case "D":
-          gradeColor = "#152e87";
-        case "E":
-          gradeColor = "#875915";
-        case "F":
-          gradeColor = "#333333";
-        default:
-          gradeColor = "#c4c4c4";
-      }
+      // let gradeColor = "";
+      // switch (requesterDetail.grade) {
+      //   case "S":
+      //     gradeColor = "#fac77c";
+      //   case "A":
+      //     gradeColor = "#fa7c92";
+      //   case "B":
+      //     gradeColor = "#7c97fa";
+      //   case "C":
+      //     gradeColor = "#52b46e";
+      //   case "D":
+      //     gradeColor = "#152e87";
+      //   case "E":
+      //     gradeColor = "#875915";
+      //   case "F":
+      //     gradeColor = "#333333";
+      //   default:
+      //     gradeColor = "#c4c4c4";
+      // }
 
       let data = {
         id: reqDetail.id,
@@ -61,7 +68,7 @@ class RequestRouter {
         requesterId: reqDetail.requesterId,
         requesterUsername: requesterDetail.username,
         requesterGrade: requesterDetail.grade,
-        requesterGradeColor: gradeColor,
+        // requesterGradeColor: gradeColor,
         requesterProfilePath: requesterDetail.profilePath,
       };
       res.json(data);
@@ -103,6 +110,62 @@ class RequestRouter {
       } else {
         console.log("Something goes wrong: ", tagArray);
       }
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async getBookmarkList(req, res, next) {
+    try {
+      let bookmarkList = await this.requestService.getBookmarkList(
+        req.params.userId
+      );
+      let bookmarkIdList = [];
+      for (let i = 0; i < bookmarkList.length; i++) {
+        bookmarkIdList.push(bookmarkList[i].requestId);
+      }
+      res.json({ bookmarkIdList });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async postBookmark(req, res, next) {
+    try {
+      await this.requestService.postBookmark(
+        req.body.requestId,
+        req.body.userId
+      );
+      let bookmarkList = await this.requestService.getBookmarkList(
+        req.body.userId
+      );
+      let bookmarkIdList = [];
+      for (let i = 0; i < bookmarkList.length; i++) {
+        bookmarkIdList.push(bookmarkList[i].requestId);
+      }
+      res.json({ bookmarkIdList });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async deleteBookmark(req, res, next) {
+    try {
+      await this.requestService.deleteBookmark(
+        req.params.requestId,
+        req.params.userId
+      );
+      let bookmarkList = await this.requestService.getBookmarkList(
+        req.params.userId
+      );
+      let bookmarkIdList = [];
+      for (let i = 0; i < bookmarkList.length; i++) {
+        bookmarkIdList.push(bookamrkList[i].requestId);
+      }
+      res.json({ bookmarkIdList });
     } catch (err) {
       next(err);
       res.status(500).json(err);

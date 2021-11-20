@@ -14,6 +14,7 @@ import help from "../../Images/help.png";
 
 const SearchCard = ({ request, handleBookmark }) => {
   const [gradeColor, setGradeColor] = useState("");
+  const [bookmarkColor, setBookmarkColor] = useState("");
 
   const dispatch = useDispatch();
   const history = useHistory();

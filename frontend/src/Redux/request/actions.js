@@ -15,7 +15,7 @@ export const searchReq = (search) => {
   };
 };
 
-// For rendering all open request
+// For rendering all open request (Public router)
 export const getRequestListThunk = () => async (dispatch) => {
   try {
     let userId = jwt_decode(localStorage.getItem("token")).id;
@@ -34,6 +34,7 @@ export const getRequestListThunk = () => async (dispatch) => {
   }
 };
 
+// For rendering request detail page (Request router)
 export const getRequestDetailThunk =
   (requestId, userId) => async (dispatch) => {
     try {
@@ -55,6 +56,7 @@ export const getRequestDetailThunk =
     }
   };
 
+// For posting new request (Request router)
 export const createNewRequestThunk = (newRequest) => async (dispatch) => {
   try {
     let token = await localStorage.getItem("token");
@@ -76,30 +78,71 @@ export const createNewRequestThunk = (newRequest) => async (dispatch) => {
   }
 };
 
-export const bookmarkToggleThunk = (requestId, userId) => async (dispatch) => {
+export const getBookmarkListThunk = (userId) => async (dispatch) => {
   try {
     let token = await localStorage.getItem("token");
-
-    const response = await axios.post(
-      `${process.env.REACT_APP_API_SERVER}/member/bookmark`,
-      {
-        userId: userId,
-        requestId: requestId,
-      },
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_SERVER}/member/bookmarklist/${userId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
+
     const { data } = response;
-    if (data) {
+
+    if (data.bookmarkIdList) {
       dispatch({
         type: BOOKMARK_TOGGLE,
-        payload: data,
+        payload: data.bookmarkIdList,
       });
     }
   } catch (err) {
     console.log("Error: ", err);
   }
 };
+
+// For posting member-req bookmark (Request router)
+export const bookmarkToggleThunk =
+  (requestId, userId, bookmarked) => async (dispatch) => {
+    try {
+      let token = await localStorage.getItem("token");
+      let response = null;
+
+      if (bookmarked) {
+        response = await axios.delete(
+          `${process.env.REACT_APP_API_SERVER}/member/bookmark/${requestId}/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } else {
+        response = await axios.post(
+          `${process.env.REACT_APP_API_SERVER}/member/bookmark`,
+          {
+            userId: userId,
+            requestId: requestId,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      }
+
+      const { data } = response;
+
+      if (data.bookmarkIdList) {
+        dispatch({
+          type: BOOKMARK_TOGGLE,
+          payload: data.bookmarkIdList,
+        });
+      }
+    } catch (err) {
+      console.log("Error: ", err);
+    }
+  };
