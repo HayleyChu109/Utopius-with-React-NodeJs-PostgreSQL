@@ -1,8 +1,14 @@
 import { SEARCH_REQ_ACTION } from "./actions";
+
+import { GET_REQUEST_LIST } from "./actions";
+import { GET_REQUEST_DETAIL } from "./actions";
+import { POST_NEW_REQUEST } from "./actions";
+
 import { BOOKMARK_TOGGLE } from "./actions";
 
 const initialState = {
   search: "",
+  requestId: null,
   requestDetail: {},
   requestList: [
     {
@@ -133,6 +139,12 @@ export function requestReducer(state = initialState, action) {
   switch (action.type) {
     case SEARCH_REQ_ACTION:
       return { ...state, search: action.payload };
+    case GET_REQUEST_LIST:
+      return { ...state, requestList: action.payload };
+    case GET_REQUEST_DETAIL:
+      return { ...state, requestDetail: action.payload };
+    case POST_NEW_REQUEST:
+      return { ...state, requestId: action.payload };
     case BOOKMARK_TOGGLE:
       return { ...state, requestList: action.payload };
 

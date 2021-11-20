@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions";
 
@@ -16,10 +16,6 @@ function MemberProfileInfo() {
   useEffect(() => {
     dispatch(memberInfoThunk());
   }, [dispatch]);
-
-  // useEffect(() => {
-  //   console.log("setMemberInfo: ", memberProfileFromStore.memberInfo);
-  // }, [memberProfileFromStore]);
 
   return (
     <>

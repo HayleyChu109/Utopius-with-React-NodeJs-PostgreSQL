@@ -1,0 +1,64 @@
+@import "basic";
+
+.request-detail-card {
+  background-color: $white;
+}
+
+.request-photo {
+  position: relative;
+  max-height: 500px;
+  max-width: 500px;
+  img {
+    height: 100%;
+    width: 100%;
+    // position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.request-main {
+  background-color: $beige;
+}
+
+.requester-username {
+  color: $dark-blue;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.requester-id {
+  color: $dark-orange;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.request-detail-createdAt,
+.request-detail-detail {
+  color: $dark;
+  letter-spacing: 2px;
+}
+
+.request-detail-detail {
+  min-height: 50%;
+}
+
+.request-detail-title {
+  color: $dark;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.request-detail-tag {
+  color: $dark-orange;
+  font-weight: bolder;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.request-detail-footer {
+  font-size: 18px;
+}
