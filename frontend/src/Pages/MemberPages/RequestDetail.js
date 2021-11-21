@@ -11,6 +11,7 @@ import {
   getRequestDetailThunk,
   getBookmarkListThunk,
   bookmarkToggleThunk,
+  postNewCommentThunk,
 } from "../../Redux/request/actions";
 
 import { Card, CardBody, CardFooter, Button } from "reactstrap";
@@ -29,6 +30,8 @@ const RequestDetail = (props) => {
   );
   const [gradeColor, setGradeColor] = useState("");
   const [footerColor, setFooterColor] = useState("");
+  const [displaySection, setDisplaySection] = useState("publicComment");
+  const [publicComment, setPublicComment] = useState("");
   const requestId = localStorage.getItem("requestId");
   const userId = jwt_decode(localStorage.getItem("token")).id;
 
@@ -43,7 +46,6 @@ const RequestDetail = (props) => {
 
   useEffect(() => {
     dispatch(getBookmarkListThunk(userId));
-    console.log(bookmarkList);
   }, [userId, dispatch]);
 
   useEffect(() => {
@@ -81,7 +83,7 @@ const RequestDetail = (props) => {
     } else {
       setFooterColor("#0077ff");
     }
-  }, [requestDetail.requestId, userId]);
+  }, [requestDetail, userId]);
 
   const handleBookmark = (bookmarked) => {
     dispatch(bookmarkToggleThunk(requestId, userId, bookmarked));
@@ -90,6 +92,10 @@ const RequestDetail = (props) => {
   const handleSearch = (val) => {
     history.push("/");
     dispatch(searchReq(val));
+  };
+
+  const submitPublicComment = (type) => {
+    dispatch(postNewCommentThunk(requestId, userId, publicComment, type));
   };
 
   return (
@@ -156,7 +162,7 @@ const RequestDetail = (props) => {
                       ))
                     : requestDetail.tag}
                 </div>
-                <div className="request-detail-footer py-3">
+                <div className="request-detail-bottom py-3">
                   <div>
                     <FaCoins className="mx-2 coin" />
                     <span className="coin me-3">{requestDetail.reward}</span>
@@ -166,46 +172,97 @@ const RequestDetail = (props) => {
                     </span>
                     <HiLocationMarker className="mx-2 district district-icon" />
                     <span className="district">{requestDetail.district}</span>
-                    <span className="bookmark p-2">
-                      {bookmarkList &&
-                      bookmarkList.includes(requestDetail.id) ? (
-                        <>
-                          <AiFillHeart
-                            className="bookmark-icon-true fs-1"
-                            onClick={() => {
-                              handleBookmark(true);
-                            }}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          <AiFillHeart
-                            className="bookmark-icon-false fs-1"
-                            onClick={() => {
-                              handleBookmark(false);
-                            }}
-                          />
-                        </>
-                      )}
-                    </span>
                   </div>
                 </div>
+                <span className="bookmark p-2">
+                  {bookmarkList && bookmarkList.includes(requestDetail.id) ? (
+                    <>
+                      <AiFillHeart
+                        className="bookmark-icon-true fs-1"
+                        onClick={() => {
+                          handleBookmark(true);
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <AiFillHeart
+                        className="bookmark-icon-false fs-1"
+                        onClick={() => {
+                          handleBookmark(false);
+                        }}
+                      />
+                    </>
+                  )}
+                </span>
               </div>
             </div>
-            <RequestDetailNav userId={userId} requestDetail={requestDetail} />
-            <RequestDetailPubComment />
+            <RequestDetailNav
+              userId={userId}
+              requestDetail={requestDetail}
+              setDisplaySection={setDisplaySection}
+            />
+            <div>
+              {displaySection === "publicComment" ? (
+                <RequestDetailPubComment />
+              ) : displaySection === "response" ? (
+                <div>This is the response list</div>
+              ) : displaySection === "join" ? (
+                <div>This is the join form</div>
+              ) : null}
+            </div>
           </CardBody>
           <CardFooter
             className="request-detail-footer"
             style={{ backgroundColor: footerColor }}
           >
-            <div className="text-center">
-              <input
-                className="input-message form-control"
-                placeholder="Leave a message.."
-              />
-              <Button>SEND</Button>
-            </div>
+            {displaySection === "publicComment" ? (
+              <div className="text-center my-2 row d-flex align-items-center justify-content-center">
+                <div className="col-6">
+                  <input
+                    className="input-message form-control"
+                    placeholder="Leave a comment.."
+                    value={publicComment}
+                    onChange={(e) => {
+                      setPublicComment(e.currentTarget.value);
+                    }}
+                  />
+                </div>
+                <div className="col-2">
+                  {requestDetail.requesterId === userId ? (
+                    <Button
+                      className="btn-white-orange-sm"
+                      onClick={() => {
+                        submitPublicComment(false);
+                      }}
+                    >
+                      SEND
+                    </Button>
+                  ) : (
+                    <Button
+                      className="btn-white-blue-sm"
+                      onClick={() => {
+                        submitPublicComment(false);
+                      }}
+                    >
+                      SEND
+                    </Button>
+                  )}
+                </div>
+              </div>
+            ) : displaySection === "response" ? (
+              <div className="text-center my-2 row d-flex align-items-center justify-content-center">
+                <div>
+                  <Button className="btn-white-orange-sm">CONFIRM</Button>
+                </div>
+              </div>
+            ) : displaySection === "join" ? (
+              <div className="text-center my-2 row d-flex align-items-center justify-content-center">
+                <div>
+                  <Button className="btn-white-blue-sm">SEND</Button>
+                </div>
+              </div>
+            ) : null}
           </CardFooter>
         </Card>
       </div>

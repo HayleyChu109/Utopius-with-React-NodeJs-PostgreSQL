@@ -5,6 +5,7 @@ class RequestService {
     this.knex = knex;
   }
 
+  /**************** Request service ****************/
   async getRequestDetail(requestId) {
     console.log("Service: ", requestId);
     try {
@@ -30,6 +31,29 @@ class RequestService {
     }
   }
 
+  async postNewRequest(newRequest) {
+    try {
+      console.log("Posting new request..");
+      let requestId = await this.knex
+        .insert({
+          requesterId: newRequest.userId,
+          title: newRequest.title,
+          detail: newRequest.detail,
+          reward: newRequest.reward,
+          requiredPpl: newRequest.requiredPpl,
+          district: newRequest.district,
+          status: newRequest.status,
+        })
+        .into("request")
+        .returning("id");
+      return requestId[0];
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  /**************** Request service ****************/
+
+  /**************** Tag service ****************/
   async getRequestTag(requestId) {
     try {
       let requestQuery = await this.knex("tagReqJoin")
@@ -47,62 +71,10 @@ class RequestService {
     }
   }
 
-  async getRequestResponse(requestId) {
-    try {
-      let requestQuery = await this.knex("response")
-        .select("*")
-        .where("requsetId", requestId);
-      if (requestQuery.length > 0) {
-        console.log(requestQuery[0]);
-        return requestQuery[0];
-      } else {
-        return [];
-      }
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
-
-  async getRequestPublicComment(requestId) {
-    try {
-      let requestQuery = await this.knex("comment")
-        .select("*")
-        .where("requestId", requestId)
-        .andWhere("private", false);
-      if (requestQuery.length > 0) {
-        console.log(requestQuery[0]);
-        return requestQuery[0];
-      } else {
-        return [];
-      }
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
-
-  async getRequestPrivateComment(requestId) {
-    try {
-      let requestQuery = await this.knex("comment")
-        .select("*")
-        .where("requestId", requestId)
-        .andWhere("private", true);
-      if (requestQuery.length > 0) {
-        console.log(requestQuery);
-        return requestQuery[0];
-      } else {
-        return [];
-      }
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
-
   async postNewTag(newTag) {
-    // Declare a function to check if tag already exist
     const addTag = async (tag) => {
       let matchedTag = await this.knex("tag").select("*").where("tagName", tag);
       console.log("MemberService postNewTag", matchedTag);
-      // if tag is new, insert new tag
       if (!matchedTag || matchedTag.length < 1) {
         console.log("Posting new tag..");
         return this.knex.insert({ tagName: tag }).into("tag").returning("id");
@@ -115,27 +87,6 @@ class RequestService {
       let tagIdArr = newTag.map((tag) => addTag(tag));
       // console.log("tagIdArr: ", tagIdArr);
       return tagIdArr;
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
-
-  async postNewRequest(newRequest) {
-    try {
-      console.log("Posting new request..");
-      let requestId = await this.knex
-        .insert({
-          requesterId: newRequest.userId,
-          title: newRequest.title,
-          detail: newRequest.detail,
-          reward: newRequest.reward,
-          requiredPpl: newRequest.requiredPpl,
-          district: newRequest.district,
-          status: newRequest.status,
-        })
-        .into("request")
-        .returning("id");
-      return requestId[0];
     } catch (err) {
       throw new Error(err);
     }
@@ -169,6 +120,24 @@ class RequestService {
       return;
     }
   }
+  /**************** Tag service ****************/
+
+  /**************** Bookmark service ****************/
+  async getBookmarkList(userId) {
+    try {
+      let bookmarkQuery = await this.knex("bookmark")
+        .select("*")
+        .where("accountId", userId);
+      if (bookmarkQuery && bookmarkQuery.length > 0) {
+        return bookmarkQuery;
+      } else {
+        console.log("This man has no bookmark");
+        return [];
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   async postBookmark(requestId, userId) {
     try {
@@ -199,23 +168,77 @@ class RequestService {
       console.log(err);
     }
   }
+  /**************** Bookmark service ****************/
 
-  async getBookmarkList(userId) {
-    console.log(userId);
+  /**************** Comment service ****************/
+  async getPublicComment(requestId) {
     try {
-      let bookmarkQuery = await this.knex("bookmark")
+      let commentQuery = await this.knex("comment")
         .select("*")
-        .where("accountId", userId);
-      if (bookmarkQuery && bookmarkQuery.length > 0) {
-        return bookmarkQuery;
+        .where("requestId", requestId)
+        .andWhere("private", false);
+      if (commentQuery.length > 0) {
+        console.log(commentQuery);
+        return commentQuery;
       } else {
-        console.log("This man has no bookmark");
         return [];
       }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async getPrivateComment(requestId) {
+    try {
+      let commentQuery = await this.knex("comment")
+        .select("*")
+        .where("requestId", requestId)
+        .andWhere("private", true);
+      if (commentQuery.length > 0) {
+        console.log(commentQuery);
+        return commentQuery;
+      } else {
+        return [];
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async postNewComment(userId, requestId, comment, type) {
+    try {
+      await this.knex
+        .insert({
+          commenterId: userId,
+          requestId: requestId,
+          detail: comment,
+          private: type,
+        })
+        .into("comment");
+      console.log("Inserting comment..");
     } catch (err) {
       console.log(err);
     }
   }
+  /**************** Comment service ****************/
+
+  /**************** Response service ****************/
+  async getRequestResponse(requestId) {
+    try {
+      let requestQuery = await this.knex("response")
+        .select("*")
+        .where("requsetId", requestId);
+      if (requestQuery.length > 0) {
+        console.log(requestQuery[0]);
+        return requestQuery[0];
+      } else {
+        return [];
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  /**************** Response service ****************/
 }
 
 module.exports = RequestService;

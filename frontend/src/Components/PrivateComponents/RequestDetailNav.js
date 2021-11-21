@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const RequestDetailNav = ({ userId, requestDetail }) => {
+const RequestDetailNav = ({ userId, requestDetail, setDisplaySection }) => {
   const [statusColor, setStatusColor] = useState("");
   const [joinColor, setJoinColor] = useState("");
 
@@ -17,16 +17,38 @@ const RequestDetailNav = ({ userId, requestDetail }) => {
       <div className="req-detail-nav row m-0 g-0 text-center p-3">
         <div className="col-4">
           {requestDetail.requesterId === userId ? (
-            <span className="req-detail-nav-res">RESPONSES</span>
+            <span
+              className="req-detail-nav-res"
+              onClick={() => {
+                setDisplaySection("response");
+              }}
+            >
+              RESPONSE
+            </span>
           ) : (
-            <span className="req-detail-nav-join">COUNT ME IN !</span>
+            <span
+              className="req-detail-nav-join"
+              onClick={() => {
+                setDisplaySection("join");
+              }}
+            >
+              COUNT ME IN !
+            </span>
           )}
         </div>
         <div className="req-detail-nav-comment col-4">
-          <span>COMMENT</span>
+          <span
+            onClick={() => {
+              setDisplaySection("publicComment");
+            }}
+          >
+            COMMENT
+          </span>
         </div>
         <div className="req-detail-nav-statu col-4">
-          <span style={{ color: statusColor }}>
+          <span
+            style={{ color: statusColor }}
+          >
             {requestDetail.status ? requestDetail.status.toUpperCase() : null}
           </span>
         </div>

@@ -41,7 +41,7 @@
 }
 
 .search-card-req-title {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: bolder;
   white-space: nowrap;
   overflow: hidden;
@@ -49,11 +49,10 @@
 }
 
 .search-card-req-detail {
-  // display: -webkit-box;
+  letter-spacing: 0px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  // -webkit-line-clamp: 2;
 }
 
 .search-card-req-tag {

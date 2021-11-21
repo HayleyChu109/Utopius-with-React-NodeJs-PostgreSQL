@@ -6,6 +6,8 @@ export const GET_REQUEST_LIST = "GET_REQUEST_LIST";
 export const GET_REQUEST_DETAIL = "GET_REQUEST_DETAIL";
 export const POST_NEW_REQUEST = "POST_NEW_REQUEST";
 export const BOOKMARK_TOGGLE = "BOOKMARK_TOGGLE";
+export const POST_NEW_PUBLIC_COMMENT = "POST_NEW_PUBLIC_COMMENT";
+export const POST_NEW_PRIVATE_COMMENT = "POST_NEW_PRIVATE_COMMENT";
 
 // For nav search-bar
 export const searchReq = (search) => {
@@ -84,6 +86,7 @@ export const createNewRequestThunk = (newRequest) => async (dispatch) => {
   }
 };
 
+// For rendering all bookmarks for a user
 export const getBookmarkListThunk = (userId) => async (dispatch) => {
   try {
     let token = await localStorage.getItem("token");
@@ -157,5 +160,42 @@ export const bookmarkToggleThunk =
       }
     } catch (err) {
       console.log("Error: ", err);
+    }
+  };
+
+// For posting new comments
+export const postNewCommentThunk =
+  (requestId, userId, comment, type) => async (dispatch) => {
+    try {
+      let token = await localStorage.getItem("token");
+      console.log("Type: ", type);
+      let response = await axios.post(
+        `${process.env.REACT_APP_API_SERVER}/member/request/comment`,
+        {
+          userId,
+          requestId,
+          comment,
+          type,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = response;
+      if (data.publicCommentList) {
+        dispatch({
+          type: POST_NEW_PUBLIC_COMMENT,
+          payload: data.publicCommentList,
+        });
+      } else if (data.privateCommentList) {
+        dispatch({
+          type: POST_NEW_PRIVATE_COMMENT,
+          payload: data.privateCommentList,
+        });
+      }
+    } catch (err) {
+      console.log("Error", err);
     }
   };

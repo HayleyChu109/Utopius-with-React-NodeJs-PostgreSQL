@@ -20,6 +20,8 @@ class RequestRouter {
       "/bookmark/:requestId/:userId",
       this.deleteBookmark.bind(this)
     );
+    // Routes for comments
+    router.post("/request/comment", this.postNewComment.bind(this));
     return router;
   }
 
@@ -145,6 +147,34 @@ class RequestRouter {
         bookmarkIdList.push(bookamrkList[i].requestId);
       }
       res.json({ bookmarkIdList });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async postNewComment(req, res, next) {
+    try {
+      await this.requestService.postNewComment(
+        req.body.userId,
+        req.body.requestId,
+        req.body.comment,
+        req.body.type
+      );
+      if (req.body.type) {
+        let privateCommentList =
+          await this.requestService.getRequestPrivateComment(
+            req.body.requsetId
+          );
+        console.log("Private cm list(Arr of obj): ", privateCommentList);
+        res.json({ privateCommentList });
+      } else {
+        let publicCommentList = await this.requestService.getPublicComment(
+          req.body.requestId
+        );
+        console.log("Public cm list(Arr of obj): ", publicCommentList);
+        res.json({ publicCommentList });
+      }
     } catch (err) {
       next(err);
       res.status(500).json(err);
