@@ -4,12 +4,16 @@ import logger from "redux-logger";
 
 import { loginReducer } from "./login/reducer";
 import { signupReducer } from "./signup/reducer";
+import { footerReducer } from "./footer/footerReducer";
+import { AdminDataReducer } from "./adminData/reducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose;
 
 const rootReducer = combineReducers({
   loginStore: loginReducer,
   signupStore: signupReducer,
+  footerStore: footerReducer,
+  adminDataStore:AdminDataReducer,
 });
 
 export const store = createStore(

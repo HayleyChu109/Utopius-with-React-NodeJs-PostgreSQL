@@ -20,7 +20,7 @@ class AuthService {
           id: matchedUser[0].id,
         };
         let token = jwt.sign(payload, config.jwtSecret);
-        return { token };
+        return { token: token, isAdmin: matchedUser[0].isAdmin };
       } else {
         return { message: "Incorrect password" };
       }

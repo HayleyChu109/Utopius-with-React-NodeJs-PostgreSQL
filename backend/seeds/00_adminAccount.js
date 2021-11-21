@@ -45,6 +45,48 @@ exports.seed = function (knex) {
           token: 5000,
           blacklist: false,
         },
+        {
+          isAdmin: false,
+          username: "test1",
+          email: "test1@test.com",
+          password:
+            "$2b$10$FGus74upQ7c4mp9st46sVuCDMvhFiwHJJaO.ztYiQNDxDoq5HfDgO",
+          firstName: "Test",
+          lastName: "One",
+          phone: 23800000,
+          district: "Tsuen Wan",
+          grade: "-",
+          token: 5000,
+          blacklist: false,
+        },
+        {
+          isAdmin: false,
+          username: "test2",
+          email: "test2@test.com",
+          password:
+            "$2b$10$FGus74upQ7c4mp9st46sVuCDMvhFiwHJJaO.ztYiQNDxDoq5HfDgO",
+          firstName: "Test",
+          lastName: "Two",
+          phone: 23800000,
+          district: "Tsuen Wan",
+          grade: "-",
+          token: 5000,
+          blacklist: false,
+        },
+        {
+          isAdmin: false,
+          username: "test3",
+          email: "test3@test.com",
+          password:
+            "$2b$10$FGus74upQ7c4mp9st46sVuCDMvhFiwHJJaO.ztYiQNDxDoq5HfDgO",
+          firstName: "Test",
+          lastName: "Three",
+          phone: 23800000,
+          district: "Tsuen Wan",
+          grade: "-",
+          token: 5000,
+          blacklist: false,
+        },
       ]);
     });
 };

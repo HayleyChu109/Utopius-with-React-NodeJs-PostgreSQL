@@ -1,12 +1,12 @@
 import NavBar from "../../Components/PublicComponents/NavBar";
-import Discover from "../../Components/PublicComponents/Discover";
+import Footer from "../../Components/PublicComponents/Footer";
 
 const LandingPage = () => {
   return (
     <>
       <NavBar />
-      <Discover />
-      <div className="text-center">WELCOM TO UTOPIUS</div>
+      <div className="text-center">WELCOME TO UTOPIUS</div>
+      <Footer />
     </>
   );
 };

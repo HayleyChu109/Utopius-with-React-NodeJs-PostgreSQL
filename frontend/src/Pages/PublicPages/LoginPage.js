@@ -3,6 +3,7 @@ import "../SCSS/loginPage.scss";
 import NavBar from "../../Components/PublicComponents/NavBar";
 import LoginForm from "../../Components/PublicComponents/LoginForm";
 import SignupForm from "../../Components/PublicComponents/SignupForm";
+import Footer from "../../Components/PublicComponents/Footer";
 
 const LoginPage = () => {
   return (
@@ -18,6 +19,7 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
