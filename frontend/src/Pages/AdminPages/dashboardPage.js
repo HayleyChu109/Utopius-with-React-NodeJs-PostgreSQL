@@ -28,15 +28,15 @@ export default function DashboardPage(props) {
       <AdminNavbar />
       <h1>Welcome back, admin!</h1>
       <Row>
-        <Col lg={4}>
-          <Card style={{margin:'25px',textAlign:'center'}}>
+        <Col lg={3}>
+          <Card style={{textAlign:'center'}} className='mx-2'>
             <LineBarComposed userData={userGrowth} />
               <UserList list={newUserList} />
             <Link to='/admin/user'>Click to see all user</Link>
           </Card>
         </Col>
-        <Col lg={4}>
-        <Card style={{margin:'25px',textAlign:'center'}}>
+        <Col lg={3}>
+        <Card style={{textAlign:'center'}} className='mx-2'>
             <p>New Request of Today: {request.length}</p>
             <RequestList list={request}/>
             <Link to='/admin/request'>Click to see all request</Link>

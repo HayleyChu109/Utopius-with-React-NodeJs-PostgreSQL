@@ -20,7 +20,7 @@ const AdminNavbar = () => {
 
   return (
     <>
-      <div className="navbar">
+      <div className="navbarAdmin">
         <div className="mx-3 py-2 row">
           <div className="col-2">
             <a href="/admin" className="nav-logo">
