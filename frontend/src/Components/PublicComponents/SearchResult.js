@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import {
   getRequestListThunk,
@@ -13,14 +14,15 @@ const SearchResult = () => {
   const { search, requestList } = useSelector((state) => state.requestStore);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getRequestListThunk());
   }, [dispatch]);
 
-  const handleBookmark = (requestId) => {
-    console.log(requestId);
-    // dispatch(bookmarkToggleThunk(requestId, userId));
+  const showRequestDetail = (requestId) => {
+    localStorage.setItem("requestId", requestId);
+    history.push(`/member/request/detail/${requestId}`);
   };
 
   return (
@@ -39,7 +41,7 @@ const SearchResult = () => {
                     <SearchCard
                       key={req.id}
                       request={req}
-                      handleBookmark={handleBookmark}
+                      handleClick={showRequestDetail}
                     />
                   ))
                 ) : (
@@ -76,7 +78,7 @@ const SearchResult = () => {
                       <SearchCard
                         key={req.id}
                         request={req}
-                        handleBookmark={handleBookmark}
+                        handleClick={showRequestDetail}
                       />
                     ))
                 ) : (

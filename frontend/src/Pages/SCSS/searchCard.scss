@@ -15,6 +15,12 @@
   font-size: 13px;
 }
 
+.search-req-card:hover {
+  div.search-card-req-title {
+    color: $dark-blue;
+  }
+}
+
 .search-card-photo {
   img {
     max-width: 230px;
@@ -35,6 +41,7 @@
 }
 
 .search-card-req-title {
+  font-size: 15px;
   font-weight: bolder;
   white-space: nowrap;
   overflow: hidden;
@@ -99,6 +106,7 @@
 
 .district {
   color: $district;
+  letter-spacing: 0px;
 }
 
 .bookmark {
@@ -116,4 +124,11 @@
 .bookmark-icon-false {
   color: $bookmark-false;
   cursor: pointer;
+}
+
+.bookmark-icon-true:hover,
+.bookmark-icon-false:hover {
+  transform: scale(1.1);
+  transition: 0.2s;
+  color: $bookmark-true;
 }

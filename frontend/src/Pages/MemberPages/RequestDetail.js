@@ -146,14 +146,14 @@ const RequestDetail = (props) => {
                     : requestDetail.tag}
                 </div>
                 <div className="request-detail-footer py-3">
-                  <div className="search-card-footer-info">
-                    <FaCoins className="mx-2 coin" />
+                  <div>
+                    <FaCoins className="mx-1 coin" />
                     <span className="coin me-2">{requestDetail.reward}</span>
-                    <BsFillPersonPlusFill className="mx-2 person person-icon" />
+                    <BsFillPersonPlusFill className="mx-1 person person-icon" />
                     <span className="person me-2">
                       {requestDetail.requiredPpl}
                     </span>
-                    <HiLocationMarker className="mx-2 district district-icon" />
+                    <HiLocationMarker className="mx-1 district district-icon" />
                     <span className="district">{requestDetail.district}</span>
                     <span className="bookmark p-2">
                       {bookmarkList &&
