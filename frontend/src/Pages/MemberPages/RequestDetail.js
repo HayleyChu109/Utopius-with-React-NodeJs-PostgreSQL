@@ -5,7 +5,7 @@ import jwt_decode from "jwt-decode";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
 import RequestDetailNav from "../../Components/PrivateComponents/RequestDetailNav";
-import RequestDetailPubComment from "../../Components/PrivateComponents/RequestDetailPubComment";
+import RequestDetailComment from "../../Components/PrivateComponents/RequestDetailComment";
 import {
   searchReq,
   getRequestDetailThunk,
@@ -49,31 +49,35 @@ const RequestDetail = (props) => {
   }, [userId, dispatch]);
 
   useEffect(() => {
-    switch (requestDetail.requesterGrade) {
-      case "S":
-        setGradeColor("#fac77c");
-        break;
-      case "A":
-        setGradeColor("#fa7c92");
-        break;
-      case "B":
-        setGradeColor("#7c97fa");
-        break;
-      case "C":
-        setGradeColor("#52b46e");
-        break;
-      case "D":
-        setGradeColor("#152e87");
-        break;
-      case "E":
-        setGradeColor("#875915");
-        break;
-      case "F":
-        setGradeColor("#333333");
-        break;
-      default:
-        setGradeColor("#c4c4c4");
-        break;
+    if (requestDetail && requestDetail.requesterGrade) {
+      switch (requestDetail.requesterGrade.toUpperCase()) {
+        case "S":
+          setGradeColor("#fac77c");
+          break;
+        case "A":
+          setGradeColor("#fa7c92");
+          break;
+        case "B":
+          setGradeColor("#7c97fa");
+          break;
+        case "C":
+          setGradeColor("#52b46e");
+          break;
+        case "D":
+          setGradeColor("#152e87");
+          break;
+        case "E":
+          setGradeColor("#875915");
+          break;
+        case "F":
+          setGradeColor("#333333");
+          break;
+        default:
+          setGradeColor("#c4c4c4");
+          break;
+      }
+    } else {
+      return;
     }
   }, [requestDetail.requesterGrade]);
 
@@ -96,6 +100,7 @@ const RequestDetail = (props) => {
 
   const submitPublicComment = (type) => {
     dispatch(postNewCommentThunk(requestId, userId, publicComment, type));
+    setPublicComment("");
   };
 
   return (
@@ -108,20 +113,22 @@ const RequestDetail = (props) => {
           <span>(Request #{requestDetail.id})</span>
         </div>
       </div>
-      <div className="container">
+      <div className="container p-4">
         <Card className="request-detail-card mx-auto">
           <CardBody className="p-0">
             <div className="row g-0 m-0 p-0">
               <div className="request-photo mx-auto col-md-5 col-sm-12 col-xs-12">
                 <img src={help} alt="request" />
               </div>
-              <div className="request-main mx-auto col-md-7 col-sm-12 col-xs-12 p-3 position-relative">
+              <div className="request-main mx-auto col-md-7 col-sm-12 col-xs-12 px-3 pt-3 position-relative">
                 <div className="py-2">
                   <span
                     className="dot text-center me-2"
                     style={{ backgroundColor: gradeColor }}
                   >
-                    {requestDetail.requesterGrade}
+                    {requestDetail.requesterGrade
+                      ? requestDetail.requesterGrade.toUpperCase()
+                      : null}
                   </span>
                   <span className="requester-username me-3">
                     {requestDetail.requesterUsername}
@@ -204,7 +211,17 @@ const RequestDetail = (props) => {
             />
             <div>
               {displaySection === "publicComment" ? (
-                <RequestDetailPubComment />
+                <RequestDetailComment
+                  requestId={requestId}
+                  userId={userId}
+                  type={false}
+                />
+              ) : displaySection === "privateComment" ? (
+                <RequestDetailComment
+                  requestId={requestId}
+                  userId={userId}
+                  type={true}
+                />
               ) : displaySection === "response" ? (
                 <div>This is the response list</div>
               ) : displaySection === "join" ? (

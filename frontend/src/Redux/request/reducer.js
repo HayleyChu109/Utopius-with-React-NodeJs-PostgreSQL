@@ -4,8 +4,8 @@ import {
   GET_REQUEST_DETAIL,
   POST_NEW_REQUEST,
   BOOKMARK_TOGGLE,
-  POST_NEW_PUBLIC_COMMENT,
-  POST_NEW_PRIVATE_COMMENT,
+  PUBLIC_COMMENT,
+  PRIVATE_COMMENT,
 } from "./actions";
 
 const initialState = {
@@ -30,9 +30,9 @@ export function requestReducer(state = initialState, action) {
       return { ...state, requestId: action.payload };
     case BOOKMARK_TOGGLE:
       return { ...state, bookmarkList: action.payload };
-    case POST_NEW_PUBLIC_COMMENT:
+    case PUBLIC_COMMENT:
       return { ...state, publicCommentList: action.payload };
-    case POST_NEW_PRIVATE_COMMENT:
+    case PRIVATE_COMMENT:
       return { ...state, privateCommentList: action.payload };
 
     default:

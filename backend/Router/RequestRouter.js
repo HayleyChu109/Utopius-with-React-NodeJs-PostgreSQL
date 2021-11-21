@@ -21,6 +21,7 @@ class RequestRouter {
       this.deleteBookmark.bind(this)
     );
     // Routes for comments
+    router.get("/request/comment/:requestId/:type", this.getComment.bind(this));
     router.post("/request/comment", this.postNewComment.bind(this));
     return router;
   }
@@ -53,19 +54,6 @@ class RequestRouter {
         requesterProfilePath: requesterDetail.profilePath,
       };
       res.json(data);
-    } catch (err) {
-      next(err);
-      res.status(500).json(err);
-    }
-  }
-
-  async getRequestPrivateComment(req, res, next) {
-    try {
-      let reqPrivateComment =
-        await this.requestService.getRequestPrivateComment(
-          req.params.requestId
-        );
-      res.json({ reqPrivateComment });
     } catch (err) {
       next(err);
       res.status(500).json(err);
@@ -147,6 +135,28 @@ class RequestRouter {
         bookmarkIdList.push(bookamrkList[i].requestId);
       }
       res.json({ bookmarkIdList });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async getComment(req, res, next) {
+    try {
+      if (req.params.type === "true") {
+        console.log("Loading private comments..", req.params.type);
+        let privateCommentList = await this.requestService.getPrivateComment(
+          req.params.requestId
+        );
+        res.json({ privateCommentList });
+      } else {
+        console.log("Loading public comments..");
+        let publicCommentList = await this.requestService.getPublicComment(
+          req.params.requestId
+        );
+        console.log("PublicCMList: ", publicCommentList);
+        res.json({ publicCommentList });
+      }
     } catch (err) {
       next(err);
       res.status(500).json(err);

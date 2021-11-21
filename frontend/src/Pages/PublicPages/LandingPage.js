@@ -34,7 +34,6 @@ const LandingPage = () => {
 
   useEffect(() => {
     dispatch(getBookmarkListThunk(userId));
-    console.log(bookmarkList);
   }, [userId, dispatch]);
 
   return (

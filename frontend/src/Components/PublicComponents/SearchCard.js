@@ -35,7 +35,7 @@ const SearchCard = ({ request, handleClick }) => {
   };
 
   useEffect(() => {
-    switch (request.grade) {
+    switch (request.grade.toUpperCase()) {
       case "S":
         setGradeColor("#fac77c");
         break;
@@ -60,7 +60,7 @@ const SearchCard = ({ request, handleClick }) => {
       default:
         setGradeColor("#c4c4c4");
     }
-  }, [request.grade]);
+  }, [request, request.grade]);
 
   return (
     <>
@@ -86,7 +86,7 @@ const SearchCard = ({ request, handleClick }) => {
                     className="dot text-center me-2"
                     style={{ backgroundColor: gradeColor }}
                   >
-                    {request.grade}
+                    {request.grade.toUpperCase()}
                   </span>
                   {request.username} UID#{request.requesterId}
                 </div>
