@@ -14,7 +14,13 @@ import { Collapse } from "reactstrap";
 const LandingPage = () => {
   const { search, bookmarkList } = useSelector((state) => state.requestStore);
   const [show, setShow] = useState(true);
-  const userId = jwt_decode(localStorage.getItem("token")).id;
+  let token = localStorage.getItem("token");
+  let userId = "";
+  if (token) {
+    userId = jwt_decode(token).id;
+  } else {
+    userId = 0;
+  }
 
   const dispatch = useDispatch();
 

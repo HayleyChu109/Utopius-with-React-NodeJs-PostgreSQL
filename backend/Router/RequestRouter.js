@@ -35,26 +35,6 @@ class RequestRouter {
         req.params.requestId
       );
 
-      // let gradeColor = "";
-      // switch (requesterDetail.grade) {
-      //   case "S":
-      //     gradeColor = "#fac77c";
-      //   case "A":
-      //     gradeColor = "#fa7c92";
-      //   case "B":
-      //     gradeColor = "#7c97fa";
-      //   case "C":
-      //     gradeColor = "#52b46e";
-      //   case "D":
-      //     gradeColor = "#152e87";
-      //   case "E":
-      //     gradeColor = "#875915";
-      //   case "F":
-      //     gradeColor = "#333333";
-      //   default:
-      //     gradeColor = "#c4c4c4";
-      // }
-
       let data = {
         id: reqDetail.id,
         title: reqDetail.title,
@@ -68,7 +48,6 @@ class RequestRouter {
         requesterId: reqDetail.requesterId,
         requesterUsername: requesterDetail.username,
         requesterGrade: requesterDetail.grade,
-        // requesterGradeColor: gradeColor,
         requesterProfilePath: requesterDetail.profilePath,
       };
       res.json(data);

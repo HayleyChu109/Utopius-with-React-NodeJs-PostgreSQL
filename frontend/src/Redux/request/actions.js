@@ -18,7 +18,13 @@ export const searchReq = (search) => {
 // For rendering all open request (Public router)
 export const getRequestListThunk = () => async (dispatch) => {
   try {
-    let userId = jwt_decode(localStorage.getItem("token")).id;
+    let token = await localStorage.getItem("token");
+    let userId;
+    if (token) {
+      userId = jwt_decode(token).id;
+    } else {
+      userId = null;
+    }
     const response = await axios.get(
       `${process.env.REACT_APP_API_SERVER}/requestlist/${userId}`
     );
@@ -81,21 +87,28 @@ export const createNewRequestThunk = (newRequest) => async (dispatch) => {
 export const getBookmarkListThunk = (userId) => async (dispatch) => {
   try {
     let token = await localStorage.getItem("token");
-    let response = await axios.get(
-      `${process.env.REACT_APP_API_SERVER}/member/bookmarklist/${userId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    if (token) {
+      let response = await axios.get(
+        `${process.env.REACT_APP_API_SERVER}/member/bookmarklist/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const { data } = response;
+
+      if (data.bookmarkIdList) {
+        dispatch({
+          type: BOOKMARK_TOGGLE,
+          payload: data.bookmarkIdList,
+        });
       }
-    );
-
-    const { data } = response;
-
-    if (data.bookmarkIdList) {
+    } else {
       dispatch({
         type: BOOKMARK_TOGGLE,
-        payload: data.bookmarkIdList,
+        payload: [],
       });
     }
   } catch (err) {

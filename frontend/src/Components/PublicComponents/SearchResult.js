@@ -2,10 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import {
-  getRequestListThunk,
-  // bookmarkToggleThunk,
-} from "../../Redux/request/actions";
+import { getRequestListThunk } from "../../Redux/request/actions";
 import SearchCard from "./SearchCard";
 
 import { BsStars } from "react-icons/bs";

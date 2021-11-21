@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
+import RequestDetailNav from "../../Components/PrivateComponents/RequestDetailNav";
+import RequestDetailPubComment from "../../Components/PrivateComponents/RequestDetailPubComment";
 import {
   searchReq,
   getRequestDetailThunk,
@@ -11,7 +13,7 @@ import {
   bookmarkToggleThunk,
 } from "../../Redux/request/actions";
 
-import { Card, CardBody, CardFooter, Tooltip } from "reactstrap";
+import { Card, CardBody, CardFooter, Button } from "reactstrap";
 import { BsStars } from "react-icons/bs";
 import { AiFillHeart } from "react-icons/ai";
 import { FaCoins } from "react-icons/fa";
@@ -26,6 +28,7 @@ const RequestDetail = (props) => {
     (state) => state.requestStore
   );
   const [gradeColor, setGradeColor] = useState("");
+  const [footerColor, setFooterColor] = useState("");
   const requestId = localStorage.getItem("requestId");
   const userId = jwt_decode(localStorage.getItem("token")).id;
 
@@ -37,6 +40,11 @@ const RequestDetail = (props) => {
     console.log("user id: ", userId);
     dispatch(getRequestDetailThunk(requestId, userId));
   }, [dispatch, requestId, userId]);
+
+  useEffect(() => {
+    dispatch(getBookmarkListThunk(userId));
+    console.log(bookmarkList);
+  }, [userId, dispatch]);
 
   useEffect(() => {
     switch (requestDetail.requesterGrade) {
@@ -68,9 +76,12 @@ const RequestDetail = (props) => {
   }, [requestDetail.requesterGrade]);
 
   useEffect(() => {
-    dispatch(getBookmarkListThunk(userId));
-    console.log(bookmarkList);
-  }, [userId, dispatch]);
+    if (requestDetail.requesterId === userId) {
+      setFooterColor("#fe7235");
+    } else {
+      setFooterColor("#0077ff");
+    }
+  }, [requestDetail.requestId, userId]);
 
   const handleBookmark = (bookmarked) => {
     dispatch(bookmarkToggleThunk(requestId, userId, bookmarked));
@@ -98,7 +109,7 @@ const RequestDetail = (props) => {
               <div className="request-photo mx-auto col-md-5 col-sm-12 col-xs-12">
                 <img src={help} alt="request" />
               </div>
-              <div className="request-main mx-auto col-md-7 col-sm-12 col-xs-12 p-3">
+              <div className="request-main mx-auto col-md-7 col-sm-12 col-xs-12 p-3 position-relative">
                 <div className="py-2">
                   <span
                     className="dot text-center me-2"
@@ -147,13 +158,13 @@ const RequestDetail = (props) => {
                 </div>
                 <div className="request-detail-footer py-3">
                   <div>
-                    <FaCoins className="mx-1 coin" />
-                    <span className="coin me-2">{requestDetail.reward}</span>
+                    <FaCoins className="mx-2 coin" />
+                    <span className="coin me-3">{requestDetail.reward}</span>
                     <BsFillPersonPlusFill className="mx-1 person person-icon" />
-                    <span className="person me-2">
+                    <span className="person me-3">
                       {requestDetail.requiredPpl}
                     </span>
-                    <HiLocationMarker className="mx-1 district district-icon" />
+                    <HiLocationMarker className="mx-2 district district-icon" />
                     <span className="district">{requestDetail.district}</span>
                     <span className="bookmark p-2">
                       {bookmarkList &&
@@ -165,13 +176,6 @@ const RequestDetail = (props) => {
                               handleBookmark(true);
                             }}
                           />
-                          {/* <Tooltip
-                          flip
-                          // target={"bm" + request.requestId}
-                          toggle={function noRefCheck() {}}
-                        >
-                          Bookmark Me!
-                        </Tooltip> */}
                         </>
                       ) : (
                         <>
@@ -188,7 +192,21 @@ const RequestDetail = (props) => {
                 </div>
               </div>
             </div>
+            <RequestDetailNav userId={userId} requestDetail={requestDetail} />
+            <RequestDetailPubComment />
           </CardBody>
+          <CardFooter
+            className="request-detail-footer"
+            style={{ backgroundColor: footerColor }}
+          >
+            <div className="text-center">
+              <input
+                className="input-message form-control"
+                placeholder="Leave a message.."
+              />
+              <Button>SEND</Button>
+            </div>
+          </CardFooter>
         </Card>
       </div>
     </>

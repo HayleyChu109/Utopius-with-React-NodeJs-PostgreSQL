@@ -17,7 +17,12 @@ import help from "../../Images/help.png";
 const SearchCard = ({ request, handleClick }) => {
   const { bookmarkList } = useSelector((state) => state.requestStore);
   const [gradeColor, setGradeColor] = useState("");
-  const userId = jwt_decode(localStorage.getItem("token")).id;
+
+  let token = localStorage.getItem("token");
+  let userId;
+  if (token) {
+    userId = jwt_decode(token).id;
+  }
 
   const dispatch = useDispatch();
 
