@@ -51,7 +51,7 @@
   letter-spacing: 1px;
   font-size: 13px;
   overflow-y: scroll;
-  height: 40%;
+  height: 160px;
 }
 
 .request-detail-title {
@@ -63,18 +63,20 @@
 
 .request-detail-tag {
   color: $dark-orange;
+  overflow-x: scroll;
+  overflow: hidden;
   font-weight: bolder;
   font-size: 13px;
   letter-spacing: 2px;
 }
 
+.request-detail-tag-search {
+  cursor: pointer;
+}
+
 .request-detail-bottom {
   font-size: 13px;
   position: absolute;
-}
-
-.request-detail-tag-search {
-  cursor: pointer;
 }
 
 .bookmark-icon-true {
@@ -132,6 +134,10 @@
   background-color: $white;
 }
 
+.requset-detail-cmres {
+  background-color: $beige;
+}
+
 .btn-white-orange-sm,
 .btn-white-orange-sm:focus {
   background: $white;
@@ -176,4 +182,27 @@
   background: $white;
   color: $dark-orange;
   border: 2px solid $dark-blue;
+}
+
+.response-form {
+  width: 600px;
+}
+
+.response-ta {
+  border: none;
+  background-color: $white;
+  border: 2px solid $white;
+  border-radius: 20px;
+}
+
+.response-ta:focus {
+  box-shadow: none;
+  background-color: $white;
+  border: 2px solid $dark-blue;
+}
+
+.response-heading {
+  @include heading;
+  font-family: $nunito;
+  font-weight: bolder;
 }

@@ -126,13 +126,6 @@ const SearchCard = ({ request, handleClick }) => {
                             handleBookmark(true);
                           }}
                         />
-                        {/* <Tooltip
-                          flip
-                          // target={"bm" + request.requestId}
-                          toggle={function noRefCheck() {}}
-                        >
-                          Bookmark Me!
-                        </Tooltip> */}
                       </>
                     ) : (
                       <AiFillHeart

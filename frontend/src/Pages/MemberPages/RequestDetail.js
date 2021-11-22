@@ -6,6 +6,7 @@ import jwt_decode from "jwt-decode";
 import NavBar from "../../Components/PublicComponents/NavBar";
 import RequestDetailNav from "../../Components/PrivateComponents/RequestDetailNav";
 import RequestDetailComment from "../../Components/PrivateComponents/RequestDetailComment";
+import ResponseForm from "../../Components/PrivateComponents/ResponseForm";
 import {
   searchReq,
   getRequestDetailThunk,
@@ -32,6 +33,7 @@ const RequestDetail = (props) => {
   const [footerColor, setFooterColor] = useState("");
   const [displaySection, setDisplaySection] = useState("publicComment");
   const [publicComment, setPublicComment] = useState("");
+  const [responseMsg, setResponseMsg] = useState("");
   const requestId = localStorage.getItem("requestId");
   const userId = jwt_decode(localStorage.getItem("token")).id;
 
@@ -101,6 +103,10 @@ const RequestDetail = (props) => {
   const submitPublicComment = (type) => {
     dispatch(postNewCommentThunk(requestId, userId, publicComment, type));
     setPublicComment("");
+  };
+
+  const submitResponse = (val) => {
+    //
   };
 
   return (
@@ -209,7 +215,7 @@ const RequestDetail = (props) => {
               requestDetail={requestDetail}
               setDisplaySection={setDisplaySection}
             />
-            <div>
+            <div className="requset-detail-cmres">
               {displaySection === "publicComment" ? (
                 <RequestDetailComment
                   requestId={requestId}
@@ -225,7 +231,7 @@ const RequestDetail = (props) => {
               ) : displaySection === "response" ? (
                 <div>This is the response list</div>
               ) : displaySection === "join" ? (
-                <div>This is the join form</div>
+                <ResponseForm setResponseMsg={setResponseMsg} />
               ) : null}
             </div>
           </CardBody>
