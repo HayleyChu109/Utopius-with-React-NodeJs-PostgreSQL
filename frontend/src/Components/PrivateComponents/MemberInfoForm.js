@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import jwt_decode from "jwt-decode";
+
 import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions";
 import { memberInfoFormSubmitThunk } from "../../Redux/signup/memberInfoFormActions";
-import SuccessModal from "../PublicComponents/SuccessModal";
 import FailureModal from "../PublicComponents/FailureModal";
+import { resetSuccessMsg } from "../../Redux/signup/memberInfoFormActions";
 
 import S3 from "react-aws-s3";
 import { s3Config } from "../../s3Bucket/s3Config";
@@ -15,6 +17,8 @@ import "../../Pages/SCSS/loginPage.scss";
 import anonymous from "../../Images/anonymous.jpeg";
 
 const MemberInfoForm = () => {
+  let memberId = jwt_decode(localStorage.getItem("token")).id;
+
   // Get existing member info from the store
   const memberProfileFromStore = useSelector(
     (state) => state.memberProfileStore.memberInfo
@@ -41,7 +45,6 @@ const MemberInfoForm = () => {
   const [phone, setPhone] = useState("");
   const [district, setDistrict] = useState("");
 
-  const [modalBoolean, setModalBoolean] = useState(false);
   const [failureModalBoolean, setFailureModalBoolean] = useState(false);
   const [missingInfoMsg, setMissingInfoMsg] = useState("");
 
@@ -74,7 +77,7 @@ const MemberInfoForm = () => {
       return;
     }
 
-    if (src.includes("localhost") == true) {
+    if (src.includes("amazon") == false) {
       let file = bucketSrc;
       let newFileName = bucketAlt;
       const ReactS3Client = new S3(s3Config);
@@ -114,43 +117,10 @@ const MemberInfoForm = () => {
       bucketSrc: "",
       bucketAlt: "",
     });
-
-    // let file = bucketSrc;
-    // let newFileName = bucketAlt;
-    // const ReactS3Client = new S3(s3Config);
-    // ReactS3Client.uploadFile(file, newFileName)
-    //   .then((data) => {
-    //     dispatch(
-    //       memberInfoFormSubmitThunk(
-    //         username,
-    //         firstname,
-    //         lastname,
-    //         phone,
-    //         district,
-    //         data.location
-    //       )
-    //     );
-    //     setUsername("");
-    //     setFirstname("");
-    //     setLastname("");
-    //     setPhone("");
-    //     setDistrict("");
-    //     setPreviewImg({
-    //       src: anonymous,
-    //       alt: "Upload an image",
-    //     });
-    //     setBucketImg({
-    //       bucketSrc: "",
-    //       bucketAlt: "",
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     throw new Error(err);
-    //   });
   };
 
   useEffect(() => {
-    dispatch(memberInfoThunk());
+    dispatch(memberInfoThunk(memberId));
   }, [dispatch]);
 
   useEffect(() => {
@@ -173,7 +143,7 @@ const MemberInfoForm = () => {
 
   useEffect(() => {
     if (successMsg !== null) {
-      setModalBoolean(true);
+      dispatch(resetSuccessMsg());
       history.push("/member/profile");
     }
     return () => {
@@ -182,7 +152,6 @@ const MemberInfoForm = () => {
   }, [successMsg, history]);
 
   const closeModal = () => {
-    setModalBoolean(false);
     setFailureModalBoolean(false);
   };
 
@@ -280,11 +249,6 @@ const MemberInfoForm = () => {
           </div>
         </div>
       </Form>
-      <SuccessModal
-        isOpen={modalBoolean}
-        close={closeModal}
-        message={successMsg}
-      />
       <FailureModal
         isOpen={failureModalBoolean}
         close={closeModal}

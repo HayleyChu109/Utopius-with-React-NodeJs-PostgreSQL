@@ -76,12 +76,62 @@ $nunito: "Nunito", sans-serif;
   transition-timing-function: ease;
 }
 
-@mixin memberProfileBg($memberProfileBg: $beige) {
-  background-color: $memberProfileBg;
-  width: 55vw;
+// Member Profile Page
+@mixin memberProfileBg($theme: $beige) {
+  background-color: $theme;
+  width: 90vw;
   height: 20vh;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+}
+
+@mixin memberProfileBottom($theme: $dark-orange) {
+  background-color: $theme;
+  width: 90vw;
+  height: 10vh;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+@mixin btn-white($theme: $dark-orange) {
+  background: $white;
+  color: $theme;
+  font-family: $nunito;
+  font-size: 15px;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  border: 2px solid $theme;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+@mixin btn-color($theme: $dark-orange) {
+  background: $theme;
+  color: $white;
+  font-family: $nunito;
+  font-size: 15px;
+  letter-spacing: 2px;
+  border: 2px solid $theme;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+@mixin btn-color-hover($theme: $light-orange) {
+  background: $light-orange;
+  border: 2px solid $theme;
+}
+
+@mixin btn-white-hover($theme: $light-orange) {
+  background: $white;
+  border: 2px solid $theme;
 }
 
 @mixin ReqResButton($theme: $dark-orange) {

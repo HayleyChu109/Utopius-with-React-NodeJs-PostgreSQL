@@ -1,8 +1,4 @@
-import {
-  MEMBER_INFO_SUCCESS_ACTION,
-  MEMBER_REQ_SUCCESS_ACTION,
-} from "./memberProfileActions";
-// import { MEMBER_INFO_FAILURE_ACTION } from "./memberProfileActions";
+import { MEMBER_INFO_SUCCESS_ACTION } from "./memberProfileActions";
 
 const initialState = {
   memberInfo: {},

@@ -15,16 +15,8 @@
 }
 
 .memberProfileBg-white {
-  @include memberProfileBg($memberProfileBg: $white);
+  @include memberProfileBg($theme: $white);
   height: 15vh;
-}
-
-.memberProfileBg-orange {
-  background-color: $dark-orange;
-  width: 55vw;
-  height: 10vh;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
 }
 
 .memberProfilePic-position {
@@ -51,6 +43,10 @@
   @include ReqResButton;
 }
 
+.REQ:hover {
+  @include ReqResButton($theme: $light-orange);
+}
+
 .REQ:disabled {
   @include ReqResButton($theme: $dark-grey);
 }
@@ -59,42 +55,72 @@
   @include ReqResButton($theme: $dark-blue);
 }
 
+.RES:hover {
+  @include ReqResButton($theme: $light-blue);
+}
+
 .RES:disabled {
   @include ReqResButton($theme: $dark-grey);
 }
 
-// Member Profile Edit
+// Member Profile Edit & Report
+.memberProfileBottom-orange {
+  @include memberProfileBottom;
+}
+
+.memberProfileBottom-blue {
+  @include memberProfileBottom($theme: $dark-blue);
+}
+
 .btn-white-orange,
 .btn-white-orange:focus {
-  background: $white;
-  color: $dark-orange;
-  font-family: $nunito;
-  font-size: 15px;
-  font-weight: bolder;
-  letter-spacing: 2px;
-  border: 2px solid $dark-orange;
-  border-radius: 20px;
-  outline: none;
-  box-shadow: none;
-  padding-left: 35px;
-  padding-right: 35px;
+  @include btn-white;
 }
 
 .btn-white-orange:hover,
 .btn-white-orange:focus:hover {
-  background: $white;
-  border: 2px solid $light-orange;
+  @include btn-white-hover;
 }
 
-// Member Req Collapse
+.btn-white-blue,
+.btn-white-blue:focus {
+  @include btn-white($theme: $dark-blue);
+}
+
+.btn-white-blue:hover,
+.btn-white-blue:focus:hover {
+  @include btn-white-hover($theme: $light-blue);
+}
+
+// Member Req / Res Collapse
 .memberProfileMiddie-beige {
   background-color: $beige;
-  width: 55vw;
+  width: 90vw;
   height: 5vh;
   button {
     background-color: $beige;
     color: $dark-orange;
     font-weight: bolder;
     border: none;
+    &:hover {
+      color: $light-orange;
+    }
   }
+}
+// Member go back button
+.btn-goback,
+.btn-goback:focus {
+  background: $white;
+  color: $dark-grey;
+  font-family: $nunito;
+  font-size: 18px;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  border: none;
+}
+
+.btn-goback:hover,
+.btn-goback:focus:hover {
+  background: $white;
+  color: $dark;
 }

@@ -12,6 +12,7 @@ class MemberRouter {
     router.put("/memberinfo/:id", this.putMemberInfo.bind(this));
     router.get("/memberreq/:id", this.getMemberReqDetail.bind(this));
     router.get("/memberres/:id", this.getMemberResDetail.bind(this));
+    router.get("/review/:revieweeId", this.getReview.bind(this));
 
     return router;
   }
@@ -89,31 +90,20 @@ class MemberRouter {
     }
   }
 
-  async getRequestDetail(req, res, next) {
+  // Get member review
+  async getReview(req, res, next) {
     try {
-      let reqDetail = await this.memberService.getRequestDetail(
-        req.params.requestId
-      );
-      let reqTag = await this.memberService.getRequestTag(req.params.requestId);
-      let reqPublicComment = await this.memberService.getRequestPublicComment(
-        req.params.requestId
-      );
-      res.json({ reqDetail, reqTag, reqPublicComment });
+      console.log(req.params.revieweeId);
+      let review = await this.memberService.getReview(req.params.revieweeId);
+      if (review) {
+        console.log("Review", review);
+        res.json(review);
+      } else {
+        res.json([]);
+      }
     } catch (err) {
       next(err);
-      res.status(500).json(err);
-    }
-  }
-
-  async getRequestPrivateComment(req, res, next) {
-    try {
-      let reqPrivateComment = await this.memberService.getRequestPrivateComment(
-        req.params.requestId
-      );
-      res.json({ reqPrivateComment });
-    } catch (err) {
-      next(err);
-      res.status(500).json(err);
+      throw new Error(err);
     }
   }
 }

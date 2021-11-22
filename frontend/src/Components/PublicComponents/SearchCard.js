@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { searchReq } from "../../Redux/request/actions";
+import jwt_decode from "jwt-decode";
+
+import { bookmarkToggleThunk } from "../../Redux/request/actions";
 
 import { Card, CardBody, CardFooter, Tooltip } from "reactstrap";
 import { AiFillHeart } from "react-icons/ai";
@@ -12,19 +14,19 @@ import { HiLocationMarker } from "react-icons/hi";
 import "../../Pages/SCSS/searchCard.scss";
 import help from "../../Images/help.png";
 
-const SearchCard = ({ request, handleBookmark }) => {
+const SearchCard = ({ request, handleClick }) => {
+  const { bookmarkList } = useSelector((state) => state.requestStore);
   const [gradeColor, setGradeColor] = useState("");
+  const userId = jwt_decode(localStorage.getItem("token")).id;
 
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const handleSearch = (val) => {
     dispatch(searchReq(val));
   };
 
-  const showRequestDetail = (requestId) => {
-    localStorage.setItem("requestId", requestId);
-    history.push(`/member/request/detail/${requestId}`);
+  const handleBookmark = (bookmarked) => {
+    dispatch(bookmarkToggleThunk(request.id, userId, bookmarked));
   };
 
   useEffect(() => {
@@ -61,7 +63,7 @@ const SearchCard = ({ request, handleBookmark }) => {
         <Card
           className="search-req-card"
           onClick={() => {
-            showRequestDetail(request.id);
+            handleClick(request.id);
           }}
         >
           <div className="row g-0">
@@ -92,7 +94,7 @@ const SearchCard = ({ request, handleBookmark }) => {
                       key={tagname}
                       className="mx-1 tagname"
                       onClick={(e) => {
-                        e.preventDefault();
+                        e.stopPropagation();
                         handleSearch(tagname.replace(/\s/g, ""));
                       }}
                     >
@@ -102,39 +104,41 @@ const SearchCard = ({ request, handleBookmark }) => {
                 </div>
               </CardBody>
               <CardFooter className="search-card-footer">
-                <div className="search-card-footer-info">
-                  <FaCoins className="mx-2 coin" />
-                  <span className="coin me-2">{request.reward}</span>
-                  <BsFillPersonPlusFill className="mx-2 person person-icon" />
-                  <span className="person me-2">{request.requiredPpl}</span>
-                  <HiLocationMarker className="mx-2 district district-icon" />
+                <div>
+                  <FaCoins className="mx-1 coin" />
+                  <span className="coin me-1">{request.reward}</span>
+                  <BsFillPersonPlusFill className="mx-1 person person-icon" />
+                  <span className="person me-1">{request.requiredPpl}</span>
+                  <HiLocationMarker className="mx-1 district district-icon" />
                   <span className="district">{request.district}</span>
-                  <span className="bookmark">
-                    {request.bookmark ? (
+                  {/* <span className="bookmark">
+                    {bookmarkList.includes(request.id) ? (
                       <>
                         <AiFillHeart
                           className="bookmark-icon-true"
-                          onClick={() => {
-                            handleBookmark(request.requestId);
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleBookmark(true);
                           }}
-                        />
-                        {/* <Tooltip
+                        /> */}
+                  {/* <Tooltip
                           flip
                           // target={"bm" + request.requestId}
                           toggle={function noRefCheck() {}}
                         >
                           Bookmark Me!
                         </Tooltip> */}
-                      </>
+                  {/* </>
                     ) : (
                       <AiFillHeart
                         className="bookmark-icon-false"
-                        onClick={() => {
-                          handleBookmark(request.requestId);
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleBookmark(false);
                         }}
                       />
                     )}
-                  </span>
+                  </span> */}
                 </div>
               </CardFooter>
             </div>

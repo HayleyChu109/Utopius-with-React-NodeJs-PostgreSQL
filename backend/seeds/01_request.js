@@ -12,7 +12,7 @@ exports.seed = function (knex) {
           reward: 10,
           requiredPpl: 2,
           district: "North",
-          status: "Open",
+          status: "open",
           reqPhotoPath:
             "https://utopius.s3.ap-southeast-1.amazonaws.com/help.png",
         },
@@ -23,7 +23,7 @@ exports.seed = function (knex) {
           reward: 20,
           requiredPpl: 3,
           district: "Wan Chai",
-          status: "Completed",
+          status: "completed",
           reqPhotoPath:
             "https://utopius.s3.ap-southeast-1.amazonaws.com/help.png",
         },
@@ -34,7 +34,7 @@ exports.seed = function (knex) {
           reward: 30,
           requiredPpl: 5,
           district: "Islands",
-          status: "Cancelled",
+          status: "cancelled",
           reqPhotoPath:
             "https://utopius.s3.ap-southeast-1.amazonaws.com/help.png",
         },
@@ -45,7 +45,7 @@ exports.seed = function (knex) {
           reward: 30,
           requiredPpl: 5,
           district: "Central and Western",
-          status: "Matched",
+          status: "matched",
           reqPhotoPath:
             "https://utopius.s3.ap-southeast-1.amazonaws.com/help.png",
         },

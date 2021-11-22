@@ -19,7 +19,6 @@ class MemberService {
           "token"
         )
         .where("id", memberId);
-      console.log(memberInfo);
       if (memberInfo.length > 0) {
         return memberInfo[0];
       } else {
@@ -52,101 +51,173 @@ class MemberService {
       .returning("account.id");
   }
 
-  async getMemberReqDetail(memberId) {
-    try {
-      let memberReq = await this.knex("request")
-        .select("*")
-        .where("requesterId", memberId);
-      return memberReq;
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
+  getMemberReqDetail(memberId) {
+    let memberReq = this.knex("request")
+      .join("account", "account.id", "request.requesterId")
+      .join("tagReqJoin", "tagReqJoin.requestId", "request.id")
+      .join("tag", "tag.id", "tagReqJoin.tagId")
+      .select(
+        "account.username",
+        "account.grade",
+        "request.id",
+        "request.requesterId",
+        "request.title",
+        "request.detail",
+        "request.reward",
+        "request.requiredPpl",
+        "request.district",
+        "request.status",
+        "request.reqPhotoPath",
+        "request.created_at",
+        "tag.tagName"
+      )
+      .where("requesterId", memberId);
+    return memberReq.then((data) => {
+      if (data.length > 0) {
+        let result = [];
+        let last = 0;
+        for (let i = 1; i < data.length; i++) {
+          if (data[i].id !== data[i - 1].id) {
+            result.push(data.slice(last, i));
+            last = i;
+          }
+        }
+        result.push(data.slice(last));
 
-  async getMemberResDetail(memberId) {
-    try {
-      let memberRes = await this.knex("response")
-        .select("*")
-        .where("responserId", memberId);
-      return memberRes;
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
-
-  async getRequestDetail(requestId, userId) {
-    try {
-      let requestQuery = await this.knex
-        .select("*")
-        .from("request")
-        .where("id", requestId);
-      return requestQuery[0];
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
-
-  async getRequestTag(requestId) {
-    try {
-      let requestQuery = await this.knex("tagReqJoin")
-        .join("tag", "tagReqJoin.tagId", "tag.id")
-        .select("*")
-        .where("requestId", requestId);
-      if (requestQuery.length > 0) {
-        console.log(requestQuery[0]);
-        return requestQuery[0];
+        let reqList = [];
+        for (let i = 0; i < result.length; i++) {
+          let eachReq = {
+            username: result[i][0].username,
+            grade: result[i][0].grade,
+            id: result[i][0].id,
+            requesterId: result[i][0].requesterId,
+            title: result[i][0].title,
+            detail: result[i][0].detail,
+            reward: result[i][0].reward,
+            requiredPpl: result[i][0].requiredPpl,
+            district: result[i][0].district,
+            status: result[i][0].status,
+            reqPhotoPath: result[i][0].reqPhotoPath,
+            created_at: new Date(
+              Date.parse(result[i][0].created_at)
+            ).toLocaleString(),
+            tag: [],
+          };
+          result[i].map((data) => {
+            let tag = data.tagName;
+            eachReq.tag.push(tag);
+          });
+          reqList.push(eachReq);
+        }
+        return reqList;
       } else {
-        return [];
+        let reqList = [];
+        return reqList;
       }
-    } catch (err) {
-      throw new Error(err);
-    }
+    });
+  }
+  catch(err) {
+    throw new Error(err);
   }
 
-  async getRequestResponse(requestId) {
-    try {
-      let requestQuery = await this.knex("response")
-        .select("*")
-        .where("requsetId", requestId);
-      if (requestQuery.length > 0) {
-        console.log(requestQuery[0]);
-        return requestQuery[0];
+  getMemberResDetail(memberId) {
+    let memberRes = this.knex("request")
+      .join("account", "account.id", "request.requesterId")
+      .join("response", "response.requestId", "request.id")
+      .join("tagReqJoin", "tagReqJoin.requestId", "request.id")
+      .join("tag", "tag.id", "tagReqJoin.tagId")
+      .select(
+        "account.username",
+        "account.grade",
+        "request.id",
+        "request.requesterId",
+        "request.title",
+        "request.detail",
+        "request.reward",
+        "request.requiredPpl",
+        "request.district",
+        "request.status",
+        "request.reqPhotoPath",
+        "request.created_at",
+        "tag.tagName",
+        "response.matched"
+      )
+      .where("responserId", memberId);
+
+    return memberRes.then((data) => {
+      if (data.length > 0) {
+        let result = [];
+        let last = 0;
+        for (let i = 1; i < data.length; i++) {
+          if (data[i].id !== data[i - 1].id) {
+            result.push(data.slice(last, i));
+            last = i;
+          }
+        }
+        result.push(data.slice(last));
+
+        let resList = [];
+        for (let i = 0; i < result.length; i++) {
+          let eachRes = {
+            username: result[i][0].username,
+            grade: result[i][0].grade,
+            id: result[i][0].id,
+            requesterId: result[i][0].requesterId,
+            title: result[i][0].title,
+            detail: result[i][0].detail,
+            reward: result[i][0].reward,
+            requiredPpl: result[i][0].requiredPpl,
+            district: result[i][0].district,
+            status: result[i][0].status,
+            reqPhotoPath: result[i][0].reqPhotoPath,
+            created_at: new Date(
+              Date.parse(result[i][0].created_at)
+            ).toLocaleString(),
+            tag: [],
+            matched: result[i][0].matched,
+          };
+          result[i].map((data) => {
+            let tag = data.tagName;
+            eachRes.tag.push(tag);
+          });
+          resList.push(eachRes);
+        }
+        return resList;
       } else {
-        return [];
+        let resList = [];
+        return resList;
       }
-    } catch (err) {
-      throw new Error(err);
-    }
+    });
+  }
+  catch(err) {
+    throw new Error(err);
   }
 
-  async getRequestPublicComment(requestId) {
+  async getReview(revieweeId) {
     try {
-      let requestQuery = await this.knex("comment")
-        .select("*")
-        .where("requestId", requestId)
-        .andWhere("private", false);
-      if (requestQuery.length > 0) {
-        console.log(requestQuery[0]);
-        return requestQuery[0];
+      let review = await this.knex("review")
+        .join("account", "account.id", "reviewerId")
+        .select(
+          "review.id",
+          "review.requestId",
+          "review.reviewerId",
+          "review.rating",
+          "review.ratingComment",
+          "review.created_at",
+          "account.id",
+          "account.username",
+          "account.grade",
+          "account.profilePath"
+        )
+        .andWhere("review.revieweeId", revieweeId);
+      console.log(review);
+      if (review.length > 0) {
+        for (let i = 0; i < review.length; i++) {
+          review[i]["created_at"] = review[i]["created_at"].toLocaleString();
+        }
+        return review;
       } else {
-        return [];
-      }
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
-
-  async getRequestPrivateComment(requestId) {
-    try {
-      let requestQuery = await this.knex("comment")
-        .select("*")
-        .where("requestId", requestId)
-        .andWhere("private", true);
-      if (requestQuery.length > 0) {
-        console.log(requestQuery);
-        return requestQuery[0];
-      } else {
-        return [];
+        return "No review";
       }
     } catch (err) {
       throw new Error(err);

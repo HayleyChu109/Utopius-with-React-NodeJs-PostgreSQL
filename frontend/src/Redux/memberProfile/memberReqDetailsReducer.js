@@ -9,7 +9,7 @@ export function memberReqDetailsReducer(state = initialState, action) {
     case MEMBER_REQ_SUCCESS_ACTION:
       console.log(action.payload);
       return {
-        reqDetails: state.reqDetails.concat(action.payload),
+        reqDetails: action.payload,
       };
 
     default:

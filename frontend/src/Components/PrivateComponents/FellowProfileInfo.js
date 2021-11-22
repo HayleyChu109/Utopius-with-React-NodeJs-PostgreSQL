@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import MemberProfileEditBar from "./MemberProfileEditBar";
 import MemberReqCollapse from "./MemberReqCollapse";
-import MemberResCollapse from "./MemberResCollapse";
-import MemberProfileNewReqBar from "./MemberProfileNewReqBar";
+import FellowResCollapse from "./FellowResCollapse";
+import FellowProfileReportBar from "./FellowProfileReportBar";
 
-import { FaCoins } from "react-icons/fa";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 
 function MemberProfileInfo(props) {
@@ -79,34 +77,7 @@ function MemberProfileInfo(props) {
               </span>
             </div>
             <br />
-            <table>
-              <tbody>
-                <tr>
-                  <td className="fw-bolder">First Name:</td>
-                  <td className="ps-4">{memberProfileFromStore.firstName}</td>
-                </tr>
-                <tr>
-                  <td className="fw-bolder">Last Name:</td>
-                  <td className="ps-4">{memberProfileFromStore.lastName}</td>
-                </tr>
-                <tr>
-                  <td className="fw-bolder">Phone:</td>
-                  <td className="ps-4">{memberProfileFromStore.phone}</td>
-                </tr>
-                <tr>
-                  <td className="fw-bolder">Email:</td>
-                  <td className="ps-4">{memberProfileFromStore.email}</td>
-                </tr>
-                <tr>
-                  <td className="fw-bolder">Distict:</td>
-                  <td className="ps-4">{memberProfileFromStore.district}</td>
-                </tr>
-              </tbody>
-            </table>
-            <br />
             <div>
-              <FaCoins className="mx-2 coin" />
-              <span className="coin me-2">{memberProfileFromStore.token}</span>
               <BsFillPersonPlusFill className="mx-2 person person-icon" />
               <span className="person me-2">100</span>
               <button
@@ -137,10 +108,9 @@ function MemberProfileInfo(props) {
           </div>
         </div>
       </div>
-      <MemberProfileEditBar isOpen={showEdit} />
       <MemberReqCollapse isOpen={showReq} />
-      <MemberResCollapse isOpen={showRes} />
-      <MemberProfileNewReqBar isOpen={!showEdit} />
+      <FellowResCollapse isOpen={showRes} />
+      <FellowProfileReportBar />
       <div className="text-center">
         <button className="mb-5 btn-goback" onClick={() => history.goBack()}>
           &#60; GO BACK

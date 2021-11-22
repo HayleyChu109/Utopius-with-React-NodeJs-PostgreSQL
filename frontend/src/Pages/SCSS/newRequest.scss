@@ -27,25 +27,22 @@
 
 .btn-dark-orange,
 .btn-dark-orange:focus {
-  background: $dark-orange;
-  color: $white;
-  font-family: $nunito;
-  font-size: 15px;
-  letter-spacing: 2px;
-  border: 2px solid $dark-orange;
-  border-radius: 20px;
-  outline: none;
-  box-shadow: none;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  padding-left: 35px;
-  padding-right: 35px;
+  @include btn-color;
 }
 
 .btn-dark-orange:hover,
 .btn-dark-orange:focus:hover {
-  background: $light-orange;
-  border: 2px solid $light-orange;
+  @include btn-color;
+}
+
+.btn-dark-grey,
+.btn-dark-grey:focus {
+  @include btn-color($theme: $dark-grey);
+}
+
+.btn-dark-grey:hover,
+.btn-dark-grey:focus:hover {
+  @include btn-color($theme: $dark);
 }
 
 .new-req-coin,
