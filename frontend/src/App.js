@@ -15,7 +15,7 @@ function App() {
       <Route exact path="/" component={LandingPage} />
       <Route exact path="/login" component={LoginPage} />
       <PrivateRoute path="/member/signup" component={SignupPage} />
-      <PrivateRoute path="/member/request/detail" component={RequestDetail} />
+      <PrivateRoute path="/member/request/detail/:requestId" component={RequestDetail} />
       <PrivateRoute path="/member/request/new" component={NewRequest} />
       <PrivateRoute path="/member/fellow" component={FellowProfilePage} />
       <PrivateRoute path="/member/profile" component={MemberProfilePage} />

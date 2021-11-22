@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { searchReq } from "../../Redux/request/actions";
 import jwt_decode from "jwt-decode";
 
 import { bookmarkToggleThunk } from "../../Redux/request/actions";
+import GradeBall from "./GradeBall";
 
-import { Card, CardBody, CardFooter, Tooltip } from "reactstrap";
+import { Card, CardBody, CardFooter } from "reactstrap";
 import { AiFillHeart } from "react-icons/ai";
 import { FaCoins } from "react-icons/fa";
 import { BsFillPersonPlusFill } from "react-icons/bs";
@@ -16,8 +17,12 @@ import help from "../../Images/help.png";
 
 const SearchCard = ({ request, handleClick }) => {
   const { bookmarkList } = useSelector((state) => state.requestStore);
-  const [gradeColor, setGradeColor] = useState("");
-  const userId = jwt_decode(localStorage.getItem("token")).id;
+
+  let token = localStorage.getItem("token");
+  let userId;
+  if (token) {
+    userId = jwt_decode(token).id;
+  }
 
   const dispatch = useDispatch();
 
@@ -28,34 +33,6 @@ const SearchCard = ({ request, handleClick }) => {
   const handleBookmark = (bookmarked) => {
     dispatch(bookmarkToggleThunk(request.id, userId, bookmarked));
   };
-
-  useEffect(() => {
-    switch (request.grade) {
-      case "S":
-        setGradeColor("#fac77c");
-        break;
-      case "A":
-        setGradeColor("#fa7c92");
-        break;
-      case "B":
-        setGradeColor("#7c97fa");
-        break;
-      case "C":
-        setGradeColor("#52b46e");
-        break;
-      case "D":
-        setGradeColor("#152e87");
-        break;
-      case "E":
-        setGradeColor("#875915");
-        break;
-      case "F":
-        setGradeColor("#333333");
-        break;
-      default:
-        setGradeColor("#c4c4c4");
-    }
-  }, [request.grade]);
 
   return (
     <>
@@ -77,12 +54,7 @@ const SearchCard = ({ request, handleClick }) => {
             <div className="search-card-main col-7">
               <CardBody>
                 <div className="username-id">
-                  <span
-                    className="dot text-center me-2"
-                    style={{ backgroundColor: gradeColor }}
-                  >
-                    {request.grade}
-                  </span>
+                  <GradeBall grade={request.grade} />
                   {request.username} UID#{request.requesterId}
                 </div>
                 <div className="createdAt">{request.created_at}</div>
@@ -111,8 +83,8 @@ const SearchCard = ({ request, handleClick }) => {
                   <span className="person me-1">{request.requiredPpl}</span>
                   <HiLocationMarker className="mx-1 district district-icon" />
                   <span className="district">{request.district}</span>
-                  {/* <span className="bookmark">
-                    {bookmarkList.includes(request.id) ? (
+                  <span className="bookmark">
+                    {bookmarkList && bookmarkList.includes(request.id) ? (
                       <>
                         <AiFillHeart
                           className="bookmark-icon-true"
@@ -120,15 +92,8 @@ const SearchCard = ({ request, handleClick }) => {
                             e.stopPropagation();
                             handleBookmark(true);
                           }}
-                        /> */}
-                  {/* <Tooltip
-                          flip
-                          // target={"bm" + request.requestId}
-                          toggle={function noRefCheck() {}}
-                        >
-                          Bookmark Me!
-                        </Tooltip> */}
-                  {/* </>
+                        />
+                      </>
                     ) : (
                       <AiFillHeart
                         className="bookmark-icon-false"
@@ -138,7 +103,7 @@ const SearchCard = ({ request, handleClick }) => {
                         }}
                       />
                     )}
-                  </span> */}
+                  </span>
                 </div>
               </CardFooter>
             </div>

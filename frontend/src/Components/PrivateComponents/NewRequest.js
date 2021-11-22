@@ -28,7 +28,6 @@ const NewRequest = (props) => {
   useEffect(() => {
     if (requestId !== null) {
       console.log("requestDetail.id", requestId);
-      localStorage.setItem("requestId", requestId.newReqId);
       history.push(`/member/request/detail/${requestId.newReqId}`);
     } else {
       return;

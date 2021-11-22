@@ -17,6 +17,8 @@ const LoginForm = () => {
   useEffect(() => {
     if (isAuthenticated) {
       history.push("/");
+    } else {
+      return;
     }
   }, [isAuthenticated, history]);
 
