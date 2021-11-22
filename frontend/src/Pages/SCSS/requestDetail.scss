@@ -2,16 +2,20 @@
 
 .request-detail-card {
   background-color: $white;
+  max-width: 900px;
+  height: auto;
+  border-radius: 20px 20px 0 0;
+  border: none;
 }
 
 .request-photo {
   position: relative;
   max-height: 500px;
-  max-width: 500px;
+  width: auto;
+  border-radius: 20px 0 0 0;
   img {
-    height: 100%;
-    width: 100%;
-    // position: absolute;
+    height: 23em;
+    width: 23em;
     top: 0;
     left: 0;
   }
@@ -19,46 +23,186 @@
 
 .request-main {
   background-color: $beige;
+  border-radius: 0 20px 0 0;
 }
 
 .requester-username {
   color: $dark-blue;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: bold;
   letter-spacing: 2px;
 }
 
 .requester-id {
   color: $dark-orange;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: bold;
   letter-spacing: 2px;
 }
 
-.request-detail-createdAt,
-.request-detail-detail {
-  color: $dark;
+.request-detail-createdAt {
+  color: $dark-grey;
   letter-spacing: 2px;
+  font-size: 13px;
 }
 
 .request-detail-detail {
-  min-height: 50%;
+  color: $dark;
+  letter-spacing: 1px;
+  font-size: 13px;
+  overflow-y: scroll;
+  height: 160px;
 }
 
 .request-detail-title {
   color: $dark;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
   letter-spacing: 2px;
 }
 
 .request-detail-tag {
   color: $dark-orange;
+  overflow-x: scroll;
+  overflow: hidden;
   font-weight: bolder;
-  font-size: 18px;
+  font-size: 13px;
   letter-spacing: 2px;
 }
 
-.request-detail-footer {
+.request-detail-tag-search {
+  cursor: pointer;
+}
+
+.request-detail-bottom {
+  font-size: 13px;
+  position: absolute;
+}
+
+.bookmark-icon-true {
+  color: $bookmark-true;
+  cursor: pointer;
+}
+
+.bookmark-icon-false {
+  color: $bookmark-false;
+  cursor: pointer;
+}
+
+.req-detail-nav {
+  width: 100%;
+  background-color: $white;
+  font-family: $nunito;
   font-size: 18px;
+  font-weight: bolder;
+  letter-spacing: 1px;
+}
+
+.req-detail-nav-res {
+  color: $dark-blue;
+  cursor: pointer;
+}
+
+.req-detail-nav-join {
+  color: $dark-blue;
+  cursor: pointer;
+}
+
+.req-detail-nav-comment {
+  color: $dark-blue;
+  cursor: pointer;
+}
+
+.request-detail-footer {
+  border: none;
+}
+
+.request-detail-footer:last-child {
+  border-radius: 0 0 20px 20px;
+}
+
+.input-message {
+  border: 2px solid $white;
+  border-radius: 20px;
+  width: 100%;
+  background-color: $white;
+}
+
+.input-message:focus {
+  box-shadow: none;
+  border: 2px solid $white;
+  background-color: $white;
+}
+
+.requset-detail-cmres {
+  background-color: $beige;
+}
+
+.btn-white-orange-sm,
+.btn-white-orange-sm:focus {
+  background: $white;
+  color: $dark-orange;
+  font-family: $nunito;
+  font-size: 15px;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  border: 2px solid $dark-orange;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.btn-white-orange-sm:hover,
+.btn-white-orange-sm:focus:hover {
+  background: $white;
+  color: $dark-blue;
+  border: 2px solid $dark-orange;
+}
+
+.btn-white-blue-sm,
+.btn-white-blue-sm:focus {
+  background: $white;
+  color: $dark-blue;
+  font-family: $nunito;
+  font-size: 15px;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  border: 2px solid $dark-blue;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.btn-white-blue-sm:hover,
+.btn-white-blue-sm:focus:hover {
+  background: $white;
+  color: $dark-orange;
+  border: 2px solid $dark-blue;
+}
+
+.response-form {
+  width: 600px;
+}
+
+.response-ta {
+  border: none;
+  background-color: $white;
+  border: 2px solid $white;
+  border-radius: 20px;
+}
+
+.response-ta:focus {
+  box-shadow: none;
+  background-color: $white;
+  border: 2px solid $dark-blue;
+}
+
+.response-heading {
+  @include heading;
+  font-family: $nunito;
+  font-weight: bolder;
 }

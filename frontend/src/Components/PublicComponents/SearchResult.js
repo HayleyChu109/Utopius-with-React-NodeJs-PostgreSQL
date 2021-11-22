@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-import {
-  getRequestListThunk,
-  // bookmarkToggleThunk,
-} from "../../Redux/request/actions";
+import { getRequestListThunk } from "../../Redux/request/actions";
 import SearchCard from "./SearchCard";
 
 import { BsStars } from "react-icons/bs";
@@ -13,14 +11,14 @@ const SearchResult = () => {
   const { search, requestList } = useSelector((state) => state.requestStore);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getRequestListThunk());
   }, [dispatch]);
 
-  const handleBookmark = (requestId) => {
-    console.log(requestId);
-    // dispatch(bookmarkToggleThunk(requestId, userId));
+  const showRequestDetail = (requestId) => {
+    history.push(`/member/request/detail/${requestId}`);
   };
 
   return (
@@ -39,11 +37,11 @@ const SearchResult = () => {
                     <SearchCard
                       key={req.id}
                       request={req}
-                      handleBookmark={handleBookmark}
+                      handleClick={showRequestDetail}
                     />
                   ))
                 ) : (
-                  <div>No open request !</div>
+                  <div className="ps-4">No open request !</div>
                 )}
               </div>
             </div>
@@ -76,7 +74,7 @@ const SearchResult = () => {
                       <SearchCard
                         key={req.id}
                         request={req}
-                        handleBookmark={handleBookmark}
+                        handleClick={showRequestDetail}
                       />
                     ))
                 ) : (

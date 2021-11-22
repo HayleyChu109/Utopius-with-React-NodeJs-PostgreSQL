@@ -15,6 +15,12 @@
   font-size: 13px;
 }
 
+.search-req-card:hover {
+  div.search-card-req-title {
+    color: $dark-blue;
+  }
+}
+
 .search-card-photo {
   img {
     max-width: 230px;
@@ -35,20 +41,22 @@
 }
 
 .search-card-req-title {
+  font-size: 13px;
+  font-weight: bolder;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .search-card-req-detail {
-  // display: -webkit-box;
+  letter-spacing: 0px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  // -webkit-line-clamp: 2;
 }
 
 .search-card-req-tag {
+  font-size: 13px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -63,6 +71,7 @@
 }
 
 .search-card-footer {
+  font-size: 11px;
   background-color: $beige;
   border: 0;
   position: absolute;
@@ -83,6 +92,10 @@
   cursor: pointer;
 }
 
+.tagname:hover {
+  color: $dark-blue;
+}
+
 .coin {
   color: $coin;
 }
@@ -98,11 +111,11 @@
 
 .district {
   color: $district;
+  letter-spacing: 0px;
 }
 
 .bookmark {
   position: absolute;
-  cursor: pointer;
   font-size: 30px;
   right: 10px;
   bottom: 3px;
@@ -110,8 +123,17 @@
 
 .bookmark-icon-true {
   color: $bookmark-true;
+  cursor: pointer;
 }
 
 .bookmark-icon-false {
   color: $bookmark-false;
+  cursor: pointer;
+}
+
+.bookmark-icon-true:hover,
+.bookmark-icon-false:hover {
+  transform: scale(1.1);
+  transition: 0.2s;
+  color: $bookmark-true;
 }
