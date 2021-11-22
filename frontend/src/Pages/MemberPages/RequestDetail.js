@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
+import GradeBall from "../../Components/PublicComponents/GradeBall";
 import RequestDetailNav from "../../Components/PrivateComponents/RequestDetailNav";
 import RequestDetailComment from "../../Components/PrivateComponents/RequestDetailComment";
 import ResponseForm from "../../Components/PrivateComponents/ResponseForm";
@@ -29,12 +30,11 @@ const RequestDetail = (props) => {
   const { requestDetail, bookmarkList } = useSelector(
     (state) => state.requestStore
   );
-  const [gradeColor, setGradeColor] = useState("");
   const [footerColor, setFooterColor] = useState("");
   const [displaySection, setDisplaySection] = useState("publicComment");
   const [publicComment, setPublicComment] = useState("");
   const [responseMsg, setResponseMsg] = useState("");
-  const requestId = localStorage.getItem("requestId");
+  const { requestId } = useParams();
   const userId = jwt_decode(localStorage.getItem("token")).id;
 
   const dispatch = useDispatch();
@@ -49,39 +49,6 @@ const RequestDetail = (props) => {
   useEffect(() => {
     dispatch(getBookmarkListThunk(userId));
   }, [userId, dispatch]);
-
-  useEffect(() => {
-    if (requestDetail && requestDetail.requesterGrade) {
-      switch (requestDetail.requesterGrade.toUpperCase()) {
-        case "S":
-          setGradeColor("#fac77c");
-          break;
-        case "A":
-          setGradeColor("#fa7c92");
-          break;
-        case "B":
-          setGradeColor("#7c97fa");
-          break;
-        case "C":
-          setGradeColor("#52b46e");
-          break;
-        case "D":
-          setGradeColor("#152e87");
-          break;
-        case "E":
-          setGradeColor("#875915");
-          break;
-        case "F":
-          setGradeColor("#333333");
-          break;
-        default:
-          setGradeColor("#c4c4c4");
-          break;
-      }
-    } else {
-      return;
-    }
-  }, [requestDetail.requesterGrade]);
 
   useEffect(() => {
     if (requestDetail.requesterId === userId) {
@@ -128,14 +95,7 @@ const RequestDetail = (props) => {
               </div>
               <div className="request-main mx-auto col-md-7 col-sm-12 col-xs-12 px-3 pt-3 position-relative">
                 <div className="py-2">
-                  <span
-                    className="dot text-center me-2"
-                    style={{ backgroundColor: gradeColor }}
-                  >
-                    {requestDetail.requesterGrade
-                      ? requestDetail.requesterGrade.toUpperCase()
-                      : null}
-                  </span>
+                  <GradeBall grade={requestDetail.requesterGrade} />
                   <span className="requester-username me-3">
                     {requestDetail.requesterUsername}
                   </span>

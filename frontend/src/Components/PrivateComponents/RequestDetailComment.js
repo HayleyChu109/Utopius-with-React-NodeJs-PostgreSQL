@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import jwt_decode from "jwt-decode";
+// import jwt_decode from "jwt-decode";
 
-import Comment from "./Comment";
 import { getCommentThunk } from "../../Redux/request/actions";
 
 const RequestDetailComment = ({ requestId, userId, type }) => {
@@ -14,7 +13,6 @@ const RequestDetailComment = ({ requestId, userId, type }) => {
 
   useEffect(() => {
     dispatch(getCommentThunk(requestId, type));
-    console.log(publicCommentList);
   }, [dispatch, requestId, type]);
 
   return (

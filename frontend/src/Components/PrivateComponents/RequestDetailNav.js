@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 const RequestDetailNav = ({ userId, requestDetail, setDisplaySection }) => {
   const [statusColor, setStatusColor] = useState("");
-  const [joinColor, setJoinColor] = useState("");
+  // const [joinColor, setJoinColor] = useState("");
 
   useEffect(() => {
     if (requestDetail.status === "Open" || requestDetail.status === "Matched") {

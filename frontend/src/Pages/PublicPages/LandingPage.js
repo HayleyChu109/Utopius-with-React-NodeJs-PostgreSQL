@@ -12,7 +12,7 @@ import Footer from "../../Components/PublicComponents/Footer";
 import { Collapse } from "reactstrap";
 
 const LandingPage = () => {
-  const { search, bookmarkList } = useSelector((state) => state.requestStore);
+  const { search } = useSelector((state) => state.requestStore);
   const [show, setShow] = useState(true);
   let token = localStorage.getItem("token");
   let userId = "";

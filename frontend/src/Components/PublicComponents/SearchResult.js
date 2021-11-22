@@ -18,7 +18,6 @@ const SearchResult = () => {
   }, [dispatch]);
 
   const showRequestDetail = (requestId) => {
-    localStorage.setItem("requestId", requestId);
     history.push(`/member/request/detail/${requestId}`);
   };
 
