@@ -84,7 +84,7 @@ const SearchCard = ({ request, handleClick }) => {
                   <HiLocationMarker className="mx-1 district district-icon" />
                   <span className="district">{request.district}</span>
                   <span className="bookmark">
-                    {bookmarkList.includes(request.id) ? (
+                    {bookmarkList && bookmarkList.includes(request.id) ? (
                       <>
                         <AiFillHeart
                           className="bookmark-icon-true"
