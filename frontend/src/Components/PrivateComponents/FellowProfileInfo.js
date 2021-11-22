@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router";
+
 import MemberReqCollapse from "./MemberReqCollapse";
 import FellowResCollapse from "./FellowResCollapse";
 import FellowProfileReportBar from "./FellowProfileReportBar";
+import GradeBall from "../PublicComponents/GradeBall";
 
 import { BsFillPersonPlusFill } from "react-icons/bs";
 
-function MemberProfileInfo(props) {
+function FellowProfileInfo(props) {
   const memberProfileFromStore = useSelector(
     (state) => state.memberProfileStore.memberInfo
   );
@@ -23,34 +25,6 @@ function MemberProfileInfo(props) {
   let noOfReq = memberReqDetailsFromStore.length;
   let noOfRes = memberResDetailsFromStore.length;
 
-  let memberGrade = memberProfileFromStore.grade;
-  let gradeColor = [];
-  switch (memberGrade) {
-    case "S":
-      gradeColor.push("#fac77c");
-      break;
-    case "A":
-      gradeColor.push("#fa7c92");
-      break;
-    case "B":
-      gradeColor.push("#7c97fa");
-      break;
-    case "C":
-      gradeColor.push("#52b46e");
-      break;
-    case "D":
-      gradeColor.push("#152e87");
-      break;
-    case "E":
-      gradeColor.push("#875915");
-      break;
-    case "F":
-      gradeColor.push("#333333");
-      break;
-    default:
-      gradeColor.push("#c4c4c4");
-  }
-
   const [showEdit, setShowEdit] = useState(true);
   const [showReq, setShowReq] = useState(false);
   const [showRes, setShowRes] = useState(false);
@@ -65,12 +39,7 @@ function MemberProfileInfo(props) {
         <div className="row d-flex justify-content-center">
           <div className="col-lg-12 col-md-12 col-sm-12-col-xs-12 memberProfileInfo">
             <div className="username-id">
-              <span
-                className="dot text-center me-2"
-                style={{ background: gradeColor }}
-              >
-                {memberProfileFromStore.grade}
-              </span>
+              <GradeBall grade={memberProfileFromStore.grade} />
               <span className="fw-bolder">
                 {memberProfileFromStore.username} UID#
                 {memberProfileFromStore.id}
@@ -120,4 +89,4 @@ function MemberProfileInfo(props) {
   );
 }
 
-export default MemberProfileInfo;
+export default FellowProfileInfo;

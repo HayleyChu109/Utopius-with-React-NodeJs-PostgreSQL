@@ -9,7 +9,7 @@ export function getReviewReducer(state = initialState, action) {
     case GET_REVIEW_SUCCESS_ACTION:
       console.log(action.payload);
       return {
-        review: state.review.concat(action.payload),
+        review: action.payload,
       };
 
     default:

@@ -9,8 +9,15 @@ exports.seed = function (knex) {
           requestId: 1,
           reviewerId: 4,
           revieweeId: 5,
-          rating: 3.5,
+          rating: 3,
           ratingComment: "Quite good",
+        },
+        {
+          requestId: 1,
+          reviewerId: 4,
+          revieweeId: 5,
+          rating: 4,
+          ratingComment: "Excellent",
         },
         {
           requestId: 3,

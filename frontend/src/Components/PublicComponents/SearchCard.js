@@ -1,4 +1,5 @@
 // import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { searchReq } from "../../Redux/request/actions";
 import jwt_decode from "jwt-decode";
@@ -25,6 +26,11 @@ const SearchCard = ({ request, handleClick }) => {
   }
 
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleFellow = (fellowId) => {
+    history.push(`/member/fellow/${fellowId}`);
+  };
 
   const handleSearch = (val) => {
     dispatch(searchReq(val));
@@ -53,7 +59,13 @@ const SearchCard = ({ request, handleClick }) => {
             </div>
             <div className="search-card-main col-7">
               <CardBody>
-                <div className="username-id">
+                <div
+                  className="username-id"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleFellow(request.requesterId);
+                  }}
+                >
                   <GradeBall grade={request.grade} />
                   {request.username} UID#{request.requesterId}
                 </div>

@@ -34,7 +34,7 @@ exports.seed = function (knex) {
           reward: 30,
           requiredPpl: 5,
           district: "Islands",
-          status: "cancelled",
+          status: "completed",
           reqPhotoPath:
             "https://utopius.s3.ap-southeast-1.amazonaws.com/help.png",
         },

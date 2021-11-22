@@ -16,3 +16,23 @@
   border: none;
   background-color: $white;
 }
+
+.btn-dark-grey,
+.btn-dark-grey:focus {
+  @include btn-color($theme: $dark-grey);
+}
+
+.btn-dark-grey:hover,
+.btn-dark-grey:focus:hover {
+  @include btn-color-hover($theme: $dark);
+}
+
+.btn-dark-blue,
+.btn-dark-blue:focus {
+  @include btn-color($theme: $dark-blue);
+}
+
+.btn-dark-blue:hover,
+.btn-dark-blue:focus:hover {
+  @include btn-color-hover($theme: $light-blue);
+}

@@ -108,6 +108,11 @@ $nunito: "Nunito", sans-serif;
   padding-right: 35px;
 }
 
+@mixin btn-white-hover($theme: $light-orange) {
+  background: $white;
+  border: 2px solid $theme;
+}
+
 @mixin btn-color($theme: $dark-orange) {
   background: $theme;
   color: $white;
@@ -118,19 +123,12 @@ $nunito: "Nunito", sans-serif;
   border-radius: 20px;
   outline: none;
   box-shadow: none;
-  padding-top: 3px;
-  padding-bottom: 3px;
   padding-left: 35px;
   padding-right: 35px;
 }
 
 @mixin btn-color-hover($theme: $light-orange) {
-  background: $light-orange;
-  border: 2px solid $theme;
-}
-
-@mixin btn-white-hover($theme: $light-orange) {
-  background: $white;
+  background: $theme;
   border: 2px solid $theme;
 }
 

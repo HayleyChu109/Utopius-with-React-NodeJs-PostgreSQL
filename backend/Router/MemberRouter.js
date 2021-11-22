@@ -19,7 +19,6 @@ class MemberRouter {
 
   // Get member profile
   async getMemberInfo(req, res, next) {
-    console.log("Get member info");
     try {
       let info = await this.memberService.getMemberInfo(req.params.id);
       if (info) {
@@ -34,7 +33,6 @@ class MemberRouter {
 
   // Edit member profile
   putMemberInfo(req, res) {
-    console.log("Submit member info");
     return this.memberService
       .putMemberInfo(
         req.params.id,

@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions";
 import { memberReqDetailsThunk } from "../../Redux/memberProfile/memberReqDetailsActions";
 import { memberResDetailsThunk } from "../../Redux/memberProfile/memberResDetailsActions";
+import { getReviewThunk } from "../../Redux/review/getReviewActions";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
 import MemberProfilePic from "../../Components/PrivateComponents/MemberProfilePic";
@@ -17,8 +19,7 @@ import "../SCSS/searchCard.scss";
 import { BsStars } from "react-icons/bs";
 
 function FellowProfilePage() {
-  let fellowId = localStorage.getItem("requesterId");
-  console.log(fellowId);
+  const { fellowId } = useParams();
 
   const memberProfileFromStore = useSelector(
     (state) => state.memberProfileStore.memberInfo
@@ -30,6 +31,7 @@ function FellowProfilePage() {
     dispatch(memberInfoThunk(fellowId));
     dispatch(memberReqDetailsThunk(fellowId));
     dispatch(memberResDetailsThunk(fellowId));
+    dispatch(getReviewThunk(fellowId));
   }, [dispatch, fellowId]);
 
   return (

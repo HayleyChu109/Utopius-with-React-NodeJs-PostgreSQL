@@ -22,7 +22,7 @@ class MemberService {
       if (memberInfo.length > 0) {
         return memberInfo[0];
       } else {
-        return "No such member";
+        return [];
       }
     } catch (err) {
       throw new Error(err);
@@ -217,7 +217,7 @@ class MemberService {
         }
         return review;
       } else {
-        return "No review";
+        return [];
       }
     } catch (err) {
       throw new Error(err);
