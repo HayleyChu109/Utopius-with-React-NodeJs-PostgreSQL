@@ -30,7 +30,7 @@ export default function DashboardPage(props) {
       <Row>
         <Col lg={3}>
           <Card style={{textAlign:'center'}} className='mx-2'>
-            <LineBarComposed userData={userGrowth} />
+            <LineBarComposed userData={userGrowth} width={250} height={150} />
               <UserList list={newUserList} />
             <Link to='/admin/user'>Click to see all user</Link>
           </Card>
@@ -40,6 +40,13 @@ export default function DashboardPage(props) {
             <p>New Request of Today: {request.length}</p>
             <RequestList list={request}/>
             <Link to='/admin/request'>Click to see all request</Link>
+
+          </Card>
+        </Col>
+        <Col lg={3}>
+        <Card style={{textAlign:'center'}} className='mx-2'>
+            <p>New review: {request.length}</p>
+         
 
           </Card>
         </Col>

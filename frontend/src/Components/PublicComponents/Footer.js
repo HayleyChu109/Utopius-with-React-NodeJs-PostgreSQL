@@ -1,31 +1,41 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { sendMsgThunk } from "../../Redux/footer/footerAction";
-import { Form, FormGroup, Label, Input } from "reactstrap";
-import { Modal } from "react-bootstrap";
+
+import { Form } from "react-bootstrap";
 import "../../Pages/SCSS/footer.scss";
-import { BsFillSuitHeartFill } from "react-icons/bs";
+import SuccessModal from "./SuccessModal";
 
 const Footer = () => {
   const dispatch = useDispatch();
 
-  // For modal
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const footerStore = useSelector((state) => state.footerStore);
+  const { successMsg, errorMsg } = footerStore;
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
+  const [modalBoolean, setModalBoolean] = useState(false);
 
   const sendMsg = (e) => {
     e.preventDefault();
     dispatch(sendMsgThunk(email, name, title, message));
-    setShow("true");
     setEmail("");
     setName("");
     setTitle("");
     setMessage("");
+  };
+
+  useEffect(() => {
+    if (successMsg !== null) {
+      console.log(successMsg);
+      setModalBoolean(true);
+    }
+  }, [successMsg]);
+
+  const closeModal = () => {
+    setModalBoolean(false);
   };
 
   return (
@@ -58,50 +68,47 @@ const Footer = () => {
                 <div className="container">
                   <h3 className="my-4">Leave a message</h3>
                   <Form onSubmit={sendMsg}>
-                    <FormGroup>
-                      <Label for="email">Email</Label>
-                      <Input
+                    <Form.Group className="mb-3">
+                      <Form.Label>Email</Form.Label>
+                      <Form.Control
                         className="input-text"
-                        name="email"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.currentTarget.value)}
                         required
                       />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="name">Name</Label>
-                      <Input
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Name</Form.Label>
+                      <Form.Control
                         className="input-text"
-                        name="name"
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.currentTarget.value)}
                         required
                       />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="title">Title</Label>
-                      <Input
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Title</Form.Label>
+                      <Form.Control
                         className="input-text"
-                        name="title"
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.currentTarget.value)}
                         required
                       />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="message">Message</Label>
-                      <Input
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Message</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={7}
                         className="input-text msgTextarea"
-                        name="text"
-                        type="textarea"
                         value={message}
                         onChange={(e) => setMessage(e.currentTarget.value)}
                         required
                       />
-                    </FormGroup>
+                    </Form.Group>
                     <div className="text-center">
                       <button className="btn-blue mt-3 mb-4" type="submit">
                         SEND
@@ -120,15 +127,11 @@ const Footer = () => {
         </div>
       </div>
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title className="msgModal">
-            Thank you&nbsp;
-            <BsFillSuitHeartFill />
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Your message submitted successfully!</Modal.Body>
-      </Modal>
+      <SuccessModal
+        isOpen={modalBoolean}
+        close={closeModal}
+        message={successMsg}
+      />
     </>
   );
 };

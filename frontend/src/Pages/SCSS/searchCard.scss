@@ -1,0 +1,117 @@
+@import "basic";
+
+.dot {
+  @include dot-span;
+}
+
+.search-req-card {
+  min-width: 300px;
+  min-height: 230px;
+  max-height: 230px;
+  border: none;
+  border-radius: 25px;
+  filter: drop-shadow(2px 2px 4px $light-grey);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.search-card-photo {
+  img {
+    max-width: 230px;
+    max-height: 230px;
+    width: auto;
+    height: auto;
+  }
+}
+
+.search-card-main {
+  background-color: $beige;
+  letter-spacing: 1px;
+  position: relative;
+
+  div {
+    padding: 5px;
+  }
+}
+
+.search-card-req-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-card-req-detail {
+  // display: -webkit-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  // -webkit-line-clamp: 2;
+}
+
+.search-card-req-tag {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-card-req-tag > span {
+  color: $dark-orange;
+}
+
+.search-card-main:last-child {
+  border-radius: 0 25px 25px 0;
+}
+
+.search-card-footer {
+  background-color: $beige;
+  border: 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.search-card-footer:last-child {
+  border-radius: 0 0 25px 0;
+}
+
+.createdAt {
+  color: $dark-grey;
+}
+
+.tagname {
+  color: $dark-orange;
+  cursor: pointer;
+}
+
+.coin {
+  color: $coin;
+}
+
+.person-icon,
+.district-icon {
+  font-size: 25px;
+}
+
+.person {
+  color: $people;
+}
+
+.district {
+  color: $district;
+}
+
+.bookmark {
+  position: absolute;
+  cursor: pointer;
+  font-size: 30px;
+  right: 10px;
+  bottom: 3px;
+}
+
+.bookmark-icon-true {
+  color: $bookmark-true;
+}
+
+.bookmark-icon-false {
+  color: $bookmark-false;
+}

@@ -42,7 +42,7 @@ const AdminNavbar = () => {
               <a href="/login">LOGIN SIGNUP</a>
             )}
             |<a href="/admin">DASHBOARD</a>|<a href="/admin/req">REQ</a>|
-            <a href="/admin/res">ANNOUNCEMENT</a>|
+            <a href="/admin/announcement">ANNOUNCEMENT</a>|
             <a href="/admin/bookmark">TASK</a>|
             <a href="/admin/token">TOKEN</a>|<span>SEARCH</span>
             <Search />

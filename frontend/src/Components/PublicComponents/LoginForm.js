@@ -10,6 +10,13 @@ const LoginForm = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
+  const loginEnter=(event)=>{
+    console.log(event.key)
+    if(event.key==='Enter')
+    {
+      login()
+    }
+  }
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +38,7 @@ const LoginForm = () => {
   return (
     <>
       <div className="d-flex align-items-center justify-content-center">
-        <div className="landing-form my-4">
+        <div className="login-form my-4">
           <h3>LOGIN</h3>
           <form>
             <label className="my-2">Email</label>
@@ -50,12 +57,13 @@ const LoginForm = () => {
               value={password}
               onChange={(e) => setPassword(e.currentTarget.value)}
               className="input-text form-control"
+              onKeyDown={(e)=>loginEnter(e)}
               required
             />
             <br />
             {errorMsg && <div className="err-msg">{errorMsg}</div>}
             <div className="text-center py-2">
-              <Button onClick={login} className="btn-orange py-0 my-4">
+              <Button onClick={login}  className="btn-orange py-0 my-4">
                 LOG IN
               </Button>
             </div>

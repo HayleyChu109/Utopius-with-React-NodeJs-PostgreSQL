@@ -8,6 +8,7 @@ class AdminRouter {
   router() {
     let router = express.Router();
     router.post('/dashboard',this.postDashboard.bind(this))
+    router.get('/user/:id',this.getUser.bind(this))
     return router;
   }
   async postDashboard(req,res)
@@ -27,6 +28,14 @@ class AdminRouter {
        );
        console.log(userGrowth)
     res.json({userGrowth:userGrowth,newUserList:newUser})
+  }
+  async getUser(req,res)
+  {
+    let userId=req.params.id
+    console.log(req.params.id)
+    let result=await this.adminService.getUser(userId)
+    console.log(result)
+    res.json(result)
   }
 }
 

@@ -35,7 +35,7 @@ const SignupForm = () => {
   return (
     <>
       <div className="d-flex align-items-center justify-content-center">
-        <div className="landing-form my-4">
+        <div className="login-form my-4">
           <h3>SIGNUP A NEW ACCOUNT</h3>
           <form>
             <label className="my-2">Email</label>

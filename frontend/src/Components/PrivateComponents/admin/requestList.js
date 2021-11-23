@@ -9,17 +9,19 @@ export const RequestList = ({list,...props}) => {
         <ListGroup as="ul">
           {list.map((item) => (
             <Link key={item.id} to={`/admin/review/${item.id}`}>
-              <ListGroup.Item as="li" className="d-flex">
+              <ListGroup.Item as="li" className="d-flex m-0 p-0" style={{backgroundColor:'#fac77c', borderRadius: "10px",}}>
+                <Col style={{position:'relative' ,margin:'0'}}>
                 <img
                   style={{
-                    height: "100px",
-                    width: "100px",
-                    borderRadius: "10px",
+                    height: "100%",
+                    width: "100%",
+                   
                   }}
                   src={placholder}
                   alt=""
                 />
-                <Col>
+                </Col>
+                <Col >
                   <p>
                     {item.username} #UID{item.userId}
                   </p>

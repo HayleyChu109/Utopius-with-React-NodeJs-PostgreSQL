@@ -3,7 +3,34 @@ class MemberService {
     this.knex = knex;
   }
 
-  postMemberInfo(
+  async getMemberInfo(userId) {
+    try {
+      let memberInfo = await this.knex("account")
+        .select(
+          "id",
+          "username",
+          "email",
+          "firstName",
+          "lastName",
+          "phone",
+          "district",
+          "profilePath",
+          "grade",
+          "token"
+        )
+        .where("id", userId);
+      console.log(memberInfo);
+      if (memberInfo.length > 0) {
+        return memberInfo[0];
+      } else {
+        return "No such member";
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  putMemberInfo(
     userId,
     username,
     firstName,
@@ -12,8 +39,8 @@ class MemberService {
     district,
     profilePath
   ) {
-    return this.knex
-      .insert({
+    return this.knex("account")
+      .update({
         username: username,
         firstName: firstName,
         lastName: lastName,
@@ -21,7 +48,6 @@ class MemberService {
         district: district,
         profilePath: profilePath,
       })
-      .into("account")
       .where("account.id", userId)
       .returning("account.id");
   }

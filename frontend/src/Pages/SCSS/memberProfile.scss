@@ -1,0 +1,50 @@
+@import "basic";
+
+.memberProfile-title {
+  @include heading;
+}
+
+// Member Profile Pic
+.memberProfilePic-bg-beige {
+  background-color: $beige;
+  width: 50vw;
+  height: 20vh;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.memberResponse-beige {
+  background-color: $beige;
+  width: 50vw;
+}
+.blacklist{
+  background-color: black;
+  width: 50vw;
+  height: 10vh;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px
+}
+
+.memberProfilePic-bg-white {
+  background-color: $white;
+  width: 50vw;
+  height: 15vh;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.memberProfilePic-position {
+  z-index: 3;
+  transform: translateY(25%);
+}
+
+.memberProfilePic {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+}
+
+// Member Profile Info
+.memberProfileInfo {
+  width: 50vw;
+  margin-left: 5vw;
+}
