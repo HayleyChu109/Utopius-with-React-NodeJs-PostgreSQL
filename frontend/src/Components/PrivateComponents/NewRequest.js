@@ -28,7 +28,6 @@ const NewRequest = (props) => {
   useEffect(() => {
     if (requestId !== null) {
       console.log("requestDetail.id", requestId);
-      localStorage.setItem("requestId", requestId.newReqId);
       history.push(`/member/request/detail/${requestId.newReqId}`);
     } else {
       return;
@@ -64,7 +63,7 @@ const NewRequest = (props) => {
     <>
       <div>
         <Modal
-          isOpen={true}
+          isOpen={props.isOpen}
           centered
           contentClassName="custom-modal-style new-req-modal"
         >
@@ -180,6 +179,9 @@ const NewRequest = (props) => {
           </ModalBody>
           <ModalFooter className="new-req-modal-footer">
             <div className="mx-auto">
+              <Button className="me-4 btn-dark-grey" onClick={props.close}>
+                CLOSE
+              </Button>
               <Button className="btn-dark-orange" onClick={submitNewReq}>
                 CREATE
               </Button>

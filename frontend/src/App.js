@@ -7,6 +7,7 @@ import LoginPage from "./Pages/PublicPages/LoginPage";
 import SignupPage from "./Pages/MemberPages/SignupPage";
 import RequestDetail from "./Pages/MemberPages/RequestDetail";
 import NewRequest from "./Components/PrivateComponents/NewRequest";
+import FellowProfilePage from "./Pages/MemberPages/FellowProfilePage";
 import MemberProfilePage from "./Pages/MemberPages/MemberProfilePage";
 import DashboardPage from "./Pages/AdminPages/dashboardPage";
 import AnnouncementPage from "./Pages/AdminPages/announcementPage";
@@ -23,9 +24,15 @@ function App() {
       <PrivateAdminRoute path='/admin/user/:id'component={UserPage}/>
 
       <PrivateRoute path="/member/signup" component={SignupPage} />
-
-      <PrivateRoute path="/member/request/detail" component={RequestDetail} />
+      <PrivateRoute
+        path="/member/request/detail/:requestId"
+        component={RequestDetail}
+      />
       <PrivateRoute path="/member/request/new" component={NewRequest} />
+      <PrivateRoute
+        path="/member/fellow/:fellowId"
+        component={FellowProfilePage}
+      />
       <PrivateRoute path="/member/profile" component={MemberProfilePage} />
       <Route
         component={() => {

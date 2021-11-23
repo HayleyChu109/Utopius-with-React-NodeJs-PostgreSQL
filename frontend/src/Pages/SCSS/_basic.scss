@@ -48,8 +48,8 @@ $nunito: "Nunito", sans-serif;
 @mixin heading {
   font: $sora;
   font-weight: 700;
-  font-size: 20px;
-  letter-spacing: 4px;
+  font-size: 18px;
+  letter-spacing: 3px;
   color: $dark-blue;
 }
 
@@ -74,4 +74,69 @@ $nunito: "Nunito", sans-serif;
   filter: drop-shadow(0px 0px 7px $light-grey);
   transition-duration: 0.1s;
   transition-timing-function: ease;
+}
+
+// Member Profile Page
+@mixin memberProfileBg($theme: $beige) {
+  background-color: $theme;
+  width: 90vw;
+  height: 20vh;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+@mixin memberProfileBottom($theme: $dark-orange) {
+  background-color: $theme;
+  width: 90vw;
+  height: 10vh;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+@mixin btn-white($theme: $dark-orange) {
+  background: $white;
+  color: $theme;
+  font-family: $nunito;
+  font-size: 15px;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  border: 2px solid $theme;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+@mixin btn-white-hover($theme: $light-orange) {
+  background: $white;
+  border: 2px solid $theme;
+}
+
+@mixin btn-color($theme: $dark-orange) {
+  background: $theme;
+  color: $white;
+  font-family: $nunito;
+  font-size: 15px;
+  letter-spacing: 2px;
+  border: 2px solid $theme;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+@mixin btn-color-hover($theme: $light-orange) {
+  background: $theme;
+  border: 2px solid $theme;
+}
+
+@mixin ReqResButton($theme: $dark-orange) {
+  background-color: $white;
+  color: $theme;
+  font-size: 15px;
+  font-weight: bolder;
+  letter-spacing: 4px;
+  border: none;
 }

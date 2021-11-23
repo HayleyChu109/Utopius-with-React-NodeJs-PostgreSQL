@@ -2,15 +2,16 @@
 
 .memberProfile-title {
   @include heading;
+  span {
+    font-size: 20px;
+    text-transform: uppercase;
+    color: $dark-orange;
+  }
 }
 
 // Member Profile Pic
-.memberProfilePic-bg-beige {
-  background-color: $beige;
-  width: 50vw;
-  height: 20vh;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+.memberProfileBg-beige {
+  @include memberProfileBg;
 }
 .memberResponse-beige {
   background-color: $beige;
@@ -24,12 +25,9 @@
   border-bottom-right-radius: 20px
 }
 
-.memberProfilePic-bg-white {
-  background-color: $white;
-  width: 50vw;
+.memberProfileBg-white {
+  @include memberProfileBg($theme: $white);
   height: 15vh;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
 }
 
 .memberProfilePic-position {
@@ -46,5 +44,94 @@
 // Member Profile Info
 .memberProfileInfo {
   width: 50vw;
-  margin-left: 5vw;
+  margin-left: 10vw;
+  font-size: 15px;
+  letter-spacing: 4px;
+  color: $dark;
+}
+
+.REQ {
+  @include ReqResButton;
+}
+
+.REQ:hover {
+  @include ReqResButton($theme: $light-orange);
+}
+
+.REQ:disabled {
+  @include ReqResButton($theme: $dark-grey);
+}
+
+.RES {
+  @include ReqResButton($theme: $dark-blue);
+}
+
+.RES:hover {
+  @include ReqResButton($theme: $light-blue);
+}
+
+.RES:disabled {
+  @include ReqResButton($theme: $dark-grey);
+}
+
+// Member Profile Edit & Report
+.memberProfileBottom-orange {
+  @include memberProfileBottom;
+}
+
+.memberProfileBottom-blue {
+  @include memberProfileBottom($theme: $dark-blue);
+}
+
+.btn-white-orange,
+.btn-white-orange:focus {
+  @include btn-white;
+}
+
+.btn-white-orange:hover,
+.btn-white-orange:focus:hover {
+  @include btn-white-hover;
+}
+
+.btn-white-blue,
+.btn-white-blue:focus {
+  @include btn-white($theme: $dark-blue);
+}
+
+.btn-white-blue:hover,
+.btn-white-blue:focus:hover {
+  @include btn-white-hover($theme: $light-blue);
+}
+
+// Member Req / Res Collapse
+.memberProfileMiddie-beige {
+  background-color: $beige;
+  width: 90vw;
+  height: 5vh;
+  button {
+    background-color: $beige;
+    color: $dark-orange;
+    font-weight: bolder;
+    border: none;
+    &:hover {
+      color: $light-orange;
+    }
+  }
+}
+// Member go back button
+.btn-goback,
+.btn-goback:focus {
+  background: $white;
+  color: $dark-grey;
+  font-family: $nunito;
+  font-size: 18px;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  border: none;
+}
+
+.btn-goback:hover,
+.btn-goback:focus:hover {
+  background: $white;
+  color: $dark;
 }

@@ -18,25 +18,14 @@
   }
 }
 
-.btn-blue,
-.btn-blue:focus {
-  background: $dark-blue;
-  color: $white;
-  font-family: $nunito;
-  font-size: 15px;
-  letter-spacing: 2px;
-  border: 2px solid $dark-blue;
-  border-radius: 20px;
-  outline: none;
-  box-shadow: none;
-  padding-left: 35px;
-  padding-right: 35px;
+.btn-dark-blue,
+.btn-dark-blue:focus {
+  @include btn-color($theme: $dark-blue);
 }
 
-.btn-blue:hover,
-.btn-blue:focus:hover {
-  background: $light-blue;
-  border: 2px solid $light-blue;
+.btn-dark-blue:hover,
+.btn-dark-blue:focus:hover {
+  @include btn-color-hover($theme: $dark-blue);
 }
 
 .copyright {

@@ -1,0 +1,19 @@
+@import "basic";
+
+.review-card {
+  border: none;
+  img {
+    width: 90px;
+    height: 90px;
+    transform: translateX(30px);
+  }
+}
+
+.review-card-body {
+  background-color: $beige;
+  border-radius: 25px;
+}
+
+.rating {
+  color: $dark-blue;
+}

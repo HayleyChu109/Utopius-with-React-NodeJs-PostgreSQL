@@ -59,6 +59,20 @@ exports.seed = function (knex) {
           token: 100,
           blacklist: false,
         },
+        {
+          isAdmin: false,
+          username: "member02",
+          email: "m2@m.com",
+          password:
+            "$2b$10$eIsSPB1MpW9XCK1fndJcPOpwKLPdWQluLkf5aYMBO8sCV70aqPS7S",
+          firstName: "Member",
+          lastName: "Two",
+          phone: 23800001,
+          district: "Central and Western",
+          grade: "-",
+          token: 100,
+          blacklist: false,
+        },
       ]);
     });
 };
