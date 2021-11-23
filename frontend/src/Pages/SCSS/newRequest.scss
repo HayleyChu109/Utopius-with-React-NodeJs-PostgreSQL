@@ -27,6 +27,11 @@
 
 .btn-dark-orange,
 .btn-dark-orange:focus {
+  @include btn-color;
+}
+
+.btn-dark-orange,
+.btn-dark-orange:focus {
   background: $dark-orange;
   color: $white;
   font-family: $nunito;

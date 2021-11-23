@@ -1,0 +1,32 @@
+@import "basic";
+
+.new-report-modal {
+  min-width: 600px;
+}
+
+.new-report-heading {
+  font-family: $sora;
+  color: $dark-blue;
+  font-size: 20px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.new-report-form {
+  font-size: 15px;
+}
+
+.new-report-modal-footer {
+  border: none;
+  background-color: $white;
+}
+
+.btn-dark-blue,
+.btn-dark-blue:focus {
+  @include btn-color($theme: $dark-blue);
+}
+
+.btn-dark-blue:hover,
+.btn-dark-blue:focus:hover {
+  @include btn-color($theme: $dark);
+}

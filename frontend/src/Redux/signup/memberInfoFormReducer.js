@@ -1,5 +1,6 @@
 import { SIGNUP_INFO_SUCCESS_ACTION } from "./memberInfoFormActions";
 import { SIGNUP_INFO_FAILURE_ACTION } from "./memberInfoFormActions";
+import { RESET_SUCCESSMSG_ACTION } from "./memberInfoFormActions";
 
 const initialState = {
   successMsg: null,
@@ -13,6 +14,9 @@ export function memberInfoFormReducer(state = initialState, action) {
 
     case SIGNUP_INFO_FAILURE_ACTION:
       return { ...state, errorMsg: action.message };
+
+    case RESET_SUCCESSMSG_ACTION:
+      return { ...state, successMsg: action.message };
 
     default:
       return state;

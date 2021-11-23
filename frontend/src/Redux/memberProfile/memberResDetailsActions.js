@@ -1,26 +1,23 @@
 import axios from "axios";
 
-export const MEMBER_INFO_SUCCESS_ACTION = "MEMBER_INFO_SUCCESS_ACTION";
+export const MEMBER_RES_SUCCESS_ACTION = "MEMBER_RES_SUCCESS_ACTION";
 
-export const memberInfoThunk = (memberId) => async (dispatch) => {
+export const memberResDetailsThunk = (memberId) => async (dispatch) => {
   try {
     let token = localStorage.getItem("token");
-    console.log(token);
-    console.log(memberId);
 
     const response = await axios.get(
-      `${process.env.REACT_APP_API_SERVER}/member/memberinfo/${memberId}`,
+      `${process.env.REACT_APP_API_SERVER}/member/memberres/${memberId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-
     const { data } = response;
     if (data) {
       dispatch({
-        type: MEMBER_INFO_SUCCESS_ACTION,
+        type: MEMBER_RES_SUCCESS_ACTION,
         payload: data,
       });
     }

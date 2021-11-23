@@ -110,7 +110,7 @@ const Footer = () => {
                       />
                     </Form.Group>
                     <div className="text-center">
-                      <button className="btn-blue mt-3 mb-4" type="submit">
+                      <button className="btn-dark-blue mt-3 mb-4" type="submit">
                         SEND
                       </button>
                     </div>
