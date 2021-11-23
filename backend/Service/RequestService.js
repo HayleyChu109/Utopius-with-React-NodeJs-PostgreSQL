@@ -223,17 +223,33 @@ class RequestService {
   /**************** Comment service ****************/
 
   /**************** Response service ****************/
-  async getRequestResponse(requestId) {
+  async getResponseList(requestId) {
     try {
       let requestQuery = await this.knex("response")
         .select("*")
-        .where("requsetId", requestId);
+        .where("requestId", requestId);
       if (requestQuery.length > 0) {
         console.log(requestQuery[0]);
         return requestQuery[0];
       } else {
         return [];
       }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async postNewResponse(userId, requestId, detail, matched) {
+    try {
+      await this.knex
+        .insert({
+          responserId: userId,
+          requestId: requestId,
+          detail: detail,
+          matched: matched,
+        })
+        .into("response");
+      console.log("Inserting response..");
     } catch (err) {
       throw new Error(err);
     }

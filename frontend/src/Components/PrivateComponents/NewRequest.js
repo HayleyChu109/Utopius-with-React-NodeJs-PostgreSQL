@@ -88,6 +88,7 @@ const NewRequest = (props) => {
                 value={detail}
                 className="form-control input-text"
                 rows="7"
+                maxLength="230"
                 onChange={(e) => {
                   setDetail(e.currentTarget.value);
                 }}
@@ -99,6 +100,7 @@ const NewRequest = (props) => {
               <input
                 value={tag}
                 type="text"
+                maxLength="45"
                 placeholder="E.g. #Tagname1 #Tagname2"
                 className="form-control input-text"
                 onChange={(e) => {

@@ -8,6 +8,7 @@ export const POST_NEW_REQUEST = "POST_NEW_REQUEST";
 export const BOOKMARK_TOGGLE = "BOOKMARK_TOGGLE";
 export const PUBLIC_COMMENT = "PUBLIC_COMMENT";
 export const PRIVATE_COMMENT = "PRIVATE_COMMENT";
+export const RESPONSE_LIST = "RESPONSE_LIST";
 
 // For nav search-bar
 export const searchReq = (search) => {
@@ -222,6 +223,61 @@ export const postNewCommentThunk =
         dispatch({
           type: PRIVATE_COMMENT,
           payload: data.privateCommentList,
+        });
+      }
+    } catch (err) {
+      console.log("Error", err);
+    }
+  };
+
+// For getting response list
+export const getResponseListThunk = (requestId) => async (dispatch) => {
+  try {
+    let token = await localStorage.getItem("token");
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_SERVER}/member/request/response/${requestId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const { data } = response;
+    if (data.responseList) {
+      dispatch({
+        type: RESPONSE_LIST,
+        payload: data.responseList,
+      });
+    }
+  } catch (err) {
+    console.log("Error", err);
+  }
+};
+
+// For posting new response
+export const postNewResponseThunk =
+  (requestId, userId, detail) => async (dispatch) => {
+    try {
+      let token = await localStorage.getItem("token");
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_SERVER}/member/request/response/new`,
+        {
+          userId,
+          requestId,
+          detail,
+          matched: false,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = response;
+      if (data.responseList) {
+        dispatch({
+          type: RESPONSE_LIST,
+          payload: data.responseList,
         });
       }
     } catch (err) {

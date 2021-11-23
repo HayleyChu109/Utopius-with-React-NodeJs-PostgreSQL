@@ -6,6 +6,7 @@ import {
   BOOKMARK_TOGGLE,
   PUBLIC_COMMENT,
   PRIVATE_COMMENT,
+  RESPONSE_LIST,
 } from "./actions";
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   bookmarkList: [],
   publicCommentList: [],
   privateCommentList: [],
+  responseList: [],
 };
 
 export function requestReducer(state = initialState, action) {
@@ -34,6 +36,8 @@ export function requestReducer(state = initialState, action) {
       return { ...state, publicCommentList: action.payload };
     case PRIVATE_COMMENT:
       return { ...state, privateCommentList: action.payload };
+    case RESPONSE_LIST:
+      return { ...state, responseList: action.payload };
 
     default:
       return state;

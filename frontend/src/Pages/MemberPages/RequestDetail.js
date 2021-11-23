@@ -14,6 +14,8 @@ import {
   getBookmarkListThunk,
   bookmarkToggleThunk,
   postNewCommentThunk,
+  getResponseListThunk,
+  postNewResponseThunk,
 } from "../../Redux/request/actions";
 
 import { Card, CardBody, CardFooter, Button } from "reactstrap";
@@ -27,7 +29,7 @@ import help from "../../Images/help.png";
 import "../SCSS/requestDetail.scss";
 
 const RequestDetail = (props) => {
-  const { requestDetail, bookmarkList } = useSelector(
+  const { requestDetail, bookmarkList, responseList } = useSelector(
     (state) => state.requestStore
   );
   const [footerColor, setFooterColor] = useState("");
@@ -51,6 +53,10 @@ const RequestDetail = (props) => {
   }, [userId, dispatch]);
 
   useEffect(() => {
+    dispatch(getResponseListThunk(requestId));
+  }, [requestId, dispatch]);
+
+  useEffect(() => {
     if (requestDetail.requesterId === userId) {
       setFooterColor("#fe7235");
     } else {
@@ -72,8 +78,9 @@ const RequestDetail = (props) => {
     setPublicComment("");
   };
 
-  const submitResponse = (val) => {
-    //
+  const submitResponse = () => {
+    dispatch(postNewResponseThunk(requestId, userId, responseMsg));
+    setResponseMsg("");
   };
 
   return (
@@ -191,7 +198,12 @@ const RequestDetail = (props) => {
               ) : displaySection === "response" ? (
                 <div>This is the response list</div>
               ) : displaySection === "join" ? (
-                <ResponseForm setResponseMsg={setResponseMsg} />
+                <ResponseForm
+                  requestId={requestId}
+                  userId={userId}
+                  setResponseMsg={setResponseMsg}
+                  responseList={responseList}
+                />
               ) : null}
             </div>
           </CardBody>
@@ -242,7 +254,12 @@ const RequestDetail = (props) => {
             ) : displaySection === "join" ? (
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div>
-                  <Button className="btn-white-blue-sm">SEND</Button>
+                  <Button
+                    className="btn-white-blue-sm"
+                    onClick={submitResponse}
+                  >
+                    SEND
+                  </Button>
                 </div>
               </div>
             ) : null}

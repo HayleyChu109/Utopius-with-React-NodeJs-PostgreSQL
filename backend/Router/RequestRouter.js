@@ -23,6 +23,9 @@ class RequestRouter {
     // Routes for comments
     router.get("/request/comment/:requestId/:type", this.getComment.bind(this));
     router.post("/request/comment", this.postNewComment.bind(this));
+    // Routes for resposne
+    router.get("/request/response/:requestId", this.getResponseList.bind(this));
+    router.post("/request/response/new", this.postNewResponse.bind(this));
     return router;
   }
 
@@ -185,6 +188,36 @@ class RequestRouter {
         console.log("Public cm list(Arr of obj): ", publicCommentList);
         res.json({ publicCommentList });
       }
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async getResponseList(req, res, next) {
+    try {
+      let responseList = await this.requestService.getResponseList(
+        req.params.requestId
+      );
+      res.json({ responseList });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async postNewResponse(req, res, next) {
+    try {
+      await this.requestService.postNewResponse(
+        req.body.userId,
+        req.body.requestId,
+        req.body.detail,
+        req.body.matched
+      );
+      let responseList = await this.requestService.getResponseList(
+        req.body.requestId
+      );
+      res.json({ responseList });
     } catch (err) {
       next(err);
       res.status(500).json(err);
