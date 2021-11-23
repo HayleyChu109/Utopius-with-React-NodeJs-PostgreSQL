@@ -8,6 +8,7 @@ import { memberInfoFormReducer } from "./signup/memberInfoFormReducer";
 import { memberProfileReducer } from "./memberProfile/memberProfileReducer";
 import { requestReducer } from "./request/reducer";
 import { footerReducer } from "./footer/footerReducer";
+import { AdminDataReducer } from "./adminData/reducer";
 import { memberReqDetailsReducer } from "./memberProfile/memberReqDetailsReducer";
 import { memberResDetailsReducer } from "./memberProfile/memberResDetailsReducer";
 import { getReviewReducer } from "./review/getReviewReducer";
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   requestStore: requestReducer,
   getReviewStore: getReviewReducer,
   footerStore: footerReducer,
+  adminDataStore:AdminDataReducer,
 });
 
 export const store = createStore(

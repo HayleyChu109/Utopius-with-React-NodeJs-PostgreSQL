@@ -13,6 +13,17 @@
 .memberProfileBg-beige {
   @include memberProfileBg;
 }
+.memberResponse-beige {
+  background-color: $beige;
+  width: 50vw;
+}
+.blacklist{
+  background-color: black;
+  width: 50vw;
+  height: 10vh;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px
+}
 
 .memberProfileBg-white {
   @include memberProfileBg($theme: $white);
