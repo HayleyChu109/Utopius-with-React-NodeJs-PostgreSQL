@@ -3,6 +3,7 @@ import jwt_decode from "jwt-decode";
 
 export const SIGNUP_INFO_SUCCESS_ACTION = "SIGNUP_INFO_SUCCESS_ACTION";
 export const SIGNUP_INFO_FAILURE_ACTION = "SIGNUP_INFO_FAILURE_ACTION";
+export const RESET_SUCCESSMSG_ACTION = "RESET_SUCCESSMSG_ACTION";
 
 export const memberInfoFormSubmitThunk = (
   username,
@@ -43,10 +44,16 @@ export const memberInfoFormSubmitThunk = (
         } else {
           dispatch({
             type: SIGNUP_INFO_SUCCESS_ACTION,
-            payload: res.data[0],
             message: "Updated profile successfully",
           });
         }
       });
+  };
+};
+
+export const resetSuccessMsg = () => {
+  return {
+    type: RESET_SUCCESSMSG_ACTION,
+    message: null,
   };
 };

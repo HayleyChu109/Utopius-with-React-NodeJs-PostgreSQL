@@ -1,15 +1,13 @@
 import axios from "axios";
 
-export const MEMBER_INFO_SUCCESS_ACTION = "MEMBER_INFO_SUCCESS_ACTION";
+export const GET_REVIEW_SUCCESS_ACTION = "GET_REVIEW_SUCCESS_ACTION";
 
-export const memberInfoThunk = (memberId) => async (dispatch) => {
+export const getReviewThunk = (revieweeId) => async (dispatch) => {
   try {
     let token = localStorage.getItem("token");
-    console.log(token);
-    console.log(memberId);
 
     const response = await axios.get(
-      `${process.env.REACT_APP_API_SERVER}/member/memberinfo/${memberId}`,
+      `${process.env.REACT_APP_API_SERVER}/member/review/${revieweeId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -20,7 +18,7 @@ export const memberInfoThunk = (memberId) => async (dispatch) => {
     const { data } = response;
     if (data) {
       dispatch({
-        type: MEMBER_INFO_SUCCESS_ACTION,
+        type: GET_REVIEW_SUCCESS_ACTION,
         payload: data,
       });
     }
