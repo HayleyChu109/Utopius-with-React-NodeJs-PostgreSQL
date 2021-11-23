@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import jwt_decode from "jwt-decode";
 
+import RequestMessage from "./RequestMessage";
 import { getCommentThunk } from "../../Redux/request/actions";
 
 const RequestDetailComment = ({ requestId, userId, type }) => {
@@ -30,10 +31,7 @@ const RequestDetailComment = ({ requestId, userId, type }) => {
       ) : !type && publicCommentList && publicCommentList.length > 0 ? (
         <div>
           {publicCommentList.map((comment) => (
-            <div key={comment.id}>
-              <div>Commenter ID: {comment.commenterId}</div>
-              <div>{comment.detail}</div>
-            </div>
+            <RequestMessage key={comment.id} comment={comment} />
           ))}
         </div>
       ) : (

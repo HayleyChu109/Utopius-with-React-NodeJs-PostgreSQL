@@ -40,7 +40,7 @@ const memberRouter = new MemberRouter(memberService);
 const RequestService = require("./Service/RequestService");
 const RequestRouter = require("./Router/RequestRouter");
 const requestService = new RequestService(knex);
-const requestRouter = new RequestRouter(requestService);
+const requestRouter = new RequestRouter(requestService, memberService);
 
 // Setup public service and router
 const PublicService = require("./Service/PublicService");

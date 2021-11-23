@@ -28,7 +28,7 @@ const NewRequest = (props) => {
   useEffect(() => {
     if (requestId !== null) {
       console.log("requestDetail.id", requestId);
-      history.push(`/member/request/detail/${requestId.newReqId}`);
+      history.push(`/member/request/detail/${requestId.newReqId}/comment`);
     } else {
       return;
     }
@@ -48,7 +48,7 @@ const NewRequest = (props) => {
         reward: Number(reward),
         requiredPpl: Number(people),
         district: district,
-        status: "Open",
+        status: "open",
         tag: tag
           .split(" ")
           .filter((newTag) => newTag[0] === "#" && newTag.length > 1)
@@ -88,7 +88,7 @@ const NewRequest = (props) => {
                 value={detail}
                 className="form-control input-text"
                 rows="7"
-                maxLength="230"
+                maxLength="250"
                 onChange={(e) => {
                   setDetail(e.currentTarget.value);
                 }}

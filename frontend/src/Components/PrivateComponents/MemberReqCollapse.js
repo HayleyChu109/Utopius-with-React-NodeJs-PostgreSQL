@@ -24,7 +24,7 @@ function MemberReqCollapse(props) {
       <Collapse isOpen={props.isOpen}>
         <div className="container py-4">
           <div className="row text-center memberProfileMiddie-beige">
-            <div className="d-flex justify-content-around col-lg-12">
+            <div className="d-flex justify-content-around col-12">
               <button onClick={() => setFilterStatus(["open"])}>OPEN</button>
               <button onClick={() => setFilterStatus(["matched"])}>
                 MATCHED

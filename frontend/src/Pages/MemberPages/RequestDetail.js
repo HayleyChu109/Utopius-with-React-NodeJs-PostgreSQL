@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import moment from "moment";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
+import UserInfoCombo from "../../Components/PublicComponents/UserInfoCombo";
 import GradeBall from "../../Components/PublicComponents/GradeBall";
 import RequestDetailNav from "../../Components/PrivateComponents/RequestDetailNav";
 import RequestDetailComment from "../../Components/PrivateComponents/RequestDetailComment";
@@ -14,7 +16,6 @@ import {
   getBookmarkListThunk,
   bookmarkToggleThunk,
   postNewCommentThunk,
-  getResponseListThunk,
   postNewResponseThunk,
 } from "../../Redux/request/actions";
 
@@ -33,29 +34,32 @@ const RequestDetail = (props) => {
     (state) => state.requestStore
   );
   const [footerColor, setFooterColor] = useState("");
-  const [displaySection, setDisplaySection] = useState("publicComment");
+  const [displaySection, setDisplaySection] = useState("comment");
   const [publicComment, setPublicComment] = useState("");
+  const [privateComment, setPrivateComment] = useState("");
   const [responseMsg, setResponseMsg] = useState("");
+
   const { requestId } = useParams();
+  const { tab } = useParams();
+
   const userId = jwt_decode(localStorage.getItem("token")).id;
 
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // Get the req data to render the req card detail
   useEffect(() => {
     console.log("request id: ", requestId);
     console.log("user id: ", userId);
     dispatch(getRequestDetailThunk(requestId, userId));
   }, [dispatch, requestId, userId]);
 
+  // Get the bookmark list to check bookmark status
   useEffect(() => {
     dispatch(getBookmarkListThunk(userId));
   }, [userId, dispatch]);
 
-  useEffect(() => {
-    dispatch(getResponseListThunk(requestId));
-  }, [requestId, dispatch]);
-
+  // Check if the user is in the req/res side to set footer color
   useEffect(() => {
     if (requestDetail.requesterId === userId) {
       setFooterColor("#fe7235");
@@ -64,23 +68,45 @@ const RequestDetail = (props) => {
     }
   }, [requestDetail, userId]);
 
+  // Bookmark toggle function
   const handleBookmark = (bookmarked) => {
     dispatch(bookmarkToggleThunk(requestId, userId, bookmarked));
   };
 
+  // Search the tag when clicked
   const handleSearch = (val) => {
     history.push("/");
     dispatch(searchReq(val));
   };
 
-  const submitPublicComment = (type) => {
-    dispatch(postNewCommentThunk(requestId, userId, publicComment, type));
-    setPublicComment("");
+  // Submit new comment
+  const submitComment = (type) => {
+    if (type) {
+      dispatch(postNewCommentThunk(requestId, userId, privateComment, type));
+      setPrivateComment("");
+    } else {
+      dispatch(postNewCommentThunk(requestId, userId, publicComment, type));
+      setPublicComment("");
+    }
   };
 
+  // Submit new response
   const submitResponse = () => {
     dispatch(postNewResponseThunk(requestId, userId, responseMsg));
     setResponseMsg("");
+  };
+
+  // Edit response
+  const editResponse = () => {
+    console.log("Sending edit res thunk..");
+    // dispatch(putNewResponseThunk(requestId, userId, responseMsg));
+    // setResponseMsg("");
+  };
+
+  // Delete response
+  const deleteResponse = () => {
+    console.log("Sending delete res thunk..");
+    // dispatch(deleteResponseThunk(requestId, userId));
   };
 
   return (
@@ -102,16 +128,10 @@ const RequestDetail = (props) => {
               </div>
               <div className="request-main mx-auto col-md-7 col-sm-12 col-xs-12 px-3 pt-3 position-relative">
                 <div className="py-2">
-                  <GradeBall grade={requestDetail.requesterGrade} />
-                  <span className="requester-username me-3">
-                    {requestDetail.requesterUsername}
-                  </span>
-                  <span className="requester-id">
-                    #UID {requestDetail.requesterId}
-                  </span>
+                  <UserInfoCombo userId={requestDetail.requesterId} />
                 </div>
                 <div className="request-detail-createdAt py-2">
-                  Created at : {requestDetail.createdAt}
+                  Created at : {moment(requestDetail.createdAt).format("LLL")}
                 </div>
                 <div className="request-detail-title py-2">
                   {requestDetail.title}
@@ -180,16 +200,17 @@ const RequestDetail = (props) => {
             <RequestDetailNav
               userId={userId}
               requestDetail={requestDetail}
+              responseList={responseList}
               setDisplaySection={setDisplaySection}
             />
             <div className="requset-detail-cmres">
-              {displaySection === "publicComment" ? (
+              {displaySection === "comment" ? (
                 <RequestDetailComment
                   requestId={requestId}
                   userId={userId}
                   type={false}
                 />
-              ) : displaySection === "privateComment" ? (
+              ) : displaySection === "meetup" ? (
                 <RequestDetailComment
                   requestId={requestId}
                   userId={userId}
@@ -198,11 +219,25 @@ const RequestDetail = (props) => {
               ) : displaySection === "response" ? (
                 <div>This is the response list</div>
               ) : displaySection === "join" ? (
+                <div className="response-form p-4 mx-auto">
+                  <div className="response-heading px-2 pb-3">
+                    CREATE RESPONSE
+                  </div>
+                  <textarea
+                    className="form-control response-ta mx-auto pb-4"
+                    placeholder="Join this request and leave a message.."
+                    rows="10"
+                    maxLength="250"
+                    onChange={(e) => {
+                      setResponseMsg(e.currentTarget.value);
+                    }}
+                  ></textarea>
+                </div>
+              ) : displaySection === "joined" ? (
                 <ResponseForm
                   requestId={requestId}
                   userId={userId}
                   setResponseMsg={setResponseMsg}
-                  responseList={responseList}
                 />
               ) : null}
             </div>
@@ -211,7 +246,7 @@ const RequestDetail = (props) => {
             className="request-detail-footer"
             style={{ backgroundColor: footerColor }}
           >
-            {displaySection === "publicComment" ? (
+            {displaySection === "comment" ? (
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div className="col-6">
                   <input
@@ -228,7 +263,7 @@ const RequestDetail = (props) => {
                     <Button
                       className="btn-white-orange-sm"
                       onClick={() => {
-                        submitPublicComment(false);
+                        submitComment(false);
                       }}
                     >
                       SEND
@@ -237,7 +272,7 @@ const RequestDetail = (props) => {
                     <Button
                       className="btn-white-blue-sm"
                       onClick={() => {
-                        submitPublicComment(false);
+                        submitComment(false);
                       }}
                     >
                       SEND
@@ -260,6 +295,57 @@ const RequestDetail = (props) => {
                   >
                     SEND
                   </Button>
+                </div>
+              </div>
+            ) : displaySection === "joined" ? (
+              <div className="text-center my-2 row d-flex align-items-center justify-content-center">
+                <div>
+                  <Button
+                    className="btn-white-blue-sm mx-2"
+                    onClick={editResponse}
+                  >
+                    SAVE EDIT
+                  </Button>
+                  <Button
+                    className="btn-white-blue-sm mx-2"
+                    onClick={deleteResponse}
+                  >
+                    DELETE
+                  </Button>
+                </div>
+              </div>
+            ) : displaySection === "meetup" ? (
+              <div className="text-center my-2 row d-flex align-items-center justify-content-center">
+                <div className="col-6">
+                  <input
+                    className="input-message form-control"
+                    placeholder="Leave a private message to your team.."
+                    value={privateComment}
+                    onChange={(e) => {
+                      setPrivateComment(e.currentTarget.value);
+                    }}
+                  />
+                </div>
+                <div className="col-2">
+                  {requestDetail.requesterId === userId ? (
+                    <Button
+                      className="btn-white-orange-sm"
+                      onClick={() => {
+                        submitComment(true);
+                      }}
+                    >
+                      SEND
+                    </Button>
+                  ) : (
+                    <Button
+                      className="btn-white-blue-sm"
+                      onClick={() => {
+                        submitComment(true);
+                      }}
+                    >
+                      SEND
+                    </Button>
+                  )}
                 </div>
               </div>
             ) : null}

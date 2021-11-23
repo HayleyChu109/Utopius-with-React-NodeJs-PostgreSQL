@@ -38,7 +38,7 @@ function FellowProfileInfo(props) {
       <div className="container mt-5">
         <div className="row d-flex justify-content-center">
           <div className="col-lg-12 col-md-12 col-sm-12-col-xs-12 memberProfileInfo">
-            <div className="username-id">
+            <div>
               <GradeBall grade={memberProfileFromStore.grade} />
               <span className="fw-bolder">
                 {memberProfileFromStore.username} UID#

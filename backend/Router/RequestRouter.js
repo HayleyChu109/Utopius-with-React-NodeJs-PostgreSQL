@@ -1,8 +1,9 @@
 const express = require("express");
 
 class RequestRouter {
-  constructor(requestService) {
+  constructor(requestService, memberService) {
     this.requestService = requestService;
+    this.memberService = memberService;
   }
 
   router() {
@@ -151,12 +152,30 @@ class RequestRouter {
         let privateCommentList = await this.requestService.getPrivateComment(
           req.params.requestId
         );
+        for (let i = 0; i < privateCommentList.length; i++) {
+          let memberQuery = await this.memberService.getMemberInfo(
+            privateCommentList[i].commenterId
+          );
+          privateCommentList[i].commenterUsername = memberQuery.username;
+          privateCommentList[i].commenterGrade = memberQuery.grade;
+          privateCommentList[i].commenterProfilePath = memberQuery.profilePath;
+          privateCommentList[i].isAdmin = memberQuery.idAdmin;
+        }
         res.json({ privateCommentList });
       } else {
         console.log("Loading public comments..");
         let publicCommentList = await this.requestService.getPublicComment(
           req.params.requestId
         );
+        for (let i = 0; i < publicCommentList.length; i++) {
+          let memberQuery = await this.memberService.getMemberInfo(
+            publicCommentList[i].commenterId
+          );
+          publicCommentList[i].commenterUsername = memberQuery.username;
+          publicCommentList[i].commenterGrade = memberQuery.grade;
+          publicCommentList[i].commenterProfilePath = memberQuery.profilePath;
+          publicCommentList[i].isAdmin = memberQuery.idAdmin;
+        }
         console.log("PublicCMList: ", publicCommentList);
         res.json({ publicCommentList });
       }
