@@ -10,6 +10,7 @@ import GradeBall from "../../Components/PublicComponents/GradeBall";
 import RequestDetailNav from "../../Components/PrivateComponents/RequestDetailNav";
 import RequestDetailComment from "../../Components/PrivateComponents/RequestDetailComment";
 import ResponseJoined from "../../Components/PrivateComponents/ResponseJoined";
+import ResponseHost from "../../Components/PrivateComponents/ResponseHost";
 import {
   searchReq,
   getRequestDetailThunk,
@@ -35,7 +36,6 @@ const RequestDetail = (props) => {
     (state) => state.requestStore
   );
   const [footerColor, setFooterColor] = useState("");
-  const [displaySection, setDisplaySection] = useState("comment");
   const [publicComment, setPublicComment] = useState("");
   const [privateComment, setPrivateComment] = useState("");
   const [responseMsg, setResponseMsg] = useState("");
@@ -48,7 +48,7 @@ const RequestDetail = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // Get the req data to render the req card detail
+  // Get the req data
   useEffect(() => {
     console.log("request id: ", requestId);
     console.log("user id: ", userId);
@@ -60,6 +60,7 @@ const RequestDetail = (props) => {
     dispatch(getBookmarkListThunk(userId));
   }, [userId, dispatch]);
 
+  // Get the response list
   useEffect(() => {
     dispatch(getResponseListThunk(requestId));
   }, [dispatch]);
@@ -117,6 +118,12 @@ const RequestDetail = (props) => {
   const deleteResponse = () => {
     console.log("Sending delete res thunk..");
     // dispatch(deleteResponseThunk(requestId, userId));
+  };
+
+  // Submit matched response
+  const submitMatch = () => {
+    console.log("Submitting response match..");
+    //
   };
 
   return (
@@ -227,7 +234,11 @@ const RequestDetail = (props) => {
                   type={true}
                 />
               ) : tab === "response" ? (
-                <div>This is the response list</div>
+                <ResponseHost
+                  requestId={requestId}
+                  userId={userId}
+                  responseList={responseList}
+                />
               ) : tab === "join" ? (
                 <div className="response-form p-4 mx-auto">
                   <div className="response-heading px-2 pb-3">
@@ -244,11 +255,7 @@ const RequestDetail = (props) => {
                   ></textarea>
                 </div>
               ) : tab === "joined" ? (
-                <ResponseJoined
-                  requestId={requestId}
-                  userId={userId}
-                  setResponseMsg={setResponseMsg}
-                />
+                <ResponseJoined requestId={requestId} userId={userId} />
               ) : null}
             </div>
           </CardBody>
@@ -293,7 +300,9 @@ const RequestDetail = (props) => {
             ) : tab === "response" ? (
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div>
-                  <Button className="btn-white-orange-sm">CONFIRM</Button>
+                  <Button className="btn-white-orange-sm" onClick={submitMatch}>
+                    CONFIRM
+                  </Button>
                 </div>
               </div>
             ) : tab === "join" ? (

@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import moment from "moment";
 
 import { getResponseListThunk } from "../../Redux/request/actions";
 import RequestMessage from "../PrivateComponents/RequestMessage";
 
-const ResponseJoined = ({ requestId, userId, setResponseMsg }) => {
+const ResponseJoined = ({ requestId, userId }) => {
   const { responseList } = useSelector((state) => state.requestStore);
   const [resIdList, setResIdList] = useState([]);
   const [responseHistory, setResponseHistory] = useState([]);
