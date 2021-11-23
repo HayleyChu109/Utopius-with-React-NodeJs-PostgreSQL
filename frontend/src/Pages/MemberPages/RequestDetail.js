@@ -9,7 +9,7 @@ import UserInfoCombo from "../../Components/PublicComponents/UserInfoCombo";
 import GradeBall from "../../Components/PublicComponents/GradeBall";
 import RequestDetailNav from "../../Components/PrivateComponents/RequestDetailNav";
 import RequestDetailComment from "../../Components/PrivateComponents/RequestDetailComment";
-import ResponseForm from "../../Components/PrivateComponents/ResponseForm";
+import ResponseJoined from "../../Components/PrivateComponents/ResponseJoined";
 import {
   searchReq,
   getRequestDetailThunk,
@@ -17,6 +17,7 @@ import {
   bookmarkToggleThunk,
   postNewCommentThunk,
   postNewResponseThunk,
+  getResponseListThunk,
 } from "../../Redux/request/actions";
 
 import { Card, CardBody, CardFooter, Button } from "reactstrap";
@@ -59,6 +60,10 @@ const RequestDetail = (props) => {
     dispatch(getBookmarkListThunk(userId));
   }, [userId, dispatch]);
 
+  useEffect(() => {
+    dispatch(getResponseListThunk(requestId));
+  }, [dispatch]);
+
   // Check if the user is in the req/res side to set footer color
   useEffect(() => {
     if (requestDetail.requesterId === userId) {
@@ -79,6 +84,10 @@ const RequestDetail = (props) => {
     dispatch(searchReq(val));
   };
 
+  const handleTab = (displayOption) => {
+    history.push(`/member/request/detail/${requestId}/${displayOption}`);
+  };
+
   // Submit new comment
   const submitComment = (type) => {
     if (type) {
@@ -94,6 +103,7 @@ const RequestDetail = (props) => {
   const submitResponse = () => {
     dispatch(postNewResponseThunk(requestId, userId, responseMsg));
     setResponseMsg("");
+    history.push(`/member/request/detail/${requestId}/joined`);
   };
 
   // Edit response
@@ -116,7 +126,7 @@ const RequestDetail = (props) => {
         <div className="m-4 new-search-title">
           <BsStars className="mb-1 me-2" />
           REQUEST DETAIL : <span className="me-3">{requestDetail.title}</span>
-          <span>(Request #{requestDetail.id})</span>
+          <span>(ReqID #{requestDetail.id})</span>
         </div>
       </div>
       <div className="container p-4">
@@ -201,24 +211,24 @@ const RequestDetail = (props) => {
               userId={userId}
               requestDetail={requestDetail}
               responseList={responseList}
-              setDisplaySection={setDisplaySection}
+              handleTab={handleTab}
             />
             <div className="requset-detail-cmres">
-              {displaySection === "comment" ? (
+              {tab === "comment" ? (
                 <RequestDetailComment
                   requestId={requestId}
                   userId={userId}
                   type={false}
                 />
-              ) : displaySection === "meetup" ? (
+              ) : tab === "meetup" ? (
                 <RequestDetailComment
                   requestId={requestId}
                   userId={userId}
                   type={true}
                 />
-              ) : displaySection === "response" ? (
+              ) : tab === "response" ? (
                 <div>This is the response list</div>
-              ) : displaySection === "join" ? (
+              ) : tab === "join" ? (
                 <div className="response-form p-4 mx-auto">
                   <div className="response-heading px-2 pb-3">
                     CREATE RESPONSE
@@ -233,8 +243,8 @@ const RequestDetail = (props) => {
                     }}
                   ></textarea>
                 </div>
-              ) : displaySection === "joined" ? (
-                <ResponseForm
+              ) : tab === "joined" ? (
+                <ResponseJoined
                   requestId={requestId}
                   userId={userId}
                   setResponseMsg={setResponseMsg}
@@ -246,7 +256,7 @@ const RequestDetail = (props) => {
             className="request-detail-footer"
             style={{ backgroundColor: footerColor }}
           >
-            {displaySection === "comment" ? (
+            {tab === "comment" ? (
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div className="col-6">
                   <input
@@ -280,13 +290,13 @@ const RequestDetail = (props) => {
                   )}
                 </div>
               </div>
-            ) : displaySection === "response" ? (
+            ) : tab === "response" ? (
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div>
                   <Button className="btn-white-orange-sm">CONFIRM</Button>
                 </div>
               </div>
-            ) : displaySection === "join" ? (
+            ) : tab === "join" ? (
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div>
                   <Button
@@ -297,14 +307,14 @@ const RequestDetail = (props) => {
                   </Button>
                 </div>
               </div>
-            ) : displaySection === "joined" ? (
+            ) : tab === "joined" ? (
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div>
                   <Button
                     className="btn-white-blue-sm mx-2"
                     onClick={editResponse}
                   >
-                    SAVE EDIT
+                    EDIT
                   </Button>
                   <Button
                     className="btn-white-blue-sm mx-2"
@@ -314,7 +324,7 @@ const RequestDetail = (props) => {
                   </Button>
                 </div>
               </div>
-            ) : displaySection === "meetup" ? (
+            ) : tab === "meetup" ? (
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div className="col-6">
                   <input

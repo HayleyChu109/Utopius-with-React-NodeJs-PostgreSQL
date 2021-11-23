@@ -18,10 +18,12 @@ const RequestDetailComment = ({ requestId, userId, type }) => {
 
   return (
     <>
-      <div>This is the comment section.</div>
+      {/* <div>
+        > This is the comment section, may add comment filter, delete cm, edit cm
+      </div> */}
       {type && privateCommentList && privateCommentList.length > 0 ? (
         <div>
-          {privateCommentList.map((comment) => (
+          {privateCommentList.map((comment, i) => (
             <div key={comment.id}>
               <div>Commenter ID: {comment.commenterId}</div>
               <div>{comment.detail}</div>
@@ -30,12 +32,12 @@ const RequestDetailComment = ({ requestId, userId, type }) => {
         </div>
       ) : !type && publicCommentList && publicCommentList.length > 0 ? (
         <div>
-          {publicCommentList.map((comment) => (
-            <RequestMessage key={comment.id} comment={comment} />
+          {publicCommentList.map((comment, i) => (
+            <RequestMessage key={comment.id} comment={comment} index={i + 1} />
           ))}
         </div>
       ) : (
-        <div>No comment</div>
+        <div>No comment for this request</div>
       )}
     </>
   );

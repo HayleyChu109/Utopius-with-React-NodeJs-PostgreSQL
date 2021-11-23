@@ -177,7 +177,7 @@ class RequestService {
         .select("*")
         .where("requestId", requestId)
         .andWhere("private", false)
-        .orderBy("created_at", "desc");
+        // .orderBy("created_at", "desc");
       if (commentQuery.length > 0) {
         console.log(commentQuery);
         return commentQuery;
@@ -228,7 +228,8 @@ class RequestService {
     try {
       let requestQuery = await this.knex("response")
         .select("*")
-        .where("requestId", requestId);
+        .where("requestId", requestId)
+        .orderBy("created_at", "desc");
       if (requestQuery.length > 0) {
         console.log(requestQuery[0]);
         return requestQuery;

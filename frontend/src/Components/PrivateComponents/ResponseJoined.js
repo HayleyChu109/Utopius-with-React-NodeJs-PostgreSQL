@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
 
 import { getResponseListThunk } from "../../Redux/request/actions";
+import RequestMessage from "../PrivateComponents/RequestMessage";
 
-const ResponseForm = ({ requestId, userId, setResponseMsg }) => {
+const ResponseJoined = ({ requestId, userId, setResponseMsg }) => {
   const { responseList } = useSelector((state) => state.requestStore);
   const [resIdList, setResIdList] = useState([]);
   const [responseHistory, setResponseHistory] = useState([]);
@@ -32,23 +34,11 @@ const ResponseForm = ({ requestId, userId, setResponseMsg }) => {
       {resIdList && resIdList.includes(userId) ? (
         <div className="response-form p-4 mx-auto">
           <div className="response-heading px-2 pb-3">RESPONSE SUBMITTED !</div>
-          <div className="response-submission-time px-2 pb-2">
-            Submission time: {responseHistory[0].created_at}
-          </div>
-          <textarea
-            className="form-control response-ta mx-auto pb-4"
-            rows="10"
-            defaultValue={responseHistory[0].detail}
-            maxLength="250"
-            onChange={(e) => {
-              setResponseMsg(e.currentTarget.value);
-            }}
-            disabled
-          ></textarea>
+          <RequestMessage response={responseHistory[0]} />
         </div>
       ) : null}
     </>
   );
 };
 
-export default ResponseForm;
+export default ResponseJoined;

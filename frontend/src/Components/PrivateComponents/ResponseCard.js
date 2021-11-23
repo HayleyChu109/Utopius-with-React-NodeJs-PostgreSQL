@@ -6,7 +6,7 @@ import { Card, CardBody, CardFooter } from "reactstrap";
 const ResponseCard = ({ response }) => {
   return (
     <>
-      <Card>
+      {/* <Card>
         <CardBody>
           <div>
             <img src="profilepic" alt="user-profile" />
@@ -17,7 +17,7 @@ const ResponseCard = ({ response }) => {
             <span className="requester-id">UID#{}</span>
           </div>
         </CardBody>
-      </Card>
+      </Card> */}
     </>
   )
 }

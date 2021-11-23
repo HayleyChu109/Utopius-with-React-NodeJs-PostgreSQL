@@ -4,7 +4,7 @@ const RequestDetailNav = ({
   userId,
   requestDetail,
   responseList,
-  setDisplaySection,
+  handleTab,
 }) => {
   const [statusColor, setStatusColor] = useState("");
   const [responserIdList, setResponserIdList] = useState([]);
@@ -34,18 +34,18 @@ const RequestDetailNav = ({
             <span
               className="req-detail-nav-res"
               onClick={() => {
-                setDisplaySection("response");
+                handleTab("response");
               }}
             >
               RESPONSE
             </span>
           ) : requestDetail.status === "open" &&
             requestDetail.requesterId !== userId &&
-            !responserIdList.includes(userId) ? (
+            responserIdList.indexOf(userId) === -1 ? (
             <span
               className="req-detail-nav-join"
               onClick={() => {
-                setDisplaySection("join");
+                handleTab("join");
               }}
             >
               COUNT ME IN !
@@ -56,7 +56,7 @@ const RequestDetailNav = ({
             <span
               className="req-detail-nav-joined"
               onClick={() => {
-                setDisplaySection("joined");
+                handleTab("joined");
               }}
             >
               COUNT ME IN !
@@ -66,19 +66,19 @@ const RequestDetailNav = ({
             <span
               className="req-detail-nav-matched"
               onClick={() => {
-                setDisplaySection("meetup");
+                handleTab("meetup");
               }}
             >
               MEET UP
             </span>
-          ) : requestDetail.status === "closed" ? (
+          ) : requestDetail.status === "cancelled" ? (
             <span className="req-detail-nav-locked">LOCKED</span>
           ) : null}
         </div>
         <div className="req-detail-nav-comment col-4">
           <span
             onClick={() => {
-              setDisplaySection("comment");
+              handleTab("comment");
             }}
           >
             COMMENT

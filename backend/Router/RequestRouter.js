@@ -218,6 +218,15 @@ class RequestRouter {
       let responseList = await this.requestService.getResponseList(
         req.params.requestId
       );
+      for (let i = 0; i < responseList.length; i++) {
+        let memberQuery = await this.memberService.getMemberInfo(
+          responseList[i].responserId
+        );
+        responseList[i].responserUsername = memberQuery.username;
+        responseList[i].responserGrade = memberQuery.grade;
+        responseList[i].responserProfilePath = memberQuery.profilePath;
+        responseList[i].isAdmin = memberQuery.isAdmin;
+      }
       res.json({ responseList });
     } catch (err) {
       next(err);
