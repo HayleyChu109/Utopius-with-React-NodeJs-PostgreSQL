@@ -63,7 +63,7 @@ const RequestDetail = (props) => {
   // Get the response list
   useEffect(() => {
     dispatch(getResponseListThunk(requestId));
-  }, [dispatch]);
+  }, [dispatch, requestId]);
 
   // Check if the user is in the req/res side to set footer color
   useEffect(() => {

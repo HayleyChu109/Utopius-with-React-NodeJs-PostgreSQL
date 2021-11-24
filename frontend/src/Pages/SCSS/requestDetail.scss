@@ -238,11 +238,15 @@
   font-weight: bolder;
 }
 
-.response-matching-msg {
+.response-matching-bg {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 100;
+  background-color: hsla(205, 20%, 88%, 0.226);
+}
+
+.response-matching-msg {
   transform: translateX(100px);
 }
 

@@ -26,7 +26,7 @@ const ResponseJoined = ({ requestId, userId }) => {
       console.log("responseList empty");
       return;
     }
-  }, [responseList]);
+  }, [responseList, userId]);
 
   return (
     <>
