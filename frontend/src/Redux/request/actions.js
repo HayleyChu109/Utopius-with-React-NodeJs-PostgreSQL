@@ -1,5 +1,6 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import { bindActionCreators } from "redux";
 
 export const SEARCH_REQ_ACTION = "SEARCH_REQ_ACTION";
 export const GET_REQUEST_LIST = "GET_REQUEST_LIST";
@@ -9,6 +10,8 @@ export const BOOKMARK_TOGGLE = "BOOKMARK_TOGGLE";
 export const PUBLIC_COMMENT = "PUBLIC_COMMENT";
 export const PRIVATE_COMMENT = "PRIVATE_COMMENT";
 export const RESPONSE_LIST = "RESPONSE_LIST";
+export const MATCH_RESPONSE = "MATCH_RESPONSE";
+export const GET_TEAM_LIST = "GET_TEAM_LIST";
 
 // For nav search-bar
 export const searchReq = (search) => {
@@ -284,3 +287,58 @@ export const postNewResponseThunk =
       console.log("Error", err);
     }
   };
+
+// For matching response
+export const putMatchedResponseThunk =
+  (matchedRes, requestId) => async (dispatch) => {
+    try {
+      let token = await localStorage.getItem("token");
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_SERVER}/member/request/response/match`,
+        {
+          matchedRes: matchedRes,
+          requestId: requestId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = response;
+      if (data.result.message) {
+        dispatch({
+          type: MATCH_RESPONSE,
+          payload: data.result.message,
+        });
+      }
+      console.log(data);
+    } catch (err) {
+      console.log("Error", err);
+    }
+  };
+
+// For getting team response
+export const getTeamListThunk = (requestId) => async (dispatch) => {
+  try {
+    let token = await localStorage.getItem("token");
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_SERVER}/member/request/${requestId}/response/team`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const { data } = response;
+    console.log("action: teamlist: ", data.result);
+    if (data.result) {
+      dispatch({
+        type: GET_TEAM_LIST,
+        payload: data.result,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -24,10 +24,7 @@ const RequestDetailComment = ({ requestId, userId, type }) => {
       {type && privateCommentList && privateCommentList.length > 0 ? (
         <div>
           {privateCommentList.map((comment, i) => (
-            <div key={comment.id}>
-              <div>Commenter ID: {comment.commenterId}</div>
-              <div>{comment.detail}</div>
-            </div>
+            <RequestMessage key={comment.id} comment={comment} index={i + 1} />
           ))}
         </div>
       ) : !type && publicCommentList && publicCommentList.length > 0 ? (

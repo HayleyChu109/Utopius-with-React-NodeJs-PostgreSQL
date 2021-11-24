@@ -7,6 +7,8 @@ import {
   PUBLIC_COMMENT,
   PRIVATE_COMMENT,
   RESPONSE_LIST,
+  MATCH_RESPONSE,
+  GET_TEAM_LIST,
 } from "./actions";
 
 const initialState = {
@@ -18,6 +20,8 @@ const initialState = {
   publicCommentList: [],
   privateCommentList: [],
   responseList: [],
+  matchSuccessMsg: "",
+  teamList: [],
 };
 
 export function requestReducer(state = initialState, action) {
@@ -38,6 +42,10 @@ export function requestReducer(state = initialState, action) {
       return { ...state, privateCommentList: action.payload };
     case RESPONSE_LIST:
       return { ...state, responseList: action.payload };
+    case MATCH_RESPONSE:
+      return { ...state, matchSuccessMsg: action.payload };
+    case GET_TEAM_LIST:
+      return { ...state, teamList: action.payload };
 
     default:
       return state;

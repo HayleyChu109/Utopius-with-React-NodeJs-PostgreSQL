@@ -27,6 +27,11 @@ class RequestRouter {
     // Routes for resposne
     router.get("/request/response/:requestId", this.getResponseList.bind(this));
     router.post("/request/response/new", this.postNewResponse.bind(this));
+    router.put("/request/response/match", this.putMatchedResponse.bind(this));
+    router.get(
+      "/request/:requestId/response/team",
+      this.getTeamList.bind(this)
+    );
     return router;
   }
 
@@ -246,6 +251,34 @@ class RequestRouter {
         req.body.requestId
       );
       res.json({ responseList });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async putMatchedResponse(req, res, next) {
+    try {
+      let result = await this.requestService.putMatchedResponse(
+        req.body.matchedRes,
+        req.body.requestId
+      );
+      if (result.message) {
+        res.json({ result });
+      }
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async getTeamList(req, res, next) {
+    try {
+      let teamQuery = await this.requestService.getTeamList(
+        req.params.requestId
+      );
+      let result = teamQuery.map((idObj) => idObj.id);
+      res.json({ result });
     } catch (err) {
       next(err);
       res.status(500).json(err);

@@ -7,6 +7,7 @@ import { Card, CardBody, CardFooter, Button } from "reactstrap";
 import "../../Pages/SCSS/requestComment.scss";
 
 const RequestMessage = (props) => {
+  console.log("teamlist", props.teamList);
   const history = useHistory();
 
   const handleFellow = (fellowId) => {
@@ -101,7 +102,7 @@ const RequestMessage = (props) => {
             </div>
           </CardBody>
         </Card>
-      ) : props.responseList ? (
+      ) : props.responseList && props.status === "open" ? (
         <div>
           {props.responseList.map((res, index) => (
             <Card className="request-message-card mx-auto my-3" key={res.id}>
@@ -168,6 +169,62 @@ const RequestMessage = (props) => {
                       MATCH !
                     </Button>
                   )}
+                </div>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      ) : props.responseList && props.status === "matched" ? (
+        <div>
+          {props.responseList.map((res, index) => (
+            <Card className="request-message-card mx-auto my-3" key={res.id}>
+              <CardBody className="pt-1">
+                <div className="position-relative d-flex align-items-start">
+                  <div className="req-msg-card-propic">
+                    <img
+                      src={res.responserProfilePath}
+                      alt="profile"
+                      className="req-msg-cmter-img image-fluid"
+                    />
+                  </div>
+                  <div className="req-msg-body">
+                    <div className="username-id mt-2 mb-1">
+                      <span className="comment-no me-2">#{index + 1}</span>
+                      <GradeBall grade={res.responserGrade} />
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleFellow(res.responserId);
+                        }}
+                        className="comment-username-id"
+                      >
+                        {res.responserUsername} UID#
+                        {res.responserId}
+                      </span>
+                    </div>
+                    <div className="pt-2">
+                      {res.detail
+                        ? res.detail.split("\n").map((line, i) => (
+                            <span key={i}>
+                              {line}
+                              <br />
+                            </span>
+                          ))
+                        : null}
+                    </div>
+                    <div className="comment-time pt-2 m-0">
+                      {moment(res.created_at).startOf("hour").fromNow()}
+                    </div>
+                  </div>
+                </div>
+              </CardBody>
+              <CardFooter className="res-match-footer request-detail-footer">
+                <div className="text-center mb-2">
+                  {props.teamList &&
+                  props.teamList.length > 0 &&
+                  props.teamList.includes(res.id) ? (
+                    <Button className="btn-white-blue-sm">MATCHED</Button>
+                  ) : null}
                 </div>
               </CardFooter>
             </Card>

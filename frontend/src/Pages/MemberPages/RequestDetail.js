@@ -7,10 +7,12 @@ import moment from "moment";
 import NavBar from "../../Components/PublicComponents/NavBar";
 import UserInfoCombo from "../../Components/PublicComponents/UserInfoCombo";
 import GradeBall from "../../Components/PublicComponents/GradeBall";
+import SuccessModal from "../../Components/PublicComponents/SuccessModal";
 import RequestDetailNav from "../../Components/PrivateComponents/RequestDetailNav";
 import RequestDetailComment from "../../Components/PrivateComponents/RequestDetailComment";
 import ResponseJoined from "../../Components/PrivateComponents/ResponseJoined";
 import ResponseHost from "../../Components/PrivateComponents/ResponseHost";
+import RequestMeetup from "../../Components/PrivateComponents/RequestMeetup";
 import {
   searchReq,
   getRequestDetailThunk,
@@ -19,6 +21,8 @@ import {
   postNewCommentThunk,
   postNewResponseThunk,
   getResponseListThunk,
+  putMatchedResponseThunk,
+  getTeamListThunk,
 } from "../../Redux/request/actions";
 
 import { Card, CardBody, CardFooter, Button } from "reactstrap";
@@ -32,13 +36,21 @@ import help from "../../Images/help.png";
 import "../SCSS/requestDetail.scss";
 
 const RequestDetail = (props) => {
-  const { requestDetail, bookmarkList, responseList } = useSelector(
-    (state) => state.requestStore
-  );
+  const {
+    requestDetail,
+    bookmarkList,
+    responseList,
+    teamList,
+    matchSuccessMsg,
+  } = useSelector((state) => state.requestStore);
   const [footerColor, setFooterColor] = useState("");
+  const [modalBoolean, setModalBoolean] = useState(false);
   const [publicComment, setPublicComment] = useState("");
   const [privateComment, setPrivateComment] = useState("");
   const [responseMsg, setResponseMsg] = useState("");
+  // For matching response
+  const [matchList, setMatchList] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const { requestId } = useParams();
   const { tab } = useParams();
@@ -65,6 +77,11 @@ const RequestDetail = (props) => {
     dispatch(getResponseListThunk(requestId));
   }, [dispatch, requestId]);
 
+  // Get the team list
+  useEffect(() => {
+    dispatch(getTeamListThunk(requestId));
+  }, [dispatch, requestId])
+
   // Check if the user is in the req/res side to set footer color
   useEffect(() => {
     if (requestDetail.requesterId === userId) {
@@ -73,6 +90,12 @@ const RequestDetail = (props) => {
       setFooterColor("#0077ff");
     }
   }, [requestDetail, userId]);
+
+  useEffect(() => {
+    if (matchSuccessMsg !== "") {
+      setModalBoolean(true);
+    }
+  }, [matchSuccessMsg]);
 
   // Bookmark toggle function
   const handleBookmark = (bookmarked) => {
@@ -85,8 +108,37 @@ const RequestDetail = (props) => {
     dispatch(searchReq(val));
   };
 
+  // Changing tab
   const handleTab = (displayOption) => {
     history.push(`/member/request/detail/${requestId}/${displayOption}`);
+  };
+
+  // Close success modal
+  const closeModal = () => {
+    setModalBoolean(false);
+    history.push(`/member/request/detail/${requestId}/meetup`);
+  };
+
+  // Matching response
+  const handleMatch = (newMatchId) => {
+    setErrorMsg("");
+    if (matchList && matchList.length > 0 && matchList.includes(newMatchId)) {
+      let newMatch = matchList.filter((resId) => resId !== newMatchId);
+      setMatchList(newMatch);
+      console.log("NewMatch: ", newMatch);
+    } else if (matchList.length >= requestDetail.requiredPpl) {
+      setErrorMsg(
+        `You are reaching the response limit ! ( ${requestDetail.requiredPpl} response )`
+      );
+    } else {
+      let newMatch = matchList.concat([newMatchId]);
+      if (newMatch.length >= requestDetail.requiredPpl) {
+        setErrorMsg(
+          `You are reaching the response limit ! ( ${requestDetail.requiredPpl} response )`
+        );
+      }
+      setMatchList(newMatch);
+    }
   };
 
   // Submit new comment
@@ -122,8 +174,15 @@ const RequestDetail = (props) => {
 
   // Submit matched response
   const submitMatch = () => {
-    console.log("Submitting response match..");
-    //
+    setErrorMsg("");
+    if (matchList.length < 1) {
+      setErrorMsg(
+        `Please match at least 1 response ! ( ${matchList.length} / ${requestDetail.requiredPpl} response matched )`
+      );
+    } else {
+      console.log("Submitting response match..");
+      dispatch(putMatchedResponseThunk(matchList, requestId));
+    }
   };
 
   return (
@@ -228,17 +287,28 @@ const RequestDetail = (props) => {
                   type={false}
                 />
               ) : tab === "meetup" ? (
-                <RequestDetailComment
+                <RequestMeetup
                   requestId={requestId}
                   userId={userId}
                   type={true}
+                  requestDetail={requestDetail}
+                  matchList={matchList}
+                  teamList={teamList}
+                  errorMsg={errorMsg}
+                  responseList={responseList}
+                  requiredPpl={requestDetail.requiredPpl}
                 />
               ) : tab === "response" ? (
                 <ResponseHost
                   requestId={requestId}
                   userId={userId}
+                  setMatchList={setMatchList}
+                  matchList={matchList}
+                  handleMatch={handleMatch}
+                  errorMsg={errorMsg}
                   responseList={responseList}
                   requiredPpl={requestDetail.requiredPpl}
+                  status="open"
                 />
               ) : tab === "join" ? (
                 <div className="response-form p-4 mx-auto">
@@ -372,6 +442,11 @@ const RequestDetail = (props) => {
           </CardFooter>
         </Card>
       </div>
+      <SuccessModal
+        isOpen={modalBoolean}
+        close={closeModal}
+        message={matchSuccessMsg}
+      />
     </>
   );
 };

@@ -176,8 +176,8 @@ class RequestService {
       let commentQuery = await this.knex("comment")
         .select("*")
         .where("requestId", requestId)
-        .andWhere("private", false)
-        // .orderBy("created_at", "desc");
+        .andWhere("private", false);
+      // .orderBy("created_at", "desc");
       if (commentQuery.length > 0) {
         console.log(commentQuery);
         return commentQuery;
@@ -252,6 +252,39 @@ class RequestService {
         })
         .into("response");
       console.log("Inserting response..");
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async putMatchedResponse(matchedRes, requestId) {
+    try {
+      await this.knex("request")
+        .where("id", requestId)
+        .update({ status: "matched" });
+      for (let i = 0; i < matchedRes.length; i++) {
+        await this.knex("response")
+          .where("id", matchedRes[i])
+          .andWhere("requestId", requestId)
+          .update({ matched: true });
+      }
+      return { message: "Matched ! Let's meet your team !" };
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async getTeamList(requestId) {
+    try {
+      let teamQuery = await this.knex("response")
+        .select("id")
+        .where("requestId", requestId)
+        .orderBy("created_at", "desc");
+      if (teamQuery && teamQuery.length > 0) {
+        return teamQuery;
+      } else {
+        return [];
+      }
     } catch (err) {
       throw new Error(err);
     }
