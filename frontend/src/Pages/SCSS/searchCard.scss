@@ -87,7 +87,8 @@
   color: $dark-grey;
 }
 
-.tagname {
+.tagname,
+.username-id {
   color: $dark-orange;
   cursor: pointer;
 }
@@ -136,10 +137,6 @@
   transform: scale(1.1);
   transition: 0.2s;
   color: $bookmark-true;
-}
-
-.username-id {
-  color: $dark-orange;
 }
 
 .username-id:hover {

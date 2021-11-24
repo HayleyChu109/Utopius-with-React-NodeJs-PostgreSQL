@@ -41,6 +41,7 @@ const RequestDetail = (props) => {
     bookmarkList,
     responseList,
     teamList,
+    teamResId,
     matchSuccessMsg,
   } = useSelector((state) => state.requestStore);
   const [footerColor, setFooterColor] = useState("");
@@ -294,6 +295,7 @@ const RequestDetail = (props) => {
                   requestDetail={requestDetail}
                   matchList={matchList}
                   teamList={teamList}
+                  teamResId={teamResId}
                   errorMsg={errorMsg}
                   responseList={responseList}
                   requiredPpl={requestDetail.requiredPpl}

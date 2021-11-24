@@ -199,10 +199,9 @@ class RequestRouter {
         req.body.type
       );
       if (req.body.type) {
-        let privateCommentList =
-          await this.requestService.getRequestPrivateComment(
-            req.body.requsetId
-          );
+        let privateCommentList = await this.requestService.getPrivateComment(
+          req.body.requsetId
+        );
         console.log("Private cm list(Arr of obj): ", privateCommentList);
         res.json({ privateCommentList });
       } else {
@@ -274,11 +273,18 @@ class RequestRouter {
 
   async getTeamList(req, res, next) {
     try {
-      let teamQuery = await this.requestService.getTeamList(
+      let teamList = await this.requestService.getTeamList(
         req.params.requestId
       );
-      let result = teamQuery.map((idObj) => idObj.id);
-      res.json({ result });
+      let teamResId = teamList.map((idObj) => idObj.id);
+      for (let i = 0; i < teamList.length; i++) {
+        let memberQuery = await this.memberService.getMemberInfo(
+          teamList[i].responserId
+        );
+        teamList[i].responserUsername = memberQuery.username;
+        teamList[i].responserGrade = memberQuery.grade;
+      }
+      res.json({ teamList, teamResId });
     } catch (err) {
       next(err);
       res.status(500).json(err);

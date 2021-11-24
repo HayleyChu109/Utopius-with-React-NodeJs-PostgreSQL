@@ -4,11 +4,12 @@ import RequestMessage from "./RequestMessage";
 import RequestDetailComment from "./RequestDetailComment";
 
 const ResponseHost = ({
-  responseList,
   requiredPpl,
+  responseList,
   handleMatch,
   matchList,
   teamList,
+  teamResId,
   errorMsg,
   status,
 }) => {
@@ -37,6 +38,7 @@ const ResponseHost = ({
         <RequestMessage
           responseList={responseList}
           matchList={matchList}
+          teamResId={teamResId}
           teamList={teamList}
           handleMatch={handleMatch}
           status={status}

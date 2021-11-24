@@ -22,6 +22,7 @@ const initialState = {
   responseList: [],
   matchSuccessMsg: "",
   teamList: [],
+  teamResId: [],
 };
 
 export function requestReducer(state = initialState, action) {
@@ -45,7 +46,11 @@ export function requestReducer(state = initialState, action) {
     case MATCH_RESPONSE:
       return { ...state, matchSuccessMsg: action.payload };
     case GET_TEAM_LIST:
-      return { ...state, teamList: action.payload };
+      return {
+        ...state,
+        teamList: action.teamList,
+        teamResId: action.teamResId,
+      };
 
     default:
       return state;

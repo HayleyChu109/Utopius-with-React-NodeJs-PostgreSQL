@@ -331,11 +331,11 @@ export const getTeamListThunk = (requestId) => async (dispatch) => {
       }
     );
     const { data } = response;
-    console.log("action: teamlist: ", data.result);
-    if (data.result) {
+    if (data.teamList && data.teamResId) {
       dispatch({
         type: GET_TEAM_LIST,
-        payload: data.result,
+        teamList: data.teamList,
+        teamResId: data.teamResId,
       });
     }
   } catch (err) {

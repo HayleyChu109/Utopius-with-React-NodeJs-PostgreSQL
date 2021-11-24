@@ -277,7 +277,7 @@ class RequestService {
   async getTeamList(requestId) {
     try {
       let teamQuery = await this.knex("response")
-        .select("id")
+        .select("id", "responserId")
         .where("requestId", requestId)
         .orderBy("created_at", "desc");
       if (teamQuery && teamQuery.length > 0) {

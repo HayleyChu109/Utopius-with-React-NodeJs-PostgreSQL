@@ -4,6 +4,8 @@ import moment from "moment";
 import GradeBall from "../PublicComponents/GradeBall";
 
 import { Card, CardBody, CardFooter, Button } from "reactstrap";
+import { BsFillPersonPlusFill } from "react-icons/bs";
+import help from "../../Images/help.png";
 import "../../Pages/SCSS/requestComment.scss";
 
 const RequestMessage = (props) => {
@@ -220,9 +222,9 @@ const RequestMessage = (props) => {
               </CardBody>
               <CardFooter className="res-match-footer request-detail-footer">
                 <div className="text-center mb-2">
-                  {props.teamList &&
-                  props.teamList.length > 0 &&
-                  props.teamList.includes(res.id) ? (
+                  {props.teamResId &&
+                  props.teamResId.length > 0 &&
+                  props.teamResId.includes(res.id) ? (
                     <Button className="btn-white-blue-sm">MATCHED</Button>
                   ) : null}
                 </div>
@@ -230,6 +232,74 @@ const RequestMessage = (props) => {
             </Card>
           ))}
         </div>
+      ) : props.systemWelcomeMsg ? (
+        <Card className="request-message-card mx-auto my-3">
+          <CardBody className="pt-1">
+            <div className="position-relative d-flex align-items-start">
+              <div className="req-msg-card-propic">
+                <img
+                  src={help}
+                  alt="profile"
+                  className="req-msg-cmter-img image-fluid"
+                />
+              </div>
+              <div className="req-msg-body">
+                <div className="username-id mt-2 mb-1">
+                  <span className="comment-no me-2">#0</span>
+                  <GradeBall grade={"S"} />
+                  <span className="comment-username-id">UTOPIUS</span>
+                </div>
+                <div className="pt-2">
+                  Congratulations ! You are the chosen one !<br />
+                  Here are your team members :<br />
+                  <div className="msgModal my-2">
+                    Request Host :
+                    <span className="ms-2 username-id">
+                      <GradeBall grade={props.requestDetail.requesterGrade} />
+                    </span>
+                    <span className="me-2 username-id">
+                      {props.requestDetail.requesterUsername}
+                    </span>
+                    <span className="me-2 username-id">
+                      UID#{props.requestDetail.requesterId}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="person">Responser :</span>
+                    <BsFillPersonPlusFill className="ms-1 pb-1 fs-4 person person-icon" />
+                    <span className="ms-1 person">{props.teamList.length}</span>
+                    <br />
+                    {props.teamList && props.teamList.length > 0
+                      ? props.teamList.map((res) => (
+                          <div key={res.id} className="my-1">
+                            <GradeBall grade={res.responserGrade} />
+                            <span
+                              className="me-2 username-id"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleFellow(res.responserId);
+                              }}
+                            >
+                              {res.responserUsername}
+                            </span>
+                            <span
+                              className="username-id"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleFellow(res.responserId);
+                              }}
+                            >
+                              UID#{res.responserId}
+                            </span>
+                          </div>
+                        ))
+                      : null}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardBody>
+        </Card>
       ) : null}
     </>
   );
