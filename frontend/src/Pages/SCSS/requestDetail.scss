@@ -237,3 +237,18 @@
   font-family: $nunito;
   font-weight: bolder;
 }
+
+.response-matching-msg {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transform: translateX(100px);
+}
+
+.response-matching-helper {
+  font-size: 13px;
+  font-family: $nunito;
+  font-weight: bold;
+  letter-spacing: 1px;
+}

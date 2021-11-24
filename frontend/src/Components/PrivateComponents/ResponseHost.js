@@ -3,36 +3,45 @@ import { useState, useEffect } from "react";
 import RequestMessage from "./RequestMessage";
 import RequestDetailComment from "./RequestDetailComment";
 
-const ResponseHost = ({ requestId, userId, responseList }) => {
-  // let matchList = localStorage.getItem("matchList");
+const ResponseHost = ({ requestId, userId, responseList, requiredPpl }) => {
   const [matchList, setMatchList] = useState([]);
-
-  useEffect(() => {
-    let matchedLocal = localStorage.getItem("match");
-    setMatchList(matchedLocal);
-  }, []);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleMatch = (newMatchId) => {
-    console.log(newMatchId);
-    if (!matchList || matchList.length < 1) {
-      setMatchList([`${newMatchId}`]);
-      localStorage.setItem("matchList", matchList);
-    } else if (
-      matchList &&
-      matchList.length > 0 &&
-      matchList.includes(newMatchId)
-    ) {
+    setErrorMsg("");
+    if (matchList && matchList.length > 0 && matchList.includes(newMatchId)) {
       let newMatch = matchList.filter((resId) => resId !== newMatchId);
-      localStorage.setItem("matchList", newMatch);
+      setMatchList(newMatch);
+    } else if (matchList.length >= requiredPpl) {
+      setErrorMsg(
+        `You are reaching the response limit ! ( ${requiredPpl} response )`
+      );
     } else {
-      let newMatch = matchList.push(newMatchId);
-      localStorage.setItem("matchList", newMatch);
+      console.log("matchList", matchList);
+      let newMatch = matchList.concat([newMatchId]);
+      setMatchList(newMatch);
     }
   };
 
   return (
     <>
-      <div>This is the response list</div>
+      <div className="response-form response-matching-msg">
+        <div className="response-heading py-3">RESPONSE</div>
+        <div>
+          {errorMsg !== "" ? (
+            <span
+              className="response-matching-helper"
+              style={{ color: "#fa7c92" }}
+            >
+              {errorMsg}
+            </span>
+          ) : (
+            <span className="response-matching-helper">
+              Matched response : {matchList.length} / {requiredPpl}
+            </span>
+          )}
+        </div>
+      </div>
       {responseList && responseList.length > 0 ? (
         <RequestMessage
           responseList={responseList}

@@ -238,6 +238,7 @@ const RequestDetail = (props) => {
                   requestId={requestId}
                   userId={userId}
                   responseList={responseList}
+                  requiredPpl={requestDetail.requiredPpl}
                 />
               ) : tab === "join" ? (
                 <div className="response-form p-4 mx-auto">

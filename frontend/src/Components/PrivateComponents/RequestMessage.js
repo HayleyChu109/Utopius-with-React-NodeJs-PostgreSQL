@@ -104,7 +104,7 @@ const RequestMessage = (props) => {
       ) : props.responseList ? (
         <div>
           {props.responseList.map((res, index) => (
-            <Card className="request-message-card mx-auto my-3">
+            <Card className="request-message-card mx-auto my-3" key={res.id}>
               <CardBody className="pt-1">
                 <div className="position-relative d-flex align-items-start">
                   <div className="req-msg-card-propic">
@@ -147,7 +147,9 @@ const RequestMessage = (props) => {
               </CardBody>
               <CardFooter className="res-match-footer request-detail-footer">
                 <div className="text-center mb-2">
-                  {props.matchList && props.matchList.includes(res.id) ? (
+                  {props.matchList &&
+                  props.matchList.length > 0 &&
+                  props.matchList.includes(res.id) ? (
                     <Button
                       className="btn-white-blue-sm"
                       onClick={() => {
