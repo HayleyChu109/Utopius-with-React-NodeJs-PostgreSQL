@@ -33,7 +33,6 @@ class RequestService {
 
   async postNewRequest(newRequest) {
     try {
-      console.log("Posting new request..");
       let requestId = await this.knex
         .insert({
           requesterId: newRequest.userId,
@@ -51,6 +50,17 @@ class RequestService {
       throw new Error(err);
     }
   }
+
+  async putRequestService(requestId, newStatus) {
+    try {
+      await this.knex("request")
+        .where("id", requestId)
+        .update({ status: newStatus });
+      return { message: "Request status updated" };
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
   /**************** Request service ****************/
 
   /**************** Tag service ****************/
@@ -61,7 +71,7 @@ class RequestService {
         .select("*")
         .where("requestId", requestId);
       if (requestQuery.length > 0) {
-        console.log("Member Service getRequestTag: ", requestQuery[0]);
+        // console.log("Member Service getRequestTag: ", requestQuery[0]);
         return requestQuery;
       } else {
         return [];
@@ -74,7 +84,7 @@ class RequestService {
   async postNewTag(newTag) {
     const addTag = async (tag) => {
       let matchedTag = await this.knex("tag").select("*").where("tagName", tag);
-      console.log("MemberService postNewTag", matchedTag);
+      // console.log("MemberService postNewTag", matchedTag);
       if (!matchedTag || matchedTag.length < 1) {
         console.log("Posting new tag..");
         return this.knex.insert({ tagName: tag }).into("tag").returning("id");
@@ -104,7 +114,7 @@ class RequestService {
           tagIdArray.push(tagQuery[0].id);
         }
       }
-      console.log("Tagidarr: ", tagIdArray);
+      // console.log("Tagidarr: ", tagIdArray);
 
       tagIdArray.forEach(
         async (tagId) =>
@@ -179,7 +189,7 @@ class RequestService {
         .andWhere("private", false);
       // .orderBy("created_at", "desc");
       if (commentQuery.length > 0) {
-        console.log(commentQuery);
+        // console.log(commentQuery);
         return commentQuery;
       } else {
         return [];
@@ -196,7 +206,7 @@ class RequestService {
         .where("requestId", requestId)
         .andWhere("private", true);
       if (commentQuery.length > 0) {
-        console.log(commentQuery);
+        // console.log(commentQuery);
         return commentQuery;
       } else {
         return [];
@@ -208,6 +218,7 @@ class RequestService {
 
   async postNewComment(userId, requestId, comment, type) {
     try {
+      console.log("Inserting comment..", userId, requestId, comment, type);
       await this.knex
         .insert({
           commenterId: userId,
@@ -216,7 +227,6 @@ class RequestService {
           private: type,
         })
         .into("comment");
-      console.log("Inserting comment..");
     } catch (err) {
       console.log(err);
     }
@@ -231,7 +241,7 @@ class RequestService {
         .where("requestId", requestId)
         .orderBy("created_at", "desc");
       if (requestQuery.length > 0) {
-        console.log(requestQuery[0]);
+        // console.log(requestQuery[0]);
         return requestQuery;
       } else {
         return [];
@@ -252,6 +262,17 @@ class RequestService {
         })
         .into("response");
       console.log("Inserting response..");
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async deleteResponse(requestId, userId) {
+    try {
+      return await this.knex("response")
+        .where("requestId", requestId)
+        .andWhere("responserId", userId)
+        .del();
     } catch (err) {
       throw new Error(err);
     }
@@ -279,6 +300,7 @@ class RequestService {
       let teamQuery = await this.knex("response")
         .select("id", "responserId")
         .where("requestId", requestId)
+        .andWhere("matched", true)
         .orderBy("created_at", "desc");
       if (teamQuery && teamQuery.length > 0) {
         return teamQuery;

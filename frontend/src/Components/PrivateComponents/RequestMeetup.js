@@ -1,33 +1,32 @@
+import { useSelector } from "react-redux";
+
 import ResponseHost from "./ResponseHost";
 import ResponseJoined from "./ResponseJoined";
-import RequestDetailSystemComment from "./RequestDetailSystemComment";
+import RequestMessage from "./RequestMessage";
 import RequestDetailComment from "./RequestDetailComment";
 
 const RequestMeetup = (props) => {
+  const { requestDetail, teamList, teamResId } = useSelector(
+    (state) => state.requestStore
+  );
   return (
     <>
-      {props.requestDetail &&
-      props.requestDetail.requesterId === props.userId ? (
+      {requestDetail && requestDetail.requesterId === props.userId ? (
         <ResponseHost
           requestId={props.requestId}
           userId={props.userId}
-          // setMatchList={props.setMatchList}
           matchList={props.matchList}
-          teamList={props.teamList}
-          teamResId={props.teamResId}
           errorMsg={props.errorMsg}
-          responseList={props.responseList}
-          requiredPpl={props.requestDetail.requiredPpl}
           status="matched"
         />
-      ) : props.requestDetail &&
-        props.requestDetail.requesterId !== props.userId ? (
+      ) : requestDetail && requestDetail.requesterId !== props.userId ? (
         <ResponseJoined requestId={props.requestId} userId={props.userId} />
       ) : null}
-      <RequestDetailSystemComment
-        teamList={props.teamList}
-        teamResId={props.teamResId}
-        requestDetail={props.requestDetail}
+      <RequestMessage
+        teamList={teamList}
+        teamResId={teamResId}
+        requestDetail={requestDetail}
+        systemWelcomeMsg={true}
       />
       <RequestDetailComment
         requestId={props.requestId}

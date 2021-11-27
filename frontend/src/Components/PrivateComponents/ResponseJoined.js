@@ -18,7 +18,6 @@ const ResponseJoined = ({ requestId, userId }) => {
   useEffect(() => {
     if (responseList && responseList.length > 0) {
       let responseIdList = responseList.map((res) => res.responserId);
-      console.log(responseIdList);
       setResIdList(responseIdList);
       let resRec = responseList.filter((res) => res.responserId === userId);
       setResponseHistory(resRec);

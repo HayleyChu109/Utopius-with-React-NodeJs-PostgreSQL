@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
-const RequestDetailNav = ({
-  userId,
-  requestDetail,
-  responseList,
-  handleTab,
-}) => {
+const RequestDetailNav = ({ userId, handleTab }) => {
+  const { requestDetail, responseList } = useSelector(
+    (state) => state.requestStore
+  );
   const [statusColor, setStatusColor] = useState("");
   const [responserIdList, setResponserIdList] = useState([]);
 
+  // Setting status tab color
   useEffect(() => {
     if (requestDetail.status === "open" || requestDetail.status === "matched") {
       setStatusColor("#fe7235");
@@ -20,7 +20,6 @@ const RequestDetailNav = ({
   useEffect(() => {
     if (responseList && responseList.length > 0) {
       let resIdList = responseList.map((res) => res.responserId);
-      console.log("resIdList: ", resIdList);
       setResponserIdList(resIdList);
     }
   }, [responseList]);

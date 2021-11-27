@@ -35,6 +35,7 @@ const GradeBall = ({ grade }) => {
       return;
     }
   }, [grade]);
+  
   return (
     <span
       className="dot text-center me-2"

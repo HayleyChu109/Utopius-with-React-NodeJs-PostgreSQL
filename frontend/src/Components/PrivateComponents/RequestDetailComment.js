@@ -1,26 +1,14 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-// import jwt_decode from "jwt-decode";
+import { useSelector } from "react-redux";
 
 import RequestMessage from "./RequestMessage";
-import { getCommentThunk } from "../../Redux/request/actions";
 
-const RequestDetailComment = ({ requestId, userId, type }) => {
+const RequestDetailComment = ({ type }) => {
   const { publicCommentList, privateCommentList } = useSelector(
     (state) => state.requestStore
   );
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getCommentThunk(requestId, type));
-  }, [dispatch, requestId, type]);
-
   return (
     <>
-      {/* <div>
-        > This is the comment section, may add comment filter, delete cm, edit cm
-      </div> */}
       {type && privateCommentList && privateCommentList.length > 0 ? (
         <div>
           {privateCommentList.map((comment, i) => (
@@ -34,7 +22,7 @@ const RequestDetailComment = ({ requestId, userId, type }) => {
           ))}
         </div>
       ) : (
-        <div>No comment for this request</div>
+        <div className="ps-5">No comment for this request</div>
       )}
     </>
   );

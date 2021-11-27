@@ -6,8 +6,9 @@ import moment from "moment";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
 import UserInfoCombo from "../../Components/PublicComponents/UserInfoCombo";
-import GradeBall from "../../Components/PublicComponents/GradeBall";
+// import GradeBall from "../../Components/PublicComponents/GradeBall";
 import SuccessModal from "../../Components/PublicComponents/SuccessModal";
+// import FailureModal from "../../Components/PublicComponents/FailureModal";
 import RequestDetailNav from "../../Components/PrivateComponents/RequestDetailNav";
 import RequestDetailComment from "../../Components/PrivateComponents/RequestDetailComment";
 import ResponseJoined from "../../Components/PrivateComponents/ResponseJoined";
@@ -18,9 +19,11 @@ import {
   getRequestDetailThunk,
   getBookmarkListThunk,
   bookmarkToggleThunk,
+  getCommentThunk,
   postNewCommentThunk,
   postNewResponseThunk,
   getResponseListThunk,
+  deleteResponseThunk,
   putMatchedResponseThunk,
   getTeamListThunk,
 } from "../../Redux/request/actions";
@@ -38,20 +41,36 @@ import "../SCSS/requestDetail.scss";
 const RequestDetail = (props) => {
   const {
     requestDetail,
+    requestStatus,
     bookmarkList,
     responseList,
     teamList,
-    teamResId,
+    deleteSuccessMsg,
     matchSuccessMsg,
   } = useSelector((state) => state.requestStore);
+  /* Notes to the states from store:
+  requestDetail: Contains all the request body info
+  bookmarkList: Users bookmark
+  responseList: All the received responses
+  teamList: All the matched res with responser's info
+  teamResId: All the matched response id
+  matchSuccessMsg: System message returned from server after putting match
+  */
   const [footerColor, setFooterColor] = useState("");
-  const [modalBoolean, setModalBoolean] = useState(false);
+  // For posting comments
   const [publicComment, setPublicComment] = useState("");
   const [privateComment, setPrivateComment] = useState("");
+  // For posting responses
   const [responseMsg, setResponseMsg] = useState("");
+  // For deleting response
+  const [responseModalBoolean, setResponseModalBoolean] = useState(false);
   // For matching response
   const [matchList, setMatchList] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
+  const [modalBoolean, setModalBoolean] = useState(false);
+  // For preventing user enters wrong path
+  // const [wrongPathNoti, setWrongPathNoti] = useState("");
+  // const [wrongPathBoolean, setWrongPathBoolean] = useState(false);
 
   const { requestId } = useParams();
   const { tab } = useParams();
@@ -73,6 +92,16 @@ const RequestDetail = (props) => {
     dispatch(getBookmarkListThunk(userId));
   }, [userId, dispatch]);
 
+  // Get public comments
+  useEffect(() => {
+    dispatch(getCommentThunk(requestId, false));
+  }, [dispatch, requestId]);
+
+  // Get private comments
+  useEffect(() => {
+    dispatch(getCommentThunk(requestId, true));
+  }, [dispatch, requestId]);
+
   // Get the response list
   useEffect(() => {
     dispatch(getResponseListThunk(requestId));
@@ -81,22 +110,126 @@ const RequestDetail = (props) => {
   // Get the team list
   useEffect(() => {
     dispatch(getTeamListThunk(requestId));
-  }, [dispatch, requestId])
+  }, [dispatch, requestId]);
 
-  // Check if the user is in the req/res side to set footer color
+  // Prevent user entering wrong path
   useEffect(() => {
+    // if the user = requester
     if (requestDetail.requesterId === userId) {
       setFooterColor("#fe7235");
+      console.log("User is the req");
+      switch (tab) {
+        case "join":
+          console.log("R1");
+          history.push(`/member/request/detail/${requestId}/comment`);
+          break;
+        case "joined":
+          console.log("R2");
+          history.push(`/member/request/detail/${requestId}/comment`);
+          break;
+        case "meetup":
+          if (!teamList || teamList.length < 1) {
+            console.log("R3");
+            history.push(`/member/request/detail/${requestId}/response`);
+          }
+          break;
+        case "response":
+          if (teamList && teamList.length > 0) {
+            console.log("R4");
+            history.push(`/member/request/detail/${requestId}/meetup`);
+          }
+          break;
+      }
     } else {
+      console.log("User is not the req");
       setFooterColor("#0077ff");
+      switch (tab) {
+        case "join":
+          // Already responded
+          if (
+            responseList.length > 0 &&
+            responseList.map((res) => res.responserId).includes(userId)
+          ) {
+            console.log("1");
+            history.push(`/member/request/detail/${requestId}/joined`);
+          }
+          // Req status matched and user in the team
+          else if (
+            teamList.length > 0 &&
+            teamList.map((team) => team.responserId).includes(userId)
+          ) {
+            console.log("2");
+            history.push(`/member/request/detail/${requestId}/meetup`);
+          }
+          // Req status matched and user is NOT in the team
+          else if (
+            teamList.length > 0 &&
+            teamList.map((team) => team.responserId).indexOf(userId) === -1
+          ) {
+            console.log("3");
+            history.push(`/member/request/detail/${requestId}/comment`);
+          }
+          break;
+        case "joined":
+          // Not yet joined
+          if (
+            !responseList ||
+            responseList.map((res) => res.responserId).indexOf(userId) === -1
+          ) {
+            console.log("4");
+            history.push(`/member/request/detail/${requestId}/join`);
+          }
+          // Req status matched and user is in the team
+          else if (
+            teamList.length > 0 &&
+            teamList.map((team) => team.responserId).includes(userId)
+          ) {
+            console.log("5");
+            history.push(`/member/request/detail/${requestId}/meetup`);
+          }
+          // Req status matched and user is NOT in the team
+          else if (
+            teamList.length > 0 &&
+            teamList.map((team) => team.responserId).indexOf(userId) === -1
+          ) {
+            console.log("6");
+            history.push(`/member/request/detail/${requestId}/comment`);
+          }
+          break;
+        case "response":
+          console.log("7");
+          history.push(`/member/request/detail/${requestId}/comment`);
+          break;
+        case "meetup":
+          console.log("8");
+          // Req status not matched
+          if (teamList.length < 1) {
+            history.push(`/member/request/detail/${requestId}/comment`);
+          }
+          // Req status matched but member is not in the team
+          else if (
+            teamList.length > 0 &&
+            teamList.map((team) => team.responserId).indexOf(userId) === -1
+          ) {
+            history.push(`/member/request/detail/${requestId}/comment`);
+            // setWrongPathBoolean(true);
+            // setWrongPathNoti("Sorry ! Only matched members are allowed");
+          }
+      }
     }
-  }, [requestDetail, userId]);
+  }, [requestStatus, requestDetail, userId, responseList, tab]);
 
   useEffect(() => {
     if (matchSuccessMsg !== "") {
       setModalBoolean(true);
     }
   }, [matchSuccessMsg]);
+
+  useEffect(() => {
+    if (deleteSuccessMsg !== "") {
+      setResponseModalBoolean(true);
+    }
+  }, [deleteSuccessMsg]);
 
   // Bookmark toggle function
   const handleBookmark = (bookmarked) => {
@@ -117,8 +250,13 @@ const RequestDetail = (props) => {
   // Close success modal
   const closeModal = () => {
     setModalBoolean(false);
-    history.push(`/member/request/detail/${requestId}/meetup`);
+    setResponseModalBoolean(false);
+    history.push(`/member/request/detail/${requestId}/comment`);
   };
+
+  // const closeFailureModal = () => {
+  //   setWrongPathBoolean(false);
+  // };
 
   // Matching response
   const handleMatch = (newMatchId) => {
@@ -147,9 +285,13 @@ const RequestDetail = (props) => {
     if (type) {
       dispatch(postNewCommentThunk(requestId, userId, privateComment, type));
       setPrivateComment("");
+      // Hot fix for not loading the comment component & propic properly
+      window.location.reload();
     } else {
       dispatch(postNewCommentThunk(requestId, userId, publicComment, type));
       setPublicComment("");
+      // Hot fix for not loading the comment component & propic properly
+      window.location.reload();
     }
   };
 
@@ -157,7 +299,6 @@ const RequestDetail = (props) => {
   const submitResponse = () => {
     dispatch(postNewResponseThunk(requestId, userId, responseMsg));
     setResponseMsg("");
-    history.push(`/member/request/detail/${requestId}/joined`);
   };
 
   // Edit response
@@ -170,7 +311,7 @@ const RequestDetail = (props) => {
   // Delete response
   const deleteResponse = () => {
     console.log("Sending delete res thunk..");
-    // dispatch(deleteResponseThunk(requestId, userId));
+    dispatch(deleteResponseThunk(requestId, userId));
   };
 
   // Submit matched response
@@ -274,12 +415,7 @@ const RequestDetail = (props) => {
                 </span>
               </div>
             </div>
-            <RequestDetailNav
-              userId={userId}
-              requestDetail={requestDetail}
-              responseList={responseList}
-              handleTab={handleTab}
-            />
+            <RequestDetailNav userId={userId} handleTab={handleTab} />
             <div className="requset-detail-cmres">
               {tab === "comment" ? (
                 <RequestDetailComment
@@ -292,24 +428,15 @@ const RequestDetail = (props) => {
                   requestId={requestId}
                   userId={userId}
                   type={true}
-                  requestDetail={requestDetail}
                   matchList={matchList}
-                  teamList={teamList}
-                  teamResId={teamResId}
                   errorMsg={errorMsg}
-                  responseList={responseList}
-                  requiredPpl={requestDetail.requiredPpl}
                 />
               ) : tab === "response" ? (
                 <ResponseHost
-                  requestId={requestId}
-                  userId={userId}
-                  setMatchList={setMatchList}
                   matchList={matchList}
+                  setMatchList={setMatchList}
                   handleMatch={handleMatch}
                   errorMsg={errorMsg}
-                  responseList={responseList}
-                  requiredPpl={requestDetail.requiredPpl}
                   status="open"
                 />
               ) : tab === "join" ? (
@@ -449,6 +576,16 @@ const RequestDetail = (props) => {
         close={closeModal}
         message={matchSuccessMsg}
       />
+      <SuccessModal
+        isOpen={responseModalBoolean}
+        close={closeModal}
+        message={deleteSuccessMsg}
+      />
+      {/* <FailureModal
+        isOpen={wrongPathBoolean}
+        close={closeFailureModal}
+        message={wrongPathNoti}
+      /> */}
     </>
   );
 };

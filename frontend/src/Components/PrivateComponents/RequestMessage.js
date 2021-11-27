@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 
@@ -9,7 +10,14 @@ import help from "../../Images/help.png";
 import "../../Pages/SCSS/requestComment.scss";
 
 const RequestMessage = (props) => {
-  console.log("teamlist", props.teamList);
+  const {
+    responseList,
+    teamResId,
+    teamList,
+    // publicCommentList,
+    // privateCommentList,
+  } = useSelector((state) => state.requestStore);
+
   const history = useHistory();
 
   const handleFellow = (fellowId) => {
@@ -55,7 +63,7 @@ const RequestMessage = (props) => {
                     : null}
                 </div>
                 <div className="comment-time pt-2 m-0">
-                  {moment(props.comment.created_at).startOf("hour").fromNow()}
+                  {moment(props.comment.created_at).startOf("second").fromNow()}
                 </div>
               </div>
             </div>
@@ -98,15 +106,17 @@ const RequestMessage = (props) => {
                     : null}
                 </div>
                 <div className="comment-time pt-2 m-0">
-                  {moment(props.response.created_at).startOf("hour").fromNow()}
+                  {moment(props.response.created_at)
+                    .startOf("second")
+                    .fromNow()}
                 </div>
               </div>
             </div>
           </CardBody>
         </Card>
-      ) : props.responseList && props.status === "open" ? (
+      ) : responseList && props.status === "open" ? (
         <div>
-          {props.responseList.map((res, index) => (
+          {responseList.map((res, index) => (
             <Card className="request-message-card mx-auto my-3" key={res.id}>
               <CardBody className="pt-1">
                 <div className="position-relative d-flex align-items-start">
@@ -143,7 +153,7 @@ const RequestMessage = (props) => {
                         : null}
                     </div>
                     <div className="comment-time pt-2 m-0">
-                      {moment(res.created_at).startOf("hour").fromNow()}
+                      {moment(res.created_at).startOf("second").fromNow()}
                     </div>
                   </div>
                 </div>
@@ -176,9 +186,9 @@ const RequestMessage = (props) => {
             </Card>
           ))}
         </div>
-      ) : props.responseList && props.status === "matched" ? (
+      ) : responseList && props.status === "matched" ? (
         <div>
-          {props.responseList.map((res, index) => (
+          {responseList.map((res, index) => (
             <Card className="request-message-card mx-auto my-3" key={res.id}>
               <CardBody className="pt-1">
                 <div className="position-relative d-flex align-items-start">
@@ -215,16 +225,16 @@ const RequestMessage = (props) => {
                         : null}
                     </div>
                     <div className="comment-time pt-2 m-0">
-                      {moment(res.created_at).startOf("hour").fromNow()}
+                      {moment(res.created_at).startOf("second").fromNow()}
                     </div>
                   </div>
                 </div>
               </CardBody>
               <CardFooter className="res-match-footer request-detail-footer">
                 <div className="text-center mb-2">
-                  {props.teamResId &&
-                  props.teamResId.length > 0 &&
-                  props.teamResId.includes(res.id) ? (
+                  {teamResId &&
+                  teamResId.length > 0 &&
+                  teamResId.includes(res.id) ? (
                     <Button className="btn-white-blue-sm">MATCHED</Button>
                   ) : null}
                 </div>
@@ -267,10 +277,10 @@ const RequestMessage = (props) => {
                   <div>
                     <span className="person">Responser :</span>
                     <BsFillPersonPlusFill className="ms-1 pb-1 fs-4 person person-icon" />
-                    <span className="ms-1 person">{props.teamList.length}</span>
+                    <span className="ms-1 person">{teamList.length}</span>
                     <br />
-                    {props.teamList && props.teamList.length > 0
-                      ? props.teamList.map((res) => (
+                    {teamList && teamList.length > 0
+                      ? teamList.map((res) => (
                           <div key={res.id} className="my-1">
                             <GradeBall grade={res.responserGrade} />
                             <span

@@ -14,6 +14,7 @@ class RequestRouter {
       this.getRequestDetail.bind(this)
     );
     router.post("/request/create", this.postNewRequest.bind(this));
+    router.put("/request/status/:requestId", this.putRequestStatus.bind(this));
     // Routes for bookmark
     router.get("/bookmarklist/:userId", this.getBookmarkList.bind(this));
     router.post("/bookmark", this.postBookmark.bind(this));
@@ -27,6 +28,10 @@ class RequestRouter {
     // Routes for resposne
     router.get("/request/response/:requestId", this.getResponseList.bind(this));
     router.post("/request/response/new", this.postNewResponse.bind(this));
+    router.delete(
+      "/request/response/delete/:requestId/:userId",
+      this.deleteResponse.bind(this)
+    );
     router.put("/request/response/match", this.putMatchedResponse.bind(this));
     router.get(
       "/request/:requestId/response/team",
@@ -94,6 +99,19 @@ class RequestRouter {
     }
   }
 
+  async putRequestStatus(req, res, next) {
+    try {
+      let message = await this.requestService.putRequestService(
+        req.params.requestId,
+        req.body.newStatus
+      );
+      res.json({ message });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
   async getBookmarkList(req, res, next) {
     try {
       let bookmarkList = await this.requestService.getBookmarkList(
@@ -153,7 +171,7 @@ class RequestRouter {
   async getComment(req, res, next) {
     try {
       if (req.params.type === "true") {
-        console.log("Loading private comments..", req.params.type);
+        // console.log("Loading private comments..", req.params.type);
         let privateCommentList = await this.requestService.getPrivateComment(
           req.params.requestId
         );
@@ -164,11 +182,11 @@ class RequestRouter {
           privateCommentList[i].commenterUsername = memberQuery.username;
           privateCommentList[i].commenterGrade = memberQuery.grade;
           privateCommentList[i].commenterProfilePath = memberQuery.profilePath;
-          privateCommentList[i].isAdmin = memberQuery.idAdmin;
+          privateCommentList[i].isAdmin = memberQuery.isAdmin;
         }
         res.json({ privateCommentList });
       } else {
-        console.log("Loading public comments..");
+        // console.log("Loading public comments..");
         let publicCommentList = await this.requestService.getPublicComment(
           req.params.requestId
         );
@@ -179,9 +197,9 @@ class RequestRouter {
           publicCommentList[i].commenterUsername = memberQuery.username;
           publicCommentList[i].commenterGrade = memberQuery.grade;
           publicCommentList[i].commenterProfilePath = memberQuery.profilePath;
-          publicCommentList[i].isAdmin = memberQuery.idAdmin;
+          publicCommentList[i].isAdmin = memberQuery.isAdmin;
         }
-        console.log("PublicCMList: ", publicCommentList);
+        // console.log("PublicCMList: ", publicCommentList);
         res.json({ publicCommentList });
       }
     } catch (err) {
@@ -202,13 +220,13 @@ class RequestRouter {
         let privateCommentList = await this.requestService.getPrivateComment(
           req.body.requsetId
         );
-        console.log("Private cm list(Arr of obj): ", privateCommentList);
+        // console.log("Private cm list(Arr of obj): ", privateCommentList);
         res.json({ privateCommentList });
       } else {
         let publicCommentList = await this.requestService.getPublicComment(
           req.body.requestId
         );
-        console.log("Public cm list(Arr of obj): ", publicCommentList);
+        // console.log("Public cm list(Arr of obj): ", publicCommentList);
         res.json({ publicCommentList });
       }
     } catch (err) {
@@ -250,6 +268,19 @@ class RequestRouter {
         req.body.requestId
       );
       res.json({ responseList });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async deleteResponse(req, res, next) {
+    try {
+      await this.requestService.deleteResponse(
+        req.params.requestId,
+        req.params.userId
+      );
+      res.json({ message: "Successfully deleted response" });
     } catch (err) {
       next(err);
       res.status(500).json(err);

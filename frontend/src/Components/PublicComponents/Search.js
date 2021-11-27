@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom"
 import { searchReq } from "../../Redux/request/actions";
 
 const Search = () => {
@@ -7,6 +8,7 @@ const Search = () => {
   const [newSearch, setNewSearch] = useState("");
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     setNewSearch(search);
