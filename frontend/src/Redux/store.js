@@ -15,6 +15,7 @@ import { getReviewReducer } from "./review/getReviewReducer";
 import { AnnounceReducer } from "./announceData/reducer";
 import { TagReducer } from "./tag/reducer";
 import { AdminRequestReducer } from "./adminRequest/reducer";
+import { TaskReducer } from "./task/reducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose;
 
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   announceStore:AnnounceReducer,
   tagStore:TagReducer,
   adminRequestStore:AdminRequestReducer,
+  taskStore:TaskReducer,
 });
 
 export const store = createStore(

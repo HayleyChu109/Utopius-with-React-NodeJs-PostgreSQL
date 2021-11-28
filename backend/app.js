@@ -59,6 +59,11 @@ const TagRouter = require("./Router/TagRouter");
 const tagService = new TagService(knex);
 const tagRouter = new TagRouter(tagService);
 
+const TaskService = require("./Service/taskService");
+const TaskRouter = require("./Router/taskRouter");
+const taskService = new TaskService(knex);
+const taskRouter = new TaskRouter(taskService);
+
 const AdminRequestService = require("./Service/adminRequestService");
 const AdminRequestRouter = require("./Router/adminRequestRouter");
 const adminRequestService = new AdminRequestService(knex);
@@ -72,6 +77,7 @@ app.use("/member", auth.authenticate(), memberRouter.router());
 app.use("/member", auth.authenticate(), requestRouter.router());
 app.use("/tag", auth.authenticate(), tagRouter.router());
 app.use("/request", adminRequestRouter.router());
+app.use("/task", taskRouter.router());
 
 
 // Set up port
