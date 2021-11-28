@@ -1,4 +1,5 @@
 import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
+import "../../Pages/SCSS/loginPage.scss";
 
 const FailureModal = (props) => {
   return (

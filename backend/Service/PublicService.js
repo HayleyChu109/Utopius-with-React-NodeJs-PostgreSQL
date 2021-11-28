@@ -7,7 +7,7 @@ class PublicService {
     try {
       let openReq = await this.knex("request")
         .select("*")
-        .where("status", "Open");
+        .where("status", "open");
       if (openReq && openReq.length > 0) {
         return openReq;
       } else {

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import NewRequest from "./NewRequest";
+
 import { Collapse } from "reactstrap";
+import "../../Pages/SCSS/memberProfile.scss";
 
 function MemberProfileNewReq(props) {
   const [modalBoolean, setModalBoolean] = useState(false);

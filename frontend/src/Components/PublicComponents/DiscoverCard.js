@@ -24,8 +24,8 @@ const DiscoverCard = (props) => {
           >
             <div className="discover-icons p-4">
               <img
-                src={help}
-                alt="homecare-logo"
+                src={props.photoPath}
+                alt="logo"
                 className="card-img-top mx-auto"
               />
             </div>

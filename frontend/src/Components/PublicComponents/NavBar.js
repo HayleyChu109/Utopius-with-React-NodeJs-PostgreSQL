@@ -24,7 +24,12 @@ const NavBar = () => {
         <div className="mx-3 py-2 row">
           <div className="col-2">
             <a href="/" className="nav-logo">
-              <FaRegHandshake className="mx-2" />
+              <img
+                src={"/heart.png"}
+                alt="logo"
+                style={{ width: "20px", height: "20px" }}
+              />
+              {/* <FaRegHandshake className="mx-2" /> */}
               UTOPIUS
             </a>
           </div>
@@ -41,9 +46,7 @@ const NavBar = () => {
             ) : (
               <a href="/login">LOGIN SIGNUP</a>
             )}
-            |<a href="/member/profile">INFO</a>|
-            <a href="/member/request/new">REQ</a>|<a href="/member/res">RES</a>|
-            <a href="/member/bookmark">BOOKMARK</a>|
+            |<a href="/member/profile">PROFILE</a>|
             <a href="/member/token">TOKEN</a>|<span>SEARCH</span>
             <Search />
           </div>

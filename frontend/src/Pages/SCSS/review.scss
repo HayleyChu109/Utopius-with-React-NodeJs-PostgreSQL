@@ -1,7 +1,7 @@
 @import "basic";
 
 .new-review-modal {
-  min-width: 600px;
+  min-width: 650px;
 }
 
 .new-review-heading {
@@ -10,6 +10,34 @@
   font-size: 20px;
   letter-spacing: 2px;
   font-weight: bold;
+}
+
+.new-review-subtitle {
+  font-family: $sora;
+  color: $dark;
+  font-size: 15px;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.review-card {
+  border: none;
+  img {
+    width: 90px;
+    height: 90px;
+    transform: translateX(0px);
+  }
+}
+
+.review-card-body {
+  background-color: $beige;
+  border-radius: 25px;
+  input[type="range"] {
+    width: 200px;
+  }
+  textarea {
+    width: 420px;
+  }
 }
 
 .new-review-modal-footer {

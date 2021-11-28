@@ -14,7 +14,6 @@ import { BsFillPersonPlusFill } from "react-icons/bs";
 import { HiLocationMarker } from "react-icons/hi";
 
 import "../../Pages/SCSS/searchCard.scss";
-import help from "../../Images/help.png";
 
 const SearchCard = ({ request, handleClick }) => {
   const { bookmarkList } = useSelector((state) => state.requestStore);
@@ -28,8 +27,12 @@ const SearchCard = ({ request, handleClick }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleFellow = (fellowId) => {
-    history.push(`/member/fellow/${fellowId}`);
+  const handleMember = (memberId) => {
+    if (memberId === userId) {
+      history.push("/member/profile");
+    } else {
+      history.push(`/member/fellow/${memberId}`);
+    }
   };
 
   const handleSearch = (val) => {
@@ -52,7 +55,7 @@ const SearchCard = ({ request, handleClick }) => {
           <div className="row g-0">
             <div className="search-card-photo col-5">
               <img
-                src={help}
+                src={request.reqPhotoPath}
                 className="img-fluid rounded-start"
                 alt="request"
               />
@@ -63,7 +66,7 @@ const SearchCard = ({ request, handleClick }) => {
                   className="username-id"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleFellow(request.requesterId);
+                    handleMember(request.requesterId);
                   }}
                 >
                   <GradeBall grade={request.grade} />

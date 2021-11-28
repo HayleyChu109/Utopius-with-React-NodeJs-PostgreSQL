@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import jwt_decode from "jwt-decode";
 
-import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions";
+import {
+  memberInfoThunk,
+  getAllUsernameThunk,
+} from "../../Redux/memberProfile/memberProfileActions";
 import { memberInfoFormSubmitThunk } from "../../Redux/signup/memberInfoFormActions";
 import FailureModal from "../PublicComponents/FailureModal";
 import { resetSuccessMsg } from "../../Redux/signup/memberInfoFormActions";
@@ -19,9 +22,14 @@ import anonymous from "../../Images/anonymous.jpeg";
 const MemberInfoForm = () => {
   let memberId = jwt_decode(localStorage.getItem("token")).id;
 
-  // Get existing member info from the store
+  // Get existing member info from store
   const memberProfileFromStore = useSelector(
     (state) => state.memberProfileStore.memberInfo
+  );
+
+  // Get all username except current member from store
+  const allUsernameFromStore = useSelector(
+    (state) => state.memberProfileStore.allUsername
   );
 
   // Get msg from store
@@ -48,6 +56,7 @@ const MemberInfoForm = () => {
   const [failureModalBoolean, setFailureModalBoolean] = useState(false);
   const [missingInfoMsg, setMissingInfoMsg] = useState("");
 
+  // Profile pic preview
   const ImgPreview = (e) => {
     console.log(e.currentTarget.files[0]);
     if (e.currentTarget.files[0]) {
@@ -65,19 +74,27 @@ const MemberInfoForm = () => {
   const memberInfoFormSubmit = (e) => {
     e.preventDefault();
 
-    if (bucketSrc.length == 0) {
+    if (bucketSrc.length === 0) {
       setFailureModalBoolean(true);
       setMissingInfoMsg("Please insert your profile picture");
       return;
     }
 
-    if (phone.toString().length != 8) {
+    if (
+      allUsernameFromStore.some((list) => list.username === username) === true
+    ) {
+      setFailureModalBoolean(true);
+      setMissingInfoMsg("Username exists. Please input another username");
+      return;
+    }
+
+    if (phone.toString().length !== 8) {
       setFailureModalBoolean(true);
       setMissingInfoMsg("Please input correct phone number");
       return;
     }
 
-    if (src.includes("amazon") == false) {
+    if (src.includes("amazonaws") === false) {
       let file = bucketSrc;
       let newFileName = bucketAlt;
       const ReactS3Client = new S3(s3Config);
@@ -121,7 +138,8 @@ const MemberInfoForm = () => {
 
   useEffect(() => {
     dispatch(memberInfoThunk(memberId));
-  }, [dispatch]);
+    dispatch(getAllUsernameThunk(memberId));
+  }, [dispatch, memberId]);
 
   useEffect(() => {
     localStorage.setItem("Member-info", JSON.stringify(memberProfileFromStore));
@@ -149,7 +167,7 @@ const MemberInfoForm = () => {
     return () => {
       localStorage.removeItem("Member-info");
     };
-  }, [successMsg, history]);
+  }, [successMsg, dispatch, history]);
 
   const closeModal = () => {
     setFailureModalBoolean(false);

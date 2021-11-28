@@ -1,17 +1,19 @@
-import { MEMBER_INFO_SUCCESS_ACTION } from "./memberProfileActions";
+import {
+  MEMBER_INFO_SUCCESS_ACTION,
+  GET_ALL_USERNAME_SUCCESS_ACTION,
+} from "./memberProfileActions";
 
 const initialState = {
-  memberInfo: {},
+  memberInfo: [],
+  allUsername: [],
 };
 
 export function memberProfileReducer(state = initialState, action) {
   switch (action.type) {
     case MEMBER_INFO_SUCCESS_ACTION:
-      console.log(action.payload);
-      return {
-        memberInfo: Object.assign({}, action.payload),
-      };
-
+      return { ...state, memberInfo: action.payload };
+    case GET_ALL_USERNAME_SUCCESS_ACTION:
+      return { ...state, allUsername: action.payload };
     default:
       return state;
   }
