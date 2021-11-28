@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { Collapse } from "reactstrap";
 import SearchCard from "../PublicComponents/SearchCard";
 import Review from "../PrivateComponents/Review";
+import "../../Pages/SCSS/memberProfile.scss";
 
 function MemberResCollapse(props) {
   const [filterRes, setFilterRes] = useState(["completed"]);
@@ -38,8 +39,8 @@ function MemberResCollapse(props) {
   return (
     <>
       <Collapse isOpen={props.isOpen}>
-        <div className="container py-4">
-          <div className="row text-center memberProfileMiddie-beige ">
+        <div className="container pt-4">
+          <div className="row text-center memberProfileMiddle-blue">
             <div className="d-flex justify-content-around col-lg-12">
               <button
                 onClick={() => {
@@ -90,7 +91,7 @@ function MemberResCollapse(props) {
                 />
               ))
           ) : (
-            <div>No response</div>
+            <div className="text-center">No response</div>
           )}
         </div>
       </Collapse>

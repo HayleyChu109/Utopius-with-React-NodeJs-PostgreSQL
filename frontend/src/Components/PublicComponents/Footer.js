@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { sendMsgThunk } from "../../Redux/footer/footerAction";
 
+import SuccessModal from "./SuccessModal";
 import { Form } from "react-bootstrap";
 import "../../Pages/SCSS/footer.scss";
-import SuccessModal from "./SuccessModal";
 
 const Footer = () => {
   const dispatch = useDispatch();
@@ -52,17 +52,14 @@ const Footer = () => {
                 </p>
                 <p>Phone: 6883 8583</p>
                 <p>Email: admin@utopius.com</p>
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.780995769679!2d114.18809891453!3d22.28628434903626!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340401c906c85397%3A0xedd2d296aa8a7803!2sXccelerate!5e0!3m2!1szh-TW!2shk!4v1636989613892!5m2!1szh-TW!2shk"
-                  className="mb-3"
-                  style={{
-                    width: "680px",
-                    height: "450px",
-                    borderRadius: "20px",
-                  }}
-                  title="googleFrame"
-                  loading="lazy"
-                ></iframe>
+                <div className="mb-3 map-container">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.780995769679!2d114.18809891453!3d22.28628434903626!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340401c906c85397%3A0xedd2d296aa8a7803!2sXccelerate!5e0!3m2!1szh-TW!2shk!4v1636989613892!5m2!1szh-TW!2shk"
+                    className="google-map"
+                    title="googleFrame"
+                    loading="lazy"
+                  ></iframe>
+                </div>
               </div>
               <div className="footer-card col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12">
                 <div className="container">
@@ -103,6 +100,7 @@ const Footer = () => {
                       <Form.Control
                         as="textarea"
                         rows={7}
+                        maxLength="250"
                         className="input-text msgTextarea"
                         value={message}
                         onChange={(e) => setMessage(e.currentTarget.value)}

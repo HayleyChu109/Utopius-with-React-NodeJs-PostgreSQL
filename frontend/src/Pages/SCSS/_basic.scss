@@ -23,6 +23,8 @@ $no-grade: #c4c4c4;
 
 $coin: #d9b600;
 $people: #00c3ff;
+$heart: #ff6161;
+$light-heart: #ff1493;
 $district: #555555;
 $bookmark-true: #ff6161;
 $bookmark-false: #aaaaaa;
@@ -87,7 +89,6 @@ $nunito: "Nunito", sans-serif;
 
 @mixin memberProfileBottom($theme: $dark-orange) {
   background-color: $theme;
-  width: 90vw;
   height: 10vh;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -139,4 +140,18 @@ $nunito: "Nunito", sans-serif;
   font-weight: bolder;
   letter-spacing: 4px;
   border: none;
+}
+
+@mixin memberProfileMiddle($theme: $dark-orange, $theme2: $light-orange) {
+  background-color: $beige;
+  height: 5vh;
+  button {
+    background-color: $beige;
+    color: $theme;
+    font-weight: bolder;
+    border: none;
+    &:hover {
+      color: $theme2;
+    }
+  }
 }

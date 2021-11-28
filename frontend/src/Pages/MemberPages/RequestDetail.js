@@ -23,7 +23,6 @@ import { FaCoins } from "react-icons/fa";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { HiLocationMarker } from "react-icons/hi";
 
-import help from "../../Images/help.png";
 import "../SCSS/requestDetail.scss";
 
 const RequestDetail = (props) => {
@@ -58,6 +57,14 @@ const RequestDetail = (props) => {
     }
   }, [requestDetail, userId]);
 
+  const handleMember = (memberId) => {
+    if (memberId === userId) {
+      history.push("/member/profile");
+    } else {
+      history.push(`/member/fellow/${memberId}`);
+    }
+  };
+
   const handleBookmark = (bookmarked) => {
     dispatch(bookmarkToggleThunk(requestId, userId, bookmarked));
   };
@@ -91,10 +98,15 @@ const RequestDetail = (props) => {
           <CardBody className="p-0">
             <div className="row g-0 m-0 p-0">
               <div className="request-photo mx-auto col-md-5 col-sm-12 col-xs-12">
-                <img src={help} alt="request" />
+                <img src={requestDetail.reqPhotoPath} alt="request" />
               </div>
               <div className="request-main mx-auto col-md-7 col-sm-12 col-xs-12 px-3 pt-3 position-relative">
-                <div className="py-2">
+                <div
+                  className="py-2"
+                  onClick={() => {
+                    handleMember(requestDetail.requesterId);
+                  }}
+                >
                   <GradeBall grade={requestDetail.requesterGrade} />
                   <span className="requester-username me-3">
                     {requestDetail.requesterUsername}

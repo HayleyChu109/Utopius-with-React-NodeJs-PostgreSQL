@@ -16,7 +16,8 @@ class MemberService {
           "district",
           "profilePath",
           "grade",
-          "token"
+          "token",
+          "created_at"
         )
         .where("id", memberId);
       if (memberInfo.length > 0) {
@@ -98,9 +99,7 @@ class MemberService {
             district: result[i][0].district,
             status: result[i][0].status,
             reqPhotoPath: result[i][0].reqPhotoPath,
-            created_at: new Date(
-              Date.parse(result[i][0].created_at)
-            ).toLocaleString(),
+            created_at: result[i][0].created_at,
             tag: [],
           };
           result[i].map((data) => {
@@ -170,9 +169,7 @@ class MemberService {
             district: result[i][0].district,
             status: result[i][0].status,
             reqPhotoPath: result[i][0].reqPhotoPath,
-            created_at: new Date(
-              Date.parse(result[i][0].created_at)
-            ).toLocaleString(),
+            created_at: result[i][0].created_at,
             tag: [],
             matched: result[i][0].matched,
           };
@@ -210,15 +207,111 @@ class MemberService {
           "account.profilePath"
         )
         .andWhere("review.revieweeId", revieweeId);
-      console.log(review);
       if (review.length > 0) {
-        for (let i = 0; i < review.length; i++) {
-          review[i]["created_at"] = review[i]["created_at"].toLocaleString();
-        }
         return review;
       } else {
         return [];
       }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  getBookmark(memberId) {
+    let bookmark = this.knex("bookmark")
+      .join("request", "request.id", "bookmark.requestId")
+      .join("account", "account.id", "request.requesterId")
+      .join("tagReqJoin", "tagReqJoin.requestId", "request.id")
+      .join("tag", "tag.id", "tagReqJoin.tagId")
+      .select(
+        "account.username",
+        "account.grade",
+        "request.id",
+        "request.requesterId",
+        "request.title",
+        "request.detail",
+        "request.reward",
+        "request.requiredPpl",
+        "request.district",
+        "request.reqPhotoPath",
+        "request.created_at",
+        "tag.tagName"
+      )
+      .where("bookmark.accountId", memberId);
+
+    return bookmark.then((data) => {
+      if (data.length > 0) {
+        let result = [];
+        let last = 0;
+        for (let i = 1; i < data.length; i++) {
+          if (data[i].id !== data[i - 1].id) {
+            result.push(data.slice(last, i));
+            last = i;
+          }
+        }
+        result.push(data.slice(last));
+        console.log(result);
+
+        let bookmarkList = [];
+        for (let i = 0; i < result.length; i++) {
+          let eachBookmark = {
+            username: result[i][0].username,
+            grade: result[i][0].grade,
+            id: result[i][0].id,
+            requesterId: result[i][0].requesterId,
+            title: result[i][0].title,
+            detail: result[i][0].detail,
+            reward: result[i][0].reward,
+            requiredPpl: result[i][0].requiredPpl,
+            district: result[i][0].district,
+            reqPhotoPath: result[i][0].reqPhotoPath,
+            created_at: result[i][0].created_at,
+            tag: [],
+          };
+          result[i].map((data) => {
+            let tag = data.tagName;
+            eachBookmark.tag.push(tag);
+          });
+          bookmarkList.push(eachBookmark);
+        }
+        return bookmarkList;
+      } else {
+        let bookmarkList = [];
+        return bookmarkList;
+      }
+    });
+  }
+  catch(err) {
+    throw new Error(err);
+  }
+
+  async postReport(reporterId, reporteeId, title, message) {
+    try {
+      let email = await this.knex("account")
+        .select("email")
+        .where("id", reporterId);
+      let reporterEmail = email[0].email;
+      const reportId = await this.knex("reportMember")
+        .insert({
+          reporterId: reporterId,
+          reporteeId: reporteeId,
+          email: reporterEmail,
+          title: title,
+          message: message,
+        })
+        .returning("reportMember.id");
+      return reportId;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async getAllUsername(memberId) {
+    try {
+      let allUsername = await this.knex("account")
+        .select("username")
+        .whereNot("id", memberId);
+      return allUsername;
     } catch (err) {
       throw new Error(err);
     }

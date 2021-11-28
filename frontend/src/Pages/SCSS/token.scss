@@ -1,0 +1,143 @@
+@import "basic";
+
+// Token page
+.token-title {
+  font: $sora;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: $coin;
+  span {
+    text-transform: uppercase;
+    color: $dark-orange;
+  }
+}
+
+.current-token {
+  background-color: $dark-orange;
+  color: $white;
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.memberProfileMiddle-orange {
+  @include memberProfileMiddle($theme: $dark-orange, $theme2: $light-orange);
+}
+
+.memberProfileBottom-orange {
+  @include memberProfileBottom($theme: $dark-orange);
+}
+
+// Token card
+.token-card {
+  min-width: 250px;
+  height: 350px;
+  background-color: $white;
+  border: 3px solid $coin;
+  border-radius: 15px;
+  font-size: $nunito;
+  filter: drop-shadow(4px 4px 3px $light-grey);
+  transition: 1s ease-in-out;
+  cursor: pointer;
+  img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.token-card:hover {
+  transform: scale(1.1);
+}
+
+.token-card-title {
+  background-color: $coin;
+  color: $white;
+  font-size: 20px;
+  font-weight: 900;
+  border-radius: 20px;
+  letter-spacing: 3px;
+}
+
+.token-card-text {
+  font-size: 12px;
+}
+
+.noOfToken {
+  font-size: 18px;
+}
+
+.token-card-detail {
+  color: $dark-orange;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+// Stripe container
+.stripe-card {
+  width: 60vw;
+  height: 65vh;
+  border: 5px solid $coin;
+  border-radius: 20px;
+  img {
+    width: 130px;
+    height: 130px;
+  }
+  p {
+    background-color: $coin;
+    color: $white;
+    font-weight: 900;
+    border-radius: 10px;
+  }
+  span {
+    font-size: 16px;
+  }
+}
+
+// Payment form
+.card-element-title {
+  color: $dark-orange;
+  font-size: 20px;
+}
+
+.card-element {
+  border: 2px solid $coin;
+  border-radius: 5px;
+}
+
+.payment-success {
+  color: $dark-orange;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.btn-coin,
+.btn-coin:focus {
+  @include btn-color($theme: $coin);
+}
+
+.btn-coin:hover,
+.btn-coin:focus:hover {
+  @include btn-color($theme: $coin);
+}
+
+// Purchase history
+.history-table {
+  width: 80vw;
+}
+
+.history-title {
+  color: $dark-orange;
+  font-weight: 900;
+}
+
+.history-row {
+  cursor: pointer;
+}
+
+.history-row:hover {
+  color: $dark-blue;
+}

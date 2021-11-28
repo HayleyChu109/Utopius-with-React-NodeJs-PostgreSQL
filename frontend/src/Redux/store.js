@@ -12,6 +12,11 @@ import { AdminDataReducer } from "./adminData/reducer";
 import { memberReqDetailsReducer } from "./memberProfile/memberReqDetailsReducer";
 import { memberResDetailsReducer } from "./memberProfile/memberResDetailsReducer";
 import { getReviewReducer } from "./review/getReviewReducer";
+import { getBookmarkReducer } from "./memberProfile/getBookmarkReducer";
+import { reportMemberReducer } from "./reportMember/reportMemberReducer";
+import { tokenPlanReducer } from "./token/tokenPlanReducer";
+import { tokenRecordReducer } from "./token/tokenRecordReducer";
+import { buyTokenReducer } from "./token/buyTokenReducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose;
 
@@ -24,6 +29,11 @@ const rootReducer = combineReducers({
   memberResDetailsStore: memberResDetailsReducer,
   requestStore: requestReducer,
   getReviewStore: getReviewReducer,
+  getBookmarkStore: getBookmarkReducer,
+  reportMemberStore: reportMemberReducer,
+  tokenPlanStore: tokenPlanReducer,
+  tokenRecordStore: tokenRecordReducer,
+  buyTokenStore: buyTokenReducer,
   footerStore: footerReducer,
   adminDataStore:AdminDataReducer,
 });

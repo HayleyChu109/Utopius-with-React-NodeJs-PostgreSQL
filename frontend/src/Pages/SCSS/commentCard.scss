@@ -1,15 +1,15 @@
 @import "basic";
 
-.review-card {
+.comment-card {
   border: none;
   img {
-    width: 90px;
-    height: 90px;
-    transform: translateX(30px);
+    width: 80px;
+    height: 80px;
+    transform: translateX(0px);
   }
 }
 
-.review-card-body {
+.comment-card-body {
   background-color: $beige;
   border-radius: 25px;
 }
