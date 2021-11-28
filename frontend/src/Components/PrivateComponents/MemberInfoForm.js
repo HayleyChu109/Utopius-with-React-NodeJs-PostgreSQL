@@ -65,19 +65,19 @@ const MemberInfoForm = () => {
   const memberInfoFormSubmit = (e) => {
     e.preventDefault();
 
-    if (bucketSrc.length == 0) {
+    if (bucketSrc.length === 0) {
       setFailureModalBoolean(true);
       setMissingInfoMsg("Please insert your profile picture");
       return;
     }
 
-    if (phone.toString().length != 8) {
+    if (phone.toString().length !== 8) {
       setFailureModalBoolean(true);
       setMissingInfoMsg("Please input correct phone number");
       return;
     }
 
-    if (src.includes("amazon") == false) {
+    if (src.includes("amazon") === false) {
       let file = bucketSrc;
       let newFileName = bucketAlt;
       const ReactS3Client = new S3(s3Config);
@@ -121,7 +121,7 @@ const MemberInfoForm = () => {
 
   useEffect(() => {
     dispatch(memberInfoThunk(memberId));
-  }, [dispatch]);
+  }, [dispatch, memberId]);
 
   useEffect(() => {
     localStorage.setItem("Member-info", JSON.stringify(memberProfileFromStore));
@@ -149,7 +149,7 @@ const MemberInfoForm = () => {
     return () => {
       localStorage.removeItem("Member-info");
     };
-  }, [successMsg, history]);
+  }, [successMsg, dispatch, history]);
 
   const closeModal = () => {
     setFailureModalBoolean(false);

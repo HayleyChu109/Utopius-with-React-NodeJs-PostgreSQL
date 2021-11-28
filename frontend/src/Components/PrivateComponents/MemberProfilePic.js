@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
+import "../../Pages/SCSS/memberProfile.scss";
+
 function MemberProfilePic(props) {
   const memberProfileFromStore = useSelector(
     (state) => state.memberProfileStore.memberInfo

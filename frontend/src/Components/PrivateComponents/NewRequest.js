@@ -48,7 +48,7 @@ const NewRequest = (props) => {
         reward: Number(reward),
         requiredPpl: Number(people),
         district: district,
-        status: "Open",
+        status: "open",
         tag: tag
           .split(" ")
           .filter((newTag) => newTag[0] === "#" && newTag.length > 1)

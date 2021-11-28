@@ -13,6 +13,8 @@ class MemberRouter {
     router.get("/memberreq/:id", this.getMemberReqDetail.bind(this));
     router.get("/memberres/:id", this.getMemberResDetail.bind(this));
     router.get("/review/:revieweeId", this.getReview.bind(this));
+    router.get("/bookmark/:id", this.getBookmark.bind(this));
+    router.post("/report/", this.postReport.bind(this));
 
     return router;
   }
@@ -91,11 +93,46 @@ class MemberRouter {
   // Get member review
   async getReview(req, res, next) {
     try {
-      console.log(req.params.revieweeId);
       let review = await this.memberService.getReview(req.params.revieweeId);
       if (review) {
         console.log("Review", review);
         res.json(review);
+      } else {
+        res.json([]);
+      }
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  // Get member bookmark
+  async getBookmark(req, res, next) {
+    try {
+      let bookmark = await this.memberService.getBookmark(req.params.id);
+      if (bookmark) {
+        console.log("Bookmark", bookmark);
+        res.json(bookmark);
+      } else {
+        res.json([]);
+      }
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  // Post member report
+  async postReport(req, res, next) {
+    try {
+      let reportId = await this.memberService.postReport(
+        req.body.reporterId,
+        req.body.reporteeId,
+        req.body.title,
+        req.body.message
+      );
+      if (reportId) {
+        res.json(reportId);
       } else {
         res.json([]);
       }

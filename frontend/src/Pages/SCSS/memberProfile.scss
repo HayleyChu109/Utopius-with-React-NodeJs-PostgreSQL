@@ -37,6 +37,25 @@
   font-size: 15px;
   letter-spacing: 4px;
   color: $dark;
+  span.memberName {
+    color: $dark-orange;
+  }
+  span.accountCreation {
+    font-size: 12px;
+    color: $dark-grey;
+  }
+}
+
+.heart {
+  @include ReqResButton($theme: $heart);
+}
+
+.heart:hover {
+  @include ReqResButton($theme: $light-heart);
+}
+
+.heart-icon {
+  font-size: 25px;
 }
 
 .REQ {
@@ -93,20 +112,18 @@
 }
 
 // Member Req / Res Collapse
-.memberProfileMiddie-beige {
-  background-color: $beige;
-  width: 90vw;
-  height: 5vh;
-  button {
-    background-color: $beige;
-    color: $dark-orange;
-    font-weight: bolder;
-    border: none;
-    &:hover {
-      color: $light-orange;
-    }
-  }
+.memberProfileMiddle-orange {
+  @include memberProfileMiddle;
 }
+
+.memberProfileMiddle-blue {
+  @include memberProfileMiddle($theme: $dark-blue, $theme2: $light-blue);
+}
+
+.memberProfileMiddle-heart {
+  @include memberProfileMiddle($theme: $heart, $theme2: $heart);
+}
+
 // Member go back button
 .btn-goback,
 .btn-goback:focus {

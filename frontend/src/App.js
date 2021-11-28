@@ -8,6 +8,9 @@ import RequestDetail from "./Pages/MemberPages/RequestDetail";
 import NewRequest from "./Components/PrivateComponents/NewRequest";
 import FellowProfilePage from "./Pages/MemberPages/FellowProfilePage";
 import MemberProfilePage from "./Pages/MemberPages/MemberProfilePage";
+import NewReview from "./Components/PrivateComponents/NewReview";
+import TokenPage from "./Pages/MemberPages/TokenPage";
+import StripeContainer from "./Components/PrivateComponents/StripeContainer";
 
 function App() {
   return (
@@ -25,6 +28,13 @@ function App() {
         component={FellowProfilePage}
       />
       <PrivateRoute path="/member/profile" component={MemberProfilePage} />
+      <PrivateRoute path="/member/response/review" component={NewReview} />
+      <PrivateRoute exact path="/member/token" component={TokenPage} />
+      <PrivateRoute
+        exact
+        path="/member/token/payment/:planname"
+        component={StripeContainer}
+      />
       <Route
         component={() => {
           return (

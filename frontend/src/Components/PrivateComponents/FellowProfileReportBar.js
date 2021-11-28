@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import ReportMember from "./ReportMember";
 
+import "../../Pages/SCSS/memberProfile.scss";
+
 function FellowProfileReportBar() {
   const [modalBoolean, setModalBoolean] = useState(false);
 

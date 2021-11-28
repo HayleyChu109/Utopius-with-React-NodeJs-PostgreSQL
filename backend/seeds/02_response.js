@@ -15,7 +15,7 @@ exports.seed = function (knex) {
           responserId: 5,
           requestId: "2",
           detail: "Hello, I would like to join",
-          matched: "false",
+          matched: "true",
         },
         {
           responserId: 5,

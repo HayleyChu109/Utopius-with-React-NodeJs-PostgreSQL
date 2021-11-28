@@ -6,6 +6,7 @@ import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions"
 import { memberReqDetailsThunk } from "../../Redux/memberProfile/memberReqDetailsActions";
 import { memberResDetailsThunk } from "../../Redux/memberProfile/memberResDetailsActions";
 import { getReviewThunk } from "../../Redux/review/getReviewActions";
+import { getBookmarkThunk } from "../../Redux/memberProfile/getBookmarkActions";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
 import MemberProfilePic from "../../Components/PrivateComponents/MemberProfilePic";
@@ -32,6 +33,10 @@ const MemberProfilePage = () => {
     dispatch(memberReqDetailsThunk(memberId));
     dispatch(memberResDetailsThunk(memberId));
     dispatch(getReviewThunk(memberId));
+    dispatch(getBookmarkThunk(memberId));
+    return () => {
+      localStorage.removeItem("requestId");
+    };
   }, [dispatch, memberId]);
 
   return (

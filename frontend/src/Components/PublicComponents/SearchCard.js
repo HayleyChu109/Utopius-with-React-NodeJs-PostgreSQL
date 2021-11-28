@@ -28,8 +28,12 @@ const SearchCard = ({ request, handleClick }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleFellow = (fellowId) => {
-    history.push(`/member/fellow/${fellowId}`);
+  const handleMember = (memberId) => {
+    if (memberId === userId) {
+      history.push("/member/profile");
+    } else {
+      history.push(`/member/fellow/${memberId}`);
+    }
   };
 
   const handleSearch = (val) => {
@@ -63,7 +67,7 @@ const SearchCard = ({ request, handleClick }) => {
                   className="username-id"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleFellow(request.requesterId);
+                    handleMember(request.requesterId);
                   }}
                 >
                   <GradeBall grade={request.grade} />

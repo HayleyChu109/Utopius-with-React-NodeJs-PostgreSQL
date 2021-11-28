@@ -10,6 +10,16 @@
   }
 }
 
+.map-container {
+  height: 450px;
+}
+
+.google-map {
+  width: 95%;
+  height: 100%;
+  border-radius: 20px;
+}
+
 .footer-card {
   background-color: $white;
   border-radius: 20px;

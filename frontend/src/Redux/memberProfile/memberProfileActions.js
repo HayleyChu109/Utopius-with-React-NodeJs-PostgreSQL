@@ -5,8 +5,6 @@ export const MEMBER_INFO_SUCCESS_ACTION = "MEMBER_INFO_SUCCESS_ACTION";
 export const memberInfoThunk = (memberId) => async (dispatch) => {
   try {
     let token = localStorage.getItem("token");
-    console.log(token);
-    console.log(memberId);
 
     const response = await axios.get(
       `${process.env.REACT_APP_API_SERVER}/member/memberinfo/${memberId}`,

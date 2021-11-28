@@ -16,9 +16,26 @@
   font-size: 15px;
 }
 
+.report-successMsg {
+  color: $dark-blue;
+  span {
+    font-weight: bolder;
+  }
+}
+
 .new-report-modal-footer {
   border: none;
   background-color: $white;
+}
+
+.btn-dark-grey,
+.btn-dark-grey:focus {
+  @include btn-color($theme: $dark-grey);
+}
+
+.btn-dark-grey:hover,
+.btn-dark-grey:focus:hover {
+  @include btn-color($theme: $light-grey);
 }
 
 .btn-dark-blue,
@@ -28,5 +45,5 @@
 
 .btn-dark-blue:hover,
 .btn-dark-blue:focus:hover {
-  @include btn-color($theme: $dark);
+  @include btn-color($theme: $light-blue);
 }
