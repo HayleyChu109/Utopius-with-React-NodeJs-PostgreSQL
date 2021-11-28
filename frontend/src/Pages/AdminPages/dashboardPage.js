@@ -31,6 +31,7 @@ export default function DashboardPage(props) {
       <h1>Welcome back, admin!</h1>
       <p>Here is some of the detail you need to see</p>
       <Container fluid>
+          <h2>Today</h2>
         <Row xs={1} md={2} lg={4} className="my-2">
           <Col>
             <Card className="column">
@@ -41,10 +42,12 @@ export default function DashboardPage(props) {
             </Card>
           </Col>
           <Col className="column">
+          <Link to='/admin/request'>
             <Card>
               <p className="me-2 mt-2 text-end">Finished request</p>
               <FaCheck className="icon" />
             </Card>
+            </Link>
           </Col>
           <Col className="column">
             <Card>
@@ -57,6 +60,7 @@ export default function DashboardPage(props) {
             </Card>
           </Col>
         </Row>
+          <h2>This week</h2>
         {/* <Col lg={3}> */}
         {/* <Card style={{textAlign:'center'}} className='mx-2'> */}
         <Row>

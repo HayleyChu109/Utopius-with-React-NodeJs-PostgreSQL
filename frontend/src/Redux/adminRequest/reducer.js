@@ -12,7 +12,7 @@ import {
       case Load_REQUEST_STAT_SUCCESS:
         return { ...state,stat:action.payload };
       case Load_REQUEST_SUCCESS:
-        return { ...state, newUserList: action.payload};
+        return { ...state, requestList: action.payload};
      
       case Load_DATA_FAILED:
         return state;

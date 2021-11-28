@@ -14,6 +14,7 @@ import AnnouncementPage from "./Pages/AdminPages/announcementPage";
 import AnnouncemnetEditPage from "./Pages/AdminPages/announcementEditPage";
 import UserPage from "./Pages/AdminPages/userPage";
 import AdminHome from './Pages/AdminPages/AdminHome'
+import RequestPage from "./Pages/AdminPages/requestPage";
 function App() {
   return (
     <Switch>
@@ -21,6 +22,7 @@ function App() {
       <Route exact path="/login" component={LoginPage} />
       <PrivateAdminRoute exact path='/admin' component={AdminHome}/>
       <PrivateAdminRoute exact path='/admin/dashboard' component={DashboardPage}/>
+      <PrivateAdminRoute exact path='/admin/request' component={RequestPage}/>
       <PrivateAdminRoute exact  path='/admin/announcement' component={AnnouncementPage}/>
       <PrivateAdminRoute exact  path='/admin/announcement/new' component={AnnouncemnetEditPage}/>
       <PrivateAdminRoute  path='/admin/announcement/edit/:id' component={AnnouncemnetEditPage}/>

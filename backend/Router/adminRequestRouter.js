@@ -20,6 +20,8 @@ class AdminRequestRouter {
   async getReqList(req,res){
     let reqList=await this.adminRequestService.getReqList()
     let reqTag=await this.adminRequestService.getReqTag()
+    let reqMatch=await this.adminRequestService.getReqMatched()
+    console.log(reqMatch)
     let result=reqList.map(item=>{
         return Object.assign({},{...item,tag:reqTag.filter(tag=>{
             if(tag.id===item.id)
@@ -27,7 +29,7 @@ class AdminRequestRouter {
                return true
 
             }
-        }).map(res=>res.tagName)
+        }).map(res=>res.tagName),matched:reqMatch.filter(match=>item.id===match.id).map(count=>Number(count.matched)).reduce((a,b)=>b,0)
     
 })
     })
