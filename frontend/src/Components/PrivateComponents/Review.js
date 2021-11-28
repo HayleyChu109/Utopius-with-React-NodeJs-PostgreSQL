@@ -7,11 +7,12 @@ import "../../Pages/SCSS/review.scss";
 
 function Review(props) {
   const reviewList = props.review;
+
   const requestId = Number(localStorage.getItem("requestId"));
 
   const history = useHistory();
 
-  const showRequestDetail = (requestId) => {
+  const handleClick = (requestId) => {
     history.push(`/member/request/detail/${requestId}`);
   };
 
@@ -21,7 +22,7 @@ function Review(props) {
         <Modal
           isOpen={props.isOpen}
           centered
-          contentClassName="custom-modal-style new-report-modal"
+          contentClassName="custom-modal-style new-review-modal"
         >
           <ModalBody className="p-5">
             <div className="new-review-heading p-3">Review</div>
@@ -40,7 +41,12 @@ function Review(props) {
               <Button className="me-4 btn-dark-grey" onClick={props.close}>
                 CLOSE
               </Button>
-              <Button className="btn-dark-blue" onClick={showRequestDetail}>
+              <Button
+                className="btn-dark-blue"
+                onClick={() => {
+                  handleClick(requestId);
+                }}
+              >
                 VISIT REQ
               </Button>
             </div>

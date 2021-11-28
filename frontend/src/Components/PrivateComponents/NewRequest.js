@@ -6,11 +6,15 @@ import jwt_decode from "jwt-decode";
 import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions";
 import { createNewRequestThunk } from "../../Redux/request/actions";
 
-import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
-import { FaCoins } from "react-icons/fa";
+import S3 from "react-aws-s3";
+import { s3Config } from "../../s3Bucket/s3Config";
+
+import { Button, Modal, ModalBody, ModalFooter, Input } from "reactstrap";
+import { FaCoins, FaDraft2Digital } from "react-icons/fa";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { HiLocationMarker } from "react-icons/hi";
 import "../../Pages/SCSS/newRequest.scss";
+import "../../Pages/SCSS/signupPage.scss";
 
 const NewRequest = (props) => {
   const { memberInfo } = useSelector((state) => state.memberProfileStore);
@@ -22,6 +26,14 @@ const NewRequest = (props) => {
   const [reward, setReward] = useState(0);
   const [people, setPeople] = useState(0);
   const [district, setDistrict] = useState("");
+  const [{ src, alt }, setPreviewImg] = useState({
+    src: "",
+    alt: "Upload an image",
+  });
+  const [{ bucketSrc, bucketAlt }, setBucketImg] = useState({
+    bucketSrc: "",
+    bucketAlt: "Photo for request",
+  });
   const [errMsg, setErrMsg] = useState("");
 
   let userId = jwt_decode(localStorage.getItem("token")).id;
@@ -41,10 +53,29 @@ const NewRequest = (props) => {
     }
   }, [requestId, history]);
 
+  const ImgPreview = (e) => {
+    console.log(e.currentTarget.files[0]);
+    if (e.currentTarget.files[0]) {
+      setPreviewImg({
+        src: URL.createObjectURL(e.currentTarget.files[0]),
+        alt: e.currentTarget.files[0].name,
+      });
+      setBucketImg({
+        bucketSrc: e.currentTarget.files[0],
+        bucketAlt: e.currentTarget.files[0].name,
+      });
+    }
+  };
+
   const submitNewReq = () => {
     setErrMsg("");
-    if (title.trim() === "" || detail.trim() === "" || district === "") {
-      setErrMsg("Please fill in all the fields");
+    if (
+      bucketSrc === "" ||
+      title.trim() === "" ||
+      detail.trim() === "" ||
+      district === ""
+    ) {
+      setErrMsg("Please choose an image and fill in all the fields");
     } else if (Number(people) > 20 || Number(people) < 1) {
       setErrMsg("Please set a valid number of required people : 1 - 20");
     } else if (
@@ -56,6 +87,30 @@ const NewRequest = (props) => {
           memberInfo.token / Number(people)
         )}`
       );
+    }
+
+    if (src.includes("amazonaws") === false) {
+      let file = bucketSrc;
+      let newFileName = bucketAlt;
+      const ReactS3Client = new S3(s3Config);
+      ReactS3Client.uploadFile(file, newFileName).then((data) => {
+        let newReq = {
+          userId: userId,
+          title: title.trim(),
+          detail: detail.trim(),
+          reward: Number(reward),
+          requiredPpl: Number(people),
+          district: district,
+          photoPath: data.location,
+          status: "open",
+          tag: tag
+            .split(" ")
+            .filter((newTag) => newTag[0] === "#" && newTag.length > 1)
+            .map((newTag) => newTag.slice(1)),
+        };
+        console.log(newReq);
+        dispatch(createNewRequestThunk(newReq));
+      });
     } else {
       let newReq = {
         userId: userId,
@@ -64,6 +119,7 @@ const NewRequest = (props) => {
         reward: Number(reward),
         requiredPpl: Number(people),
         district: district,
+        photoPath: src,
         status: "open",
         tag: tag
           .split(" ")
@@ -85,6 +141,167 @@ const NewRequest = (props) => {
           <ModalBody className="p-5">
             <div className="new-req-heading p-3">Create New Request</div>
             <form className="p-3 new-req-form">
+              <label>
+                Photo (Please choose your own photo or use default photo)
+              </label>
+              <br />
+              <div className="d-flex text-center align-items-center my-3">
+                <div className="col-lg-7">
+                  <img
+                    src={src}
+                    alt={alt}
+                    className="my-3 previewPhoto-request"
+                  />
+                </div>
+                <div className="col-lg-5">
+                  <img
+                    src="https://utopius.s3.ap-southeast-1.amazonaws.com/help.png"
+                    alt="Help"
+                    title="Help"
+                    className="me-2 mb-2 smallphoto"
+                    onClick={(e) => {
+                      setPreviewImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                      setBucketImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                    }}
+                  />
+                  <img
+                    src="https://utopius.s3.ap-southeast-1.amazonaws.com/homecare.png"
+                    alt="Home care"
+                    title="Home care"
+                    className="me-2 mb-2 smallphoto"
+                    onClick={(e) => {
+                      setPreviewImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                      setBucketImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                    }}
+                  />
+                  <img
+                    src="https://utopius.s3.ap-southeast-1.amazonaws.com/cleaning.png"
+                    alt="Cleaning"
+                    title="Cleaning"
+                    className="mb-2 smallphoto"
+                    onClick={(e) => {
+                      setPreviewImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                      setBucketImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                    }}
+                  />
+                  <img
+                    src="https://utopius.s3.ap-southeast-1.amazonaws.com/teamup.png"
+                    alt="Team up"
+                    title="Team up"
+                    className="me-2 mb-2 smallphoto"
+                    onClick={(e) => {
+                      setPreviewImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                      setBucketImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                    }}
+                  />
+                  <img
+                    src="https://utopius.s3.ap-southeast-1.amazonaws.com/pet.png"
+                    alt="Pet caring"
+                    title="Pet caring"
+                    className="me-2 mb-2 smallphoto"
+                    onClick={(e) => {
+                      setPreviewImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                      setBucketImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                    }}
+                  />
+                  <img
+                    src="https://utopius.s3.ap-southeast-1.amazonaws.com/plants.png"
+                    alt="Plants"
+                    title="Plants caring"
+                    className="mb-2 smallphoto"
+                    onClick={(e) => {
+                      setPreviewImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                      setBucketImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                    }}
+                  />
+                  <img
+                    src="https://utopius.s3.ap-southeast-1.amazonaws.com/lost-and-found.png"
+                    alt="Lost and found"
+                    title="Lost and found"
+                    className="me-2 mb-2 smallphoto"
+                    onClick={(e) => {
+                      setPreviewImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                      setBucketImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                    }}
+                  />
+                  <img
+                    src="https://utopius.s3.ap-southeast-1.amazonaws.com/repair.png"
+                    alt="Repair"
+                    title="Repair"
+                    className="me-2 mb-2 smallphoto"
+                    onClick={(e) => {
+                      setPreviewImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                      setBucketImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                    }}
+                  />
+                  <img
+                    src="https://utopius.s3.ap-southeast-1.amazonaws.com/bartar.png"
+                    alt="Bartar"
+                    title="Good exchange good"
+                    className="mb-2 smallphoto"
+                    onClick={(e) => {
+                      setPreviewImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                      setBucketImg({
+                        src: e.currentTarget.src,
+                        alt: e.currentTarget.alt,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+              <Input type="file" onChange={ImgPreview} />
+              <br />
               <label>Title</label>
               <br />
               <input

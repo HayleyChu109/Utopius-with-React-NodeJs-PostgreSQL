@@ -42,6 +42,12 @@ const RequestRouter = require("./Router/RequestRouter");
 const requestService = new RequestService(knex);
 const requestRouter = new RequestRouter(requestService, memberService);
 
+// Setup token service and router
+const TokenService = require("./Service/TokenService");
+const TokenRouter = require("./Router/TokenRouter");
+const tokenService = new TokenService(knex);
+const tokenRouter = new TokenRouter(tokenService);
+
 // Setup public service and router
 const PublicService = require("./Service/PublicService");
 const PublicRouter = require("./Router/PublicRouter");
@@ -50,9 +56,10 @@ const publicRouter = new PublicRouter(publicService, requestService);
 
 app.use("/", authRouter.router());
 app.use("/", publicRouter.router());
-// app.use("/admin", auth.authenticate(), auth.isAdmin(), adminRouter.router());
+app.use("/admin", auth.authenticate(), adminRouter.router());
 app.use("/member", auth.authenticate(), memberRouter.router());
 app.use("/member", auth.authenticate(), requestRouter.router());
+app.use("/member", auth.authenticate(), tokenRouter.router());
 
 // Set up port
 const port = 8080;

@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import moment from "moment";
 
 import MemberReqCollapse from "./MemberReqCollapse";
 import FellowResCollapse from "./FellowResCollapse";
 import FellowProfileReportBar from "./FellowProfileReportBar";
 import GradeBall from "../PublicComponents/GradeBall";
 
+import "../../Pages/SCSS/memberProfile.scss";
+import "../../Pages/SCSS/searchCard.scss";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 
 function FellowProfileInfo(props) {
@@ -25,11 +28,7 @@ function FellowProfileInfo(props) {
   let noOfReq = memberReqDetailsFromStore.length;
   let noOfRes = memberResDetailsFromStore.length;
 
-  const [showEdit, setShowEdit] = useState(true);
-  const [showReq, setShowReq] = useState(false);
-  const [showRes, setShowRes] = useState(false);
-  const [disableReq, setDisableReq] = useState(false);
-  const [disableRes, setDisableRes] = useState(false);
+  const [showReq, setShowReq] = useState(true);
 
   const history = useHistory();
 
@@ -40,9 +39,14 @@ function FellowProfileInfo(props) {
           <div className="col-lg-12 col-md-12 col-sm-12-col-xs-12 memberProfileInfo">
             <div>
               <GradeBall grade={memberProfileFromStore.grade} />
-              <span className="fw-bolder">
+              <span className="fw-bolder memberName">
                 {memberProfileFromStore.username} UID#
                 {memberProfileFromStore.id}
+              </span>
+              <br />
+              <span className="accountCreation">
+                Account created since{" "}
+                {moment(memberProfileFromStore.created_at).format("LL")}
               </span>
             </div>
             <br />
@@ -50,25 +54,17 @@ function FellowProfileInfo(props) {
               <BsFillPersonPlusFill className="mx-2 person person-icon" />
               <span className="person me-2">100</span>
               <button
-                disabled={disableReq}
                 className="me-2 REQ"
                 onClick={() => {
-                  setShowEdit(!showEdit);
-                  setShowReq(!showReq);
-                  setShowRes(showRes);
-                  setDisableRes(!disableRes);
+                  setShowReq(true);
                 }}
               >
                 REQ#{noOfReq}
               </button>
               <button
-                disabled={disableRes}
                 className="RES"
                 onClick={() => {
-                  setShowEdit(!showEdit);
-                  setShowReq(showReq);
-                  setShowRes(!showRes);
-                  setDisableReq(!disableReq);
+                  setShowReq(false);
                 }}
               >
                 RES#{noOfRes}
@@ -77,8 +73,8 @@ function FellowProfileInfo(props) {
           </div>
         </div>
       </div>
-      <MemberReqCollapse isOpen={showReq} />
-      <FellowResCollapse isOpen={showRes} />
+      {showReq ? <MemberReqCollapse isOpen={showReq} /> : <FellowResCollapse />}
+
       <FellowProfileReportBar />
       <div className="text-center">
         <button className="mb-5 btn-goback" onClick={() => history.goBack()}>

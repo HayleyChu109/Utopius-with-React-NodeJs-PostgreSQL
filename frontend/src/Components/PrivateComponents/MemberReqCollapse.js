@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import SearchCard from "../PublicComponents/SearchCard";
 
 import { Collapse } from "reactstrap";
+import "../../Pages/SCSS/memberProfile.scss";
 
 function MemberReqCollapse(props) {
   const [filterStatus, setFilterStatus] = useState(["open"]);
@@ -22,9 +23,9 @@ function MemberReqCollapse(props) {
   return (
     <>
       <Collapse isOpen={props.isOpen}>
-        <div className="container py-4">
-          <div className="row text-center memberProfileMiddie-beige">
-            <div className="d-flex justify-content-around col-12">
+        <div className="container pt-4">
+          <div className="row text-center memberProfileMiddle-orange">
+            <div className="d-flex justify-content-around col-lg-12">
               <button onClick={() => setFilterStatus(["open"])}>OPEN</button>
               <button onClick={() => setFilterStatus(["matched"])}>
                 MATCHED
@@ -50,7 +51,7 @@ function MemberReqCollapse(props) {
                 />
               ))
           ) : (
-            <div>No request</div>
+            <div className="text-center">No request</div>
           )}
         </div>
       </Collapse>

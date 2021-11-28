@@ -21,6 +21,8 @@ import { BsStars } from "react-icons/bs";
 function FellowProfilePage() {
   const { fellowId } = useParams();
 
+  localStorage.setItem("reporteeId", fellowId);
+
   const memberProfileFromStore = useSelector(
     (state) => state.memberProfileStore.memberInfo
   );
@@ -32,6 +34,10 @@ function FellowProfilePage() {
     dispatch(memberReqDetailsThunk(fellowId));
     dispatch(memberResDetailsThunk(fellowId));
     dispatch(getReviewThunk(fellowId));
+
+    return () => {
+      localStorage.removeItem("reporteeId");
+    };
   }, [dispatch, fellowId]);
 
   return (

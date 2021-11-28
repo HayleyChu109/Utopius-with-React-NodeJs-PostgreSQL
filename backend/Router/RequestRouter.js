@@ -59,6 +59,7 @@ class RequestRouter {
         reward: reqDetail.reward,
         requiredPpl: reqDetail.requiredPpl,
         district: reqDetail.district,
+        reqPhotoPath: reqDetail.reqPhotoPath,
         status: reqDetail.status,
         createdAt: reqDetail.created_at,
         tag: reqTag,

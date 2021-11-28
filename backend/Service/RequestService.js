@@ -41,6 +41,7 @@ class RequestService {
           reward: newRequest.reward,
           requiredPpl: newRequest.requiredPpl,
           district: newRequest.district,
+          reqPhotoPath: newRequest.photoPath,
           status: newRequest.status,
         })
         .into("request")

@@ -26,7 +26,12 @@ const NavBar = () => {
         <div className="mx-3 py-2 row">
           <div className="col-2">
             <a href="/" className="nav-logo">
-              <FaRegHandshake className="mx-2" />
+              <img
+                src={"/heart.png"}
+                alt="logo"
+                style={{ width: "20px", height: "20px" }}
+              />
+              {/* <FaRegHandshake className="mx-2" /> */}
               UTOPIUS
             </a>
           </div>
