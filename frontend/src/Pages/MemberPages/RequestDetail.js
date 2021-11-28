@@ -433,6 +433,7 @@ const RequestDetail = (props) => {
                 />
               ) : tab === "response" ? (
                 <ResponseHost
+                  requestId={requestId}
                   matchList={matchList}
                   setMatchList={setMatchList}
                   handleMatch={handleMatch}
@@ -466,36 +467,57 @@ const RequestDetail = (props) => {
             {tab === "comment" ? (
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div className="col-6">
-                  <input
-                    className="input-message form-control"
-                    placeholder="Leave a comment.."
-                    value={publicComment}
-                    onChange={(e) => {
-                      setPublicComment(e.currentTarget.value);
-                    }}
-                  />
-                </div>
-                <div className="col-2">
-                  {requestDetail.requesterId === userId ? (
-                    <Button
-                      className="btn-white-orange-sm"
-                      onClick={() => {
-                        submitComment(false);
-                      }}
-                    >
-                      SEND
-                    </Button>
+                  {requestDetail.status === "cancelled" ||
+                  requestDetail.status === "completed" ? (
+                    <input
+                      className="input-message form-control"
+                      placeholder="Leave a comment.."
+                      value={publicComment}
+                      disabled
+                    />
                   ) : (
-                    <Button
-                      className="btn-white-blue-sm"
-                      onClick={() => {
-                        submitComment(false);
+                    <input
+                      className="input-message form-control"
+                      placeholder="Leave a comment.."
+                      value={publicComment}
+                      onChange={(e) => {
+                        setPublicComment(e.currentTarget.value);
                       }}
-                    >
-                      SEND
-                    </Button>
+                    />
                   )}
                 </div>
+                {requestDetail.status === "cancelled" ||
+                requestDetail.status === "completed" ? (
+                  <div className="col-2">
+                    {requestDetail.requesterId === userId ? (
+                      <Button className="btn-white-orange-sm">SEND</Button>
+                    ) : (
+                      <Button className="btn-white-blue-sm">SEND</Button>
+                    )}
+                  </div>
+                ) : (
+                  <div className="col-2">
+                    {requestDetail.requesterId === userId ? (
+                      <Button
+                        className="btn-white-orange-sm"
+                        onClick={() => {
+                          submitComment(false);
+                        }}
+                      >
+                        SEND
+                      </Button>
+                    ) : (
+                      <Button
+                        className="btn-white-blue-sm"
+                        onClick={() => {
+                          submitComment(false);
+                        }}
+                      >
+                        SEND
+                      </Button>
+                    )}
+                  </div>
+                )}
               </div>
             ) : tab === "response" ? (
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">

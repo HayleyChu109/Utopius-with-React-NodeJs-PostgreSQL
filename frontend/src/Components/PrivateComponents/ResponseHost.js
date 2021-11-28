@@ -4,6 +4,7 @@ import RequestMessage from "./RequestMessage";
 // import RequestDetailComment from "./RequestDetailComment";
 
 import { Button } from "reactstrap";
+import { changeRequestStatusThunk } from "../../Redux/request/actions";
 
 const ResponseHost = ({
   requestId,
@@ -20,7 +21,7 @@ const ResponseHost = ({
   const dispatch = useDispatch();
 
   const handleStatusChange = (newStatus) => {
-    //dispatch()
+    dispatch(changeRequestStatusThunk(requestId, newStatus));
   };
 
   return (
@@ -70,17 +71,47 @@ const ResponseHost = ({
             <div className="response-heading pt-3 pb-1">RESPONSE</div>
             <div>
               {errorMsg !== "" ? (
-                <div
-                  className="response-matching-helper pb-2"
-                  style={{ color: "#fa7c92" }}
-                >
-                  {errorMsg}
-                </div>
+                <>
+                  <div
+                    className="response-matching-helper pb-2"
+                    style={{ color: "#fa7c92" }}
+                  >
+                    {errorMsg}
+                  </div>
+                  <div>
+                    <div className="response-matching-helper pb-2">
+                      Change request status :
+                    </div>
+                    <Button
+                      className="btn-white-orange-sm mb-2 border-0 px-3"
+                      onClick={() => {
+                        handleStatusChange("cancelled");
+                      }}
+                    >
+                      Cancelled
+                    </Button>
+                  </div>
+                </>
               ) : (
-                <div className="response-matching-helper pb-2">
-                  Matched response : {matchList.length} /{" "}
-                  {requestDetail.requiredPpl}
-                </div>
+                <>
+                  <div className="response-matching-helper pb-2">
+                    Matched response : {matchList.length} /{" "}
+                    {requestDetail.requiredPpl}
+                  </div>
+                  <div>
+                    <div className="response-matching-helper pb-2">
+                      Change request status :
+                    </div>
+                    <Button
+                      className="btn-white-orange-sm mb-2 border-0 px-3"
+                      onClick={() => {
+                        handleStatusChange("cancelled");
+                      }}
+                    >
+                      Cancelled
+                    </Button>
+                  </div>
+                </>
               )}
             </div>
           </div>

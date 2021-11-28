@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
+import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions";
 import { createNewRequestThunk } from "../../Redux/request/actions";
 
 import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
@@ -12,6 +13,7 @@ import { HiLocationMarker } from "react-icons/hi";
 import "../../Pages/SCSS/newRequest.scss";
 
 const NewRequest = (props) => {
+  const { memberInfo } = useSelector((state) => state.memberProfileStore);
   const { requestId } = useSelector((state) => state.requestStore);
 
   const [title, setTitle] = useState("");
@@ -22,12 +24,17 @@ const NewRequest = (props) => {
   const [district, setDistrict] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
+  let userId = jwt_decode(localStorage.getItem("token")).id;
+
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
+    dispatch(memberInfoThunk(userId));
+  }, [dispatch, userId]);
+
+  useEffect(() => {
     if (requestId !== null) {
-      console.log("requestDetail.id", requestId);
       history.push(`/member/request/detail/${requestId.newReqId}/comment`);
     } else {
       return;
@@ -38,9 +45,18 @@ const NewRequest = (props) => {
     setErrMsg("");
     if (title.trim() === "" || detail.trim() === "" || district === "") {
       setErrMsg("Please fill in all the fields");
+    } else if (Number(people) > 20 || Number(people) < 1) {
+      setErrMsg("Please set a valid number of required people : 1 - 20");
+    } else if (
+      Number(reward) < 1 ||
+      Number(reward) * Number(people) > memberInfo.token
+    ) {
+      setErrMsg(
+        `Please set a valid amount of reward : 1 - ${Math.floor(
+          memberInfo.token / Number(people)
+        )}`
+      );
     } else {
-      let userId = jwt_decode(localStorage.getItem("token")).id;
-      console.log(userId);
       let newReq = {
         userId: userId,
         title: title.trim(),
@@ -54,7 +70,6 @@ const NewRequest = (props) => {
           .filter((newTag) => newTag[0] === "#" && newTag.length > 1)
           .map((newTag) => newTag.slice(1)),
       };
-      console.log(newReq);
       dispatch(createNewRequestThunk(newReq));
     }
   };
@@ -134,7 +149,7 @@ const NewRequest = (props) => {
                     defaultValue={people}
                     type="number"
                     min="0"
-                    max="20"
+                    max="10"
                     step="1"
                     onChange={(e) => {
                       setPeople(e.currentTarget.value);
