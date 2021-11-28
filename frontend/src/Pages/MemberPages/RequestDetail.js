@@ -23,7 +23,6 @@ import { FaCoins } from "react-icons/fa";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { HiLocationMarker } from "react-icons/hi";
 
-import help from "../../Images/help.png";
 import "../SCSS/requestDetail.scss";
 
 const RequestDetail = (props) => {
@@ -99,7 +98,7 @@ const RequestDetail = (props) => {
           <CardBody className="p-0">
             <div className="row g-0 m-0 p-0">
               <div className="request-photo mx-auto col-md-5 col-sm-12 col-xs-12">
-                <img src={help} alt="request" />
+                <img src={requestDetail.reqPhotoPath} alt="request" />
               </div>
               <div className="request-main mx-auto col-md-7 col-sm-12 col-xs-12 px-3 pt-3 position-relative">
                 <div

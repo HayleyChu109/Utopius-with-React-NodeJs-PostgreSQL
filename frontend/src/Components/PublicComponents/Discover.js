@@ -16,12 +16,37 @@ const Discover = () => {
   //   { tagname: "Repair", key: "repair" },
   // ]);
   const discoverTag = [
-    { tagname: "Home Care", key: "homecare" },
-    { tagname: "Lost n Found", key: "lostnfound" },
-    { tagname: "Team Up", key: "teamup" },
-    { tagname: "Bartar", key: "bartar" },
-    { tagname: "Pet", key: "pet" },
-    { tagname: "Repair", key: "repair" },
+    {
+      tagname: "Home Care",
+      key: "homecare",
+      photoPath: "https://utopius.s3.ap-southeast-1.amazonaws.com/homecare.png",
+    },
+    {
+      tagname: "Lost n Found",
+      key: "lostnfound",
+      photoPath:
+        "https://utopius.s3.ap-southeast-1.amazonaws.com/lost-and-found.png",
+    },
+    {
+      tagname: "Team Up",
+      key: "teamup",
+      photoPath: "https://utopius.s3.ap-southeast-1.amazonaws.com/teamup.png",
+    },
+    {
+      tagname: "Pet",
+      key: "pet",
+      photoPath: "https://utopius.s3.ap-southeast-1.amazonaws.com/pet.png",
+    },
+    {
+      tagname: "Repair",
+      key: "repair",
+      photoPath: "https://utopius.s3.ap-southeast-1.amazonaws.com/repair.png",
+    },
+    {
+      tagname: "Bartar",
+      key: "bartar",
+      photoPath: "https://utopius.s3.ap-southeast-1.amazonaws.com/bartar.png",
+    },
   ];
 
   return (
@@ -34,7 +59,11 @@ const Discover = () => {
           </div>
           <div className="p-4 row">
             {discoverTag.map((tag) => (
-              <DiscoverCard key={tag.key} tagname={tag.tagname} />
+              <DiscoverCard
+                key={tag.key}
+                tagname={tag.tagname}
+                photoPath={tag.photoPath}
+              />
             ))}
           </div>
         </div>

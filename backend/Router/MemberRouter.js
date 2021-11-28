@@ -15,6 +15,7 @@ class MemberRouter {
     router.get("/review/:revieweeId", this.getReview.bind(this));
     router.get("/bookmark/:id", this.getBookmark.bind(this));
     router.post("/report/", this.postReport.bind(this));
+    router.get("/allusername/:id", this.getAllUsername.bind(this));
 
     return router;
   }
@@ -133,6 +134,21 @@ class MemberRouter {
       );
       if (reportId) {
         res.json(reportId);
+      } else {
+        res.json([]);
+      }
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  // Get all username
+  async getAllUsername(req, res, next) {
+    try {
+      let allUsername = await this.memberService.getAllUsername(req.params.id);
+      if (allUsername) {
+        res.json(allUsername);
       } else {
         res.json([]);
       }

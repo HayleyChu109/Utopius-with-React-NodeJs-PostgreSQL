@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import moment from "moment";
@@ -17,6 +17,8 @@ import "../../Pages/SCSS/memberProfile.scss";
 import "../../Pages/SCSS/searchCard.scss";
 
 function MemberProfileInfo(props) {
+  const [noOfBookmark, setNoOfBookmark] = useState("");
+
   const memberProfileFromStore = useSelector(
     (state) => state.memberProfileStore.memberInfo
   );
@@ -35,7 +37,7 @@ function MemberProfileInfo(props) {
 
   let noOfReq = memberReqDetailsFromStore.length;
   let noOfRes = memberResDetailsFromStore.length;
-  let noOfBookmark = bookmarkListFromStore.length;
+  // let noOfBookmark = bookmarkListFromStore.length;
 
   const [showEdit, setShowEdit] = useState(true);
   const [showBookmark, setShowBookmark] = useState(false);
@@ -46,6 +48,10 @@ function MemberProfileInfo(props) {
   const [disableRes, setDisableRes] = useState(false);
 
   const history = useHistory();
+
+  useEffect(() => {
+    setNoOfBookmark(bookmarkListFromStore.length);
+  }, [bookmarkListFromStore]);
 
   return (
     <>

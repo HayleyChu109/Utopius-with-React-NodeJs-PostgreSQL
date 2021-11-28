@@ -33,7 +33,7 @@ function TokenPage() {
     dispatch(tokenPlanThunk());
     dispatch(tokenPurchaseRecordThunk(memberId));
     dispatch(tokenTransActThunk(memberId));
-  }, [dispatch]);
+  }, [dispatch, memberId]);
 
   return (
     <>
