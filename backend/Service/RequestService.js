@@ -268,6 +268,18 @@ class RequestService {
     }
   }
 
+  async putResponse(requestId, userId, responseMsg) {
+    try {
+      await this.knex("response")
+        .where("requestId", requestId)
+        .andWhere("responserId", userId)
+        .update({ detail: responseMsg, matched: false });
+      return { message: "Successfully updated" };
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   async deleteResponse(requestId, userId) {
     try {
       return await this.knex("response")

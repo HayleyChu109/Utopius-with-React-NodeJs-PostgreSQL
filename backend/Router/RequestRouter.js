@@ -1,9 +1,10 @@
 const express = require("express");
 
 class RequestRouter {
-  constructor(requestService, memberService) {
+  constructor(requestService, memberService, tokenService) {
     this.requestService = requestService;
     this.memberService = memberService;
+    this.tokenService = tokenService;
   }
 
   router() {
@@ -28,6 +29,7 @@ class RequestRouter {
     // Routes for resposne
     router.get("/request/response/:requestId", this.getResponseList.bind(this));
     router.post("/request/response/new", this.postNewResponse.bind(this));
+    router.put("/request/response/edit", this.putResponse.bind(this));
     router.delete(
       "/request/response/delete/:requestId/:userId",
       this.deleteResponse.bind(this)
@@ -89,7 +91,12 @@ class RequestRouter {
           newReqId,
           req.body.newRequest.tag
         );
-        console.log("Post req finish");
+        await this.tokenService.postTokenTransaction(
+          newReqId,
+          req.body.newRequest.userId,
+          [0],
+          req.body.newRequest.reward * req.body.newRequest.requiredPpl
+        );
         res.json({ newReqId });
       } else {
         console.log("Something goes wrong: ", tagArray);
@@ -269,6 +276,22 @@ class RequestRouter {
         req.body.requestId
       );
       res.json({ responseList });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async putResponse(req, res, next) {
+    try {
+      let result = await this.requestService.putResponse(
+        req.body.requestId,
+        req.body.userId,
+        req.body.responseMsg
+      );
+      if (result.message) {
+        res.json({ result });
+      }
     } catch (err) {
       next(err);
       res.status(500).json(err);

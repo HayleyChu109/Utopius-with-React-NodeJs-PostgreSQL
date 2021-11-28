@@ -8,6 +8,7 @@ import {
   PUBLIC_COMMENT,
   PRIVATE_COMMENT,
   RESPONSE_LIST,
+  EDIT_RESPONSE,
   DELETE_RESPONSE,
   MATCH_RESPONSE,
   GET_TEAM_LIST,
@@ -25,6 +26,7 @@ const initialState = {
   responseList: [],
   matchSuccessMsg: "",
   deleteSuccessMsg: "",
+  editSuccessMsg: "",
   teamList: [],
   teamResId: [],
 };
@@ -61,6 +63,11 @@ export function requestReducer(state = initialState, action) {
       return {
         ...state,
         deleteSuccessMsg: action.payload,
+      };
+    case EDIT_RESPONSE:
+      return {
+        ...state,
+        editSuccessMsg: action.payload,
       };
 
     default:

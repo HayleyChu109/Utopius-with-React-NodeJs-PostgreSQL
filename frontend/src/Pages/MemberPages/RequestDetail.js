@@ -8,12 +8,12 @@ import NavBar from "../../Components/PublicComponents/NavBar";
 import UserInfoCombo from "../../Components/PublicComponents/UserInfoCombo";
 // import GradeBall from "../../Components/PublicComponents/GradeBall";
 import SuccessModal from "../../Components/PublicComponents/SuccessModal";
-// import FailureModal from "../../Components/PublicComponents/FailureModal";
 import RequestDetailNav from "../../Components/PrivateComponents/RequestDetailNav";
 import RequestDetailComment from "../../Components/PrivateComponents/RequestDetailComment";
 import ResponseJoined from "../../Components/PrivateComponents/ResponseJoined";
 import ResponseHost from "../../Components/PrivateComponents/ResponseHost";
 import RequestMeetup from "../../Components/PrivateComponents/RequestMeetup";
+// import Review from "../../Components/PrivateComponents/Review";
 import {
   searchReq,
   getRequestDetailThunk,
@@ -23,6 +23,7 @@ import {
   postNewCommentThunk,
   postNewResponseThunk,
   getResponseListThunk,
+  putNewResponseThunk,
   deleteResponseThunk,
   putMatchedResponseThunk,
   getTeamListThunk,
@@ -42,8 +43,11 @@ const RequestDetail = (props) => {
     requestDetail,
     requestStatus,
     bookmarkList,
+    publicCommentList,
+    privateCommentList,
     responseList,
     teamList,
+    editSuccessMsg,
     deleteSuccessMsg,
     matchSuccessMsg,
   } = useSelector((state) => state.requestStore);
@@ -55,12 +59,16 @@ const RequestDetail = (props) => {
   teamResId: All the matched response id
   matchSuccessMsg: System message returned from server after putting match
   */
+
   const [footerColor, setFooterColor] = useState("");
   // For posting comments
   const [publicComment, setPublicComment] = useState("");
   const [privateComment, setPrivateComment] = useState("");
   // For posting responses
   const [responseMsg, setResponseMsg] = useState("");
+  // For editing response
+  const [editRes, setEditRes] = useState(false);
+  const [editSuccessBoolean, setEditSuccessBoolean] = useState(false);
   // For deleting response
   const [responseModalBoolean, setResponseModalBoolean] = useState(false);
   // For matching response
@@ -89,27 +97,15 @@ const RequestDetail = (props) => {
   // Get the bookmark list to check bookmark status
   useEffect(() => {
     dispatch(getBookmarkListThunk(userId));
-  }, [userId, dispatch]);
+  }, [dispatch, userId]);
 
-  // Get public comments
+  // Get public comments, private comments, response list, team list
   useEffect(() => {
     dispatch(getCommentThunk(requestId, false));
-  }, [dispatch, requestId]);
-
-  // Get private comments
-  useEffect(() => {
     dispatch(getCommentThunk(requestId, true));
-  }, [dispatch, requestId]);
-
-  // Get the response list
-  useEffect(() => {
     dispatch(getResponseListThunk(requestId));
-  }, [dispatch, requestId]);
-
-  // Get the team list
-  useEffect(() => {
     dispatch(getTeamListThunk(requestId));
-  }, [dispatch, requestId]);
+  }, [dispatch, requestId, editSuccessMsg]);
 
   // Prevent user entering wrong path
   useEffect(() => {
@@ -218,25 +214,16 @@ const RequestDetail = (props) => {
     }
   }, [requestStatus, requestDetail, userId, responseList, tab]);
 
+  // Success modal toggle
   useEffect(() => {
     if (matchSuccessMsg !== "") {
       setModalBoolean(true);
-    }
-  }, [matchSuccessMsg]);
-
-  useEffect(() => {
-    if (deleteSuccessMsg !== "") {
+    } else if (deleteSuccessMsg !== "") {
       setResponseModalBoolean(true);
+    } else if (editSuccessMsg !== "") {
+      setEditSuccessBoolean(true);
     }
-  }, [deleteSuccessMsg]);
-
-  const handleMember = (memberId) => {
-    if (memberId === userId) {
-      history.push("/member/profile");
-    } else {
-      history.push(`/member/fellow/${memberId}`);
-    }
-  };
+  }, [matchSuccessMsg, deleteSuccessMsg, editSuccessMsg]);
 
   // Bookmark toggle function
   const handleBookmark = (bookmarked) => {
@@ -256,14 +243,16 @@ const RequestDetail = (props) => {
 
   // Close success modal
   const closeModal = () => {
-    setModalBoolean(false);
-    setResponseModalBoolean(false);
-    history.push(`/member/request/detail/${requestId}/comment`);
+    if (modalBoolean) {
+      setModalBoolean(false);
+      history.push(`/member/request/detail/${requestId}/meetup`);
+    } else if (responseModalBoolean) {
+      setResponseModalBoolean(false);
+      history.push(`/member/request/detail/${requestId}/comment`);
+    } else if (setEditSuccessBoolean) {
+      setEditSuccessBoolean(false);
+    }
   };
-
-  // const closeFailureModal = () => {
-  //   setWrongPathBoolean(false);
-  // };
 
   // Matching response
   const handleMatch = (newMatchId) => {
@@ -292,13 +281,9 @@ const RequestDetail = (props) => {
     if (type) {
       dispatch(postNewCommentThunk(requestId, userId, privateComment, type));
       setPrivateComment("");
-      // Hot fix for not loading the comment component & propic properly
-      window.location.reload();
     } else {
       dispatch(postNewCommentThunk(requestId, userId, publicComment, type));
       setPublicComment("");
-      // Hot fix for not loading the comment component & propic properly
-      window.location.reload();
     }
   };
 
@@ -311,8 +296,9 @@ const RequestDetail = (props) => {
   // Edit response
   const editResponse = () => {
     console.log("Sending edit res thunk..");
-    // dispatch(putNewResponseThunk(requestId, userId, responseMsg));
-    // setResponseMsg("");
+    dispatch(putNewResponseThunk(requestId, userId, responseMsg));
+    setResponseMsg("");
+    setEditRes(false);
   };
 
   // Delete response
@@ -463,7 +449,12 @@ const RequestDetail = (props) => {
                   ></textarea>
                 </div>
               ) : tab === "joined" ? (
-                <ResponseJoined requestId={requestId} userId={userId} />
+                <ResponseJoined
+                  requestId={requestId}
+                  userId={userId}
+                  editRes={editRes}
+                  setResponseMsg={setResponseMsg}
+                />
               ) : null}
             </div>
           </CardBody>
@@ -548,12 +539,24 @@ const RequestDetail = (props) => {
             ) : tab === "joined" ? (
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div>
-                  <Button
-                    className="btn-white-blue-sm mx-2"
-                    onClick={editResponse}
-                  >
-                    EDIT
-                  </Button>
+                  {editRes ? (
+                    <Button
+                      className="btn-white-blue-sm mx-2"
+                      onClick={editResponse}
+                    >
+                      SUBMIT
+                    </Button>
+                  ) : (
+                    <Button
+                      className="btn-white-blue-sm mx-2"
+                      onClick={() => {
+                        setEditRes(true);
+                      }}
+                    >
+                      EDIT
+                    </Button>
+                  )}
+
                   <Button
                     className="btn-white-blue-sm mx-2"
                     onClick={deleteResponse}
@@ -575,24 +578,36 @@ const RequestDetail = (props) => {
                   />
                 </div>
                 <div className="col-2">
-                  {requestDetail.requesterId === userId ? (
-                    <Button
-                      className="btn-white-orange-sm"
-                      onClick={() => {
-                        submitComment(true);
-                      }}
-                    >
-                      SEND
-                    </Button>
+                  {requestDetail.status === "matched" ? (
+                    <>
+                      {requestDetail.requesterId === userId ? (
+                        <Button
+                          className="btn-white-orange-sm"
+                          onClick={() => {
+                            submitComment(true);
+                          }}
+                        >
+                          SEND
+                        </Button>
+                      ) : (
+                        <Button
+                          className="btn-white-blue-sm"
+                          onClick={() => {
+                            submitComment(true);
+                          }}
+                        >
+                          SEND
+                        </Button>
+                      )}
+                    </>
                   ) : (
-                    <Button
-                      className="btn-white-blue-sm"
-                      onClick={() => {
-                        submitComment(true);
-                      }}
-                    >
-                      SEND
-                    </Button>
+                    <>
+                      {requestDetail.requesterId === userId ? (
+                        <Button className="btn-white-orange-sm">SEND</Button>
+                      ) : (
+                        <Button className="btn-white-blue-sm">SEND</Button>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
@@ -610,11 +625,16 @@ const RequestDetail = (props) => {
         close={closeModal}
         message={deleteSuccessMsg}
       />
-      {/* <FailureModal
-        isOpen={wrongPathBoolean}
-        close={closeFailureModal}
-        message={wrongPathNoti}
-      /> */}
+      <SuccessModal
+        isOpen={editSuccessBoolean}
+        close={closeModal}
+        message={editSuccessMsg}
+      />
+      {/* {requestDetail.state === "completed" ? (
+        <>
+          <Review isOpen={true} close={} review={} />
+        </>
+      ) : null} */}
     </>
   );
 };

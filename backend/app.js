@@ -36,17 +36,21 @@ const MemberRouter = require("./Router/MemberRouter");
 const memberService = new MemberService(knex);
 const memberRouter = new MemberRouter(memberService);
 
-// Setup request service and router
-const RequestService = require("./Service/RequestService");
-const RequestRouter = require("./Router/RequestRouter");
-const requestService = new RequestService(knex);
-const requestRouter = new RequestRouter(requestService, memberService);
-
 // Setup token service and router
 const TokenService = require("./Service/TokenService");
 const TokenRouter = require("./Router/TokenRouter");
 const tokenService = new TokenService(knex);
 const tokenRouter = new TokenRouter(tokenService);
+
+// Setup request service and router
+const RequestService = require("./Service/RequestService");
+const RequestRouter = require("./Router/RequestRouter");
+const requestService = new RequestService(knex);
+const requestRouter = new RequestRouter(
+  requestService,
+  memberService,
+  tokenService
+);
 
 // Setup public service and router
 const PublicService = require("./Service/PublicService");

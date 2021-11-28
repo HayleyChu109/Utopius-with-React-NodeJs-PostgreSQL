@@ -9,6 +9,7 @@ export const BOOKMARK_TOGGLE = "BOOKMARK_TOGGLE";
 export const PUBLIC_COMMENT = "PUBLIC_COMMENT";
 export const PRIVATE_COMMENT = "PRIVATE_COMMENT";
 export const RESPONSE_LIST = "RESPONSE_LIST";
+export const EDIT_RESPONSE = "EDIT_RESPONSE";
 export const DELETE_RESPONSE = "DELETE_RESPONSE";
 export const MATCH_RESPONSE = "MATCH_RESPONSE";
 export const GET_TEAM_LIST = "GET_TEAM_LIST";
@@ -282,6 +283,32 @@ export const postNewResponseThunk =
         dispatch({
           type: RESPONSE_LIST,
           payload: data.responseList,
+        });
+      }
+    } catch (err) {
+      console.log("Error", err);
+    }
+  };
+
+// For editing response
+export const putNewResponseThunk =
+  (requestId, userId, responseMsg) => async (dispatch) => {
+    try {
+      let token = await localStorage.getItem("token");
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_SERVER}/member/request/response/edit`,
+        { requestId, userId, responseMsg },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = response;
+      if (data.result.message) {
+        dispatch({
+          type: EDIT_RESPONSE,
+          payload: data.result.message,
         });
       }
     } catch (err) {
