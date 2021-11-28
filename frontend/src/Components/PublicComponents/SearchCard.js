@@ -55,16 +55,15 @@ const SearchCard = ({ request, handleClick }) => {
           }}
         >
           <div className="row g-0">
-            <div className="search-card-photo col-5">
+            <div className="search-card-photo col-5 m-0">
               <img
                 src={request.reqPhotoPath}
                 className="img-fluid rounded-start"
                 alt="request"
               />
             </div>
-            <div className="search-card-main col-7">
+            <div className="search-card-main col-7 m-0">
               <CardBody>
-                {/* <UserInfoCombo userId={request.requesterId} /> */}
                 <div
                   className="username-id"
                   onClick={(e) => {

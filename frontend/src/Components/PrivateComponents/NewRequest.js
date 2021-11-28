@@ -87,9 +87,7 @@ const NewRequest = (props) => {
           memberInfo.token / Number(people)
         )}`
       );
-    }
-
-    if (src.includes("amazonaws") === false) {
+    } else if (src.includes("amazonaws") === false) {
       let file = bucketSrc;
       let newFileName = bucketAlt;
       const ReactS3Client = new S3(s3Config);
