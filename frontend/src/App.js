@@ -13,14 +13,17 @@ import DashboardPage from "./Pages/AdminPages/dashboardPage";
 import AnnouncementPage from "./Pages/AdminPages/announcementPage";
 import AnnouncemnetEditPage from "./Pages/AdminPages/announcementEditPage";
 import UserPage from "./Pages/AdminPages/userPage";
+import AdminHome from './Pages/AdminPages/AdminHome'
 function App() {
   return (
     <Switch>
       <Route exact path="/" component={LandingPage} />
       <Route exact path="/login" component={LoginPage} />
-      <PrivateAdminRoute exact path='/admin' component={DashboardPage}/>
+      <PrivateAdminRoute exact path='/admin' component={AdminHome}/>
+      <PrivateAdminRoute exact path='/admin/dashboard' component={DashboardPage}/>
       <PrivateAdminRoute exact  path='/admin/announcement' component={AnnouncementPage}/>
       <PrivateAdminRoute exact  path='/admin/announcement/new' component={AnnouncemnetEditPage}/>
+      <PrivateAdminRoute  path='/admin/announcement/edit/:id' component={AnnouncemnetEditPage}/>
       <PrivateAdminRoute path='/admin/user/:id'component={UserPage}/>
 
       <PrivateRoute path="/member/signup" component={SignupPage} />

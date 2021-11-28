@@ -8,8 +8,8 @@ export const GetUserGrowth = (start, end) => async (dispatch) => {
   console.log(userToken);
   console.log(start)
   try {
-    let response = await axios.post(
-      `${process.env.REACT_APP_API_SERVER}/admin/dashboard`,{startDate:start,endDate:end},
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_SERVER}/admin/dashboard`,
 
       {
         headers: { Authorization: `Bearer ${userToken}` },
@@ -35,7 +35,6 @@ export const GetUserData = (userId) => async (dispatch) => {
   try {
     let response = await axios.get(
       `${process.env.REACT_APP_API_SERVER}/admin/user/${userId}`,
-
       {
         headers: { Authorization: `Bearer ${userToken}` },
       }

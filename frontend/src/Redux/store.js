@@ -12,6 +12,9 @@ import { AdminDataReducer } from "./adminData/reducer";
 import { memberReqDetailsReducer } from "./memberProfile/memberReqDetailsReducer";
 import { memberResDetailsReducer } from "./memberProfile/memberResDetailsReducer";
 import { getReviewReducer } from "./review/getReviewReducer";
+import { AnnounceReducer } from "./announceData/reducer";
+import { TagReducer } from "./tag/reducer";
+import { AdminRequestReducer } from "./adminRequest/reducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose;
 
@@ -26,6 +29,9 @@ const rootReducer = combineReducers({
   getReviewStore: getReviewReducer,
   footerStore: footerReducer,
   adminDataStore:AdminDataReducer,
+  announceStore:AnnounceReducer,
+  tagStore:TagReducer,
+  adminRequestStore:AdminRequestReducer,
 });
 
 export const store = createStore(

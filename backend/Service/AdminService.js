@@ -1,4 +1,3 @@
-const e = require("express");
 const moment = require("moment");
 class AdminService {
   constructor(knex) {
@@ -81,6 +80,46 @@ class AdminService {
       )
       .join("account", "requesterId", "account.id")
   }
+  getTagCount(){
+    return this.knex('tagReqJoin').select("tagName").count({count:'tagId'}).select(this.knex.raw(`count('tagId')*100.0 / sum(count('tagId')) over () as "percentage"`)).join('tag','tag.id','tagId').groupBy('tagName').orderBy('count')
+  }
+
+  getReqResGrowth(startDate, endDate) {
+    startDate = moment(startDate).format("YYYY-MM-DD");
+    endDate = moment(endDate).format("YYYY-MM-DD");
+    return this.knex
+      .with("date_ranges", (qb) => {
+        qb.select(this.knex.raw(`date_d::date as date_d`)).from(
+          this.knex.raw(
+            `GENERATE_SERIES(date '${startDate}'::DATE,'${endDate}'::DATE,'1 day'::INTERVAL)date_d`
+          )
+        );
+      })
+      .with("request_counts", (qb) => {
+        qb.select(this.knex.raw(`created_at::date as date_d`))
+          .select(this.knex.raw(`count(id)as cnt`))
+          .from("request")
+          .whereBetween("created_at", [startDate, endDate])
+          .groupBy("created_at");
+      })
+      .with("response_counts", (qb) => {
+        qb.select(this.knex.raw(`created_at::date as date_d`))
+          .select(this.knex.raw(`count(id)as cnt`))
+          .from("response")
+          .whereBetween("created_at", [startDate, endDate])
+          .groupBy("created_at");
+      })
+      .select(
+        this.knex.raw(
+          `date_ranges.date_d AS "Date",COALESCE(request_counts.cnt,0)as "Request Count",date_ranges.date_d AS "Date",COALESCE(response_counts.cnt,0)as "Response Count"`
+        )
+      )
+      .from("date_ranges")
+      .leftJoin("request_counts", "request_counts.date_d", "date_ranges.date_d").leftJoin("response_counts", "response_counts.date_d", "date_ranges.date_d");
+  }
+
+ 
 }
 
 module.exports = AdminService;
+

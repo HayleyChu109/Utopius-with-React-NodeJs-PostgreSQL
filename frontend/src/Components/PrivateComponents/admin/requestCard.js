@@ -1,4 +1,4 @@
-import { Card,CardBody,CardFooter } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 const RequestCard=({request,...props})=>{
 
     return(
@@ -6,7 +6,9 @@ const RequestCard=({request,...props})=>{
         <div className="col-md-6 col-sm-12 col-xs-12 p-4">
           <Card
             className="search-req-card"
-           
+            onClick={() => {
+              showRequestDetail(request.id);
+            }}
           >
             <div className="row g-0">
               <div className="search-card-photo col-5">
@@ -35,8 +37,10 @@ const RequestCard=({request,...props})=>{
                       <span
                         key={tagname}
                         className="mx-1 tagname"
-                       
-                        
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleSearch(tagname.replace(/\s/g, ""));
+                        }}
                       >
                         #{tagname}
                       </span>

@@ -1,8 +1,22 @@
-.graph{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+.graph {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
-a{
-    text-decoration: none;
+a {
+  text-decoration: none;
+}
+
+.icon {
+  position: absolute;
+  border-radius: 5px 20px 20px 5px;
+ background-color: #0bb1e4;
+  width: 20%;
+  height: 100%;
+  top: 0;
+  padding: 10px;
+}
+
+.column{
+position: relative;
 }
