@@ -56,7 +56,7 @@ const publicRouter = new PublicRouter(publicService, requestService);
 
 app.use("/", authRouter.router());
 app.use("/", publicRouter.router());
-// app.use("/admin", auth.authenticate(), auth.isAdmin(), adminRouter.router());
+app.use("/admin", auth.authenticate(), adminRouter.router());
 app.use("/member", auth.authenticate(), memberRouter.router());
 app.use("/member", auth.authenticate(), requestRouter.router());
 app.use("/member", auth.authenticate(), tokenRouter.router());

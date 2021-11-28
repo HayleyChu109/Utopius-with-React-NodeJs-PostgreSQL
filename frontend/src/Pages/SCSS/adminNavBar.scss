@@ -1,0 +1,54 @@
+@import "basic";
+
+.navbarAdmin {
+  background-color: $dark-blue;
+  div {
+    @include flex;
+    color: $white;
+    letter-spacing: 2px;
+  }
+}
+
+.navbar > div {
+  width: 100%;
+  color: $white;
+  letter-spacing: 2px;
+}
+
+.nav-logo {
+  text-decoration: none;
+  color: $white;
+  font-size: 20px;
+}
+
+.nav-logo:hover {
+  color: $white;
+}
+
+.navitems {
+  a {
+    @include anchor-text;
+  }
+  a:hover {
+    color: $light-grey;
+  }
+  span {
+    @include anchor-text;
+  }
+}
+
+.nav-search {
+  width: 100%;
+  background-color: $white;
+  font-size: 15px;
+  font-family: $sora;
+  border: 2px solid $white;
+  border-radius: 20px;
+  padding: 1px 15px 1px 15px;
+  margin: 0px 10px 0px 10px;
+}
+
+.nav-search:focus {
+  box-shadow: none;
+  border: 2px solid $white;
+}
