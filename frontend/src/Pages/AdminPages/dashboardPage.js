@@ -13,6 +13,7 @@ import { RequestList } from "../../Components/PrivateComponents/admin/requestLis
 import { TagCountChart } from "../../Components/PrivateComponents/admin/tagCountChart";
 import { NewUserChart } from "../../Components/PrivateComponents/admin/NewUserChart";
 import { RequestTypeCard } from "../../Components/PrivateComponents/admin/RequestCountCard";
+import { FinishedRequestCard } from "../../Components/PrivateComponents/admin/fininshedRequestCard";
 import { Link } from "react-router-dom";
 
 export default function DashboardPage(props) {
@@ -34,19 +35,18 @@ export default function DashboardPage(props) {
           <h2>Today</h2>
         <Row xs={1} md={2} lg={4} className="my-2">
           <Col>
+              <Link to='/admin/token'>
             <Card className="column">
               <div className="m-2 p-0 text-end">
                 <p>Today's income</p>
               </div>
               <FaDollarSign className="icon" />
             </Card>
+              </Link>
           </Col>
           <Col className="column">
           <Link to='/admin/request'>
-            <Card>
-              <p className="me-2 mt-2 text-end">Finished request</p>
-              <FaCheck className="icon" />
-            </Card>
+           <FinishedRequestCard/>
             </Link>
           </Col>
           <Col className="column">
@@ -80,13 +80,19 @@ export default function DashboardPage(props) {
             </Card>
           </Col>
           <Col>
+          <Link>
             <Card>Top User</Card>
+          </Link>
           </Col>
           <Col>
+          <Link>
             <Card>Recent Review</Card>
+          </Link>
           </Col>
           <Col>
+          <Link>
             <Card>Guest message</Card>
+          </Link>
           </Col>
         </Row>
        
