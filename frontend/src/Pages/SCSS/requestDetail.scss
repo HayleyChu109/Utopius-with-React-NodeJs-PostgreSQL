@@ -27,10 +27,11 @@
 }
 
 .requester-username {
-  color: $dark-blue;
+  color: $dark-orange;
   font-size: 13px;
   font-weight: bold;
   letter-spacing: 2px;
+  cursor: pointer;
 }
 
 .requester-id {
@@ -38,6 +39,12 @@
   font-size: 13px;
   font-weight: bold;
   letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.requester-username:hover,
+.requester-id:hover {
+  color: $dark-blue;
 }
 
 .request-detail-createdAt {
@@ -70,6 +77,10 @@
   letter-spacing: 2px;
 }
 
+.request-detail-tag-search:hover {
+  color: $dark-blue;
+}
+
 .request-detail-tag-search {
   cursor: pointer;
 }
@@ -92,10 +103,13 @@
 .req-detail-nav {
   width: 100%;
   background-color: $white;
-  font-family: $nunito;
   font-size: 18px;
   font-weight: bolder;
   letter-spacing: 1px;
+  span {
+    font-family: $nunito;
+    font-weight: bolder;
+  }
 }
 
 .req-detail-nav-res {
@@ -104,13 +118,28 @@
 }
 
 .req-detail-nav-join {
+  color: $dark-grey;
+  cursor: pointer;
+}
+
+.req-detail-nav-join:hover {
   color: $dark-blue;
   cursor: pointer;
 }
 
-.req-detail-nav-comment {
+.req-detail-nav-joined {
   color: $dark-blue;
   cursor: pointer;
+}
+
+.req-detail-nav-comment,
+.req-detail-nav-matched {
+  color: $dark-blue;
+  cursor: pointer;
+}
+
+.req-detail-nav-locked {
+  color: $dark-grey;
 }
 
 .request-detail-footer {
@@ -136,6 +165,8 @@
 
 .requset-detail-cmres {
   background-color: $beige;
+  overflow-y: scroll;
+  max-height: 500px;
 }
 
 .btn-white-orange-sm,
@@ -205,4 +236,23 @@
   @include heading;
   font-family: $nunito;
   font-weight: bolder;
+}
+
+.response-matching-bg {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: hsla(205, 20%, 88%, 0.226);
+}
+
+.response-matching-msg {
+  transform: translateX(100px);
+}
+
+.response-matching-helper {
+  font-size: 13px;
+  font-family: $nunito;
+  font-weight: bold;
+  letter-spacing: 1px;
 }

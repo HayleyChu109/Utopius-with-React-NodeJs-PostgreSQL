@@ -1,8 +1,10 @@
 const express = require("express");
 
 class RequestRouter {
-  constructor(requestService) {
+  constructor(requestService, memberService, tokenService) {
     this.requestService = requestService;
+    this.memberService = memberService;
+    this.tokenService = tokenService;
   }
 
   router() {
@@ -13,6 +15,7 @@ class RequestRouter {
       this.getRequestDetail.bind(this)
     );
     router.post("/request/create", this.postNewRequest.bind(this));
+    router.put("/request/status/:requestId", this.putRequestStatus.bind(this));
     // Routes for bookmark
     router.get("/bookmarklist/:userId", this.getBookmarkList.bind(this));
     router.post("/bookmark", this.postBookmark.bind(this));
@@ -23,6 +26,19 @@ class RequestRouter {
     // Routes for comments
     router.get("/request/comment/:requestId/:type", this.getComment.bind(this));
     router.post("/request/comment", this.postNewComment.bind(this));
+    // Routes for resposne
+    router.get("/request/response/:requestId", this.getResponseList.bind(this));
+    router.post("/request/response/new", this.postNewResponse.bind(this));
+    router.put("/request/response/edit", this.putResponse.bind(this));
+    router.delete(
+      "/request/response/delete/:requestId/:userId",
+      this.deleteResponse.bind(this)
+    );
+    router.put("/request/response/match", this.putMatchedResponse.bind(this));
+    router.get(
+      "/request/:requestId/response/team",
+      this.getTeamList.bind(this)
+    );
     return router;
   }
 
@@ -75,11 +91,37 @@ class RequestRouter {
           newReqId,
           req.body.newRequest.tag
         );
-        console.log("Post req finish");
+        await this.tokenService.postTokenTransaction(
+          newReqId,
+          req.body.newRequest.userId,
+          [1],
+          req.body.newRequest.reward * req.body.newRequest.requiredPpl
+        );
         res.json({ newReqId });
       } else {
         console.log("Something goes wrong: ", tagArray);
       }
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async putRequestStatus(req, res, next) {
+    try {
+      let message = await this.requestService.putRequestService(
+        req.params.requestId,
+        req.body.newStatus
+      );
+      if (req.body.newStatus === "cancelled") {
+        await this.tokenService.postTokenTransaction(
+          req.params.requestId,
+          1,
+          [req.body.userId],
+          req.body.reward
+        );
+      }
+      res.json({ message });
     } catch (err) {
       next(err);
       res.status(500).json(err);
@@ -133,7 +175,7 @@ class RequestRouter {
       );
       let bookmarkIdList = [];
       for (let i = 0; i < bookmarkList.length; i++) {
-        bookmarkIdList.push(bookamrkList[i].requestId);
+        bookmarkIdList.push(bookmarkList[i].requestId);
       }
       res.json({ bookmarkIdList });
     } catch (err) {
@@ -145,17 +187,33 @@ class RequestRouter {
   async getComment(req, res, next) {
     try {
       if (req.params.type === "true") {
-        console.log("Loading private comments..", req.params.type);
+        // console.log("Loading private comments..", req.params.type);
         let privateCommentList = await this.requestService.getPrivateComment(
           req.params.requestId
         );
+        for (let i = 0; i < privateCommentList.length; i++) {
+          let memberQuery = await this.memberService.getMemberInfo(
+            privateCommentList[i].commenterId
+          );
+          privateCommentList[i].commenterUsername = memberQuery.username;
+          privateCommentList[i].commenterGrade = memberQuery.grade;
+          privateCommentList[i].commenterProfilePath = memberQuery.profilePath;
+          privateCommentList[i].isAdmin = memberQuery.isAdmin;
+        }
         res.json({ privateCommentList });
       } else {
-        console.log("Loading public comments..");
         let publicCommentList = await this.requestService.getPublicComment(
           req.params.requestId
         );
-        console.log("PublicCMList: ", publicCommentList);
+        for (let i = 0; i < publicCommentList.length; i++) {
+          let memberQuery = await this.memberService.getMemberInfo(
+            publicCommentList[i].commenterId
+          );
+          publicCommentList[i].commenterUsername = memberQuery.username;
+          publicCommentList[i].commenterGrade = memberQuery.grade;
+          publicCommentList[i].commenterProfilePath = memberQuery.profilePath;
+          publicCommentList[i].isAdmin = memberQuery.isAdmin;
+        }
         res.json({ publicCommentList });
       }
     } catch (err) {
@@ -173,19 +231,137 @@ class RequestRouter {
         req.body.type
       );
       if (req.body.type) {
-        let privateCommentList =
-          await this.requestService.getRequestPrivateComment(
-            req.body.requsetId
+        let privateCommentList = await this.requestService.getPrivateComment(
+          req.body.requestId
+        );
+        for (let i = 0; i < privateCommentList.length; i++) {
+          let memberQuery = await this.memberService.getMemberInfo(
+            privateCommentList[i].commenterId
           );
-        console.log("Private cm list(Arr of obj): ", privateCommentList);
+          privateCommentList[i].commenterUsername = memberQuery.username;
+          privateCommentList[i].commenterGrade = memberQuery.grade;
+          privateCommentList[i].commenterProfilePath = memberQuery.profilePath;
+          privateCommentList[i].isAdmin = memberQuery.isAdmin;
+        }
         res.json({ privateCommentList });
       } else {
         let publicCommentList = await this.requestService.getPublicComment(
           req.body.requestId
         );
-        console.log("Public cm list(Arr of obj): ", publicCommentList);
+        for (let i = 0; i < publicCommentList.length; i++) {
+          let memberQuery = await this.memberService.getMemberInfo(
+            publicCommentList[i].commenterId
+          );
+          publicCommentList[i].commenterUsername = memberQuery.username;
+          publicCommentList[i].commenterGrade = memberQuery.grade;
+          publicCommentList[i].commenterProfilePath = memberQuery.profilePath;
+          publicCommentList[i].isAdmin = memberQuery.isAdmin;
+        }
         res.json({ publicCommentList });
       }
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async getResponseList(req, res, next) {
+    try {
+      let responseList = await this.requestService.getResponseList(
+        req.params.requestId
+      );
+      for (let i = 0; i < responseList.length; i++) {
+        let memberQuery = await this.memberService.getMemberInfo(
+          responseList[i].responserId
+        );
+        responseList[i].responserUsername = memberQuery.username;
+        responseList[i].responserGrade = memberQuery.grade;
+        responseList[i].responserProfilePath = memberQuery.profilePath;
+        responseList[i].isAdmin = memberQuery.isAdmin;
+      }
+      res.json({ responseList });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async postNewResponse(req, res, next) {
+    try {
+      await this.requestService.postNewResponse(
+        req.body.userId,
+        req.body.requestId,
+        req.body.detail,
+        req.body.matched
+      );
+      let responseList = await this.requestService.getResponseList(
+        req.body.requestId
+      );
+      res.json({ responseList });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async putResponse(req, res, next) {
+    try {
+      let result = await this.requestService.putResponse(
+        req.body.requestId,
+        req.body.userId,
+        req.body.responseMsg
+      );
+      if (result.message) {
+        res.json({ result });
+      }
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async deleteResponse(req, res, next) {
+    try {
+      await this.requestService.deleteResponse(
+        req.params.requestId,
+        req.params.userId
+      );
+      res.json({ message: "Successfully deleted response" });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async putMatchedResponse(req, res, next) {
+    try {
+      let result = await this.requestService.putMatchedResponse(
+        req.body.matchedRes,
+        req.body.requestId
+      );
+      if (result.message) {
+        res.json({ result });
+      }
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async getTeamList(req, res, next) {
+    try {
+      let teamList = await this.requestService.getTeamList(
+        req.params.requestId
+      );
+      let teamResId = teamList.map((idObj) => idObj.id);
+      for (let i = 0; i < teamList.length; i++) {
+        let memberQuery = await this.memberService.getMemberInfo(
+          teamList[i].responserId
+        );
+        teamList[i].responserUsername = memberQuery.username;
+        teamList[i].responserGrade = memberQuery.grade;
+      }
+      res.json({ teamList, teamResId });
     } catch (err) {
       next(err);
       res.status(500).json(err);

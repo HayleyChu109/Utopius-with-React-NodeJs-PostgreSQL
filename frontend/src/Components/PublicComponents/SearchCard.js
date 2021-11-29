@@ -3,9 +3,11 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { searchReq } from "../../Redux/request/actions";
 import jwt_decode from "jwt-decode";
+import moment from "moment";
 
 import { bookmarkToggleThunk } from "../../Redux/request/actions";
 import GradeBall from "./GradeBall";
+// import UserInfoCombo from "./UserInfoCombo";
 
 import { Card, CardBody, CardFooter } from "reactstrap";
 import { AiFillHeart } from "react-icons/ai";
@@ -53,14 +55,14 @@ const SearchCard = ({ request, handleClick }) => {
           }}
         >
           <div className="row g-0">
-            <div className="search-card-photo col-5">
+            <div className="search-card-photo col-5 m-0">
               <img
                 src={request.reqPhotoPath}
                 className="img-fluid rounded-start"
                 alt="request"
               />
             </div>
-            <div className="search-card-main col-7">
+            <div className="search-card-main col-7 m-0">
               <CardBody>
                 <div
                   className="username-id"
@@ -72,7 +74,9 @@ const SearchCard = ({ request, handleClick }) => {
                   <GradeBall grade={request.grade} />
                   {request.username} UID#{request.requesterId}
                 </div>
-                <div className="createdAt">{request.created_at}</div>
+                <div className="createdAt">
+                  {moment(request.created_at).format("LLL")}
+                </div>
                 <div className="search-card-req-title">{request.title}</div>
                 <div className="search-card-req-detail">{request.detail}</div>
                 <div className="search-card-req-tag">

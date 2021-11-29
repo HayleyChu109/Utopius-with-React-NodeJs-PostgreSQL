@@ -2,10 +2,16 @@ import {
   SEARCH_REQ_ACTION,
   GET_REQUEST_LIST,
   GET_REQUEST_DETAIL,
+  CHANGE_REQ_STATUS,
   POST_NEW_REQUEST,
   BOOKMARK_TOGGLE,
   PUBLIC_COMMENT,
   PRIVATE_COMMENT,
+  RESPONSE_LIST,
+  EDIT_RESPONSE,
+  DELETE_RESPONSE,
+  MATCH_RESPONSE,
+  GET_TEAM_LIST,
 } from "./actions";
 
 const initialState = {
@@ -13,9 +19,16 @@ const initialState = {
   requestList: [],
   requestDetail: {},
   requestId: null,
+  requestStatus: "",
   bookmarkList: [],
   publicCommentList: [],
   privateCommentList: [],
+  responseList: [],
+  matchSuccessMsg: "",
+  deleteSuccessMsg: "",
+  editSuccessMsg: "",
+  teamList: [],
+  teamResId: [],
 };
 
 export function requestReducer(state = initialState, action) {
@@ -26,6 +39,8 @@ export function requestReducer(state = initialState, action) {
       return { ...state, requestList: action.payload };
     case GET_REQUEST_DETAIL:
       return { ...state, requestDetail: action.payload };
+    case CHANGE_REQ_STATUS:
+      return { ...state, requestStatus: action.payload };
     case POST_NEW_REQUEST:
       return { ...state, requestId: action.payload };
     case BOOKMARK_TOGGLE:
@@ -34,6 +49,26 @@ export function requestReducer(state = initialState, action) {
       return { ...state, publicCommentList: action.payload };
     case PRIVATE_COMMENT:
       return { ...state, privateCommentList: action.payload };
+    case RESPONSE_LIST:
+      return { ...state, responseList: action.payload };
+    case MATCH_RESPONSE:
+      return { ...state, matchSuccessMsg: action.payload };
+    case GET_TEAM_LIST:
+      return {
+        ...state,
+        teamList: action.teamList,
+        teamResId: action.teamResId,
+      };
+    case DELETE_RESPONSE:
+      return {
+        ...state,
+        deleteSuccessMsg: action.payload,
+      };
+    case EDIT_RESPONSE:
+      return {
+        ...state,
+        editSuccessMsg: action.payload,
+      };
 
     default:
       return state;

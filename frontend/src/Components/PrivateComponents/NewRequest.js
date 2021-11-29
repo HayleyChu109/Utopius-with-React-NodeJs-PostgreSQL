@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
+import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions";
 import { createNewRequestThunk } from "../../Redux/request/actions";
 
 import S3 from "react-aws-s3";
@@ -16,6 +17,7 @@ import "../../Pages/SCSS/newRequest.scss";
 import "../../Pages/SCSS/signupPage.scss";
 
 const NewRequest = (props) => {
+  const { memberInfo } = useSelector((state) => state.memberProfileStore);
   const { requestId } = useSelector((state) => state.requestStore);
 
   const [title, setTitle] = useState("");
@@ -34,13 +36,18 @@ const NewRequest = (props) => {
   });
   const [errMsg, setErrMsg] = useState("");
 
+  let userId = jwt_decode(localStorage.getItem("token")).id;
+
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
+    dispatch(memberInfoThunk(userId));
+  }, [dispatch, userId]);
+
+  useEffect(() => {
     if (requestId !== null) {
-      console.log("requestDetail.id", requestId);
-      history.push(`/member/request/detail/${requestId.newReqId}`);
+      history.push(`/member/request/detail/${requestId.newReqId}/comment`);
     } else {
       return;
     }
@@ -69,10 +76,19 @@ const NewRequest = (props) => {
       district === ""
     ) {
       setErrMsg("Please choose an image and fill in all the fields");
-    }
-    let userId = jwt_decode(localStorage.getItem("token")).id;
-    console.log(userId);
-    if (src.includes("amazonaws") === false) {
+    } else if (Number(people) > 20 || Number(people) < 1) {
+      setErrMsg("Please set a valid number of required people : 1 - 20");
+    } else if (
+      Number(reward) < 1 ||
+      Number(reward) * Number(people) > memberInfo.token
+    ) {
+      setErrMsg(
+        `Your token is not sufficient to create this request : ${
+          memberInfo.token
+        } / ${Number(reward) * Number(people)}
+        `
+      );
+    } else if (src.includes("amazonaws") === false) {
       let file = bucketSrc;
       let newFileName = bucketAlt;
       const ReactS3Client = new S3(s3Config);
@@ -109,7 +125,6 @@ const NewRequest = (props) => {
           .filter((newTag) => newTag[0] === "#" && newTag.length > 1)
           .map((newTag) => newTag.slice(1)),
       };
-      console.log(newReq);
       dispatch(createNewRequestThunk(newReq));
     }
   };
@@ -304,6 +319,7 @@ const NewRequest = (props) => {
                 value={detail}
                 className="form-control input-text"
                 rows="7"
+                maxLength="250"
                 onChange={(e) => {
                   setDetail(e.currentTarget.value);
                 }}
@@ -315,6 +331,7 @@ const NewRequest = (props) => {
               <input
                 value={tag}
                 type="text"
+                maxLength="45"
                 placeholder="E.g. #Tagname1 #Tagname2"
                 className="form-control input-text"
                 onChange={(e) => {
@@ -348,7 +365,7 @@ const NewRequest = (props) => {
                     defaultValue={people}
                     type="number"
                     min="0"
-                    max="20"
+                    max="10"
                     step="1"
                     onChange={(e) => {
                       setPeople(e.currentTarget.value);

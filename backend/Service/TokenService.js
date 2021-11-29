@@ -114,6 +114,42 @@ class TokenService {
       throw new Error(err);
     }
   }
+
+  // Token transaction
+  async postTokenTransaction(requestId, payerId, payeeId, amount) {
+    try {
+      console.log(payeeId[0]);
+      // Update transaction table
+      for (let i = 0; i < payeeId.length; i++) {
+        await this.knex("tokenTransaction").insert({
+          requestId: requestId,
+          payerId: payerId,
+          payeeId: payeeId[i],
+          amount: amount,
+        });
+      }
+
+      console.log(payeeId);
+      // Update member token amt
+      const currentPayerToken = await this.knex("account")
+        .select("token")
+        .where("id", payerId);
+      await this.knex("account")
+        .where("id", payerId)
+        .update({ token: currentPayerToken[0].token - amount });
+
+      for (let i = 0; i < payeeId.length; i++) {
+        let currentPayeeToken = await this.knex("account")
+          .select("token")
+          .where("id", payeeId[i]);
+        await this.knex("account")
+          .where("id", payeeId[i])
+          .update({ token: currentPayeeToken[0].token + amount });
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
 }
 
 module.exports = TokenService;

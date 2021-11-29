@@ -1,43 +1,51 @@
+import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-// import jwt_decode from "jwt-decode";
 
-import { getCommentThunk } from "../../Redux/request/actions";
+import RequestMessage from "./RequestMessage";
 
-const RequestDetailComment = ({ requestId, userId, type }) => {
-  const { publicCommentList, privateCommentList } = useSelector(
+const RequestDetailComment = ({ type }) => {
+  const { publicCommentList, privateCommentList, requestDetail } = useSelector(
     (state) => state.requestStore
   );
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(getCommentThunk(requestId, type));
-  }, [dispatch, requestId, type]);
+    console.log("rendered!");
+  });
 
   return (
     <>
-      <div>This is the comment section.</div>
       {type && privateCommentList && privateCommentList.length > 0 ? (
         <div>
-          {privateCommentList.map((comment) => (
-            <div key={comment.id}>
-              <div>Commenter ID: {comment.commenterId}</div>
-              <div>{comment.detail}</div>
-            </div>
+          {privateCommentList.map((comment, i) => (
+            <RequestMessage key={comment.id} comment={comment} index={i + 1} />
           ))}
         </div>
       ) : !type && publicCommentList && publicCommentList.length > 0 ? (
-        <div>
-          {publicCommentList.map((comment) => (
-            <div key={comment.id}>
-              <div>Commenter ID: {comment.commenterId}</div>
-              <div>{comment.detail}</div>
-            </div>
-          ))}
-        </div>
+        <>
+          <div className="response-form response-matching-msg">
+            <div className="response-heading pt-3 pb-1">Comments</div>
+            {requestDetail.status === "open" ||
+            requestDetail.status === "matched" ? null : (
+              <div
+                className="response-matching-helper pb-2"
+                style={{ color: "#ff6161" }}
+              >
+                This is not an open request, comment is disabled
+              </div>
+            )}
+          </div>
+          <div>
+            {publicCommentList.map((comment, i) => (
+              <RequestMessage
+                key={comment.id}
+                comment={comment}
+                index={i + 1}
+              />
+            ))}
+          </div>
+        </>
       ) : (
-        <div>No comment</div>
+        <div className="ps-5">Be the first to comment on this request !</div>
       )}
     </>
   );

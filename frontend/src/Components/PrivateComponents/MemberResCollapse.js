@@ -28,7 +28,7 @@ function MemberResCollapse(props) {
       localStorage.setItem("requestId", requestId);
       setModalBoolean(true);
     } else {
-      history.push(`/member/request/detail/${requestId}`);
+      history.push(`/member/request/detail/${requestId}/comment`);
     }
   };
 

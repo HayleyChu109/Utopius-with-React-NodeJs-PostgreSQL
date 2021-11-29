@@ -39,7 +39,7 @@ function App() {
 
       <PrivateRoute path="/member/signup" component={SignupPage} />
       <PrivateRoute
-        path="/member/request/detail/:requestId"
+        path="/member/request/detail/:requestId/:tab"
         component={RequestDetail}
       />
       <PrivateRoute path="/member/request/new" component={NewRequest} />

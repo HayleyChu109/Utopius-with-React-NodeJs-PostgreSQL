@@ -1,6 +1,6 @@
 // import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { FaRegHandshake } from "react-icons/fa";
 import "../../Pages/SCSS/navBar.scss";
 
@@ -12,10 +12,12 @@ const NavBar = () => {
   const { isAuthenticated } = useSelector((state) => state.loginStore);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const logout = (e) => {
     e.preventDefault();
     dispatch(logoutUser());
+    history.push("/login");
   };
 
   return (
@@ -47,6 +49,8 @@ const NavBar = () => {
               <a href="/login">LOGIN SIGNUP</a>
             )}
             |<a href="/member/profile">PROFILE</a>|
+            {/* <a href="/member/request/new">REQ</a>|<a href="/member/res">RES</a>| */}
+            <a href="/member/bookmark">BOOKMARK</a>|
             <a href="/member/token">TOKEN</a>|<span>SEARCH</span>
             <Search />
           </div>
