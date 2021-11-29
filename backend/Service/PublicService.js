@@ -7,7 +7,8 @@ class PublicService {
     try {
       let openReq = await this.knex("request")
         .select("*")
-        .where("status", "open");
+        .where("status", "open")
+        .orderBy("created_at", "desc");
       if (openReq && openReq.length > 0) {
         return openReq;
       } else {

@@ -17,12 +17,12 @@
   background-color: $beige;
   width: 50vw;
 }
-.blacklist{
+.blacklist {
   background-color: black;
   width: 50vw;
   height: 10vh;
   border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px
+  border-bottom-right-radius: 20px;
 }
 
 .memberProfileBg-white {
@@ -123,6 +123,20 @@
 }
 
 // Member Req / Res Collapse
+.memberProfileMiddie-beige {
+  background-color: $beige;
+  height: 5vh;
+  button {
+    background-color: $beige;
+    color: $dark-orange;
+    font-weight: bolder;
+    border: none;
+    &:hover {
+      color: $light-orange;
+    }
+  }
+}
+
 .memberProfileMiddle-orange {
   @include memberProfileMiddle;
 }
