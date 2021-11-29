@@ -35,12 +35,13 @@ const GradeBall = ({ grade }) => {
       return;
     }
   }, [grade]);
+
   return (
     <span
       className="dot text-center me-2"
       style={{ backgroundColor: gradeColor }}
     >
-      {grade ? grade.toUpperCase() : null}
+      {grade && gradeColor ? grade.toUpperCase() : null}
     </span>
   );
 };

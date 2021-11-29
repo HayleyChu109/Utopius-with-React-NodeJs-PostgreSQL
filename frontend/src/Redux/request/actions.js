@@ -8,6 +8,12 @@ export const POST_NEW_REQUEST = "POST_NEW_REQUEST";
 export const BOOKMARK_TOGGLE = "BOOKMARK_TOGGLE";
 export const PUBLIC_COMMENT = "PUBLIC_COMMENT";
 export const PRIVATE_COMMENT = "PRIVATE_COMMENT";
+export const RESPONSE_LIST = "RESPONSE_LIST";
+export const EDIT_RESPONSE = "EDIT_RESPONSE";
+export const DELETE_RESPONSE = "DELETE_RESPONSE";
+export const MATCH_RESPONSE = "MATCH_RESPONSE";
+export const GET_TEAM_LIST = "GET_TEAM_LIST";
+export const CHANGE_REQ_STATUS = "CHANGE_REQ_STATUS";
 
 // For nav search-bar
 export const searchReq = (search) => {
@@ -226,5 +232,191 @@ export const postNewCommentThunk =
       }
     } catch (err) {
       console.log("Error", err);
+    }
+  };
+
+// For getting response list
+export const getResponseListThunk = (requestId) => async (dispatch) => {
+  try {
+    let token = await localStorage.getItem("token");
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_SERVER}/member/request/response/${requestId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const { data } = response;
+    if (data.responseList) {
+      dispatch({
+        type: RESPONSE_LIST,
+        payload: data.responseList,
+      });
+    }
+  } catch (err) {
+    console.log("Error", err);
+  }
+};
+
+// For posting new response
+export const postNewResponseThunk =
+  (requestId, userId, detail) => async (dispatch) => {
+    try {
+      let token = await localStorage.getItem("token");
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_SERVER}/member/request/response/new`,
+        {
+          userId,
+          requestId,
+          detail,
+          matched: false,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = response;
+      if (data.responseList) {
+        dispatch({
+          type: RESPONSE_LIST,
+          payload: data.responseList,
+        });
+      }
+    } catch (err) {
+      console.log("Error", err);
+    }
+  };
+
+// For editing response
+export const putNewResponseThunk =
+  (requestId, userId, responseMsg) => async (dispatch) => {
+    try {
+      let token = await localStorage.getItem("token");
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_SERVER}/member/request/response/edit`,
+        { requestId, userId, responseMsg },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = response;
+      if (data.result.message) {
+        dispatch({
+          type: EDIT_RESPONSE,
+          payload: data.result.message,
+        });
+      }
+    } catch (err) {
+      console.log("Error", err);
+    }
+  };
+
+// For deleting response
+export const deleteResponseThunk = (requestId, userId) => async (dispatch) => {
+  try {
+    let token = await localStorage.getItem("token");
+    const response = await axios.delete(
+      `${process.env.REACT_APP_API_SERVER}/member/request/response/delete/${requestId}/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const { data } = response;
+    if (data.message) {
+      dispatch({
+        type: DELETE_RESPONSE,
+        payload: data.message,
+      });
+    }
+  } catch (err) {
+    console.log("Error", err);
+  }
+};
+
+// For matching response
+export const putMatchedResponseThunk =
+  (matchedRes, requestId) => async (dispatch) => {
+    try {
+      let token = await localStorage.getItem("token");
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_SERVER}/member/request/response/match`,
+        {
+          matchedRes: matchedRes,
+          requestId: requestId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = response;
+      if (data.result.message) {
+        dispatch({
+          type: MATCH_RESPONSE,
+          payload: data.result.message,
+        });
+      }
+      console.log(data);
+    } catch (err) {
+      console.log("Error", err);
+    }
+  };
+
+// For getting team response
+export const getTeamListThunk = (requestId) => async (dispatch) => {
+  try {
+    let token = await localStorage.getItem("token");
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_SERVER}/member/request/${requestId}/response/team`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const { data } = response;
+    if (data.teamList && data.teamResId) {
+      dispatch({
+        type: GET_TEAM_LIST,
+        teamList: data.teamList,
+        teamResId: data.teamResId,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// For changing request status
+export const changeRequestStatusThunk =
+  (requestId, newStatus, userId, reward) => async (dispatch) => {
+    try {
+      let token = await localStorage.getItem("token");
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_SERVER}/member/request/status/${requestId}`,
+        { newStatus: newStatus, userId, reward },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = response;
+      if (data.message) {
+        dispatch({
+          type: CHANGE_REQ_STATUS,
+          payload: data.message,
+        });
+      }
+    } catch (err) {
+      console.log(err);
     }
   };

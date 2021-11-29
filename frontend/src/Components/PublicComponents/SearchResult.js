@@ -19,7 +19,7 @@ const SearchResult = () => {
   }, [dispatch]);
 
   const showRequestDetail = (requestId) => {
-    history.push(`/member/request/detail/${requestId}`);
+    history.push(`/member/request/detail/${requestId}/comment`);
   };
 
   return (
