@@ -42,6 +42,23 @@ class AuthService {
     let userId = await this.knex("account").insert(newUser).returning("id");
     return { id: userId };
   }
+
+  async postFbLogin(newUser) {
+    let userId = await this.knex("account").insert(newUser).returning("id");
+    let payload = { id: userId[0] };
+    const token = jwt.sign(payload, config.jwtSecret);
+    return token;
+  }
+
+  async getFbUser(id) {
+    let userId = await this.knex
+      .select("id")
+      .from("account")
+      .where({ facebookId: id });
+    let payload = { id: userId[0] };
+    const token = jwt.sign(payload, config.jwtSecret);
+    return token;
+  }
 }
 
 module.exports = AuthService;

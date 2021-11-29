@@ -3,6 +3,19 @@ class PublicService {
     this.knex = knex;
   }
 
+  async getAllUsername() {
+    try {
+      let allUsername = await this.knex("account").select(
+        "id",
+        "username",
+        "email"
+      );
+      return allUsername;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   async getOpenRequest() {
     try {
       let openReq = await this.knex("request")

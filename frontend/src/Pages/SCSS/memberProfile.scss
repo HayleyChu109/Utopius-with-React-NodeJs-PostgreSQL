@@ -17,12 +17,12 @@
   background-color: $beige;
   width: 50vw;
 }
-.blacklist{
+.blacklist {
   background-color: black;
   width: 50vw;
   height: 10vh;
   border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px
+  border-bottom-right-radius: 20px;
 }
 
 .memberProfileBg-white {
@@ -63,6 +63,10 @@
 
 .heart:hover {
   @include ReqResButton($theme: $light-heart);
+}
+
+.heart:disabled {
+  @include ReqResButton($theme: $dark-grey);
 }
 
 .heart-icon {

@@ -10,6 +10,7 @@ class TokenRouter {
     let router = express.Router();
 
     router.get("/tokenplan", this.getTokenPlan.bind(this));
+    router.get("/currenttoken/:id", this.getCurrentToken.bind(this));
     router.get(
       "/tokenpurchaserecord/:id",
       this.getTokenPurchaseRecord.bind(this)
@@ -28,13 +29,28 @@ class TokenRouter {
     return router;
   }
 
-  // Get token currency
+  // Get token plan
   async getTokenPlan(req, res, next) {
     try {
       let tokenPlan = await this.tokenService.getTokenPlan();
       if (tokenPlan) {
         console.log("Token plan", tokenPlan);
         res.json(tokenPlan);
+      } else {
+        res.json([]);
+      }
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  // Get current token of member
+  async getCurrentToken(req, res, next) {
+    try {
+      let currentToken = await this.tokenService.getCurrentToken(req.params.id);
+      if (currentToken) {
+        res.json(currentToken);
       } else {
         res.json([]);
       }

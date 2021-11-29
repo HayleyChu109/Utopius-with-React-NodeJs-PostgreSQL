@@ -49,9 +49,9 @@ function MemberProfileInfo(props) {
 
   const history = useHistory();
 
-  useEffect(() => {
-    setNoOfBookmark(bookmarkListFromStore.length);
-  }, [bookmarkListFromStore]);
+  // useEffect(() => {
+  //   setNoOfBookmark(bookmarkListFromStore.length);
+  // }, [bookmarkListFromStore]);
 
   return (
     <>
@@ -103,7 +103,7 @@ function MemberProfileInfo(props) {
               <span className="person me-2">100</span>
               <button
                 disabled={disableBookmark}
-                className="heart"
+                className="me-2 heart"
                 onClick={() => {
                   setShowEdit(showEdit);
                   setShowBookmark(!showBookmark);
@@ -112,7 +112,7 @@ function MemberProfileInfo(props) {
                 }}
               >
                 <AiFillHeart className="mx-2 heart-icon" />
-                <span className="me-2">{noOfBookmark}</span>
+                {bookmarkListFromStore.length}
               </button>
               <button
                 disabled={disableReq}

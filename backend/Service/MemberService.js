@@ -305,17 +305,6 @@ class MemberService {
       throw new Error(err);
     }
   }
-
-  async getAllUsername(memberId) {
-    try {
-      let allUsername = await this.knex("account")
-        .select("username")
-        .whereNot("id", memberId);
-      return allUsername;
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
 }
 
 module.exports = MemberService;

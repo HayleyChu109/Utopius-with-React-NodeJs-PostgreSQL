@@ -31,6 +31,9 @@ const MemberInfoForm = () => {
   const allUsernameFromStore = useSelector(
     (state) => state.memberProfileStore.allUsername
   );
+  const filteredUsername = allUsernameFromStore.filter((name) => {
+    return name.id !== memberId;
+  });
 
   // Get msg from store
   const memberInfoFormStore = useSelector((state) => state.memberInfoFormStore);
@@ -80,9 +83,7 @@ const MemberInfoForm = () => {
       return;
     }
 
-    if (
-      allUsernameFromStore.some((list) => list.username === username) === true
-    ) {
+    if (filteredUsername.some((list) => list.username === username) === true) {
       setFailureModalBoolean(true);
       setMissingInfoMsg("Username exists. Please input another username");
       return;
@@ -138,7 +139,7 @@ const MemberInfoForm = () => {
 
   useEffect(() => {
     dispatch(memberInfoThunk(memberId));
-    dispatch(getAllUsernameThunk(memberId));
+    dispatch(getAllUsernameThunk());
   }, [dispatch, memberId]);
 
   useEffect(() => {
