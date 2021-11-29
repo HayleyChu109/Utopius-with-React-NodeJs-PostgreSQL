@@ -94,7 +94,7 @@ class RequestRouter {
         await this.tokenService.postTokenTransaction(
           newReqId,
           req.body.newRequest.userId,
-          [0],
+          [1],
           req.body.newRequest.reward * req.body.newRequest.requiredPpl
         );
         res.json({ newReqId });
@@ -113,6 +113,14 @@ class RequestRouter {
         req.params.requestId,
         req.body.newStatus
       );
+      if (req.body.newStatus === "cancelled") {
+        await this.tokenService.postTokenTransaction(
+          req.params.requestId,
+          1,
+          [req.body.userId],
+          req.body.reward
+        );
+      }
       res.json({ message });
     } catch (err) {
       next(err);
@@ -167,7 +175,7 @@ class RequestRouter {
       );
       let bookmarkIdList = [];
       for (let i = 0; i < bookmarkList.length; i++) {
-        bookmarkIdList.push(bookamrkList[i].requestId);
+        bookmarkIdList.push(bookmarkList[i].requestId);
       }
       res.json({ bookmarkIdList });
     } catch (err) {
@@ -194,7 +202,6 @@ class RequestRouter {
         }
         res.json({ privateCommentList });
       } else {
-        // console.log("Loading public comments..");
         let publicCommentList = await this.requestService.getPublicComment(
           req.params.requestId
         );
@@ -207,7 +214,6 @@ class RequestRouter {
           publicCommentList[i].commenterProfilePath = memberQuery.profilePath;
           publicCommentList[i].isAdmin = memberQuery.isAdmin;
         }
-        // console.log("PublicCMList: ", publicCommentList);
         res.json({ publicCommentList });
       }
     } catch (err) {
@@ -226,15 +232,31 @@ class RequestRouter {
       );
       if (req.body.type) {
         let privateCommentList = await this.requestService.getPrivateComment(
-          req.body.requsetId
+          req.body.requestId
         );
-        // console.log("Private cm list(Arr of obj): ", privateCommentList);
+        for (let i = 0; i < privateCommentList.length; i++) {
+          let memberQuery = await this.memberService.getMemberInfo(
+            privateCommentList[i].commenterId
+          );
+          privateCommentList[i].commenterUsername = memberQuery.username;
+          privateCommentList[i].commenterGrade = memberQuery.grade;
+          privateCommentList[i].commenterProfilePath = memberQuery.profilePath;
+          privateCommentList[i].isAdmin = memberQuery.isAdmin;
+        }
         res.json({ privateCommentList });
       } else {
         let publicCommentList = await this.requestService.getPublicComment(
           req.body.requestId
         );
-        // console.log("Public cm list(Arr of obj): ", publicCommentList);
+        for (let i = 0; i < publicCommentList.length; i++) {
+          let memberQuery = await this.memberService.getMemberInfo(
+            publicCommentList[i].commenterId
+          );
+          publicCommentList[i].commenterUsername = memberQuery.username;
+          publicCommentList[i].commenterGrade = memberQuery.grade;
+          publicCommentList[i].commenterProfilePath = memberQuery.profilePath;
+          publicCommentList[i].isAdmin = memberQuery.isAdmin;
+        }
         res.json({ publicCommentList });
       }
     } catch (err) {

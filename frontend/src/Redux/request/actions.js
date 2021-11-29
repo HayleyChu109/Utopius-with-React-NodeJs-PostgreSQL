@@ -397,12 +397,12 @@ export const getTeamListThunk = (requestId) => async (dispatch) => {
 
 // For changing request status
 export const changeRequestStatusThunk =
-  (requestId, newStatus) => async (dispatch) => {
+  (requestId, newStatus, userId, reward) => async (dispatch) => {
     try {
       let token = await localStorage.getItem("token");
       const response = await axios.put(
         `${process.env.REACT_APP_API_SERVER}/member/request/status/${requestId}`,
-        { newStatus: newStatus },
+        { newStatus: newStatus, userId, reward },
         {
           headers: {
             Authorization: `Bearer ${token}`,

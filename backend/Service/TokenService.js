@@ -106,6 +106,7 @@ class TokenService {
   // Token transaction
   async postTokenTransaction(requestId, payerId, payeeId, amount) {
     try {
+      console.log(payeeId[0]);
       // Update transaction table
       for (let i = 0; i < payeeId.length; i++) {
         await this.knex("tokenTransaction").insert({
@@ -116,6 +117,7 @@ class TokenService {
         });
       }
 
+      console.log(payeeId);
       // Update member token amt
       const currentPayerToken = await this.knex("account")
         .select("token")

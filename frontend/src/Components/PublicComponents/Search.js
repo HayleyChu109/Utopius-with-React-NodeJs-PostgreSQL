@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
 import { searchReq } from "../../Redux/request/actions";
 
 const Search = () => {
@@ -18,6 +18,13 @@ const Search = () => {
     dispatch(searchReq(val));
   };
 
+  const searchEnter = (e) => {
+    console.log(e.key);
+    if (e.key === "Enter") {
+      history.push("/");
+    }
+  };
+
   return (
     <>
       <div>
@@ -28,6 +35,7 @@ const Search = () => {
           onChange={(e) => {
             handleSearch(e.currentTarget.value);
           }}
+          onKeyDown={(e) => searchEnter(e)}
           className="nav-search form-control"
         />
       </div>

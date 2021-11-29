@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 import RequestMessage from "./RequestMessage";
 
@@ -6,6 +7,10 @@ const RequestDetailComment = ({ type }) => {
   const { publicCommentList, privateCommentList, requestDetail } = useSelector(
     (state) => state.requestStore
   );
+
+  useEffect(() => {
+    console.log("rendered!");
+  });
 
   return (
     <>
@@ -40,7 +45,7 @@ const RequestDetailComment = ({ type }) => {
           </div>
         </>
       ) : (
-        <div className="ps-5">No comment for this request</div>
+        <div className="ps-5">Be the first to comment on this request !</div>
       )}
     </>
   );

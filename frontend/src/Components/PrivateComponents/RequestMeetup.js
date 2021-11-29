@@ -1,3 +1,4 @@
+// import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import ResponseHost from "./ResponseHost";
@@ -6,15 +7,19 @@ import RequestMessage from "./RequestMessage";
 import RequestDetailComment from "./RequestDetailComment";
 
 const RequestMeetup = (props) => {
-  const { requestDetail, teamList, teamResId } = useSelector(
-    (state) => state.requestStore
-  );
+  const {
+    requestDetail,
+    teamList,
+    teamResId,
+    // publicCommentList,
+    // privateCommentList,
+  } = useSelector((state) => state.requestStore);
+
   return (
     <>
       {requestDetail && requestDetail.requesterId === props.userId ? (
         <ResponseHost
           requestId={props.requestId}
-          userId={props.userId}
           matchList={props.matchList}
           errorMsg={props.errorMsg}
           status="matched"

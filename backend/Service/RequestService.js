@@ -218,12 +218,12 @@ class RequestService {
   }
 
   async postNewComment(userId, requestId, comment, type) {
+    console.log("Inserting comment..", userId, requestId, comment, type);
     try {
-      console.log("Inserting comment..", userId, requestId, comment, type);
       await this.knex
         .insert({
           commenterId: userId,
-          requestId: requestId,
+          requestId: Number(requestId),
           detail: comment,
           private: type,
         })

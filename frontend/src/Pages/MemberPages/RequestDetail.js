@@ -38,7 +38,7 @@ import { HiLocationMarker } from "react-icons/hi";
 
 import "../SCSS/requestDetail.scss";
 
-const RequestDetail = (props) => {
+const RequestDetail = () => {
   const {
     requestDetail,
     requestStatus,
@@ -246,6 +246,8 @@ const RequestDetail = (props) => {
     if (modalBoolean) {
       setModalBoolean(false);
       history.push(`/member/request/detail/${requestId}/meetup`);
+      // Hotfix for not pushing member to the meetup
+      window.location.reload();
     } else if (responseModalBoolean) {
       setResponseModalBoolean(false);
       history.push(`/member/request/detail/${requestId}/comment`);
@@ -419,7 +421,6 @@ const RequestDetail = (props) => {
               ) : tab === "meetup" ? (
                 <RequestMeetup
                   requestId={requestId}
-                  userId={userId}
                   type={true}
                   matchList={matchList}
                   errorMsg={errorMsg}

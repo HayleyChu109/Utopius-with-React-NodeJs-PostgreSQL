@@ -83,9 +83,10 @@ const NewRequest = (props) => {
       Number(reward) * Number(people) > memberInfo.token
     ) {
       setErrMsg(
-        `Please set a valid amount of reward : 1 - ${Math.floor(
-          memberInfo.token / Number(people)
-        )}`
+        `Your token is not sufficient to create this request : ${
+          memberInfo.token
+        } / ${Number(reward) * Number(people)}
+        `
       );
     } else if (src.includes("amazonaws") === false) {
       let file = bucketSrc;

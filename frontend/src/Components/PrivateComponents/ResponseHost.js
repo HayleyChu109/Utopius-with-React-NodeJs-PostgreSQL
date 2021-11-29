@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import jwt_decode from "jwt-decode";
 
 import RequestMessage from "./RequestMessage";
 // import RequestDetailComment from "./RequestDetailComment";
@@ -8,7 +9,6 @@ import { changeRequestStatusThunk } from "../../Redux/request/actions";
 
 const ResponseHost = ({
   requestId,
-  userId,
   handleMatch,
   matchList,
   errorMsg,
@@ -18,10 +18,20 @@ const ResponseHost = ({
     (state) => state.requestStore
   );
 
+  const userId = jwt_decode(localStorage.getItem("token")).id;
+
   const dispatch = useDispatch();
 
   const handleStatusChange = (newStatus) => {
-    dispatch(changeRequestStatusThunk(requestId, newStatus));
+    console.log("UserId", userId);
+    dispatch(
+      changeRequestStatusThunk(
+        requestId,
+        newStatus,
+        userId,
+        requestDetail.reward * requestDetail.requiredPpl
+      )
+    );
   };
 
   return (

@@ -6,28 +6,27 @@ import { Button } from "reactstrap";
 
 const LoginForm = () => {
   const loginStore = useSelector((state) => state.loginStore);
-  const { isAuthenticated, errorMsg,isAdmin } = loginStore;
+  const { isAuthenticated, errorMsg, isAdmin } = loginStore;
 
   const dispatch = useDispatch();
   const history = useHistory();
-  const loginEnter=(event)=>{
-    console.log(event.key)
-    if(event.key==='Enter')
-    {
-      login()
+  const loginEnter = (event) => {
+    console.log(event.key);
+    if (event.key === "Enter") {
+      login();
     }
-  }
+  };
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    if (isAuthenticated&&!isAdmin) {
+    if (isAuthenticated && !isAdmin) {
       history.push("/member/profile");
-    }else if(isAuthenticated&&isAdmin){
-      history.push('/admin')
+    } else if (isAuthenticated && isAdmin) {
+      history.push("/admin");
     }
-  }, [isAuthenticated,isAdmin, history]);
+  }, [isAuthenticated, isAdmin, history]);
 
   const login = () => {
     if (email !== "" && password !== "") {
@@ -57,13 +56,13 @@ const LoginForm = () => {
               value={password}
               onChange={(e) => setPassword(e.currentTarget.value)}
               className="input-text form-control"
-              onKeyDown={(e)=>loginEnter(e)}
+              onKeyDown={(e) => loginEnter(e)}
               required
             />
             <br />
             {errorMsg && <div className="err-msg">{errorMsg}</div>}
             <div className="text-center py-2">
-              <Button onClick={login}  className="btn-orange py-0 my-4">
+              <Button onClick={login} className="btn-orange py-0 my-4">
                 LOG IN
               </Button>
             </div>

@@ -1,3 +1,4 @@
+// import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
@@ -20,6 +21,7 @@ const RequestMessage = (props) => {
 
   const history = useHistory();
 
+  // Visit member profile
   const handleFellow = (fellowId) => {
     history.push(`/member/fellow/${fellowId}`);
   };
