@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
 
@@ -6,6 +7,7 @@ import RequestMessage from "./RequestMessage";
 
 import { Button } from "reactstrap";
 import { changeRequestStatusThunk } from "../../Redux/request/actions";
+import ConfirmModal from "../../Components/PublicComponents/ConfirmModal";
 
 const ResponseHost = ({
   requestId,
@@ -13,10 +15,14 @@ const ResponseHost = ({
   matchList,
   errorMsg,
   status,
+  confirmChange,
 }) => {
   const { requestDetail, responseList, teamList } = useSelector(
     (state) => state.requestStore
   );
+  // For changing request status
+  const [confirmationBoolean, setConfirmationBoolean] = useState(false);
+  const [confirmationType, setConfirmationType] = useState("");
 
   const userId = jwt_decode(localStorage.getItem("token")).id;
 
@@ -32,6 +38,18 @@ const ResponseHost = ({
         requestDetail.reward * requestDetail.requiredPpl
       )
     );
+  };
+
+  // Trigger confirmation modal open
+  const confirmChangeModal = (type) => {
+    setConfirmationBoolean(true);
+    setConfirmationType(type);
+  };
+
+  // Close modal
+  const closeModal = () => {
+    setConfirmationBoolean(false);
+    setConfirmationType("");
   };
 
   return (
@@ -55,25 +73,27 @@ const ResponseHost = ({
               )}
             </div>
             <div>
-              <div className="response-matching-helper pb-2">
-                Change request status :
+              <div className="response-matching-helper py-1 pe-2">
+                Change request status to :
               </div>
-              <Button
-                className="btn-white-orange-sm mb-2 border-0 px-3 me-4"
-                onClick={() => {
-                  handleStatusChange("completed");
-                }}
-              >
-                Completed
-              </Button>
-              <Button
-                className="btn-white-orange-sm mb-2 border-0 px-3"
-                onClick={() => {
-                  handleStatusChange("cancelled");
-                }}
-              >
-                Cancelled
-              </Button>
+              <div className="py-1">
+                <Button
+                  className="btn-white-orange-sm mb-2 border-0 bg-transparent p-0 me-4"
+                  onClick={() => {
+                    confirmChangeModal("completed");
+                  }}
+                >
+                  Complete
+                </Button>
+                <Button
+                  className="btn-white-orange-sm mb-2 border-0 bg-transparent p-0"
+                  onClick={() => {
+                    confirmChangeModal("cancelled");
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
           </div>
         ) : (
@@ -89,17 +109,19 @@ const ResponseHost = ({
                     {errorMsg}
                   </div>
                   <div>
-                    <div className="response-matching-helper pb-2">
-                      Change request status :
+                    <div className="response-matching-helper py-1 pe-2">
+                      Change request status to :
                     </div>
-                    <Button
-                      className="btn-white-orange-sm mb-2 border-0 px-3"
-                      onClick={() => {
-                        handleStatusChange("cancelled");
-                      }}
-                    >
-                      Cancelled
-                    </Button>
+                    <div className="py-1">
+                      <Button
+                        className="btn-white-orange-sm mb-2 border-0 bg-transparent p-0"
+                        onClick={() => {
+                          confirmChangeModal("cancelled");
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
                   </div>
                 </>
               ) : (
@@ -109,17 +131,19 @@ const ResponseHost = ({
                     {requestDetail.requiredPpl}
                   </div>
                   <div>
-                    <div className="response-matching-helper pb-2">
-                      Change request status :
+                    <div className="response-matching-helper py-1 pe-2">
+                      Change request status to :
                     </div>
-                    <Button
-                      className="btn-white-orange-sm mb-2 border-0 px-3"
-                      onClick={() => {
-                        handleStatusChange("cancelled");
-                      }}
-                    >
-                      Cancelled
-                    </Button>
+                    <div className="py-1">
+                      <Button
+                        className="btn-white-orange-sm mb-2 border-0 bg-transparent p-0"
+                        onClick={() => {
+                          confirmChangeModal("cancelled");
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
                   </div>
                 </>
               )}
@@ -136,6 +160,12 @@ const ResponseHost = ({
       ) : (
         <div>No response</div>
       )}
+      <ConfirmModal
+        isOpen={confirmationBoolean}
+        type={confirmationType}
+        close={closeModal}
+        handleStatusChange={handleStatusChange}
+      />
     </>
   );
 };

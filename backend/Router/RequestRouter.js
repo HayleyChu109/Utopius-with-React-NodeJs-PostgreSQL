@@ -39,6 +39,12 @@ class RequestRouter {
       "/request/:requestId/response/team",
       this.getTeamList.bind(this)
     );
+    // Routes for review
+    router.get(
+      "/request/review/:requestId/:reviewerId",
+      this.getReviewList.bind(this)
+    );
+    router.post("/request/review/new", this.postNewReview.bind(this));
     return router;
   }
 
@@ -360,8 +366,51 @@ class RequestRouter {
         );
         teamList[i].responserUsername = memberQuery.username;
         teamList[i].responserGrade = memberQuery.grade;
+        teamList[i].responserProfilePath = memberQuery.profilePath;
+        teamList[i].responserId = memberQuery.id;
       }
       res.json({ teamList, teamResId });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async getReviewList(req, res, next) {
+    try {
+      console.log(req.params.requestId, req.params.reviewerId);
+      let reviewList = await this.requestService.getReviewList(
+        req.params.requestId,
+        req.params.reviewerId
+      );
+      res.json({ reviewList });
+    } catch (err) {
+      next(err);
+      res.status(500).json(err);
+    }
+  }
+
+  async postNewReview(req, res, next) {
+    console.log("ReviewInfo: ", req.body.reviewInfo);
+    try {
+      for (let reviewee in req.body.reviewInfo) {
+        let rating = req.body.reviewInfo[reviewee].rating;
+        let contributed = req.body.reviewInfo[reviewee].contributed;
+        let ratingComment = req.body.reviewInfo[reviewee].ratingComment;
+        if (contributed === undefined) {
+          contributed = true;
+        }
+        console.log(rating, contributed, ratingComment);
+        await this.requestService.postReview(
+          req.body.requestId,
+          req.body.userId,
+          reviewee,
+          rating,
+          contributed,
+          ratingComment
+        );
+      }
+      res.json({ message: "Review completed !" });
     } catch (err) {
       next(err);
       res.status(500).json(err);

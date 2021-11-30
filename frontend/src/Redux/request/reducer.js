@@ -12,6 +12,8 @@ import {
   DELETE_RESPONSE,
   MATCH_RESPONSE,
   GET_TEAM_LIST,
+  GET_REVIEW_LIST,
+  REVIEW_SUCCESS,
 } from "./actions";
 
 const initialState = {
@@ -19,7 +21,7 @@ const initialState = {
   requestList: [],
   requestDetail: {},
   requestId: null,
-  requestStatus: "",
+  requestStatusMessage: "",
   bookmarkList: [],
   publicCommentList: [],
   privateCommentList: [],
@@ -29,6 +31,8 @@ const initialState = {
   editSuccessMsg: "",
   teamList: [],
   teamResId: [],
+  reviewList: [],
+  reviewSuccessMsg: "",
 };
 
 export function requestReducer(state = initialState, action) {
@@ -68,6 +72,16 @@ export function requestReducer(state = initialState, action) {
       return {
         ...state,
         editSuccessMsg: action.payload,
+      };
+    case GET_REVIEW_LIST:
+      return {
+        ...state,
+        reviewList: action.payload,
+      };
+    case REVIEW_SUCCESS:
+      return {
+        ...state,
+        reviewSuccessMsg: action.payload,
       };
 
     default:

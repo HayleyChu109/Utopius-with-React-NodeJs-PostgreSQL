@@ -14,6 +14,8 @@ export const DELETE_RESPONSE = "DELETE_RESPONSE";
 export const MATCH_RESPONSE = "MATCH_RESPONSE";
 export const GET_TEAM_LIST = "GET_TEAM_LIST";
 export const CHANGE_REQ_STATUS = "CHANGE_REQ_STATUS";
+export const GET_REVIEW_LIST = "GET_REVIEW_LIST";
+export const REVIEW_SUCCESS = "REVIEW_SUCCESS";
 
 // For nav search-bar
 export const searchReq = (search) => {
@@ -418,5 +420,49 @@ export const changeRequestStatusThunk =
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+
+// For checking if review is completed or not
+export const getReviewInfoThunk = (requestId, userId) => async (dispatch) => {
+  try {
+    let token = await localStorage.getItem("token");
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_SERVER}/member/request/review/${requestId}/${userId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    const { data } = response;
+    if (data.reviewList) {
+      console.log("reviewList: ", data.reviewList);
+      dispatch({
+        type: GET_REVIEW_LIST,
+        payload: data.reviewList,
+      });
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+// For submitting new review
+export const postReviewThunk =
+  (reviewInfo, requestId, userId) => async (dispatch) => {
+    console.log("ReviewInfo: ", reviewInfo, requestId, userId);
+    try {
+      let token = await localStorage.getItem("token");
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_SERVER}/member/request/review/new`,
+        { reviewInfo, requestId, userId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const { data } = response;
+      if (data.message) {
+        dispatch({
+          type: REVIEW_SUCCESS,
+          payload: data.message,
+        });
+      }
+    } catch (err) {
+      throw new Error(err);
     }
   };

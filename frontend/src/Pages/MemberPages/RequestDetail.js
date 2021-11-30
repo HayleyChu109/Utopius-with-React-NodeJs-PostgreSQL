@@ -13,7 +13,7 @@ import RequestDetailComment from "../../Components/PrivateComponents/RequestDeta
 import ResponseJoined from "../../Components/PrivateComponents/ResponseJoined";
 import ResponseHost from "../../Components/PrivateComponents/ResponseHost";
 import RequestMeetup from "../../Components/PrivateComponents/RequestMeetup";
-// import Review from "../../Components/PrivateComponents/Review";
+import NewReview from "../../Components/PrivateComponents/NewReview";
 import {
   searchReq,
   getRequestDetailThunk,
@@ -27,6 +27,7 @@ import {
   deleteResponseThunk,
   putMatchedResponseThunk,
   getTeamListThunk,
+  getReviewInfoThunk,
 } from "../../Redux/request/actions";
 
 import { Card, CardBody, CardFooter, Button } from "reactstrap";
@@ -41,15 +42,15 @@ import "../SCSS/requestDetail.scss";
 const RequestDetail = () => {
   const {
     requestDetail,
-    requestStatus,
+    requestStatusMessage,
     bookmarkList,
-    publicCommentList,
-    privateCommentList,
     responseList,
     teamList,
     editSuccessMsg,
     deleteSuccessMsg,
     matchSuccessMsg,
+    reviewList,
+    reviewSuccessMsg,
   } = useSelector((state) => state.requestStore);
   /* Notes to the states from store:
   requestDetail: Contains all the request body info
@@ -75,6 +76,8 @@ const RequestDetail = () => {
   const [matchList, setMatchList] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
   const [modalBoolean, setModalBoolean] = useState(false);
+  // For review
+  const [reviewModalBoolean, setReviewModalBoolean] = useState(false);
   // For preventing user enters wrong path
   // const [wrongPathNoti, setWrongPathNoti] = useState("");
   // const [wrongPathBoolean, setWrongPathBoolean] = useState(false);
@@ -87,25 +90,18 @@ const RequestDetail = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // Get the req data
+  // Get req data, bookmarklist, public comments, private comments, response list, team list
   useEffect(() => {
     console.log("request id: ", requestId);
     console.log("user id: ", userId);
     dispatch(getRequestDetailThunk(requestId, userId));
-  }, [dispatch, requestId, userId]);
-
-  // Get the bookmark list to check bookmark status
-  useEffect(() => {
     dispatch(getBookmarkListThunk(userId));
-  }, [dispatch, userId]);
-
-  // Get public comments, private comments, response list, team list
-  useEffect(() => {
     dispatch(getCommentThunk(requestId, false));
     dispatch(getCommentThunk(requestId, true));
     dispatch(getResponseListThunk(requestId));
     dispatch(getTeamListThunk(requestId));
-  }, [dispatch, requestId, editSuccessMsg]);
+    dispatch(getReviewInfoThunk(requestId, userId));
+  }, [dispatch, userId, requestId, editSuccessMsg]);
 
   // Prevent user entering wrong path
   useEffect(() => {
@@ -212,9 +208,9 @@ const RequestDetail = () => {
           }
       }
     }
-  }, [requestStatus, requestDetail, userId, responseList, tab]);
+  }, [requestStatusMessage, requestDetail, userId, responseList, tab]);
 
-  // Success modal toggle
+  // Modal toggle
   useEffect(() => {
     if (matchSuccessMsg !== "") {
       setModalBoolean(true);
@@ -223,7 +219,32 @@ const RequestDetail = () => {
     } else if (editSuccessMsg !== "") {
       setEditSuccessBoolean(true);
     }
-  }, [matchSuccessMsg, deleteSuccessMsg, editSuccessMsg]);
+    function checkReview() {
+      if (
+        requestDetail.status === "completed" &&
+        reviewList &&
+        reviewList.length < 1
+      ) {
+        console.log("reviewList.length < 1");
+        setReviewModalBoolean(true);
+      }
+    }
+    setTimeout(checkReview, 1000);
+  }, [
+    matchSuccessMsg,
+    deleteSuccessMsg,
+    editSuccessMsg,
+    reviewList,
+    requestDetail,
+  ]);
+
+  // Prompt user to review when status = complete
+  useEffect(() => {
+    if (reviewSuccessMsg !== "") {
+      setReviewModalBoolean(false);
+      history.push(`/member/request/detail/${requestId}/comment`);
+    }
+  }, [requestDetail, reviewSuccessMsg]);
 
   // Bookmark toggle function
   const handleBookmark = (bookmarked) => {
@@ -421,6 +442,7 @@ const RequestDetail = () => {
               ) : tab === "meetup" ? (
                 <RequestMeetup
                   requestId={requestId}
+                  userId={userId}
                   type={true}
                   matchList={matchList}
                   errorMsg={errorMsg}
@@ -631,11 +653,14 @@ const RequestDetail = () => {
         close={closeModal}
         message={editSuccessMsg}
       />
-      {/* {requestDetail.state === "completed" ? (
-        <>
-          <Review isOpen={true} close={} review={} />
-        </>
-      ) : null} */}
+      {requestDetail.requesterId === userId ||
+      teamList.map((team) => team.responserId).includes(userId) ? (
+        <NewReview
+          isOpen={reviewModalBoolean}
+          requestId={requestId}
+          setReviewModalBoolean={setReviewModalBoolean}
+        />
+      ) : null}
     </>
   );
 };

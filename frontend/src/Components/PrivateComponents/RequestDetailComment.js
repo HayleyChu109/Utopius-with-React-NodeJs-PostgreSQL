@@ -8,10 +8,6 @@ const RequestDetailComment = ({ type }) => {
     (state) => state.requestStore
   );
 
-  useEffect(() => {
-    console.log("rendered!");
-  });
-
   return (
     <>
       {type && privateCommentList && privateCommentList.length > 0 ? (

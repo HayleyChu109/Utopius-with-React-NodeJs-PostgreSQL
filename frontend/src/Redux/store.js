@@ -18,7 +18,7 @@ import { tokenPlanReducer } from "./token/tokenPlanReducer";
 import { tokenRecordReducer } from "./token/tokenRecordReducer";
 import { buyTokenReducer } from "./token/buyTokenReducer";
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   loginStore: loginReducer,
@@ -35,7 +35,7 @@ const rootReducer = combineReducers({
   tokenRecordStore: tokenRecordReducer,
   buyTokenStore: buyTokenReducer,
   footerStore: footerReducer,
-  adminDataStore:AdminDataReducer,
+  adminDataStore: AdminDataReducer,
 });
 
 export const store = createStore(

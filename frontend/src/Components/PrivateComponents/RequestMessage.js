@@ -5,19 +5,15 @@ import moment from "moment";
 
 import GradeBall from "../PublicComponents/GradeBall";
 
-import { Card, CardBody, CardFooter, Button } from "reactstrap";
+import { Card, CardBody, CardFooter, Button, Input } from "reactstrap";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import help from "../../Images/help.png";
 import "../../Pages/SCSS/requestComment.scss";
 
 const RequestMessage = (props) => {
-  const {
-    responseList,
-    teamResId,
-    teamList,
-    // publicCommentList,
-    // privateCommentList,
-  } = useSelector((state) => state.requestStore);
+  const { responseList, teamResId, teamList } = useSelector(
+    (state) => state.requestStore
+  );
 
   const history = useHistory();
 
@@ -266,14 +262,16 @@ const RequestMessage = (props) => {
                   Here are your team members :<br />
                   <div className="msgModal my-2">
                     Request Host :
-                    <span className="ms-2 username-id">
-                      <GradeBall grade={props.requestDetail.requesterGrade} />
-                    </span>
-                    <span className="me-2 username-id">
-                      {props.requestDetail.requesterUsername}
-                    </span>
-                    <span className="me-2 username-id">
-                      UID#{props.requestDetail.requesterId}
+                    <span className="username-id">
+                      <span className="ms-2">
+                        <GradeBall grade={props.requestDetail.requesterGrade} />
+                      </span>
+                      <span className="me-2">
+                        {props.requestDetail.requesterUsername}
+                      </span>
+                      <span className="me-2">
+                        UID#{props.requestDetail.requesterId}
+                      </span>
                     </span>
                   </div>
                   <div>
@@ -283,10 +281,10 @@ const RequestMessage = (props) => {
                     <br />
                     {teamList && teamList.length > 0
                       ? teamList.map((res) => (
-                          <div key={res.id} className="my-1">
+                          <div key={res.id} className="my-1 username-id-res">
                             <GradeBall grade={res.responserGrade} />
                             <span
-                              className="me-2 username-id"
+                              className="me-2 "
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleFellow(res.responserId);
@@ -295,7 +293,6 @@ const RequestMessage = (props) => {
                               {res.responserUsername}
                             </span>
                             <span
-                              className="username-id"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleFellow(res.responserId);

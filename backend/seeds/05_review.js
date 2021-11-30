@@ -11,6 +11,7 @@ exports.seed = function (knex) {
           revieweeId: 5,
           rating: 3,
           ratingComment: "Quite good",
+          contributed: true,
         },
         {
           requestId: 3,
@@ -18,6 +19,7 @@ exports.seed = function (knex) {
           revieweeId: 5,
           rating: 4,
           ratingComment: "Excellent",
+          contributed: true,
         },
       ]);
     });

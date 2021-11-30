@@ -13,7 +13,7 @@ const SuccessModal = (props) => {
         <ModalFooter className="modal-footer">
           <div className="mx-auto">
             <Button className="btn-white-orange-sm" onClick={props.close}>
-              OK
+              OK &#x1F44C
             </Button>
           </div>
         </ModalFooter>

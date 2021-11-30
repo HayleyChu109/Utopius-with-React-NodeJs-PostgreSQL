@@ -13,7 +13,7 @@ function Review(props) {
   const history = useHistory();
 
   const handleClick = (requestId) => {
-    history.push(`/member/request/detail/${requestId}`);
+    history.push(`/member/request/detail/${requestId}/comment`);
   };
 
   return (

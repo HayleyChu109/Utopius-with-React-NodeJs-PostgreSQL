@@ -64,3 +64,35 @@
 .btn-dark-blue:focus:hover {
   @include btn-color-hover($theme: $light-blue);
 }
+
+// New review
+.new-review-card {
+  border: none;
+  font-size: 13px;
+  letter-spacing: 1px;
+  img {
+    width: 90px;
+    height: 90px;
+    transform: translateX(0px);
+  }
+}
+
+.username-id-review {
+  color: $dark-orange;
+}
+
+.username-id-responser {
+  color: $light-blue;
+}
+
+.review-rating-scale {
+  position: absolute;
+}
+
+.review-helper {
+  font-family: $sora;
+  color: $heart;
+  font-size: 13px;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
