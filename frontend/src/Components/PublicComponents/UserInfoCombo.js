@@ -18,7 +18,7 @@ const UserInfoCombo = ({ userId }) => {
     } else {
       return;
     }
-  }, [userId]);
+  }, [dispatch, userId]);
 
   const handleFellow = (fellowId) => {
     history.push(`/member/fellow/${fellowId}`);

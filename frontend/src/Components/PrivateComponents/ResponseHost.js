@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
 
 import RequestMessage from "./RequestMessage";
-// import RequestDetailComment from "./RequestDetailComment";
 
 import { Button } from "reactstrap";
 import { changeRequestStatusThunk } from "../../Redux/request/actions";
@@ -158,7 +157,7 @@ const ResponseHost = ({
           status={status}
         />
       ) : (
-        <div>No response</div>
+        <div className="text-center my-4 no-res-no-cm">No response</div>
       )}
       <ConfirmModal
         isOpen={confirmationBoolean}

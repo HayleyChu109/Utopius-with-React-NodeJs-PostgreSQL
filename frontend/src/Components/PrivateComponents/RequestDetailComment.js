@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 
 import RequestMessage from "./RequestMessage";
 
@@ -18,17 +17,45 @@ const RequestDetailComment = ({ type }) => {
         </div>
       ) : !type && publicCommentList && publicCommentList.length > 0 ? (
         <>
-          <div className="response-form response-matching-msg">
-            <div className="response-heading pt-3 pb-1">Comments</div>
-            {requestDetail.status === "open" ||
-            requestDetail.status === "matched" ? null : (
-              <div
-                className="response-matching-helper pb-2"
-                style={{ color: "#ff6161" }}
-              >
-                This is not an open request, comment is disabled
-              </div>
-            )}
+          <div className="response-matching-bg">
+            <div className="response-form response-matching-msg">
+              {requestDetail.status === "open" ? (
+                <>
+                  <div className="response-heading pt-3 pb-1">Comments</div>
+                  <div
+                    className="response-matching-helper pb-2"
+                    style={{ color: "#ff6161" }}
+                  >
+                    This is an open request, discuss and join the team !
+                  </div>
+                </>
+              ) : requestDetail.status === "matched" ? (
+                <>
+                  <div className="response-matching-bg">
+                    <div className="response-heading pt-3 pb-1">Comments</div>
+                    <div
+                      className="response-matching-helper pb-2"
+                      style={{ color: "#ff6161" }}
+                    >
+                      This is a matched request, successful matches can access
+                      the meetup space
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="response-matching-bg">
+                    <div className="response-heading pt-3 pb-1">Comments</div>
+                    <div
+                      className="response-matching-helper pb-2"
+                      style={{ color: "#ff6161" }}
+                    >
+                      This is not an open request, comment is disabled
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
           <div>
             {publicCommentList.map((comment, i) => (
@@ -41,7 +68,22 @@ const RequestDetailComment = ({ type }) => {
           </div>
         </>
       ) : (
-        <div className="ps-5">Be the first to comment on this request !</div>
+        <>
+          <div className="response-matching-bg">
+            <div className="response-form response-matching-msg">
+              <div className="response-heading pt-3 pb-1">Comments</div>
+              <div
+                className="response-matching-helper pb-2"
+                style={{ color: "#ff6161" }}
+              >
+                This is an open request, discuss and join the team !
+              </div>
+            </div>
+          </div>
+          <div className="text-center my-4 no-res-no-cm">
+            Be the first to comment on this request !
+          </div>
+        </>
       )}
     </>
   );

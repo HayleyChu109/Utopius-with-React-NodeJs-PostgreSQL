@@ -1,11 +1,10 @@
-// import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 
 import GradeBall from "../PublicComponents/GradeBall";
 
-import { Card, CardBody, CardFooter, Button, Input } from "reactstrap";
+import { Card, CardBody, CardFooter, Button } from "reactstrap";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import help from "../../Images/help.png";
 import "../../Pages/SCSS/requestComment.scss";

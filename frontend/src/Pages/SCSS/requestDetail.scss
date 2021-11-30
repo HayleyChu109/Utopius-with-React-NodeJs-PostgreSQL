@@ -116,31 +116,41 @@
 .req-detail-nav-res {
   color: $dark-blue;
   cursor: pointer;
+  letter-spacing: 3px;
 }
 
 .req-detail-nav-join {
   color: $dark-grey;
   cursor: pointer;
+  letter-spacing: 3px;
 }
 
 .req-detail-nav-join:hover {
   color: $dark-blue;
   cursor: pointer;
+  letter-spacing: 3px;
 }
 
 .req-detail-nav-joined {
   color: $dark-blue;
   cursor: pointer;
+  letter-spacing: 3px;
 }
 
 .req-detail-nav-comment,
 .req-detail-nav-matched {
   color: $dark-blue;
   cursor: pointer;
+  letter-spacing: 3px;
 }
 
 .req-detail-nav-locked {
   color: $dark-grey;
+  letter-spacing: 3px;
+}
+
+.req-detail-nav-status {
+  letter-spacing: 3px;
 }
 
 .request-detail-footer {
@@ -244,7 +254,8 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: hsla(205, 20%, 88%, 0.226);
+  background-color: hsla(208, 48%, 87%, 0.171);
+  backdrop-filter: blur(5px);
 }
 
 .response-matching-msg {
@@ -256,4 +267,8 @@
   font-family: $nunito;
   font-weight: bold;
   letter-spacing: 1px;
+}
+
+.no-res-no-cm {
+  color: $dark;
 }

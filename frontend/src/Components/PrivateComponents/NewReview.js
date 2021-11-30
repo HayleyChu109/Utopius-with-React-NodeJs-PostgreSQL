@@ -1,13 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
 
 import ReviewCard from "../PrivateComponents/ReviewCard";
 
-import {
-  getReviewInfoThunk,
-  postReviewThunk,
-} from "../../Redux/request/actions";
+import { postReviewThunk } from "../../Redux/request/actions";
 
 import { Modal, ModalBody, ModalFooter, Button, Form } from "reactstrap";
 import "../../Pages/SCSS/review.scss";

@@ -83,8 +83,11 @@ const RequestDetailNav = ({ userId, handleTab }) => {
             COMMENT
           </span>
         </div>
-        <div className="req-detail-nav-statu col-4">
-          <span style={{ color: statusColor }}>
+        <div className="col-4">
+          <span
+            className="req-detail-nav-status"
+            style={{ color: statusColor }}
+          >
             {requestDetail.status ? requestDetail.status.toUpperCase() : null}
           </span>
         </div>

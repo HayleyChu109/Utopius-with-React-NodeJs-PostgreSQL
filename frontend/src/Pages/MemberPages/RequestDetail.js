@@ -6,7 +6,6 @@ import moment from "moment";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
 import UserInfoCombo from "../../Components/PublicComponents/UserInfoCombo";
-// import GradeBall from "../../Components/PublicComponents/GradeBall";
 import SuccessModal from "../../Components/PublicComponents/SuccessModal";
 import RequestDetailNav from "../../Components/PrivateComponents/RequestDetailNav";
 import RequestDetailComment from "../../Components/PrivateComponents/RequestDetailComment";
@@ -78,9 +77,6 @@ const RequestDetail = () => {
   const [modalBoolean, setModalBoolean] = useState(false);
   // For review
   const [reviewModalBoolean, setReviewModalBoolean] = useState(false);
-  // For preventing user enters wrong path
-  // const [wrongPathNoti, setWrongPathNoti] = useState("");
-  // const [wrongPathBoolean, setWrongPathBoolean] = useState(false);
 
   const { requestId } = useParams();
   const { tab } = useParams();
@@ -130,6 +126,8 @@ const RequestDetail = () => {
             history.push(`/member/request/detail/${requestId}/meetup`);
           }
           break;
+        default:
+          return;
       }
     } else {
       console.log("User is not the req");
@@ -206,9 +204,22 @@ const RequestDetail = () => {
             // setWrongPathBoolean(true);
             // setWrongPathNoti("Sorry ! Only matched members are allowed");
           }
+          break;
+        default:
+          return;
       }
     }
-  }, [requestStatusMessage, requestDetail, userId, responseList, tab]);
+  }, [
+    dispatch,
+    history,
+    tab,
+    requestId,
+    userId,
+    requestDetail,
+    responseList,
+    teamList,
+    requestStatusMessage,
+  ]);
 
   // Modal toggle
   useEffect(() => {
@@ -219,18 +230,22 @@ const RequestDetail = () => {
     } else if (editSuccessMsg !== "") {
       setEditSuccessBoolean(true);
     }
+
     function checkReview() {
-      if (
-        requestDetail.status === "completed" &&
-        reviewList &&
+      console.log(reviewList);
+      console.log(
+        "TRUE?",
+        requestDetail.status === "completed",
         reviewList.length < 1
-      ) {
-        console.log("reviewList.length < 1");
-        setReviewModalBoolean(true);
-      }
+      );
+      // if (requestDetail.status === "completed" && reviewList.length < 1) {
+      //   console.log("reviewList.length < 1");
+      //   setReviewModalBoolean(true);
+      // }
     }
-    setTimeout(checkReview, 1000);
+    setTimeout(checkReview, 2000);
   }, [
+    dispatch,
     matchSuccessMsg,
     deleteSuccessMsg,
     editSuccessMsg,
@@ -244,7 +259,7 @@ const RequestDetail = () => {
       setReviewModalBoolean(false);
       history.push(`/member/request/detail/${requestId}/comment`);
     }
-  }, [requestDetail, reviewSuccessMsg]);
+  }, [history, requestId, requestDetail, reviewSuccessMsg]);
 
   // Bookmark toggle function
   const handleBookmark = (bookmarked) => {
@@ -457,20 +472,34 @@ const RequestDetail = () => {
                   status="open"
                 />
               ) : tab === "join" ? (
-                <div className="response-form p-4 mx-auto">
-                  <div className="response-heading px-2 pb-3">
-                    CREATE RESPONSE
+                <>
+                  <div className="response-matching-bg">
+                    <div className="response-form response-matching-msg">
+                      <div className="response-form p-2 mx-auto">
+                        <div className="response-heading pt-3 pb-1">
+                          Create Response
+                        </div>
+                        <div
+                          className="response-matching-helper pb-2"
+                          style={{ color: "#ff6161" }}
+                        >
+                          Only you and the requester can see this note
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <textarea
-                    className="form-control response-ta mx-auto pb-4"
-                    placeholder="Join this request and leave a message.."
-                    rows="10"
-                    maxLength="250"
-                    onChange={(e) => {
-                      setResponseMsg(e.currentTarget.value);
-                    }}
-                  ></textarea>
-                </div>
+                  <div className="response-form p-4 mx-auto">
+                    <textarea
+                      className="form-control response-ta mx-auto pb-4"
+                      placeholder="Join this request and leave a message.."
+                      rows="10"
+                      maxLength="250"
+                      onChange={(e) => {
+                        setResponseMsg(e.currentTarget.value);
+                      }}
+                    ></textarea>
+                  </div>
+                </>
               ) : tab === "joined" ? (
                 <ResponseJoined
                   requestId={requestId}
@@ -563,29 +592,40 @@ const RequestDetail = () => {
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div>
                   {editRes ? (
-                    <Button
-                      className="btn-white-blue-sm mx-2"
-                      onClick={editResponse}
-                    >
-                      SUBMIT
-                    </Button>
+                    <>
+                      <Button
+                        className="btn-white-blue-sm mx-2"
+                        onClick={editResponse}
+                      >
+                        SUBMIT
+                      </Button>
+                      <Button
+                        className="btn-white-blue-sm mx-2"
+                        onClick={() => {
+                          setEditRes(false);
+                        }}
+                      >
+                        DISPOSE
+                      </Button>
+                    </>
                   ) : (
-                    <Button
-                      className="btn-white-blue-sm mx-2"
-                      onClick={() => {
-                        setEditRes(true);
-                      }}
-                    >
-                      EDIT
-                    </Button>
+                    <>
+                      <Button
+                        className="btn-white-blue-sm mx-2"
+                        onClick={() => {
+                          setEditRes(true);
+                        }}
+                      >
+                        EDIT
+                      </Button>
+                      <Button
+                        className="btn-white-blue-sm mx-2"
+                        onClick={deleteResponse}
+                      >
+                        DELETE
+                      </Button>
+                    </>
                   )}
-
-                  <Button
-                    className="btn-white-blue-sm mx-2"
-                    onClick={deleteResponse}
-                  >
-                    DELETE
-                  </Button>
                 </div>
               </div>
             ) : tab === "meetup" ? (
@@ -637,6 +677,11 @@ const RequestDetail = () => {
             ) : null}
           </CardFooter>
         </Card>
+      </div>
+      <div className="text-center my-3">
+        <button className="mb-5 btn-goback" onClick={() => history.goBack()}>
+          &#60; GO BACK
+        </button>
       </div>
       <SuccessModal
         isOpen={modalBoolean}

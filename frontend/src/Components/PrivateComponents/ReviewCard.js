@@ -1,32 +1,17 @@
-import { useState, useEffect } from "react";
-
 import GradeBall from "../PublicComponents/GradeBall";
 
 import { Card, CardBody, Input } from "reactstrap";
 import "../../Pages/SCSS/review.scss";
 
 function ReviewCard({
-  requestId,
-  userId,
   reviewee,
   requesterCard,
   revieweeId,
   setReviewObj,
   reviewObj,
-  // setReviewContribute,
-  // setReviewInfo,
-  // setReviewDetail,
 }) {
   const handleChange = (target) => {
     let reviewCopy = reviewObj;
-    // setReviewObj({
-    //   ...reviewCopy,
-    //   [revieweeId]: {
-    //     requestId: requestId,
-    //     reviewerId: userId,
-    //     revieweeId: revieweeId,
-    //   },
-    // });
     let reviewEleCopy = reviewObj[revieweeId];
     switch (target.type) {
       case "checkbox":
@@ -56,6 +41,8 @@ function ReviewCard({
           },
         });
         break;
+      default:
+        return;
     }
   };
 
