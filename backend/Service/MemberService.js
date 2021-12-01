@@ -310,14 +310,13 @@ class MemberService {
     }
   }
 
-  async getFollowOrNot(followerId, followingId) {
+  async getFollowinglist(memberId) {
     try {
-      let friendshipId = await this.knex("friendship")
-        .select("id")
-        .where("followerId", followerId)
-        .andWhere("followingId", followingId);
-      if (friendshipId && friendshipId.length > 0) {
-        return friendshipId;
+      let followinglist = await this.knex("friendship")
+        .select("*")
+        .where("followerId", memberId);
+      if (followinglist) {
+        return followinglist;
       } else {
         return [];
       }
@@ -326,7 +325,22 @@ class MemberService {
     }
   }
 
-  async postFollowMember(followerId, followingId) {
+  async getFollowerlist(memberId) {
+    try {
+      let followerlist = await this.knex("friendship")
+        .select("*")
+        .where("followingId", memberId);
+      if (followerlist) {
+        return followerlist;
+      } else {
+        return [];
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async postFollow(followerId, followingId) {
     try {
       let friendshipId = await this.knex("friendship")
         .insert({
@@ -335,6 +349,17 @@ class MemberService {
         })
         .returning("id");
       return friendshipId;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async deleteFollow(followerId, followingId) {
+    try {
+      return await this.knex("friendship")
+        .where("followerId", followerId)
+        .andWhere("followingId", followingId)
+        .del();
     } catch (err) {
       throw new Error(err);
     }
