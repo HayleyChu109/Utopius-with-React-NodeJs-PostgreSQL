@@ -60,8 +60,7 @@ const RequestDetailNav = ({ userId, handleTab }) => {
             >
               COUNT ME IN !
             </span>
-          ) : requestDetail.status === "matched" ||
-            requestDetail.status === "completed" ? (
+          ) : requestDetail.status === "matched" ? (
             <span
               className="req-detail-nav-matched"
               onClick={() => {
@@ -71,6 +70,8 @@ const RequestDetailNav = ({ userId, handleTab }) => {
               MEET UP
             </span>
           ) : requestDetail.status === "cancelled" ? (
+            <span className="req-detail-nav-locked">LOCKED</span>
+          ) : requestDetail.status === "completed" ? (
             <span className="req-detail-nav-locked">LOCKED</span>
           ) : null}
         </div>

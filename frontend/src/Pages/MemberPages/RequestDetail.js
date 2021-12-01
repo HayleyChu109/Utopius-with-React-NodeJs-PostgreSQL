@@ -87,7 +87,7 @@ const RequestDetail = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // Get req data, bookmarklist, public comments, private comments, response list, team list
+  // Dispatch thunk to get all necessary data
   useEffect(() => {
     console.log("request id: ", requestId);
     console.log("user id: ", userId);
@@ -202,9 +202,10 @@ const RequestDetail = () => {
         case "meetup":
           // Req status not matched
           if (
-            requestDetail.status !== "matched" ||
-            requestDetail.status !== "completed"
+            requestDetail.status === "cancelled" ||
+            requestDetail.status === "open"
           ) {
+            console.log(requestDetail.status);
             console.log("8");
             history.push(`/member/request/detail/${requestId}/comment`);
           }
@@ -215,8 +216,6 @@ const RequestDetail = () => {
           ) {
             console.log("9");
             history.push(`/member/request/detail/${requestId}/comment`);
-            // setWrongPathBoolean(true);
-            // setWrongPathNoti("Sorry ! Only matched members are allowed");
           }
           break;
         default:
@@ -236,7 +235,6 @@ const RequestDetail = () => {
   ]);
 
   // Modal toggle
-  // Prompt user to review when status = complete
   useEffect(() => {
     if (matchSuccessMsg !== "") {
       setModalBoolean(true);
@@ -245,19 +243,18 @@ const RequestDetail = () => {
     } else if (editSuccessMsg !== "") {
       setEditSuccessBoolean(true);
     }
-
     setTimeout(function checkReview() {
-      console.log(reviewList);
-      console.log(
-        "TRUE?",
-        requestDetail.status === "completed",
-        reviewList.length < 1
-      );
+      // console.log(reviewList);
+      // console.log(
+      //   "TRUE?",
+      //   requestDetail.status === "completed",
+      //   reviewList.length < 1
+      // );
       if (requestDetail.status === "completed" && reviewList.length < 1) {
         console.log("reviewList.length < 1");
         setReviewModalBoolean(true);
       }
-    }, 1000);
+    }, 2000);
   }, [
     dispatch,
     matchSuccessMsg,
@@ -266,6 +263,25 @@ const RequestDetail = () => {
     reviewList,
     requestDetail,
   ]);
+
+  // Close success modal
+  const closeModal = () => {
+    if (modalBoolean) {
+      // Modal for confirm match
+      setModalBoolean(false);
+      history.push(`/member/request/detail/${requestId}/meetup`);
+      // Hotfix for not pushing member to the meetup
+      window.location.reload();
+    } else if (responseModalBoolean) {
+      setResponseModalBoolean(false);
+      history.push(`/member/request/detail/${requestId}/comment`);
+    } else if (editSuccessBoolean) {
+      setEditSuccessBoolean(false);
+    } else if (reviewModalBoolean) {
+      setReviewModalBoolean(false);
+    }
+    dispatch(clearMessage());
+  };
 
   // // Close modal when receive success message
   // useEffect(() => {
@@ -294,46 +310,6 @@ const RequestDetail = () => {
   // Changing tab
   const handleTab = (displayOption) => {
     history.push(`/member/request/detail/${requestId}/${displayOption}`);
-  };
-
-  // Close success modal
-  const closeModal = () => {
-    if (modalBoolean) {
-      setModalBoolean(false);
-      history.push(`/member/request/detail/${requestId}/meetup`);
-      // Hotfix for not pushing member to the meetup
-      window.location.reload();
-    } else if (responseModalBoolean) {
-      setResponseModalBoolean(false);
-      history.push(`/member/request/detail/${requestId}/comment`);
-    } else if (editSuccessBoolean) {
-      setEditSuccessBoolean(false);
-    } else if (reviewModalBoolean) {
-      setReviewModalBoolean(false);
-    }
-    dispatch(clearMessage());
-  };
-
-  // Matching response
-  const handleMatch = (newMatchId) => {
-    setErrorMsg("");
-    if (matchList && matchList.length > 0 && matchList.includes(newMatchId)) {
-      let newMatch = matchList.filter((resId) => resId !== newMatchId);
-      setMatchList(newMatch);
-      console.log("NewMatch: ", newMatch);
-    } else if (matchList.length >= requestDetail.requiredPpl) {
-      setErrorMsg(
-        `You are reaching the response limit ! ( ${requestDetail.requiredPpl} response )`
-      );
-    } else {
-      let newMatch = matchList.concat([newMatchId]);
-      if (newMatch.length >= requestDetail.requiredPpl) {
-        setErrorMsg(
-          `You are reaching the response limit ! ( ${requestDetail.requiredPpl} response )`
-        );
-      }
-      setMatchList(newMatch);
-    }
   };
 
   // Submit new comment
@@ -365,6 +341,28 @@ const RequestDetail = () => {
   const deleteResponse = () => {
     console.log("Sending delete res thunk..");
     dispatch(deleteResponseThunk(requestId, userId));
+  };
+
+  // Matching response
+  const handleMatch = (newMatchId) => {
+    setErrorMsg("");
+    if (matchList && matchList.length > 0 && matchList.includes(newMatchId)) {
+      let newMatch = matchList.filter((resId) => resId !== newMatchId);
+      setMatchList(newMatch);
+      console.log("NewMatch: ", newMatch);
+    } else if (matchList.length >= requestDetail.requiredPpl) {
+      setErrorMsg(
+        `You are reaching the response limit ! ( ${requestDetail.requiredPpl} response )`
+      );
+    } else {
+      let newMatch = matchList.concat([newMatchId]);
+      if (newMatch.length >= requestDetail.requiredPpl) {
+        setErrorMsg(
+          `You are reaching the response limit ! ( ${requestDetail.requiredPpl} response )`
+        );
+      }
+      setMatchList(newMatch);
+    }
   };
 
   // Submit matched response
