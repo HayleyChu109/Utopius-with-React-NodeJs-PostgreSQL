@@ -41,15 +41,19 @@ import "../SCSS/requestDetail.scss";
 
 const RequestDetail = () => {
   const {
+    bookmarkList,
+
     requestDetail,
     requestStatusMessage,
-    bookmarkList,
+
     responseList,
-    teamList,
     editSuccessMsg,
     deleteSuccessMsg,
     matchSuccessMsg,
-    reviewList,
+
+    teamList,
+
+    notReviewed,
     reviewSuccessMsg,
   } = useSelector((state) => state.requestStore);
   /* Notes to the states from store:
@@ -102,8 +106,10 @@ const RequestDetail = () => {
     dispatch,
     userId,
     requestId,
+    requestStatusMessage,
     editSuccessMsg,
     deleteSuccessMsg,
+    matchSuccessMsg,
     reviewSuccessMsg,
     tab,
   ]);
@@ -244,14 +250,7 @@ const RequestDetail = () => {
       setEditSuccessBoolean(true);
     }
     setTimeout(function checkReview() {
-      // console.log(reviewList);
-      // console.log(
-      //   "TRUE?",
-      //   requestDetail.status === "completed",
-      //   reviewList.length < 1
-      // );
-      if (requestDetail.status === "completed" && reviewList.length < 1) {
-        console.log("reviewList.length < 1");
+      if (requestDetail.status === "completed" && notReviewed) {
         setReviewModalBoolean(true);
       }
     }, 2000);
@@ -260,7 +259,7 @@ const RequestDetail = () => {
     matchSuccessMsg,
     deleteSuccessMsg,
     editSuccessMsg,
-    reviewList,
+    notReviewed,
     requestDetail,
   ]);
 
@@ -273,23 +272,26 @@ const RequestDetail = () => {
       // Hotfix for not pushing member to the meetup
       window.location.reload();
     } else if (responseModalBoolean) {
+      // Modal for success delete response
       setResponseModalBoolean(false);
       history.push(`/member/request/detail/${requestId}/comment`);
     } else if (editSuccessBoolean) {
+      // Modal for success edit response
       setEditSuccessBoolean(false);
     } else if (reviewModalBoolean) {
+      // Modal for success review
       setReviewModalBoolean(false);
     }
     dispatch(clearMessage());
   };
 
   // // Close modal when receive success message
-  // useEffect(() => {
-  //   if (reviewSuccessMsg !== "") {
-  //     setReviewModalBoolean(false);
-  //     history.push(`/member/request/detail/${requestId}/comment`);
-  //   }
-  // }, [history, requestId, requestDetail, reviewSuccessMsg]);
+  useEffect(() => {
+    if (reviewSuccessMsg !== "") {
+      setReviewModalBoolean(false);
+      history.push(`/member/request/detail/${requestId}/comment`);
+    }
+  }, [history, requestId, requestDetail, reviewSuccessMsg]);
 
   // Bookmark toggle function
   const handleBookmark = (bookmarked) => {

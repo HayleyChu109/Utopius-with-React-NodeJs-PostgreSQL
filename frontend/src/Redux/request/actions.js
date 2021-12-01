@@ -28,6 +28,7 @@ export const searchReq = (search) => {
 
 // For clearing up the message
 export const clearMessage = () => {
+  console.log("Clearing messages..");
   return {
     type: CLEAR_MESSAGE,
   };
@@ -440,11 +441,11 @@ export const getReviewInfoThunk = (requestId, userId) => async (dispatch) => {
       { headers: { Authorization: `Bearer ${token}` } }
     );
     const { data } = response;
-    if (data.reviewList) {
-      console.log("reviewList: ", data.reviewList);
+    if (data.message === "Not reviewed") {
+      console.log("review msg: ", data.message);
       dispatch({
         type: GET_REVIEW_LIST,
-        payload: data.reviewList,
+        payload: true,
       });
     }
   } catch (err) {

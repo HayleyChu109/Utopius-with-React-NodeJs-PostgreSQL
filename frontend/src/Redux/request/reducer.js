@@ -19,20 +19,25 @@ import {
 
 const initialState = {
   search: "",
+  requestId: null,
+  bookmarkList: [],
+
   requestList: [],
   requestDetail: {},
-  requestId: null,
   requestStatusMessage: "",
-  bookmarkList: [],
+
   publicCommentList: [],
   privateCommentList: [],
+
   responseList: [],
-  matchSuccessMsg: "",
-  deleteSuccessMsg: "",
   editSuccessMsg: "",
+  deleteSuccessMsg: "",
+  matchSuccessMsg: "",
+
   teamList: [],
   teamResId: [],
-  reviewList: [],
+
+  notReviewed: false,
   reviewSuccessMsg: "",
 };
 
@@ -44,9 +49,9 @@ export function requestReducer(state = initialState, action) {
       return {
         ...state,
         requestStatusMessage: "",
-        matchSuccessMsg: "",
-        deleteSuccessMsg: "",
         editSuccessMsg: "",
+        deleteSuccessMsg: "",
+        matchSuccessMsg: "",
         reviewSuccessMsg: "",
       };
     case GET_REQUEST_LIST:
@@ -86,7 +91,7 @@ export function requestReducer(state = initialState, action) {
     case GET_REVIEW_LIST:
       return {
         ...state,
-        reviewList: action.payload,
+        notReviewed: action.payload,
       };
     case REVIEW_SUCCESS:
       return {

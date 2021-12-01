@@ -385,7 +385,11 @@ class RequestRouter {
         req.params.requestId,
         req.params.reviewerId
       );
-      res.json({ reviewList });
+      if (reviewList.length < 1) {
+        res.json({ message: "Not reviewed" });
+      } else {
+        res.json({ message: "Reviewed" });
+      }
     } catch (err) {
       next(err);
       res.status(500).json(err);

@@ -153,7 +153,7 @@ function ReviewCard({
                       reviewObj[revieweeId] &&
                       reviewObj[revieweeId].ratingComment
                         ? reviewObj[revieweeId].ratingComment
-                        : null
+                        : ""
                     }
                     onChange={(e) => {
                       handleChange(e.currentTarget);
