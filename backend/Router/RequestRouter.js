@@ -355,6 +355,7 @@ class RequestRouter {
   }
 
   async getTeamList(req, res, next) {
+    console.log("RequestId: ", req.params.requestId);
     try {
       let teamList = await this.requestService.getTeamList(
         req.params.requestId
@@ -369,6 +370,7 @@ class RequestRouter {
         teamList[i].responserProfilePath = memberQuery.profilePath;
         teamList[i].responserId = memberQuery.id;
       }
+      console.log("TeamList: ", teamList);
       res.json({ teamList, teamResId });
     } catch (err) {
       next(err);

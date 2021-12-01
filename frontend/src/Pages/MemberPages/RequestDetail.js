@@ -5,7 +5,7 @@ import jwt_decode from "jwt-decode";
 import moment from "moment";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
-import UserInfoCombo from "../../Components/PublicComponents/UserInfoCombo";
+import GradeBall from "../../Components/PublicComponents/GradeBall";
 import SuccessModal from "../../Components/PublicComponents/SuccessModal";
 import RequestDetailNav from "../../Components/PrivateComponents/RequestDetailNav";
 import RequestDetailComment from "../../Components/PrivateComponents/RequestDetailComment";
@@ -15,6 +15,7 @@ import RequestMeetup from "../../Components/PrivateComponents/RequestMeetup";
 import NewReview from "../../Components/PrivateComponents/NewReview";
 import {
   searchReq,
+  clearMessage,
   getRequestDetailThunk,
   getBookmarkListThunk,
   bookmarkToggleThunk,
@@ -97,7 +98,15 @@ const RequestDetail = () => {
     dispatch(getResponseListThunk(requestId));
     dispatch(getTeamListThunk(requestId));
     dispatch(getReviewInfoThunk(requestId, userId));
-  }, [dispatch, userId, requestId, editSuccessMsg]);
+  }, [
+    dispatch,
+    userId,
+    requestId,
+    editSuccessMsg,
+    deleteSuccessMsg,
+    reviewSuccessMsg,
+    tab,
+  ]);
 
   // Prevent user entering wrong path
   useEffect(() => {
@@ -156,6 +165,7 @@ const RequestDetail = () => {
             teamList.map((team) => team.responserId).indexOf(userId) === -1
           ) {
             console.log("3");
+            console.log(teamList);
             history.push(`/member/request/detail/${requestId}/comment`);
           }
           break;
@@ -222,6 +232,7 @@ const RequestDetail = () => {
   ]);
 
   // Modal toggle
+  // Prompt user to review when status = complete
   useEffect(() => {
     if (matchSuccessMsg !== "") {
       setModalBoolean(true);
@@ -238,10 +249,10 @@ const RequestDetail = () => {
         requestDetail.status === "completed",
         reviewList.length < 1
       );
-      // if (requestDetail.status === "completed" && reviewList.length < 1) {
-      //   console.log("reviewList.length < 1");
-      //   setReviewModalBoolean(true);
-      // }
+      if (requestDetail.status === "completed" && reviewList.length < 1) {
+        console.log("reviewList.length < 1");
+        setReviewModalBoolean(true);
+      }
     }
     setTimeout(checkReview, 2000);
   }, [
@@ -253,7 +264,7 @@ const RequestDetail = () => {
     requestDetail,
   ]);
 
-  // Prompt user to review when status = complete
+  // Close modal when receive success message
   useEffect(() => {
     if (reviewSuccessMsg !== "") {
       setReviewModalBoolean(false);
@@ -264,6 +275,11 @@ const RequestDetail = () => {
   // Bookmark toggle function
   const handleBookmark = (bookmarked) => {
     dispatch(bookmarkToggleThunk(requestId, userId, bookmarked));
+  };
+
+  // Visit member profile when clicked
+  const handleFellow = (fellowId) => {
+    history.push(`/member/fellow/${fellowId}`);
   };
 
   // Search the tag when clicked
@@ -290,6 +306,7 @@ const RequestDetail = () => {
     } else if (setEditSuccessBoolean) {
       setEditSuccessBoolean(false);
     }
+    dispatch(clearMessage());
   };
 
   // Matching response
@@ -377,7 +394,21 @@ const RequestDetail = () => {
               </div>
               <div className="request-main mx-auto col-md-7 col-sm-12 col-xs-12 px-3 pt-3 position-relative">
                 <div className="py-2">
-                  <UserInfoCombo userId={requestDetail.requesterId} />
+                  <div
+                    className="username-id"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFellow(requestDetail.requesterId);
+                    }}
+                  >
+                    <GradeBall grade={requestDetail.requesterGrade} />
+                    <span className="requester-username me-3">
+                      {requestDetail.requesterUsername}
+                    </span>
+                    <span className="requester-id">
+                      UID#{requestDetail.requesterId}
+                    </span>
+                  </div>
                 </div>
                 <div className="request-detail-createdAt py-2">
                   Created at : {moment(requestDetail.createdAt).format("LLL")}

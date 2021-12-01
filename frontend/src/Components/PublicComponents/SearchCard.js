@@ -7,7 +7,6 @@ import moment from "moment";
 
 import { bookmarkToggleThunk } from "../../Redux/request/actions";
 import GradeBall from "./GradeBall";
-// import UserInfoCombo from "./UserInfoCombo";
 
 import { Card, CardBody, CardFooter } from "reactstrap";
 import { AiFillHeart } from "react-icons/ai";

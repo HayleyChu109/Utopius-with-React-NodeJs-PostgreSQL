@@ -9,7 +9,6 @@ import { BsStars } from "react-icons/bs";
 
 const SearchResult = () => {
   const { search, requestList } = useSelector((state) => state.requestStore);
-  console.log(requestList);
 
   const dispatch = useDispatch();
   const history = useHistory();

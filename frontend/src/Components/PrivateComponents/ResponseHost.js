@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 import RequestMessage from "./RequestMessage";
@@ -14,11 +15,10 @@ const ResponseHost = ({
   matchList,
   errorMsg,
   status,
-  confirmChange,
 }) => {
-  const { requestDetail, responseList, teamList } = useSelector(
-    (state) => state.requestStore
-  );
+  const { requestDetail, responseList, teamList, requestStatusMessage } =
+    useSelector((state) => state.requestStore);
+
   // For changing request status
   const [confirmationBoolean, setConfirmationBoolean] = useState(false);
   const [confirmationType, setConfirmationType] = useState("");
@@ -26,9 +26,17 @@ const ResponseHost = ({
   const userId = jwt_decode(localStorage.getItem("token")).id;
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
+  useEffect(() => {
+    if (requestStatusMessage !== "") {
+      setConfirmationBoolean(false);
+      history.push(`/member/request/detail/${requestId}/comment`);
+    }
+  }, [history, requestId, requestStatusMessage]);
+
+  // Dispatch put request action to change req status
   const handleStatusChange = (newStatus) => {
-    console.log("UserId", userId);
     dispatch(
       changeRequestStatusThunk(
         requestId,
@@ -56,7 +64,7 @@ const ResponseHost = ({
       <div className="response-matching-bg">
         {teamList && teamList.length > 0 ? (
           <div className="response-form response-matching-msg">
-            <div className="response-heading pt-3 pb-1">MEET UP</div>
+            <div className="response-heading pt-3 pb-1">Meet Up</div>
             <div>
               {errorMsg !== "" ? (
                 <div
@@ -97,7 +105,7 @@ const ResponseHost = ({
           </div>
         ) : (
           <div className="response-form response-matching-msg">
-            <div className="response-heading pt-3 pb-1">RESPONSE</div>
+            <div className="response-heading pt-3 pb-1">Response</div>
             <div>
               {errorMsg !== "" ? (
                 <>

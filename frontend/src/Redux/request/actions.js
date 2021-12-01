@@ -2,6 +2,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 
 export const SEARCH_REQ_ACTION = "SEARCH_REQ_ACTION";
+export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 export const GET_REQUEST_LIST = "GET_REQUEST_LIST";
 export const GET_REQUEST_DETAIL = "GET_REQUEST_DETAIL";
 export const POST_NEW_REQUEST = "POST_NEW_REQUEST";
@@ -24,6 +25,13 @@ export const searchReq = (search) => {
     payload: search,
   };
 };
+
+// For clearing up the message
+export const clearMessage = () => {
+  return {
+    type: CLEAR_MESSAGE,
+  }
+}
 
 // For rendering all open request (Public router)
 export const getRequestListThunk = () => async (dispatch) => {

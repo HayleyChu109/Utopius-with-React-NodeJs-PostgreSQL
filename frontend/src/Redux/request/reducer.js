@@ -1,5 +1,6 @@
 import {
   SEARCH_REQ_ACTION,
+  CLEAR_MESSAGE,
   GET_REQUEST_LIST,
   GET_REQUEST_DETAIL,
   CHANGE_REQ_STATUS,
@@ -39,12 +40,21 @@ export function requestReducer(state = initialState, action) {
   switch (action.type) {
     case SEARCH_REQ_ACTION:
       return { ...state, search: action.payload };
+    case CLEAR_MESSAGE:
+      return {
+        ...state,
+        requestStatusMessage: "",
+        matchSuccessMsg: "",
+        deleteSuccessMsg: "",
+        editSuccessMsg: "",
+        reviewSuccessMsg: "",
+      };
     case GET_REQUEST_LIST:
       return { ...state, requestList: action.payload };
     case GET_REQUEST_DETAIL:
       return { ...state, requestDetail: action.payload };
     case CHANGE_REQ_STATUS:
-      return { ...state, requestStatus: action.payload };
+      return { ...state, requestStatusMessage: action.payload };
     case POST_NEW_REQUEST:
       return { ...state, requestId: action.payload };
     case BOOKMARK_TOGGLE:

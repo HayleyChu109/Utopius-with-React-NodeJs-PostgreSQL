@@ -203,6 +203,29 @@
   border: 2px solid $dark-orange;
 }
 
+.btn-white-lightorange-sm,
+.btn-white-lightorange-sm:focus {
+  background: $white;
+  color: $light-orange;
+  font-family: $nunito;
+  font-size: 15px;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  border: 2px solid $light-orange;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.btn-white-lightorange-sm:hover,
+.btn-white-lightorange-sm:focus:hover {
+  background: $white;
+  color: $dark-blue;
+  border: 2px solid $light-orange;
+}
+
 .btn-white-blue-sm,
 .btn-white-blue-sm:focus {
   background: $white;

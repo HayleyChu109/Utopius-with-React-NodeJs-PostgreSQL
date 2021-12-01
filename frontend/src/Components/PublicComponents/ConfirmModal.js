@@ -5,15 +5,12 @@ const ConfirmModal = ({ isOpen, type, close, handleStatusChange }) => {
     <div>
       <Modal isOpen={isOpen} contentClassName="custom-modal-style">
         <ModalBody>
-          <div className="mt-3 mx-3 response-heading fw-700">
-            <span className="fs-4 me-1">HEADING</span>
-          </div>
           <div className="success-msg py-5 text-center">
-            {type === "cancelled"
-              ? "Confirm cancel this request ?"
-              : type === "completed"
-              ? "Confirm complete this request ?"
-              : null}
+            {type === "cancelled" ? (
+              <span>Confirm cancel this request ?</span>
+            ) : type === "completed" ? (
+              <span>Confirm complete this request ?</span>
+            ) : null}
           </div>
         </ModalBody>
         <ModalFooter className="modal-footer">
@@ -21,28 +18,28 @@ const ConfirmModal = ({ isOpen, type, close, handleStatusChange }) => {
             {type === "cancelled" ? (
               <div>
                 <Button
-                  className="btn-white-orange-sm"
+                  className="btn-white-lightorange-sm me-3"
                   onClick={() => {
                     handleStatusChange("cancelled");
                   }}
                 >
                   Yes
                 </Button>
-                <Button className="btn-white-orange-sm" onClick={close}>
+                <Button className="btn-white-lightorange-sm" onClick={close}>
                   No
                 </Button>
               </div>
             ) : type === "completed" ? (
               <div>
                 <Button
-                  className="btn-white-orange-sm"
+                  className="btn-white-lightorange-sm me-3"
                   onClick={() => {
                     handleStatusChange("completed");
                   }}
                 >
                   Yes
                 </Button>
-                <Button className="btn-white-orange-sm" onClick={close}>
+                <Button className="btn-white-lightorange-sm" onClick={close}>
                   No
                 </Button>
               </div>
