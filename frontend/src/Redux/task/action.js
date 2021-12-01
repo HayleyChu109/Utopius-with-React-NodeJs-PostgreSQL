@@ -21,11 +21,11 @@ export const GetTaskList = () => async (dispatch) => {
       dispatch({ type: LOAD_DATA_FAILED });
     }
   };
-export const PutTaskList = (status) => async (dispatch) => {
+export const PutTaskList = (id,status) => async (dispatch) => {
     let userToken = localStorage.getItem("token");
     try {
       let response = await axios.put(
-        `${process.env.REACT_APP_API_SERVER}/task`,{status:status},
+        `${process.env.REACT_APP_API_SERVER}/task/${id}`,{status:status},
   
         {
           headers: { Authorization: `Bearer ${userToken}` },

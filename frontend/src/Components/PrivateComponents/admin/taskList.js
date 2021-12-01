@@ -1,48 +1,121 @@
-import { useEffect,useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
-import { GetTaskList,PutTaskList,FilterTaskList } from "../../../Redux/task/action";
-import { Nav,Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  GetTaskList,
+  PutTaskList,
+  FilterTaskList,
+} from "../../../Redux/task/action";
+import { Link } from "react-router-dom";
+import { Nav, Button } from "react-bootstrap";
+import "../../../Pages/SCSS/taskList.scss";
+import moment from "moment";
 
-export function TaskList(){
-    const [selected,setSelected]=useState('unread')
-    const {task}=useSelector((state)=>state.taskStore)
+export function TaskList() {
+  const [selected, setSelected] = useState("unread");
+  const { task } = useSelector((state) => state.taskStore);
 
-    const handleFilter=(key)=>{
-        setSelected(key)
-        disptach(FilterTaskList(key))
-        console.log(key)
+  const handleFilter = (key) => {
+    setSelected(key);
+    disptach(FilterTaskList(key));
+    console.log(key);
+  };
+  const handleStatus = (id, event) => {
+    console.log(event.target.name);
+    console.log(id);
+    disptach(PutTaskList(id, event.target.name));
+  };
+  const OptionDisplay=(item)=>{
+    if(item.status === "unread"){
+      return(<> <Button
+        className="mx-5 my-1 taskButton" variant='light'
+        name="read"
+        onClick={(e) => handleStatus(item.id, e)}
+      >
+        READ
+      </Button> <Button
+    className="mx-5 my-1 taskButton" variant='light'
+    name="completed"
+    onClick={(e) => handleStatus(item.id, e)}
+  >
+    COMPLETED
+  </Button></>)
+    }else{
+      return(<>
+      <Button
+      className="mx-5 my-1 taskButton" variant='light'
+      name="unread"
+      onClick={(e) => handleStatus(item.id, e)}
+    >
+      Mark as Unread
+    </Button><Button
+    className="mx-5 my-1 taskButton" variant='light'
+    name="completed"
+    onClick={(e) => handleStatus(item.id, e)}
+  >
+    COMPLETED
+  </Button>
+      </>)
     }
-    const handleStatus=(event)=>{
-     
-          disptach(PutTaskList(event.target.name))
-      
-    }
-    const disptach=useDispatch()
-    useEffect(()=>{
-        disptach(GetTaskList())
-    },[disptach])
+   
+   
+    
+  
+  
+  }
+  const disptach = useDispatch();
+  useEffect(() => {
+    disptach(GetTaskList());
+  }, [disptach]);
 
-    return(<>
+  return (
+    <>
+      <Nav
+        activeKey={selected}
+        onSelect={(selectedKey) => handleFilter(selectedKey)}
+        className="d-flex justify-content-evenly taskNav"
+      >
+        <Nav.Item>
+          <Nav.Link eventKey="unread">UNREAD</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="read">READ</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="completed">COMPLETED</Nav.Link>
+        </Nav.Item>
+      </Nav>
 
-    <Nav
-  activeKey={selected}
-  onSelect={(selectedKey) => handleFilter(selectedKey)}
-  className='d-flex justify-content-evenly'
->
-  <Nav.Item>
-    <Nav.Link eventKey='unread'>UNREAD</Nav.Link>
-  </Nav.Item>
-  <Nav.Item>
-    <Nav.Link eventKey="read">READ</Nav.Link>
-  </Nav.Item>
-  <Nav.Item>
-    <Nav.Link eventKey="completed">COMPLETED</Nav.Link>
-  </Nav.Item>
- 
-</Nav>
-<div className='d-flex justify-content-center flex-column'>
+      {task && task.length > 0 ? (
+        task.map((item) => (
+          <div key={item.id} className="taskItem my-2">
+            <div className='mx-5'>
+              {item.reporterId?<Link to={`/admin/user/${item.reporterId}`}>
+                <p>Username:{item.reporter}</p>
+              
+              </Link>:
+              <p>Username:{item.reporter}</p>
+            }
+              <p>Email:{item.email}</p>
+              {item.reportee?<Link to={`/admin/user/${item.reporteeId}`}>
+                <p>Reportee:{item.reportee}</p>
+              
+              </Link>:null}
+              <p>Title:{item.title}</p>
+              <p>Details:{item.message}</p>
+              <p>Time:{moment(item.created_at).format("Do MMMM,YYYY hh:mm a")}</p>
+            </div>
+            <div className="d-flex justify-content-center taskOption">
+              {item.status==="completed"?<p className='text-white'>Completed</p>:
+              OptionDisplay(item)}
+            </div>
+          </div>
+        ))
+      ) : (
+        <div  className="mx-auto my-2">
 
-{task&&task.length>0?task.map(item=><div key={item.id} className='d-flex flex-column'><p>Username:{item.reporter}</p><p>Email:{item.email}</p><p>Title:{item.title}</p><p>Details:{item.message}</p><p>Time:{item.created_at}</p><div className='d-flex flex-column'><Button name='read' onClick={(e)=>handleStatus(e)}>READ</Button><Button name='completed' onClick={(e)=>handleStatus(e)}>COMPLETED</Button></div></div>):<p>There are no task yet</p>}
-</div>
-    </>)
+        <p>There are no task yet</p>
+        </div>
+      )}
+    </>
+  );
 }
