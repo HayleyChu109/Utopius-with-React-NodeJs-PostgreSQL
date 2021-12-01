@@ -49,7 +49,6 @@ const LandingPage = () => {
         <Discover />
       </Collapse>
       <SearchResult />
-      <div className="text-center">WELCOME TO UTOPIUS</div>
       <Footer />
     </>
   );

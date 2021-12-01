@@ -1,24 +1,24 @@
 import {
-  FOLLOW_OR_NOT_SUCCESS_ACTION,
-  MEMBER_FOLLOW_SUCCESS_ACTION,
-  MEMBER_UNFOLLOW_SUCCESS_ACTION,
+  MEMBER_FOLLOWINGLIST_SUCCESS_ACTION,
+  MEMBER_FOLLOWERLIST_SUCCESS_ACTION,
+  MEMBER_FOLLOWTOGGLE_SUCCESS_ACTION,
 } from "./memberFollowActions";
 
 const initialState = {
-  follow: [],
+  followinglist: [],
+  followerlist: [],
 };
 
 export function memberFollowUnfollowReducer(state = initialState, action) {
   switch (action.type) {
-    case FOLLOW_OR_NOT_SUCCESS_ACTION:
-      console.log(action.payload);
-      return { ...state, follow: action.payload };
+    case MEMBER_FOLLOWINGLIST_SUCCESS_ACTION:
+      return { ...state, followinglist: action.payload };
 
-    case MEMBER_FOLLOW_SUCCESS_ACTION:
-      return { ...state, follow: action.payload };
+    case MEMBER_FOLLOWERLIST_SUCCESS_ACTION:
+      return { ...state, followerlist: action.payload };
 
-    case MEMBER_UNFOLLOW_SUCCESS_ACTION:
-      return { ...state, follow: action.payload };
+    case MEMBER_FOLLOWTOGGLE_SUCCESS_ACTION:
+      return { ...state, followerlist: action.payload };
 
     default:
       return state;
