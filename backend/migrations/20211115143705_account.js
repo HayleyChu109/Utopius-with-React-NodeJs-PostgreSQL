@@ -6,7 +6,7 @@ exports.up = function (knex) {
     table.string("email").unique();
     table.string("facebookId");
     table.string("gmailId");
-    table.string("password").notNullable();
+    table.string("password");
     table.string("firstName");
     table.string("lastName");
     table.integer("phone");

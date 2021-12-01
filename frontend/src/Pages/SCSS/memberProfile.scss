@@ -65,6 +65,10 @@
   @include ReqResButton($theme: $light-heart);
 }
 
+.heart:disabled {
+  @include ReqResButton($theme: $dark-grey);
+}
+
 .heart-icon {
   font-size: 25px;
 }

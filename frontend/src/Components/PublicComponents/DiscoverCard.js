@@ -2,7 +2,6 @@ import { useDispatch } from "react-redux";
 import { searchReq } from "../../Redux/request/actions";
 
 import { Card } from "reactstrap";
-import help from "../../Images/help.png";
 
 const DiscoverCard = (props) => {
   const dispatch = useDispatch();

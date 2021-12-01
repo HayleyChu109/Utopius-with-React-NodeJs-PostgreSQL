@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const REPORT_MEMBER_SUCCESS_ACTION = "REPORT_MEMBER_SUCCESS_ACTION";
+export const CLEAR_REPORTMSG_ACTION = "CLEAR_REPORTMSG_ACTION";
 
 export const submitReportThunk =
   (reporterId, reporteeId, title, message) => async (dispatch) => {
@@ -36,3 +37,10 @@ export const submitReportThunk =
       throw new Error(err);
     }
   };
+
+export const clearReportMsg = () => {
+  return {
+    type: CLEAR_REPORTMSG_ACTION,
+    message: [],
+  };
+};

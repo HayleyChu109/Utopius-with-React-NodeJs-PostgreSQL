@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import moment from "moment";
 
 import MemberReqCollapse from "./MemberReqCollapse";
@@ -8,11 +9,23 @@ import FellowResCollapse from "./FellowResCollapse";
 import FellowProfileReportBar from "./FellowProfileReportBar";
 import GradeBall from "../PublicComponents/GradeBall";
 
+import {
+  followThunk,
+  unFollowThunk,
+} from "../../Redux/memberProfile/memberFollowActions";
+
 import "../../Pages/SCSS/memberProfile.scss";
 import "../../Pages/SCSS/searchCard.scss";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 
 function FellowProfileInfo(props) {
+  let followerId = jwt_decode(localStorage.getItem("token")).id;
+  let followingId = Number(localStorage.getItem("reporteeId"));
+
+  const followOrNot = useSelector(
+    (state) => state.memberFollowUnfollowStore.follow
+  );
+
   const memberProfileFromStore = useSelector(
     (state) => state.memberProfileStore.memberInfo
   );
@@ -25,12 +38,22 @@ function FellowProfileInfo(props) {
     (state) => state.memberResDetailsStore.resDetails
   );
 
-  let noOfReq = memberReqDetailsFromStore.length;
-  let noOfRes = memberResDetailsFromStore.length;
-
   const [showReq, setShowReq] = useState(true);
+  const [following, setFollowing] = useState(false);
 
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  const handleFollow = () => (following ? unfollow() : follow());
+
+  const follow = () => {
+    console.log(followerId, followingId);
+    dispatch(followThunk({ followerId, followingId }));
+  };
+
+  const unfollow = () => {
+    dispatch(unFollowThunk({ followerId, followingId }));
+  };
 
   return (
     <>
@@ -43,6 +66,12 @@ function FellowProfileInfo(props) {
                 {memberProfileFromStore.username} UID#
                 {memberProfileFromStore.id}
               </span>
+              <button
+                className="float-end me-5 btn-white-blue"
+                onClick={handleFollow}
+              >
+                {following ? "Following" : "Follow"}
+              </button>
               <br />
               <span className="accountCreation">
                 Account created since{" "}
@@ -59,7 +88,7 @@ function FellowProfileInfo(props) {
                   setShowReq(true);
                 }}
               >
-                REQ#{noOfReq}
+                REQ#{memberReqDetailsFromStore.length}
               </button>
               <button
                 className="RES"
@@ -67,7 +96,7 @@ function FellowProfileInfo(props) {
                   setShowReq(false);
                 }}
               >
-                RES#{noOfRes}
+                RES#{memberResDetailsFromStore.length}
               </button>
             </div>
           </div>

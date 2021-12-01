@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions";
 import { memberReqDetailsThunk } from "../../Redux/memberProfile/memberReqDetailsActions";
 import { memberResDetailsThunk } from "../../Redux/memberProfile/memberResDetailsActions";
+import { followingOrNotThunk } from "../../Redux/memberProfile/memberFollowActions";
 import { getReviewThunk } from "../../Redux/review/getReviewActions";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
@@ -19,8 +21,9 @@ import "../SCSS/searchCard.scss";
 import { BsStars } from "react-icons/bs";
 
 function FellowProfilePage() {
-  const { fellowId } = useParams();
+  let memberId = jwt_decode(localStorage.getItem("token")).id;
 
+  const { fellowId } = useParams();
   localStorage.setItem("reporteeId", fellowId);
 
   const memberProfileFromStore = useSelector(
@@ -33,6 +36,7 @@ function FellowProfilePage() {
     dispatch(memberInfoThunk(fellowId));
     dispatch(memberReqDetailsThunk(fellowId));
     dispatch(memberResDetailsThunk(fellowId));
+    dispatch(followingOrNotThunk(memberId, Number(fellowId)));
     dispatch(getReviewThunk(fellowId));
 
     return () => {

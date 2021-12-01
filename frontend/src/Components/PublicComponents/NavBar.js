@@ -50,7 +50,7 @@ const NavBar = () => {
             )}
             |<a href="/member/profile">PROFILE</a>|
             {/* <a href="/member/request/new">REQ</a>|<a href="/member/res">RES</a>| */}
-            <a href="/member/bookmark">BOOKMARK</a>|
+            {/* <a href="/member/bookmark">BOOKMARK</a>| */}
             <a href="/member/token">TOKEN</a>|<span>SEARCH</span>
             <Search />
           </div>

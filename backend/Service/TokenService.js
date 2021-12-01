@@ -16,18 +16,30 @@ class TokenService {
     }
   }
 
+  async getCurrentToken(memberId) {
+    try {
+      let currentToken = await this.knex("account")
+        .select("username", "token")
+        .where("id", memberId);
+      if (currentToken.length > 0) {
+        return currentToken;
+      } else {
+        return [];
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   async getTokenPurchaseRecord(memberId) {
     try {
       let tokenPurchaseRecord = await this.knex("tokenPurchaseRecord")
         .join("tokenPlan", "tokenPlan.id", "tokenPurchaseRecord.tokenPlanId")
-        .join("account", "account.id", "tokenPurchaseRecord.accountId")
         .select(
           "tokenPurchaseRecord.id",
           "tokenPurchaseRecord.accountId",
           "tokenPurchaseRecord.tokenPlanId",
           "tokenPurchaseRecord.created_at",
-          "account.username",
-          "account.token",
           "tokenPlan.planName",
           "tokenPlan.noOfToken",
           "tokenPlan.hkd",

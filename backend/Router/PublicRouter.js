@@ -46,9 +46,8 @@ class PublicRouter {
     console.log("LEAVE A MESSAGE");
     return this.publicService
       .postMsg(req.body.email, req.body.name, req.body.title, req.body.message)
-      .then((msg) => {
-        console.log("Msg added", msg);
-        res.json(msg);
+      .then((guestMsgId) => {
+        res.json(guestMsgId);
       })
       .catch((err) => {
         res.status(500).json(err);

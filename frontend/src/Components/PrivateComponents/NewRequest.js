@@ -10,7 +10,7 @@ import S3 from "react-aws-s3";
 import { s3Config } from "../../s3Bucket/s3Config";
 
 import { Button, Modal, ModalBody, ModalFooter, Input } from "reactstrap";
-import { FaCoins, FaDraft2Digital } from "react-icons/fa";
+import { FaCoins } from "react-icons/fa";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { HiLocationMarker } from "react-icons/hi";
 import "../../Pages/SCSS/newRequest.scss";
