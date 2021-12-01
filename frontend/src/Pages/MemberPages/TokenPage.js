@@ -9,8 +9,11 @@ import PurchaseHistory from "../../Components/PrivateComponents/PurchaseHistory"
 import TokenTransAct from "../../Components/PrivateComponents/TokenTransAct";
 import Footer from "../../Components/PublicComponents/Footer";
 import { tokenPlanThunk } from "../../Redux/token/tokenPlanActions";
-import { tokenPurchaseRecordThunk } from "../../Redux/token/tokenRecordActions";
-import { tokenTransActThunk } from "../../Redux/token/tokenRecordActions";
+import {
+  getCurrentTokenThunk,
+  tokenPurchaseRecordThunk,
+  tokenTransActThunk,
+} from "../../Redux/token/tokenRecordActions";
 
 import { FaCoins } from "react-icons/fa";
 import "../../Pages/SCSS/token.scss";
@@ -21,16 +24,17 @@ function TokenPage() {
 
   let memberId = jwt_decode(localStorage.getItem("token")).id;
 
-  const tokenPlans = useSelector((state) => state.tokenPlanStore.tokenPlan);
-  const tokenPurchase = useSelector(
-    (state) => state.tokenRecordStore.tokenPurchaseRecord
+  const currentToken = useSelector(
+    (state) => state.tokenRecordStore.currentToken
   );
+  const tokenPlans = useSelector((state) => state.tokenPlanStore.tokenPlan);
 
   const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(tokenPlanThunk());
+    dispatch(getCurrentTokenThunk(memberId));
     dispatch(tokenPurchaseRecordThunk(memberId));
     dispatch(tokenTransActThunk(memberId));
   }, [dispatch, memberId]);
@@ -39,22 +43,17 @@ function TokenPage() {
     <>
       <NavBar />
       <div className="container py-4">
-        {tokenPurchase && tokenPurchase.length > 0 ? (
+        {currentToken && currentToken.length > 0 ? (
           <>
             <div className="my-4 px-4 token-title">
               <FaCoins className="mb-1 me-2" />
-              TOKEN: <span>{tokenPurchase[0].username}</span>
+              TOKEN: <span>{currentToken[0].username}</span>
             </div>
             <p className="text-center mt-3 py-3 mx-auto current-token">
-              Current Token: {tokenPurchase[0].token}
+              Current Token: {currentToken[0].token}
             </p>
           </>
-        ) : (
-          <div className="my-4 px-4 token-title">
-            <FaCoins className="mb-1 me-2" />
-            TOKEN:
-          </div>
-        )}
+        ) : null}
         <div className="text-center mb-4">
           Please choose the plan that you want to purchase
         </div>

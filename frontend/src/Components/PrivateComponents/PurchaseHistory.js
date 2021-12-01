@@ -8,7 +8,6 @@ function PurchaseHistory() {
     (state) => state.tokenRecordStore.tokenPurchaseRecord
   );
 
-  console.log(tokenPurchase);
   return (
     <>
       <div className="container history-table">
@@ -22,21 +21,21 @@ function PurchaseHistory() {
               <th>Token Purchased</th>
             </tr>
           </thead>
-          {tokenPurchase && tokenPurchase.length > 0
-            ? tokenPurchase.map((record) => {
-                return (
-                  <tbody>
-                    <tr>
+          <tbody>
+            {tokenPurchase && tokenPurchase.length > 0
+              ? tokenPurchase.map((record) => {
+                  return (
+                    <tr key={record.id}>
                       <th scope="row">{record.id}</th>
                       <td>{moment(record.created_at).format("LLL")}</td>
                       <td>{record.planName}</td>
                       <td>{record.hkd}</td>
                       <td>{record.noOfToken}</td>
                     </tr>
-                  </tbody>
-                );
-              })
-            : null}
+                  );
+                })
+              : null}
+          </tbody>
         </Table>
       </div>
     </>

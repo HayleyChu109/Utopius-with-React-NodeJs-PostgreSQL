@@ -10,7 +10,7 @@ import "../../Pages/SCSS/memberProfile.scss";
 function MemberResCollapse(props) {
   const [filterRes, setFilterRes] = useState(["completed"]);
   const [filterMatched, setFilterMatched] = useState(true);
-  const [modalBoolean, setModalBoolean] = useState("");
+  const [modalBoolean, setModalBoolean] = useState(false);
 
   const history = useHistory();
 

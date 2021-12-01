@@ -16,7 +16,6 @@ export const memberInfoFormSubmitThunk = (
   return (dispatch) => {
     let token = localStorage.getItem("token");
     let decodedId = jwt_decode(token).id;
-    console.log(decodedId);
 
     axios
       .put(

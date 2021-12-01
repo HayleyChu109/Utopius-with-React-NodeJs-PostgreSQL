@@ -19,16 +19,22 @@ class PublicService {
     }
   }
 
-  postMsg(email, name, title, message) {
-    return this.knex
-      .insert({
-        email: email,
-        name: name,
-        title: title,
-        message: message,
-      })
-      .into("guestMsg")
-      .returning("*");
+  async postMsg(email, name, title, message) {
+    try {
+      let guestMsgId = await this.knex("guestMsg")
+        .insert({ email: email, name: name, title: title, message: message })
+        .returning("id");
+      if (guestMsgId) {
+        await this.knex("task").insert({
+          guestMsgId: Number(guestMsgId),
+          status: "unread",
+        });
+        console.log(guestMsgId);
+        return guestMsgId;
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }
 

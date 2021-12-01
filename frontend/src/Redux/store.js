@@ -16,15 +16,15 @@ import { AnnounceReducer } from "./announceData/reducer";
 import { TagReducer } from "./tag/reducer";
 import { AdminRequestReducer } from "./adminRequest/reducer";
 import { TaskReducer } from "./task/reducer";
-import { getBookmarkReducer } from "./memberProfile/getBookmarkReducer";
+import { memberBookmarkReducer } from "./memberProfile/memberBookmarkReducer";
 import { reportMemberReducer } from "./reportMember/reportMemberReducer";
+import { memberFollowUnfollowReducer } from "./memberProfile/memberFollowReducer";
 import { tokenPlanReducer } from "./token/tokenPlanReducer";
 import { tokenRecordReducer } from "./token/tokenRecordReducer";
 import { buyTokenReducer } from "./token/buyTokenReducer";
 import { AdminTokenReducer } from "./adminToken/reducer";
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose;
-
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
   loginStore: loginReducer,
   signupStore: signupReducer,
@@ -34,8 +34,9 @@ const rootReducer = combineReducers({
   memberResDetailsStore: memberResDetailsReducer,
   requestStore: requestReducer,
   getReviewStore: getReviewReducer,
-  getBookmarkStore: getBookmarkReducer,
+  memberBookmarkStore: memberBookmarkReducer,
   reportMemberStore: reportMemberReducer,
+  memberFollowUnfollowStore: memberFollowUnfollowReducer,
   tokenPlanStore: tokenPlanReducer,
   tokenRecordStore: tokenRecordReducer,
   buyTokenStore: buyTokenReducer,
