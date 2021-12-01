@@ -14,7 +14,6 @@ export const sendMsgThunk = (email, name, title, message) => {
         message: message,
       })
       .then((res) => {
-        console.log(res);
         if (res.data == null) {
           dispatch({
             type: SEND_MSG_FAILURE_ACTION,

@@ -5,6 +5,10 @@ import { useParams } from "react-router-dom";
 import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions";
 import { memberReqDetailsThunk } from "../../Redux/memberProfile/memberReqDetailsActions";
 import { memberResDetailsThunk } from "../../Redux/memberProfile/memberResDetailsActions";
+import {
+  followerListThunk,
+  followingListThunk,
+} from "../../Redux/memberProfile/memberFollowActions";
 import { getReviewThunk } from "../../Redux/review/getReviewActions";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
@@ -20,7 +24,6 @@ import { BsStars } from "react-icons/bs";
 
 function FellowProfilePage() {
   const { fellowId } = useParams();
-
   localStorage.setItem("reporteeId", fellowId);
 
   const memberProfileFromStore = useSelector(
@@ -30,9 +33,12 @@ function FellowProfilePage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(fellowId);
     dispatch(memberInfoThunk(fellowId));
     dispatch(memberReqDetailsThunk(fellowId));
     dispatch(memberResDetailsThunk(fellowId));
+    dispatch(followerListThunk(fellowId));
+    dispatch(followingListThunk(fellowId));
     dispatch(getReviewThunk(fellowId));
 
     return () => {

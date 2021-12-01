@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import moment from "moment";
@@ -12,13 +12,12 @@ import GradeBall from "../PublicComponents/GradeBall";
 
 import { FaCoins } from "react-icons/fa";
 import { BsFillPersonPlusFill } from "react-icons/bs";
+import { IoPersonAdd } from "react-icons/io5";
 import { AiFillHeart } from "react-icons/ai";
 import "../../Pages/SCSS/memberProfile.scss";
 import "../../Pages/SCSS/searchCard.scss";
 
 function MemberProfileInfo(props) {
-  const [noOfBookmark, setNoOfBookmark] = useState("");
-
   const memberProfileFromStore = useSelector(
     (state) => state.memberProfileStore.memberInfo
   );
@@ -31,13 +30,15 @@ function MemberProfileInfo(props) {
     (state) => state.memberResDetailsStore.resDetails
   );
 
-  const bookmarkListFromStore = useSelector(
-    (state) => state.getBookmarkStore.bookmark
+  const followerlist = useSelector(
+    (state) => state.memberFollowUnfollowStore.followerlist
   );
 
-  let noOfReq = memberReqDetailsFromStore.length;
-  let noOfRes = memberResDetailsFromStore.length;
-  // let noOfBookmark = bookmarkListFromStore.length;
+  const followinglist = useSelector(
+    (state) => state.memberFollowUnfollowStore.followinglist
+  );
+
+  const bookmarkId = useSelector((state) => state.requestStore.bookmarkList);
 
   const [showEdit, setShowEdit] = useState(true);
   const [showBookmark, setShowBookmark] = useState(false);
@@ -48,10 +49,6 @@ function MemberProfileInfo(props) {
   const [disableRes, setDisableRes] = useState(false);
 
   const history = useHistory();
-
-  useEffect(() => {
-    setNoOfBookmark(bookmarkListFromStore.length);
-  }, [bookmarkListFromStore]);
 
   return (
     <>
@@ -99,21 +96,6 @@ function MemberProfileInfo(props) {
             <div>
               <FaCoins className="mx-2 coin" />
               <span className="coin me-2">{memberProfileFromStore.token}</span>
-              <BsFillPersonPlusFill className="mx-2 person person-icon" />
-              <span className="person me-2">100</span>
-              <button
-                disabled={disableBookmark}
-                className="heart"
-                onClick={() => {
-                  setShowEdit(showEdit);
-                  setShowBookmark(!showBookmark);
-                  setDisableReq(!disableRes);
-                  setDisableRes(!disableRes);
-                }}
-              >
-                <AiFillHeart className="mx-2 heart-icon" />
-                <span className="me-2">{noOfBookmark}</span>
-              </button>
               <button
                 disabled={disableReq}
                 className="me-2 REQ"
@@ -124,7 +106,7 @@ function MemberProfileInfo(props) {
                   setDisableRes(!disableRes);
                 }}
               >
-                REQ#{noOfReq}
+                REQ#{memberReqDetailsFromStore.length}
               </button>
               <button
                 disabled={disableRes}
@@ -136,8 +118,29 @@ function MemberProfileInfo(props) {
                   setDisableReq(!disableReq);
                 }}
               >
-                RES#{noOfRes}
+                RES#{memberResDetailsFromStore.length}
               </button>
+              <button
+                disabled={disableBookmark}
+                className="me-2 heart"
+                onClick={() => {
+                  setShowEdit(showEdit);
+                  setShowBookmark(!showBookmark);
+                  setDisableReq(!disableRes);
+                  setDisableRes(!disableRes);
+                }}
+              >
+                <AiFillHeart className="mx-2 heart-icon" />
+                {bookmarkId.length}
+              </button>
+              <IoPersonAdd className="mx-2 personTwo personTwo-icon" />
+              <span className="personTwo me-2">
+                Follower#{followerlist.length}
+              </span>
+              <BsFillPersonPlusFill className="mx-2 person person-icon" />
+              <span className="person me-2">
+                Following#{followinglist.length}
+              </span>
             </div>
           </div>
         </div>

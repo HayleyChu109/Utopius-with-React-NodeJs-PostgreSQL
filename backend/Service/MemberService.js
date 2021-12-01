@@ -217,9 +217,8 @@ class MemberService {
     }
   }
 
-  getBookmark(memberId) {
-    let bookmark = this.knex("bookmark")
-      .join("request", "request.id", "bookmark.requestId")
+  getBookmark(bookmarkId) {
+    let bookmark = this.knex("request")
       .join("account", "account.id", "request.requesterId")
       .join("tagReqJoin", "tagReqJoin.requestId", "request.id")
       .join("tag", "tag.id", "tagReqJoin.tagId")
@@ -237,7 +236,7 @@ class MemberService {
         "request.created_at",
         "tag.tagName"
       )
-      .where("bookmark.accountId", memberId);
+      .where("request.id", bookmarkId);
 
     return bookmark.then((data) => {
       if (data.length > 0) {
@@ -250,7 +249,6 @@ class MemberService {
           }
         }
         result.push(data.slice(last));
-        console.log(result);
 
         let bookmarkList = [];
         for (let i = 0; i < result.length; i++) {
@@ -300,17 +298,76 @@ class MemberService {
           message: message,
         })
         .returning("reportMember.id");
-      return reportId;
+      if (reportId) {
+        await this.knex("task").insert({
+          reportMemberId: Number(reportId),
+          status: "unread",
+        });
+        return reportId;
+      }
     } catch (err) {
       throw new Error(err);
     }
   }
 
-  async getAllUsername(memberId) {
+  async getFollowinglist(memberId) {
     try {
-      let allUsername = await this.knex("account")
-        .select("username")
-        .whereNot("id", memberId);
+      let followinglist = await this.knex("friendship")
+        .select("*")
+        .where("followerId", memberId);
+      if (followinglist) {
+        return followinglist;
+      } else {
+        return [];
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async getFollowerlist(memberId) {
+    try {
+      let followerlist = await this.knex("friendship")
+        .select("*")
+        .where("followingId", memberId);
+      if (followerlist) {
+        return followerlist;
+      } else {
+        return [];
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async postFollow(followerId, followingId) {
+    try {
+      let friendshipId = await this.knex("friendship")
+        .insert({
+          followerId: followerId,
+          followingId: followingId,
+        })
+        .returning("id");
+      return friendshipId;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async deleteFollow(followerId, followingId) {
+    try {
+      return await this.knex("friendship")
+        .where("followerId", followerId)
+        .andWhere("followingId", followingId)
+        .del();
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async getAllUsername() {
+    try {
+      let allUsername = await this.knex("account").select("id", "username");
       return allUsername;
     } catch (err) {
       throw new Error(err);

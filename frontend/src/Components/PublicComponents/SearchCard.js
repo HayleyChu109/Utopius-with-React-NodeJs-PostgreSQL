@@ -32,7 +32,10 @@ const SearchCard = ({ request, handleClick }) => {
   const handleMember = (memberId) => {
     if (memberId === userId) {
       history.push("/member/profile");
-    } else {
+    } else if(localStorage.getItem('isAdmin')){
+      history.push(`/admin/user/${memberId}`)
+    }
+    else {
       history.push(`/member/fellow/${memberId}`);
     }
   };

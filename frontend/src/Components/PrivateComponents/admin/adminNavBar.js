@@ -41,9 +41,9 @@ const AdminNavbar = () => {
             ) : (
               <a href="/login">LOGIN SIGNUP</a>
             )}
-            |<a href="/admin">DASHBOARD</a>|<a href="/admin/req">REQ</a>|
+            |<a href="/admin/dashboard">DASHBOARD</a>|<a href="/admin/request">REQ</a>|
             <a href="/admin/announcement">ANNOUNCEMENT</a>|
-            <a href="/admin/bookmark">TASK</a>|
+            <a href="/admin/task">TASK</a>|
             <a href="/admin/token">TOKEN</a>|<span>SEARCH</span>
             <Search />
           </div>

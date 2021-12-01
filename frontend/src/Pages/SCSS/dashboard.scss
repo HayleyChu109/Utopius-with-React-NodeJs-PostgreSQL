@@ -1,8 +1,34 @@
-.graph{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+.graph {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
-a{
-    text-decoration: none;
+a {
+  text-decoration: none;
+  color:black;
+}
+a:hover{
+  color:black;
+}
+
+.icon {
+  position: absolute;
+  border-radius: 5px 20px 20px 5px;
+ background-color: #0bb1e4;
+  width: 30%;
+  height: 100%;
+  top: 0;
+  padding: 10px;
+}
+
+.column{
+position: relative;
+}
+
+.chart{
+  min-height: 65vh;
+}
+
+.table{
+  min-height: 50vh;
 }

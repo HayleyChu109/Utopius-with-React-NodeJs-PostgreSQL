@@ -10,8 +10,6 @@ function TokenTransAct() {
     (state) => state.tokenRecordStore.tokenTransActRecord
   );
 
-  console.log(tokenTransAct);
-
   const history = useHistory();
 
   const handleMember = (payerId) => {
@@ -34,11 +32,11 @@ function TokenTransAct() {
               <th>Token Earned</th>
             </tr>
           </thead>
-          {tokenTransAct && tokenTransAct.length > 0
-            ? tokenTransAct.map((record) => {
-                return (
-                  <tbody>
-                    <tr>
+          <tbody>
+            {tokenTransAct && tokenTransAct.length > 0
+              ? tokenTransAct.map((record) => {
+                  return (
+                    <tr key={record.id}>
                       <th scope="row">
                         {moment(record.created_at).format("LLL")}
                       </th>
@@ -51,10 +49,10 @@ function TokenTransAct() {
                       </td>
                       <td>{record.reward}</td>
                     </tr>
-                  </tbody>
-                );
-              })
-            : null}
+                  );
+                })
+              : null}
+          </tbody>
         </Table>
       </div>
     </>

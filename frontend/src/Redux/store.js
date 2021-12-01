@@ -12,11 +12,17 @@ import { AdminDataReducer } from "./adminData/reducer";
 import { memberReqDetailsReducer } from "./memberProfile/memberReqDetailsReducer";
 import { memberResDetailsReducer } from "./memberProfile/memberResDetailsReducer";
 import { getReviewReducer } from "./review/getReviewReducer";
-import { getBookmarkReducer } from "./memberProfile/getBookmarkReducer";
+import { AnnounceReducer } from "./announceData/reducer";
+import { TagReducer } from "./tag/reducer";
+import { AdminRequestReducer } from "./adminRequest/reducer";
+import { TaskReducer } from "./task/reducer";
+import { memberBookmarkReducer } from "./memberProfile/memberBookmarkReducer";
 import { reportMemberReducer } from "./reportMember/reportMemberReducer";
+import { memberFollowUnfollowReducer } from "./memberProfile/memberFollowReducer";
 import { tokenPlanReducer } from "./token/tokenPlanReducer";
 import { tokenRecordReducer } from "./token/tokenRecordReducer";
 import { buyTokenReducer } from "./token/buyTokenReducer";
+import { AdminTokenReducer } from "./adminToken/reducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -29,13 +35,19 @@ const rootReducer = combineReducers({
   memberResDetailsStore: memberResDetailsReducer,
   requestStore: requestReducer,
   getReviewStore: getReviewReducer,
-  getBookmarkStore: getBookmarkReducer,
+  memberBookmarkStore: memberBookmarkReducer,
   reportMemberStore: reportMemberReducer,
+  memberFollowUnfollowStore: memberFollowUnfollowReducer,
   tokenPlanStore: tokenPlanReducer,
   tokenRecordStore: tokenRecordReducer,
   buyTokenStore: buyTokenReducer,
   footerStore: footerReducer,
   adminDataStore: AdminDataReducer,
+  announceStore: AnnounceReducer,
+  tagStore: TagReducer,
+  adminRequestStore: AdminRequestReducer,
+  taskStore: TaskReducer,
+  adminTokenStore: AdminTokenReducer,
 });
 
 export const store = createStore(

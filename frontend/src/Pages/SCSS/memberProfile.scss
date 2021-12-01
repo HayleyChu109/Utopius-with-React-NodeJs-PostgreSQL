@@ -24,7 +24,15 @@
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
-
+.header{
+  background-color: $dark-blue;
+}
+.header-text{
+  color: white;
+}
+.footer{
+  background-color: white;
+}
 .memberProfileBg-white {
   @include memberProfileBg($theme: $white);
   height: 15vh;
@@ -44,7 +52,7 @@
 // Member Profile Info
 .memberProfileInfo {
   width: 50vw;
-  margin-left: 10vw;
+  margin-left: 6vw;
   font-size: 15px;
   letter-spacing: 4px;
   color: $dark;
@@ -63,6 +71,10 @@
 
 .heart:hover {
   @include ReqResButton($theme: $light-heart);
+}
+
+.heart:disabled {
+  @include ReqResButton($theme: $dark-grey);
 }
 
 .heart-icon {
@@ -101,7 +113,38 @@
 .memberProfileBottom-blue {
   @include memberProfileBottom($theme: $dark-blue);
 }
+.memberProfileBottom-black {
+  @include memberProfileBottom($theme: black);
+}
 
+.btn-blue{
+  background-color: $dark-blue;
+}
+.btn-blue:focus{
+  background-color: $dark-blue;
+}
+.btn-black{
+  background-color: black;
+  border-color: black;
+
+}
+.btn-black:focus{
+  background-color: black;
+  border-color: black;
+
+}
+.btn-black:hover{
+  background-color:white;
+  color: black;
+  border-color: black;
+
+}
+.btn-blue:hover{
+  background-color:black;
+  color:white;
+  border-color: black;
+
+}
 .btn-white-orange,
 .btn-white-orange:focus {
   @include btn-white;

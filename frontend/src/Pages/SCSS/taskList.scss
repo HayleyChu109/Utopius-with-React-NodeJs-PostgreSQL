@@ -1,0 +1,27 @@
+@import "basic";
+.taskList{
+    width: 70vw;
+}
+.taskNav{
+    background-color: beige;
+    width: 80vw;
+    text-align: center;
+    margin: 0 auto 0;
+}
+
+.taskItem{
+    border: 1px;
+    border-color: $dark-blue;
+    border-radius: 10px;
+    border-style: solid;
+    width:80vw;
+    margin: 0 auto 0;
+    padding:  10px 0 0;
+}
+.taskOption{
+   background-color: $dark-blue;
+   padding: 5px 0 5px;
+   margin :0 auto 0;
+   border-radius: 0 0 9px 9px;
+}
+

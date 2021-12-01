@@ -1,4 +1,7 @@
-import { REPORT_MEMBER_SUCCESS_ACTION } from "./reportMemberActions";
+import {
+  REPORT_MEMBER_SUCCESS_ACTION,
+  CLEAR_REPORTMSG_ACTION,
+} from "./reportMemberActions";
 
 const initialState = {
   reportId: [],
@@ -8,9 +11,10 @@ const initialState = {
 export function reportMemberReducer(state = initialState, action) {
   switch (action.type) {
     case REPORT_MEMBER_SUCCESS_ACTION:
-      console.log(action.payload);
       return { ...state, reportId: action.payload, successMsg: action.message };
 
+    case CLEAR_REPORTMSG_ACTION:
+      return { ...state, successMsg: null };
     default:
       return state;
   }
