@@ -52,7 +52,9 @@ export default function DashboardPage(props) {
            <ResponseRateCard/>
           </Col>
           <Col>
+          <Link to='/admin/task'>
             <TaskCountCard/>
+            </Link>
           </Col>
         </Row>
           <h2>This week</h2>

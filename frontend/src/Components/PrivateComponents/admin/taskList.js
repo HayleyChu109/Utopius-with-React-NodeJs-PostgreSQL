@@ -12,13 +12,20 @@ import moment from "moment";
 
 export function TaskList() {
   const [selected, setSelected] = useState("unread");
-  const { task } = useSelector((state) => state.taskStore);
+  let { task } = useSelector((state) => state.taskStore);
+
+if(selected==='unread')
+{
+  task=task.filter(item=>item.status==="unread")
+
+}
 
   const handleFilter = (key) => {
     setSelected(key);
     disptach(FilterTaskList(key));
     console.log(key);
   };
+  
   const handleStatus = (id, event) => {
     console.log(event.target.name);
     console.log(id);

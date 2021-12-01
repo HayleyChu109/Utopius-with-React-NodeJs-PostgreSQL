@@ -19,7 +19,14 @@ const SearchResult = () => {
   }, [dispatch]);
 
   const showRequestDetail = (requestId) => {
-    history.push(`/member/request/detail/${requestId}/comment`);
+    if(localStorage.getItem('isAdmin'))
+    {
+      history.push(`/admin/request/${requestId}/comment`);
+
+    }else{
+
+      history.push(`/member/request/detail/${requestId}/comment`);
+    }
   };
 
   return (

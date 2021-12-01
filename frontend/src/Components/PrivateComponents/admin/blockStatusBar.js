@@ -39,28 +39,35 @@ export function BlockStatusBar() {
     <>
       <div className="container py-4">
         <div className="row">
+              {userIsBlock===true?
           <div className="d-flex justify-content-center align-items-center col-lg-12 mb-5 memberProfileBottom-blue">
-              {userIsBlock===true? <button
-              className="btn-dark"
+               <Button
+              className="btn-blue"
               onClick={() => setModalBoolean(true)}
             >
               UNBLOCK
-            </button>: <button
-              className="btn-dark"
+            </Button>
+            </div>
+
+            : 
+          <div className="d-flex justify-content-center align-items-center col-lg-12 mb-5 memberProfileBottom-black">
+            <Button
+              className="btn-black"
               onClick={() => setModalBoolean(true)}
             >
               BLOCK
-            </button>}
+            </Button>
+            </div>
+            }
            
-          </div>
         </div>
       </div>
       <Modal show={modalBoolean} onHide={closeModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Warning</Modal.Title>
+        <Modal.Header closeButton className='header'>
+          <Modal.Title className='header-text'>Warning</Modal.Title>
         </Modal.Header>
         <Modal.Body>{userIsBlock?`Are you going to block this user?`:`Are you going to unblock this user?`}</Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className='footer'>
           <Button variant="primary" onClick={()=>BlockUser(id)}>
             Yes
           </Button>

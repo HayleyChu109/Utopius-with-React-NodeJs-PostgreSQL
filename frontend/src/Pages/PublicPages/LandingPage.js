@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
 
@@ -13,6 +14,7 @@ import { Collapse } from "reactstrap";
 
 const LandingPage = () => {
   const { search } = useSelector((state) => state.requestStore);
+  const history=useHistory()
   const [show, setShow] = useState(true);
   let token = localStorage.getItem("token");
   let userId = "";
@@ -25,6 +27,10 @@ const LandingPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if(localStorage.getItem('isAdmin'))
+    {
+      history.push('/admin/dashboard')
+    }
     if (search !== "") {
       setShow(false);
     } else {

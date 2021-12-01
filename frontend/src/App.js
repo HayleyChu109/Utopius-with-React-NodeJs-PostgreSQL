@@ -23,6 +23,7 @@ import AdminHome from './Pages/AdminPages/AdminHome'
 import RequestPage from "./Pages/AdminPages/requestPage";
 import TaskPage from "./Pages/AdminPages/taskPage";
 import TokenAdminPage from "./Pages/AdminPages/tokenPage";
+import AdminRequestDetail from "./Pages/AdminPages/adminRequestDetail";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
       <PrivateAdminRoute exact path='/admin/user/:id' component={UserPage}/>
       <PrivateAdminRoute exact path='/admin/task' component={TaskPage}/>
       <PrivateAdminRoute exact path='/admin/request' component={RequestPage}/>
+      <PrivateAdminRoute exact path='/admin/request/:requestId/:tab' component={AdminRequestDetail}/>
       <PrivateAdminRoute exact path='/admin/token' component={TokenAdminPage}/>
       <PrivateAdminRoute exact  path='/admin/announcement' component={AnnouncementPage}/>
       <PrivateAdminRoute exact  path='/admin/announcement/new' component={AnnouncemnetEditPage}/>

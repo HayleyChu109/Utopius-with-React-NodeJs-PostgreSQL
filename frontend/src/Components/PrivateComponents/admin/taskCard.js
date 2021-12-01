@@ -14,7 +14,7 @@ export function TaskCountCard() {
     },[disptach])
     if(task)
     {
-        length=task.length
+        length=task.filter(item=>item.status!=='completed').length
     }
   return (
 <>
