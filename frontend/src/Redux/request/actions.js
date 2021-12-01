@@ -30,8 +30,8 @@ export const searchReq = (search) => {
 export const clearMessage = () => {
   return {
     type: CLEAR_MESSAGE,
-  }
-}
+  };
+};
 
 // For rendering all open request (Public router)
 export const getRequestListThunk = () => async (dispatch) => {
@@ -454,13 +454,13 @@ export const getReviewInfoThunk = (requestId, userId) => async (dispatch) => {
 
 // For submitting new review
 export const postReviewThunk =
-  (reviewInfo, requestId, userId) => async (dispatch) => {
+  (reviewInfo, requestId, userId, requestDetail) => async (dispatch) => {
     console.log("ReviewInfo: ", reviewInfo, requestId, userId);
     try {
       let token = await localStorage.getItem("token");
       const response = await axios.post(
         `${process.env.REACT_APP_API_SERVER}/member/request/review/new`,
-        { reviewInfo, requestId, userId },
+        { reviewInfo, requestId, userId, requestDetail },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const { data } = response;

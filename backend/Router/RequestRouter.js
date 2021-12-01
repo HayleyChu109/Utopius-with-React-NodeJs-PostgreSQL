@@ -100,7 +100,7 @@ class RequestRouter {
         await this.tokenService.postTokenTransaction(
           newReqId,
           req.body.newRequest.userId,
-          [1],
+          1,
           req.body.newRequest.reward * req.body.newRequest.requiredPpl
         );
         res.json({ newReqId });
@@ -123,7 +123,7 @@ class RequestRouter {
         await this.tokenService.postTokenTransaction(
           req.params.requestId,
           1,
-          [req.body.userId],
+          req.body.userId,
           req.body.reward
         );
       }
@@ -395,6 +395,7 @@ class RequestRouter {
   async postNewReview(req, res, next) {
     console.log("ReviewInfo: ", req.body.reviewInfo);
     try {
+      // Post review
       for (let reviewee in req.body.reviewInfo) {
         let rating = req.body.reviewInfo[reviewee].rating;
         let contributed = req.body.reviewInfo[reviewee].contributed;
@@ -411,6 +412,31 @@ class RequestRouter {
           contributed,
           ratingComment
         );
+      }
+      // Post token transaction if reviewer is the requester
+      if (req.body.userId === req.body.requestDetail.requesterId) {
+        for (let reviewee in req.body.reviewInfo) {
+          let contributed = req.body.reviewInfo[reviewee].contributed;
+          if (contributed === undefined) {
+            contributed = true;
+          }
+          console.log(contributed);
+          if (contributed) {
+            await this.tokenService.postTokenTransaction(
+              req.body.requestId,
+              1,
+              reviewee,
+              req.body.requestDetail.reward
+            );
+          } else {
+            await this.tokenService.postTokenTransaction(
+              req.body.requestId,
+              1,
+              req.body.userId,
+              req.body.requestDetail.reward
+            );
+          }
+        }
       }
       res.json({ message: "Review completed !" });
     } catch (err) {

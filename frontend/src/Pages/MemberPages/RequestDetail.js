@@ -200,9 +200,12 @@ const RequestDetail = () => {
           history.push(`/member/request/detail/${requestId}/comment`);
           break;
         case "meetup":
-          console.log("8");
           // Req status not matched
-          if (teamList.length < 1) {
+          if (
+            requestDetail.status !== "matched" ||
+            requestDetail.status !== "completed"
+          ) {
+            console.log("8");
             history.push(`/member/request/detail/${requestId}/comment`);
           }
           // Req status matched but member is not in the team
@@ -210,6 +213,7 @@ const RequestDetail = () => {
             teamList.length > 0 &&
             teamList.map((team) => team.responserId).indexOf(userId) === -1
           ) {
+            console.log("9");
             history.push(`/member/request/detail/${requestId}/comment`);
             // setWrongPathBoolean(true);
             // setWrongPathNoti("Sorry ! Only matched members are allowed");
@@ -242,7 +246,7 @@ const RequestDetail = () => {
       setEditSuccessBoolean(true);
     }
 
-    function checkReview() {
+    setTimeout(function checkReview() {
       console.log(reviewList);
       console.log(
         "TRUE?",
@@ -253,8 +257,7 @@ const RequestDetail = () => {
         console.log("reviewList.length < 1");
         setReviewModalBoolean(true);
       }
-    }
-    setTimeout(checkReview, 2000);
+    }, 1000);
   }, [
     dispatch,
     matchSuccessMsg,
@@ -264,13 +267,13 @@ const RequestDetail = () => {
     requestDetail,
   ]);
 
-  // Close modal when receive success message
-  useEffect(() => {
-    if (reviewSuccessMsg !== "") {
-      setReviewModalBoolean(false);
-      history.push(`/member/request/detail/${requestId}/comment`);
-    }
-  }, [history, requestId, requestDetail, reviewSuccessMsg]);
+  // // Close modal when receive success message
+  // useEffect(() => {
+  //   if (reviewSuccessMsg !== "") {
+  //     setReviewModalBoolean(false);
+  //     history.push(`/member/request/detail/${requestId}/comment`);
+  //   }
+  // }, [history, requestId, requestDetail, reviewSuccessMsg]);
 
   // Bookmark toggle function
   const handleBookmark = (bookmarked) => {
@@ -303,8 +306,10 @@ const RequestDetail = () => {
     } else if (responseModalBoolean) {
       setResponseModalBoolean(false);
       history.push(`/member/request/detail/${requestId}/comment`);
-    } else if (setEditSuccessBoolean) {
+    } else if (editSuccessBoolean) {
       setEditSuccessBoolean(false);
+    } else if (reviewModalBoolean) {
+      setReviewModalBoolean(false);
     }
     dispatch(clearMessage());
   };
@@ -733,6 +738,7 @@ const RequestDetail = () => {
       teamList.map((team) => team.responserId).includes(userId) ? (
         <NewReview
           isOpen={reviewModalBoolean}
+          close={closeModal}
           requestId={requestId}
           setReviewModalBoolean={setReviewModalBoolean}
         />

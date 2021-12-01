@@ -106,19 +106,16 @@ class TokenService {
   // Token transaction
   async postTokenTransaction(requestId, payerId, payeeId, amount) {
     try {
-      console.log(payeeId[0]);
-      // Update transaction table
-      for (let i = 0; i < payeeId.length; i++) {
-        await this.knex("tokenTransaction").insert({
-          requestId: requestId,
-          payerId: payerId,
-          payeeId: payeeId[i],
-          amount: amount,
-        });
-      }
-
       console.log(payeeId);
-      // Update member token amt
+      // Update transaction table
+      await this.knex("tokenTransaction").insert({
+        requestId: requestId,
+        payerId: payerId,
+        payeeId: payeeId,
+        amount: amount,
+      });
+
+      // Subtract payer token balance
       const currentPayerToken = await this.knex("account")
         .select("token")
         .where("id", payerId);
@@ -126,14 +123,13 @@ class TokenService {
         .where("id", payerId)
         .update({ token: currentPayerToken[0].token - amount });
 
-      for (let i = 0; i < payeeId.length; i++) {
-        let currentPayeeToken = await this.knex("account")
-          .select("token")
-          .where("id", payeeId[i]);
-        await this.knex("account")
-          .where("id", payeeId[i])
-          .update({ token: currentPayeeToken[0].token + amount });
-      }
+      // Add payee token balance
+      let currentPayeeToken = await this.knex("account")
+        .select("token")
+        .where("id", payeeId);
+      await this.knex("account")
+        .where("id", payeeId)
+        .update({ token: currentPayeeToken[0].token + amount });
     } catch (err) {
       throw new Error(err);
     }

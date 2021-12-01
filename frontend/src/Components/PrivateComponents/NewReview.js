@@ -27,7 +27,7 @@ function NewReview({ isOpen, requestId, setReviewModalBoolean }) {
     if (Object.keys(reviewObj).length < 1) {
       setReviewErrMsg("Please complete this review and submit");
     } else {
-      dispatch(postReviewThunk(reviewObj, Number(requestId), userId));
+      dispatch(postReviewThunk(reviewObj, Number(requestId), userId, requestDetail));
     }
   };
 

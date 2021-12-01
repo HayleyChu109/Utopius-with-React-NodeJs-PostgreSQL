@@ -118,6 +118,7 @@ class TokenRouter {
         req.body.memberId,
         req.body.noOfToken
       );
+      
       if (totalToken) {
         res.json(totalToken);
       } else {
