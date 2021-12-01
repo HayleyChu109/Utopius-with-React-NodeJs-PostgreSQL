@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { searchReq } from "../../Redux/request/actions";
 import jwt_decode from "jwt-decode";
 import moment from "moment";
+import FadeIn from "react-fade-in";
 
 import { bookmarkToggleThunk } from "../../Redux/request/actions";
 import GradeBall from "./GradeBall";
@@ -47,86 +48,88 @@ const SearchCard = ({ request, handleClick }) => {
   return (
     <>
       <div className="col-md-6 col-sm-12 col-xs-12 p-4">
-        <Card
-          className="search-req-card"
-          onClick={() => {
-            handleClick(request.id);
-          }}
-        >
-          <div className="row g-0">
-            <div className="search-card-photo col-5 m-0">
-              <img
-                src={request.reqPhotoPath}
-                className="img-fluid rounded-start"
-                alt="request"
-              />
-            </div>
-            <div className="search-card-main col-7 m-0">
-              <CardBody>
-                <div
-                  className="username-id"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleMember(request.requesterId);
-                  }}
-                >
-                  <GradeBall grade={request.grade} />
-                  {request.username} UID#{request.requesterId}
-                </div>
-                <div className="createdAt">
-                  {moment(request.created_at).format("LLL")}
-                </div>
-                <div className="search-card-req-title">{request.title}</div>
-                <div className="search-card-req-detail">{request.detail}</div>
-                <div className="search-card-req-tag">
-                  {request.tag.map((tagname) => (
-                    <span
-                      key={tagname}
-                      className="mx-1 tagname"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleSearch(tagname.replace(/\s/g, ""));
-                      }}
-                    >
-                      #{tagname}
-                    </span>
-                  ))}
-                </div>
-              </CardBody>
-              <CardFooter className="search-card-footer">
-                <div>
-                  <FaCoins className="mx-1 coin" />
-                  <span className="coin me-1">{request.reward}</span>
-                  <BsFillPersonPlusFill className="mx-1 person person-icon" />
-                  <span className="person me-1">{request.requiredPpl}</span>
-                  <HiLocationMarker className="mx-1 district district-icon" />
-                  <span className="district">{request.district}</span>
-                  <span className="bookmark">
-                    {bookmarkList && bookmarkList.includes(request.id) ? (
-                      <>
-                        <AiFillHeart
-                          className="bookmark-icon-true"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleBookmark(true);
-                          }}
-                        />
-                      </>
-                    ) : (
-                      <AiFillHeart
-                        className="bookmark-icon-false"
+        <FadeIn>
+          <Card
+            className="search-req-card"
+            onClick={() => {
+              handleClick(request.id);
+            }}
+          >
+            <div className="row g-0">
+              <div className="search-card-photo col-5 m-0">
+                <img
+                  src={request.reqPhotoPath}
+                  className="img-fluid rounded-start"
+                  alt="request"
+                />
+              </div>
+              <div className="search-card-main col-7 m-0">
+                <CardBody>
+                  <div
+                    className="username-id"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleMember(request.requesterId);
+                    }}
+                  >
+                    <GradeBall grade={request.grade} />
+                    {request.username} UID#{request.requesterId}
+                  </div>
+                  <div className="createdAt">
+                    {moment(request.created_at).format("LLL")}
+                  </div>
+                  <div className="search-card-req-title">{request.title}</div>
+                  <div className="search-card-req-detail">{request.detail}</div>
+                  <div className="search-card-req-tag">
+                    {request.tag.map((tagname) => (
+                      <span
+                        key={tagname}
+                        className="mx-1 tagname"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleBookmark(false);
+                          handleSearch(tagname.replace(/\s/g, ""));
                         }}
-                      />
-                    )}
-                  </span>
-                </div>
-              </CardFooter>
+                      >
+                        #{tagname}
+                      </span>
+                    ))}
+                  </div>
+                </CardBody>
+                <CardFooter className="search-card-footer">
+                  <div>
+                    <FaCoins className="mx-1 coin" />
+                    <span className="coin me-1">{request.reward}</span>
+                    <BsFillPersonPlusFill className="mx-1 person person-icon" />
+                    <span className="person me-1">{request.requiredPpl}</span>
+                    <HiLocationMarker className="mx-1 district district-icon" />
+                    <span className="district">{request.district}</span>
+                    <span className="bookmark">
+                      {bookmarkList && bookmarkList.includes(request.id) ? (
+                        <>
+                          <AiFillHeart
+                            className="bookmark-icon-true"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleBookmark(true);
+                            }}
+                          />
+                        </>
+                      ) : (
+                        <AiFillHeart
+                          className="bookmark-icon-false"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleBookmark(false);
+                          }}
+                        />
+                      )}
+                    </span>
+                  </div>
+                </CardFooter>
+              </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+        </FadeIn>
       </div>
     </>
   );
