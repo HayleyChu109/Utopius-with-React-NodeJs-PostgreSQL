@@ -92,7 +92,6 @@ class RequestRouter {
         let newReqId = await this.requestService.postNewRequest(
           req.body.newRequest
         );
-        console.log("Router newReqId: ", newReqId);
         await this.requestService.postTagReqJoin(
           newReqId,
           req.body.newRequest.tag
@@ -193,7 +192,6 @@ class RequestRouter {
   async getComment(req, res, next) {
     try {
       if (req.params.type === "true") {
-        // console.log("Loading private comments..", req.params.type);
         let privateCommentList = await this.requestService.getPrivateComment(
           req.params.requestId
         );
@@ -355,7 +353,6 @@ class RequestRouter {
   }
 
   async getTeamList(req, res, next) {
-    console.log("RequestId: ", req.params.requestId);
     try {
       let teamList = await this.requestService.getTeamList(
         req.params.requestId
@@ -370,7 +367,6 @@ class RequestRouter {
         teamList[i].responserProfilePath = memberQuery.profilePath;
         teamList[i].responserId = memberQuery.id;
       }
-      console.log("TeamList: ", teamList);
       res.json({ teamList, teamResId });
     } catch (err) {
       next(err);
@@ -380,7 +376,6 @@ class RequestRouter {
 
   async getReviewList(req, res, next) {
     try {
-      console.log(req.params.requestId, req.params.reviewerId);
       let reviewList = await this.requestService.getReviewList(
         req.params.requestId,
         req.params.reviewerId
@@ -397,7 +392,6 @@ class RequestRouter {
   }
 
   async postNewReview(req, res, next) {
-    console.log("ReviewInfo: ", req.body.reviewInfo);
     try {
       // Post review
       for (let reviewee in req.body.reviewInfo) {
@@ -407,7 +401,7 @@ class RequestRouter {
         if (contributed === undefined) {
           contributed = true;
         }
-        console.log(rating, contributed, ratingComment);
+        console.log("reqrou postNewReview", rating, contributed, ratingComment);
         await this.requestService.postReview(
           req.body.requestId,
           req.body.userId,
@@ -424,7 +418,7 @@ class RequestRouter {
           if (contributed === undefined) {
             contributed = true;
           }
-          console.log(contributed);
+          console.log("reqrou postNewReview", contributed);
           if (contributed) {
             await this.tokenService.postTokenTransaction(
               req.body.requestId,
@@ -441,6 +435,53 @@ class RequestRouter {
             );
           }
         }
+        if (
+          Object.keys(req.body.reviewInfo).length <
+          req.body.requestDetail.requiredPpl
+        ) {
+          let missingRes =
+            req.body.requestDetail.requiredPpl -
+            Object.keys(req.body.reviewInfo).length;
+          await this.tokenService.postTokenTransaction(
+            req.body.requestId,
+            1,
+            req.body.userId,
+            req.body.requestDetail.reward * missingRes
+          );
+        }
+      }
+      // Update user grade after review
+      for (let reviewee in req.body.reviewInfo) {
+        let ratingQuery = await this.requestService.getUserOverallRating(
+          reviewee
+        );
+        console.log("RatingQuery: ", ratingQuery);
+        let rateArr = ratingQuery.map((review) => review.rating);
+        let averageRate = parseFloat(
+          (
+            rateArr.reduce((prev, current) => prev + current) /
+            ratingQuery.length
+          ).toFixed(1)
+        );
+        console.log("Average rate", averageRate);
+
+        let newGrade = "";
+        if (averageRate >= 4.5) {
+          newGrade = "S";
+        } else if (4.0 <= averageRate && averageRate < 4.5) {
+          newGrade = "A";
+        } else if (3.0 <= averageRate && averageRate < 4.0) {
+          newGrade = "B";
+        } else if (2.0 <= averageRate && averageRate < 3.0) {
+          newGrade = "C";
+        } else if (1.0 <= averageRate && averageRate < 2.0) {
+          newGrade = "D";
+        } else if (0.0 <= averageRate && averageRate < 1.0) {
+          newGrade = "E";
+        } else {
+          newGrade = "F";
+        }
+        await this.requestService.putUserGrade(reviewee, newGrade);
       }
       res.json({ message: "Review completed !" });
     } catch (err) {

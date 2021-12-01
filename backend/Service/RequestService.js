@@ -362,6 +362,32 @@ class RequestService {
       throw new Error(err);
     }
   }
+
+  async getUserOverallRating(userId) {
+    try {
+      let ratingQuery = await this.knex("review")
+        .select("rating")
+        .where("revieweeId", userId);
+      console.log(ratingQuery);
+      if (ratingQuery.length > 1) {
+        return ratingQuery;
+      } else {
+        return "Hello";
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async putUserGrade(userId, newGrade) {
+    try {
+      return await this.knex("account")
+        .update({ grade: newGrade })
+        .where("id", userId);
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
 }
 
 module.exports = RequestService;

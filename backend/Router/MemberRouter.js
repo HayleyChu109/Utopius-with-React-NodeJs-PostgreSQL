@@ -25,7 +25,7 @@ class MemberRouter {
     try {
       let info = await this.memberService.getMemberInfo(req.params.id);
       if (info) {
-        console.log("Get member info", info);
+        // console.log("Get member info", info);
         res.json(info);
       }
     } catch (err) {
@@ -80,7 +80,7 @@ class MemberRouter {
         req.params.id
       );
       if (memberRes) {
-        console.log("Member response", memberRes);
+        // console.log("Member response", memberRes);
         res.json(memberRes);
       } else {
         res.json([]);
@@ -112,7 +112,7 @@ class MemberRouter {
     try {
       let bookmark = await this.memberService.getBookmark(req.params.id);
       if (bookmark) {
-        console.log("Bookmark", bookmark);
+        // console.log("Bookmark", bookmark);
         res.json(bookmark);
       } else {
         res.json([]);

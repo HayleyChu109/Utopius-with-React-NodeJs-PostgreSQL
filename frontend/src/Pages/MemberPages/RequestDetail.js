@@ -249,11 +249,9 @@ const RequestDetail = () => {
     } else if (editSuccessMsg !== "") {
       setEditSuccessBoolean(true);
     }
-    setTimeout(function checkReview() {
-      if (requestDetail.status === "completed" && notReviewed) {
-        setReviewModalBoolean(true);
-      }
-    }, 2000);
+    if (requestDetail.status === "completed" && notReviewed) {
+      setReviewModalBoolean(true);
+    }
   }, [
     dispatch,
     matchSuccessMsg,
