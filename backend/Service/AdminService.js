@@ -80,10 +80,7 @@ class AdminService {
       )
       .join("account", "requesterId", "account.id")
   }
-  getTagCount(){
-    return this.knex('tagReqJoin').select("tagName").count({count:'tagId'}).select(this.knex.raw(`count('tagId')*100.0 / sum(count('tagId')) over () as "percentage"`)).join('tag','tag.id','tagId').groupBy('tagName').orderBy('count')
-  }
-
+  
   getReqResGrowth(startDate, endDate) {
     startDate = moment(startDate).format("YYYY-MM-DD");
     endDate = moment(endDate).format("YYYY-MM-DD");
@@ -117,7 +114,14 @@ class AdminService {
       .from("date_ranges")
       .leftJoin("request_counts", "request_counts.date_d", "date_ranges.date_d").leftJoin("response_counts", "response_counts.date_d", "date_ranges.date_d");
   }
-
+  getUserBlocking(reqId)
+  {
+    return this.knex('account').select('blacklist').where({id:reqId})
+  }
+  putUserBlocking(reqId,blockStatus)
+  {
+    return this.knex('account').update({blacklist:blockStatus}).where({id:reqId}).returning('blacklist')
+  }
  
 }
 

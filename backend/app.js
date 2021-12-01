@@ -79,6 +79,11 @@ const AdminRequestRouter = require("./Router/adminRequestRouter");
 const adminRequestService = new AdminRequestService(knex);
 const adminRequestRouter = new AdminRequestRouter(adminRequestService);
 
+const AdminTokenService = require("./Service/adminTokenService");
+const AdminTokenRouter = require("./Router/adminTokenRouter");
+const adminTokenService = new AdminTokenService(knex);
+const adminTokenRouter = new AdminTokenRouter(adminTokenService);
+
 app.use("/", authRouter.router());
 app.use("/", publicRouter.router());
 app.use("/admin", auth.authenticate(), adminRouter.router());
@@ -88,6 +93,7 @@ app.use("/member", auth.authenticate(), requestRouter.router());
 app.use("/tag", auth.authenticate(), tagRouter.router());
 app.use("/request", adminRequestRouter.router());
 app.use("/task", taskRouter.router());
+app.use("/token", adminTokenRouter.router());
 
 app.use("/member", auth.authenticate(), tokenRouter.router());
 

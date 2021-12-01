@@ -17,6 +17,7 @@ import FellowProfileInfo from "../../Components/PrivateComponents/FellowProfileI
 import Discover from "../../Components/PublicComponents/Discover";
 import MemberProfileInfo from "../../Components/PrivateComponents/MemberProfileInfo";
 import UserProfileInfoAdmin from "../../Components/PrivateComponents/admin/UserProfileInfoAdmin";
+import ProfileInfo from "../../Components/PrivateComponents/admin/ProfileInfo";
 import Footer from "../../Components/PublicComponents/Footer";
 export default function UserPage(props) {
   const memberProfileFromStore = useSelector(
@@ -41,9 +42,8 @@ const {id}=useParams()
           PROFILE OF: <span>{memberProfileFromStore.username}</span>
         </div>
         <MemberProfilePic />
-        <FellowProfileInfo />
+        <ProfileInfo/>
       </div>
-      <Discover />
     </>
   );
 }

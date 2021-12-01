@@ -1,42 +1,41 @@
 import axios from "axios";
-export const Load_TOKEN_TRANSACTION_SUCCESS = "LOAD_TOKEN_TRANSACTION_SUCCESS";
-export const Load_TOKEN_USER_TRANSACTION_SUCCESS = "LOAD_TOKEN_USER_TRANSACTION_SUCCESS";
+export const Load_REVIEW_LIST_SUCCESS = "LOAD_REVIEW_LIST_SUCCESS";
+export const Load_REVIEW_STAT_SUCCESS = "LOAD_REVIEW_STAT_SUCCESS";
 export const Load_DATA_FAILED = "LOAD_DATA_FAILED";
-
-
-export const GetTokenTransaction = () => async (dispatch) => {
+export const GetReviewList = () => async (dispatch) => {
   let userToken = localStorage.getItem("token");
   try {
     let response = await axios.get(
-      `${process.env.REACT_APP_API_SERVER}/token`,
+      `${process.env.REACT_APP_API_SERVER}/review`,
 
       {
         headers: { Authorization: `Bearer ${userToken}` },
       }
     );
     console.log(response.data)
-   dispatch({type:Load_TOKEN_TRANSACTION_SUCCESS,payload:response.data})
+   dispatch({type:Load_REVIEW_LIST_SUCCESS,payload:response.data})
     
   } catch (error) {
     console.log(error);
     dispatch({ type: Load_DATA_FAILED });
   }
 };
-export const GetTokenUserTransaction = () => async (dispatch) => {
+export const GetReviewStat = () => async (dispatch) => {
   let userToken = localStorage.getItem("token");
   try {
     let response = await axios.get(
-      `${process.env.REACT_APP_API_SERVER}/token/user`,
+      `${process.env.REACT_APP_API_SERVER}/review/stat`,
 
       {
         headers: { Authorization: `Bearer ${userToken}` },
       }
     );
     console.log(response.data)
-   dispatch({type:Load_TOKEN_USER_TRANSACTION_SUCCESS,payload:response.data})
+   dispatch({type:Load_REVIEW_STAT_SUCCESS,payload:response.data})
     
   } catch (error) {
     console.log(error);
     dispatch({ type: Load_DATA_FAILED });
   }
 };
+

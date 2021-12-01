@@ -8,7 +8,9 @@ class AdminRouter {
   router() {
     let router = express.Router();
     router.get('/dashboard',this.postDashboard.bind(this))
-    router.get('/user/:id',this.getUser.bind(this))
+    router.get('/user/req/:id',this.getUser.bind(this))
+    router.get('/user/block/:id',this.getUserBlocking.bind(this))
+    router.put('/user/block/:id',this.putUserBlocking.bind(this))
     return router;
   }
   async postDashboard(req,res)
@@ -21,14 +23,12 @@ class AdminRouter {
     let userStat=await this.adminService.getUserGrowth(moment().subtract(7, "day").toDate(), moment().toDate())
     console.log(userStat)
     userStat=userStat.map(item=>Object.assign({},{"Cumulative Users":Number(item['Cumulative Users']),'Daily Users':Number(item['Daily Users']),date:new Date(item.Date).toLocaleDateString('en-uk'),}))
-    let tagCount=await this.adminService.getTagCount()
     let reqResCountDaily=await this.adminService.getReqResGrowth(startDate,endDate)
     console.log(reqResCountDaily)
-    console.log(tagCount)
    console.log(userStat)
       let userGrowth = Object.assign(
          {},
-         { XAxisTitle: "date",line: ["Cumulative Users"], bar: ["Daily Users"], data: userStat }
+         {  data: userStat }
        );
        console.log(userGrowth)
     res.json({userGrowth:userGrowth,newUserList:newUser})
@@ -38,6 +38,24 @@ class AdminRouter {
     let userId=req.params.id
     console.log(req.params.id)
     let result=await this.adminService.getUser(userId)
+    console.log(result)
+    res.json(result)
+  }
+  async getUserBlocking(req,res)
+  {
+    let userId=req.params.id
+    console.log(req.params.id)
+    let result=await this.adminService.getUserBlocking(userId)
+      console.log(result)
+    
+    res.json(result)
+  }
+  async putUserBlocking(req,res)
+  {
+    let userId=req.params.id
+    let status=req.body.status
+    console.log(req.params.id)
+    let result=await this.adminService.putUserBlocking(userId,status)
     console.log(result)
     res.json(result)
   }

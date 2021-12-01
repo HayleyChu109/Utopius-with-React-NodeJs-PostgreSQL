@@ -35,7 +35,7 @@ export function RequestListTable() {
 
   useEffect(() => {
     dispatch(GetRequestList());
-  }, [dispatch]);
+  }, [dispatch,selection]);
   return (
     <>
       <Table>

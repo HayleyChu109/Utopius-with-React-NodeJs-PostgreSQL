@@ -18,6 +18,7 @@ import DashboardPage from "./Pages/AdminPages/dashboardPage";
 import AnnouncementPage from "./Pages/AdminPages/announcementPage";
 import AnnouncemnetEditPage from "./Pages/AdminPages/announcementEditPage";
 import UserPage from "./Pages/AdminPages/userPage";
+import ProfileInfo from "./Components/PrivateComponents/admin/ProfileInfo";
 import AdminHome from './Pages/AdminPages/AdminHome'
 import RequestPage from "./Pages/AdminPages/requestPage";
 import TaskPage from "./Pages/AdminPages/taskPage";
@@ -30,6 +31,7 @@ function App() {
       <Route exact path="/login" component={LoginPage} />
       <PrivateAdminRoute exact path='/admin' component={AdminHome}/>
       <PrivateAdminRoute exact path='/admin/dashboard' component={DashboardPage}/>
+      <PrivateAdminRoute exact path='/admin/user/:id' component={UserPage}/>
       <PrivateAdminRoute exact path='/admin/task' component={TaskPage}/>
       <PrivateAdminRoute exact path='/admin/request' component={RequestPage}/>
       <PrivateAdminRoute exact path='/admin/token' component={TokenAdminPage}/>

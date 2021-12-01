@@ -8,35 +8,22 @@ class AdminTokenRouter {
 
   router() {
     let router = express.Router();
-    router.get('/',this.getReqList.bind(this))
-    router.get('/stat',this.getReqStat.bind(this))
+    router.get('/',this.getTransactionList.bind(this))
+    router.get('/user',this.getUserTransactionList.bind(this))
     return router;
   }
-  async getReqStat(req,res){
-    let reqStat=await this.adminTokenService.getReqStat()
-  console.log(reqStat)
-    res.json(reqStat)
+  async getTransactionList(req,res){
+    let tokenStat=await this.adminTokenService.getTransactionList()
+  console.log(tokenStat)
+    res.json(tokenStat)
   }
-  async getReqList(req,res){
-    let reqList=await this.adminTokenService.getReqList()
-    let reqTag=await this.adminTokenService.getReqTag()
-    let reqMatch=await this.adminTokenService.getReqMatched()
-    console.log(reqMatch)
-    let result=reqList.map(item=>{
-        return Object.assign({},{...item,tag:reqTag.filter(tag=>{
-            if(tag.id===item.id)
-            {
-               return true
-
-            }
-        }).map(res=>res.tagName),matched:reqMatch.filter(match=>item.id===match.id).map(count=>Number(count.matched)).reduce((a,b)=>b,0)
-    
-})
-    })
-console.log(result)
-res.json(result)
- 
-}
+  
+  async getUserTransactionList(req,res){
+    let tokenStat=await this.adminTokenService.getUserTransactionList()
+  console.log(tokenStat)
+    res.json(tokenStat)
+  }
+  
 }
 
 module.exports = AdminTokenRouter;

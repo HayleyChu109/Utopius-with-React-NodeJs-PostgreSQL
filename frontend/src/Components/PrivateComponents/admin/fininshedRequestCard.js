@@ -10,8 +10,8 @@ export function FinishedRequestCard(){
     let finish
     if(stat&&stat.length>0)
     {
-        finish=stat.filter(item=>item.status==='completed').length
-        console.log(finish)
+        finish=stat.filter(item=>item.status==='completed')[0].count
+        console.log(stat.filter(item=>item.status==='completed'))
     }
     return(
         <>

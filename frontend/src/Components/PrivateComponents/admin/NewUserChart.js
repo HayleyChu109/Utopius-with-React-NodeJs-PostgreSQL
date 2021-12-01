@@ -122,7 +122,7 @@ export function NewUserChart() {
   }, [dispatch]);
   console.log("hell");
   return (
-    <Card>
+    <Card className='chart'>
       {data&&data.length>0 ? <Chart datasetIdKey='id' options={options} type="bar" data={dataParsed} /> : null}
     </Card>
   );

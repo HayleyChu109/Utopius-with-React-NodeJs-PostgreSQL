@@ -21,6 +21,7 @@ import { reportMemberReducer } from "./reportMember/reportMemberReducer";
 import { tokenPlanReducer } from "./token/tokenPlanReducer";
 import { tokenRecordReducer } from "./token/tokenRecordReducer";
 import { buyTokenReducer } from "./token/buyTokenReducer";
+import { AdminTokenReducer } from "./adminToken/reducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose;
 
@@ -44,6 +45,7 @@ const rootReducer = combineReducers({
   tagStore:TagReducer,
   adminRequestStore:AdminRequestReducer,
   taskStore:TaskReducer,
+  adminTokenStore:AdminTokenReducer,
 });
 
 export const store = createStore(

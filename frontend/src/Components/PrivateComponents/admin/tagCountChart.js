@@ -72,17 +72,8 @@ export const TagCountChart = () => {
   };
   return (
     <>
-      <Card style={{ height: "40vh" }}>
-        {/* <ResponsiveContainer>
-
-        <BarChart  data={tagStat} layout='vertical'>
-        <XAxis dataKey="tagName" />
-  <YAxis>
-      <Label value=''/>
-      </YAxis>
-        <Bar dataKey='count' fill="#8884d8"/>
-</BarChart>
-          </ResponsiveContainer> */}
+      <Card className='chart'>
+   
         <Bar options={options} data={data} />
       </Card>
     </>
