@@ -16,15 +16,13 @@ class MemberRouter {
     router.get("/bookmark/:bookmarkid", this.getBookmark.bind(this));
     router.post("/report/", this.postReport.bind(this));
     // Friendship
-    router.get(
-      "/follow/:followerId/:followingId",
-      this.getFollowOrNot.bind(this)
+    router.get("/followinglist/:id", this.getFollowinglist.bind(this));
+    router.get("/followerlist/:id", this.getFollowerlist.bind(this));
+    router.post("/follow", this.postFollow.bind(this));
+    router.delete(
+      "/unfollow/:followerId/:followingId",
+      this.deleteFollow.bind(this)
     );
-    router.post("/follow", this.postFollowMember.bind(this));
-    // router.delete(
-    //   "/:followerId/unfollow/:followingId",
-    //   this.postUnFollow.bind(this)
-    // );
     router.get("/allusername", this.getAllUsername.bind(this));
 
     return router;
@@ -159,47 +157,68 @@ class MemberRouter {
     }
   }
 
-  // Follow member
-  async getFollowOrNot(req, res, next) {
+  // Get following list
+  async getFollowinglist(req, res, next) {
     try {
-      let followOrNot = await this.memberService.getFollowOrNot(
-        req.params.followerId,
-        req.params.followingId
+      let followinglist = await this.memberService.getFollowinglist(
+        req.params.id
       );
-      res.json(followOrNot);
+      res.json(followinglist);
     } catch (err) {
       next(err);
       throw new Error(err);
     }
   }
 
-  async postFollowMember(req, res, next) {
+  // Get follower list
+  async getFollowerlist(req, res, next) {
+    try {
+      let followerlist = await this.memberService.getFollowerlist(
+        req.params.id
+      );
+      res.json(followerlist);
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  // Follow member
+  async postFollow(req, res, next) {
     try {
       console.log(req.body);
-      let friendshipId = await this.memberService.postFollowMember(
+      let friendshipId = await this.memberService.postFollow(
         req.body.followerId,
         req.body.followingId
       );
-      if (friendshipId) {
-        res.json(friendshipId);
-      } else {
-        res.json([]);
-      }
+      let followerlist = await this.memberService.getFollowerlist(
+        req.body.followingId
+      );
+      console.log("post follower list", followerlist);
+      res.json(followerlist);
     } catch (err) {
       next(err);
       throw new Error(err);
     }
   }
 
-  // // Unfollow member
-  // async postUnFollow(req, res, next) {
-  //   try {
-  //     let
-  //   } catch (err) {
-  //           next(err);
-  //           throw new Error(err);
-  //   }
-  // }
+  // Unfollow member
+  async deleteFollow(req, res, next) {
+    try {
+      await this.memberService.deleteFollow(
+        req.params.followerId,
+        req.params.followingId
+      );
+      let followerlist = await this.memberService.getFollowerlist(
+        req.params.followingId
+      );
+      console.log("delete Follower list", followerlist);
+      res.json(followerlist);
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
 
   // Get all username
   async getAllUsername(req, res, next) {

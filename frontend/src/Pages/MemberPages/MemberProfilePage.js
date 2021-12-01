@@ -5,6 +5,10 @@ import jwt_decode from "jwt-decode";
 import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions";
 import { memberReqDetailsThunk } from "../../Redux/memberProfile/memberReqDetailsActions";
 import { memberResDetailsThunk } from "../../Redux/memberProfile/memberResDetailsActions";
+import {
+  followingListThunk,
+  followerListThunk,
+} from "../../Redux/memberProfile/memberFollowActions";
 import { getReviewThunk } from "../../Redux/review/getReviewActions";
 import { getBookmarkListThunk } from "../../Redux/request/actions";
 
@@ -32,6 +36,8 @@ const MemberProfilePage = () => {
     dispatch(memberInfoThunk(memberId));
     dispatch(memberReqDetailsThunk(memberId));
     dispatch(memberResDetailsThunk(memberId));
+    dispatch(followingListThunk(memberId));
+    dispatch(followerListThunk(memberId));
     dispatch(getReviewThunk(memberId));
     dispatch(getBookmarkListThunk(memberId));
     return () => {
