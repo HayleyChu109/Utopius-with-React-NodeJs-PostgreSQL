@@ -1,15 +1,32 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import SearchCard from "../PublicComponents/SearchCard";
+import {
+  memberBookmarkThunk,
+  clearBookmark,
+} from "../../Redux/memberProfile/memberBookmarkActions";
 
 import { Collapse } from "reactstrap";
 import "../../Pages/SCSS/memberProfile.scss";
 
 function BookmarkCollapse(props) {
-  const bookmarkList = useSelector((state) => state.getBookmarkStore.bookmark);
+  const bookmarkId = useSelector((state) => state.requestStore.bookmarkList);
 
+  const bookmarkList = useSelector(
+    (state) => state.memberBookmarkStore.bookmark
+  );
+
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    if (bookmarkId.length > 0) {
+      dispatch(memberBookmarkThunk(bookmarkId));
+    } else {
+      dispatch(clearBookmark());
+    }
+  }, [dispatch, bookmarkId]);
 
   const showRequestDetail = (requestId) => {
     localStorage.setItem("requestId", requestId);

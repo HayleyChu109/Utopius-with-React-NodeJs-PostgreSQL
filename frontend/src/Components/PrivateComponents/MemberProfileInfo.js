@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import moment from "moment";
@@ -17,8 +17,6 @@ import "../../Pages/SCSS/memberProfile.scss";
 import "../../Pages/SCSS/searchCard.scss";
 
 function MemberProfileInfo(props) {
-  const [noOfBookmark, setNoOfBookmark] = useState("");
-
   const memberProfileFromStore = useSelector(
     (state) => state.memberProfileStore.memberInfo
   );
@@ -31,13 +29,7 @@ function MemberProfileInfo(props) {
     (state) => state.memberResDetailsStore.resDetails
   );
 
-  const bookmarkListFromStore = useSelector(
-    (state) => state.getBookmarkStore.bookmark
-  );
-
-  let noOfReq = memberReqDetailsFromStore.length;
-  let noOfRes = memberResDetailsFromStore.length;
-  // let noOfBookmark = bookmarkListFromStore.length;
+  const bookmarkId = useSelector((state) => state.requestStore.bookmarkList);
 
   const [showEdit, setShowEdit] = useState(true);
   const [showBookmark, setShowBookmark] = useState(false);
@@ -48,10 +40,6 @@ function MemberProfileInfo(props) {
   const [disableRes, setDisableRes] = useState(false);
 
   const history = useHistory();
-
-  // useEffect(() => {
-  //   setNoOfBookmark(bookmarkListFromStore.length);
-  // }, [bookmarkListFromStore]);
 
   return (
     <>
@@ -112,7 +100,7 @@ function MemberProfileInfo(props) {
                 }}
               >
                 <AiFillHeart className="mx-2 heart-icon" />
-                {bookmarkListFromStore.length}
+                {bookmarkId.length}
               </button>
               <button
                 disabled={disableReq}
@@ -124,7 +112,7 @@ function MemberProfileInfo(props) {
                   setDisableRes(!disableRes);
                 }}
               >
-                REQ#{noOfReq}
+                REQ#{memberReqDetailsFromStore.length}
               </button>
               <button
                 disabled={disableRes}
@@ -136,7 +124,7 @@ function MemberProfileInfo(props) {
                   setDisableReq(!disableReq);
                 }}
               >
-                RES#{noOfRes}
+                RES#{memberResDetailsFromStore.length}
               </button>
             </div>
           </div>

@@ -31,8 +31,15 @@ export const memberInfoThunk = (memberId) => async (dispatch) => {
 
 export const getAllUsernameThunk = () => async (dispatch) => {
   try {
+    let token = localStorage.getItem("token");
+
     const response = await axios.get(
-      `${process.env.REACT_APP_API_SERVER}/allusername`
+      `${process.env.REACT_APP_API_SERVER}/member/allusername`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
 
     const { data } = response;

@@ -1,33 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { loginUserThunk } from "../../Redux/login/actions";
+
+// Set up Facebook login
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { loginFacebookThunk } from "../../Redux/login/actions";
-import { getAllUsernameThunk } from "../../Redux/memberProfile/memberProfileActions";
+
+// Set up Google login
+import GoogleLogin from "react-google-login";
+import { loginGoogleThunk } from "../../Redux/login/actions";
+
 import { Button } from "reactstrap";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const loginStore = useSelector((state) => state.loginStore);
   const { isAuthenticated, errorMsg, isAdmin } = loginStore;
 
-  // Get existing member info from store
-  const allUsernameFromStore = useSelector(
-    (state) => state.memberProfileStore.allUsername
-  );
-
-  const filteredMember = allUsernameFromStore.filter((member) => {
-    return member.email == email;
-  });
-
-  console.log(filteredMember);
-
   const dispatch = useDispatch();
   const history = useHistory();
-
   const loginEnter = (event) => {
     console.log(event.key);
     if (event.key === "Enter") {
@@ -35,18 +26,11 @@ const LoginForm = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(getAllUsernameThunk());
-  }, [dispatch]);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
-    if (isAuthenticated && !isAdmin && filteredMember.username === null) {
-      history.push("/member/signup");
-    } else if (
-      isAuthenticated &&
-      !isAdmin &&
-      filteredMember.username !== null
-    ) {
+    if (isAuthenticated && !isAdmin) {
       history.push("/member/profile");
     } else if (isAuthenticated && isAdmin) {
       history.push("/admin");
@@ -67,7 +51,13 @@ const LoginForm = () => {
     return null;
   };
 
-  console.log(isAuthenticated);
+  const responseGoogle = (userInfo) => {
+    console.log(userInfo.profileObj);
+    if (userInfo.profileObj) {
+      dispatch(loginGoogleThunk(userInfo.profileObj));
+    }
+    return null;
+  };
 
   return (
     <>
@@ -105,7 +95,7 @@ const LoginForm = () => {
           <hr className="login-hr" />
           <FacebookLogin
             appId={process.env.REACT_APP_FACEBOOK_APP_ID}
-            autoLoad={true}
+            autoLoad={false}
             fields="name,email,picture"
             callback={responseFacebook}
             render={(renderProps) => (
@@ -114,8 +104,24 @@ const LoginForm = () => {
               </Button>
             )}
           />
+          <GoogleLogin
+            clientId={process.env.REACT_APP_GOOGLE_APP_ID}
+            render={(renderProps) => (
+              <Button
+                className="btn-white-lg"
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                LOGIN WITH GOOGLE
+              </Button>
+            )}
+            buttonText="Login"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={"single_host_origin"}
+          />
           {/* <Button className="btn-white-lg">LOGIN WITH FACEBOOK</Button> */}
-          <Button className="btn-white-lg">LOGIN WITH GOOGLE</Button>
+          {/* <Button className="btn-white-lg">LOGIN WITH GOOGLE</Button> */}
         </div>
       </div>
     </>

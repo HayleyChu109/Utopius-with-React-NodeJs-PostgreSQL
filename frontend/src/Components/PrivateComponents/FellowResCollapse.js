@@ -8,7 +8,7 @@ import Review from "./Review";
 import "../../Pages/SCSS/memberProfile.scss";
 
 function FellowResCollapse(props) {
-  const [modalBoolean, setModalBoolean] = useState("");
+  const [modalBoolean, setModalBoolean] = useState(false);
 
   const history = useHistory();
 

@@ -3,19 +3,6 @@ class PublicService {
     this.knex = knex;
   }
 
-  async getAllUsername() {
-    try {
-      let allUsername = await this.knex("account").select(
-        "id",
-        "username",
-        "email"
-      );
-      return allUsername;
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
-
   async getOpenRequest() {
     try {
       let openReq = await this.knex("request")
@@ -32,16 +19,22 @@ class PublicService {
     }
   }
 
-  postMsg(email, name, title, message) {
-    return this.knex
-      .insert({
-        email: email,
-        name: name,
-        title: title,
-        message: message,
-      })
-      .into("guestMsg")
-      .returning("*");
+  async postMsg(email, name, title, message) {
+    try {
+      let guestMsgId = await this.knex("guestMsg")
+        .insert({ email: email, name: name, title: title, message: message })
+        .returning("id");
+      if (guestMsgId) {
+        await this.knex("task").insert({
+          guestMsgId: Number(guestMsgId),
+          status: "unread",
+        });
+        console.log(guestMsgId);
+        return guestMsgId;
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }
 

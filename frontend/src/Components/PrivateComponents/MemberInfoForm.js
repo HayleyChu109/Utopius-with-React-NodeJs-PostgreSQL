@@ -17,7 +17,6 @@ import { s3Config } from "../../s3Bucket/s3Config";
 import { Form } from "react-bootstrap";
 import "../../Pages/SCSS/signupPage.scss";
 import "../../Pages/SCSS/loginPage.scss";
-import anonymous from "../../Images/anonymous.jpeg";
 
 const MemberInfoForm = () => {
   let memberId = jwt_decode(localStorage.getItem("token")).id;
@@ -43,7 +42,7 @@ const MemberInfoForm = () => {
   const history = useHistory();
 
   const [{ src, alt }, setPreviewImg] = useState({
-    src: anonymous,
+    src: "https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg",
     alt: "Upload an image",
   });
   const [{ bucketSrc, bucketAlt }, setBucketImg] = useState({
@@ -77,11 +76,11 @@ const MemberInfoForm = () => {
   const memberInfoFormSubmit = (e) => {
     e.preventDefault();
 
-    if (bucketSrc.length === 0) {
-      setFailureModalBoolean(true);
-      setMissingInfoMsg("Please insert your profile picture");
-      return;
-    }
+    // if (bucketSrc.length === 0) {
+    //   setFailureModalBoolean(true);
+    //   setMissingInfoMsg("Please insert your profile picture");
+    //   return;
+    // }
 
     if (filteredUsername.some((list) => list.username === username) === true) {
       setFailureModalBoolean(true);
@@ -118,7 +117,8 @@ const MemberInfoForm = () => {
           firstname,
           lastname,
           phone,
-          district
+          district,
+          src
         )
       );
     }
@@ -128,7 +128,7 @@ const MemberInfoForm = () => {
     setPhone("");
     setDistrict("");
     setPreviewImg({
-      src: anonymous,
+      src: "https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg",
       alt: "Upload an image",
     });
     setBucketImg({
@@ -148,12 +148,19 @@ const MemberInfoForm = () => {
 
   useEffect(() => {
     const memberInfo = JSON.parse(localStorage.getItem("Member-info"));
-    setUsername(memberInfo.username);
-    setFirstname(memberInfo.firstName);
-    setLastname(memberInfo.lastName);
-    setPhone(memberInfo.phone);
-    setDistrict(memberInfo.district);
-    setPreviewImg({ src: memberInfo.profilePath, alt: "Upload an image" });
+    setUsername(memberInfo.username || "");
+    setFirstname(memberInfo.firstName || "");
+    setLastname(memberInfo.lastName || "");
+    setPhone(memberInfo.phone || "");
+    setDistrict(memberInfo.district || "");
+    if (memberInfo.profilePath) {
+      setPreviewImg({ src: memberInfo.profilePath, alt: "Upload an image" });
+    } else {
+      setPreviewImg({
+        src: "https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg",
+        alt: "Upload an image",
+      });
+    }
     setBucketImg({
       bucketSrc: memberInfo.profilePath,
       bucketAlt: "Profile pic",
@@ -162,13 +169,14 @@ const MemberInfoForm = () => {
 
   useEffect(() => {
     if (successMsg !== null) {
+      dispatch(memberInfoThunk(memberId));
       dispatch(resetSuccessMsg());
       history.push("/member/profile");
     }
     return () => {
       localStorage.removeItem("Member-info");
     };
-  }, [successMsg, dispatch, history]);
+  }, [memberId, successMsg, dispatch, history]);
 
   const closeModal = () => {
     setFailureModalBoolean(false);

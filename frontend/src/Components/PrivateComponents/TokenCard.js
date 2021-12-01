@@ -14,7 +14,7 @@ function TokenCard(props) {
   };
 
   return (
-    <>
+    <div>
       <Card
         className="me-5 text-center token-card"
         onClick={() => sentToPayment(tokenPlan.planName)}
@@ -43,7 +43,7 @@ function TokenCard(props) {
           </Card.Text>
         </Card.Body>
       </Card>
-    </>
+    </div>
   );
 }
 

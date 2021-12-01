@@ -13,8 +13,19 @@ class MemberRouter {
     router.get("/memberreq/:id", this.getMemberReqDetail.bind(this));
     router.get("/memberres/:id", this.getMemberResDetail.bind(this));
     router.get("/review/:revieweeId", this.getReview.bind(this));
-    router.get("/bookmark/:id", this.getBookmark.bind(this));
+    router.get("/bookmark/:bookmarkid", this.getBookmark.bind(this));
     router.post("/report/", this.postReport.bind(this));
+    // Friendship
+    router.get(
+      "/follow/:followerId/:followingId",
+      this.getFollowOrNot.bind(this)
+    );
+    router.post("/follow", this.postFollowMember.bind(this));
+    // router.delete(
+    //   "/:followerId/unfollow/:followingId",
+    //   this.postUnFollow.bind(this)
+    // );
+    router.get("/allusername", this.getAllUsername.bind(this));
 
     return router;
   }
@@ -109,10 +120,16 @@ class MemberRouter {
   // Get member bookmark
   async getBookmark(req, res, next) {
     try {
-      let bookmark = await this.memberService.getBookmark(req.params.id);
-      if (bookmark) {
-        console.log("Bookmark", bookmark);
-        res.json(bookmark);
+      const bookmarkId = req.params.bookmarkid.split(",");
+      let bookmarkList = [];
+      for (let i = 0; i < bookmarkId.length; i++) {
+        let bookmark = await this.memberService.getBookmark(
+          Number(bookmarkId[i])
+        );
+        bookmarkList.push(bookmark[0]);
+      }
+      if (bookmarkList) {
+        res.json(bookmarkList);
       } else {
         res.json([]);
       }
@@ -133,6 +150,63 @@ class MemberRouter {
       );
       if (reportId) {
         res.json(reportId);
+      } else {
+        res.json([]);
+      }
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  // Follow member
+  async getFollowOrNot(req, res, next) {
+    try {
+      let followOrNot = await this.memberService.getFollowOrNot(
+        req.params.followerId,
+        req.params.followingId
+      );
+      res.json(followOrNot);
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  async postFollowMember(req, res, next) {
+    try {
+      console.log(req.body);
+      let friendshipId = await this.memberService.postFollowMember(
+        req.body.followerId,
+        req.body.followingId
+      );
+      if (friendshipId) {
+        res.json(friendshipId);
+      } else {
+        res.json([]);
+      }
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  // // Unfollow member
+  // async postUnFollow(req, res, next) {
+  //   try {
+  //     let
+  //   } catch (err) {
+  //           next(err);
+  //           throw new Error(err);
+  //   }
+  // }
+
+  // Get all username
+  async getAllUsername(req, res, next) {
+    try {
+      let allUsername = await this.memberService.getAllUsername();
+      if (allUsername) {
+        res.json(allUsername);
       } else {
         res.json([]);
       }

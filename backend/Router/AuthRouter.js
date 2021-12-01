@@ -1,8 +1,5 @@
 const express = require("express");
-const axios = require("axios");
 const hashFunction = require("../Auth/hashFunction");
-const config = require("../Auth/config");
-const jwt = require("jsonwebtoken");
 
 class AuthRouter {
   constructor(authService) {
@@ -13,7 +10,8 @@ class AuthRouter {
     let router = express.Router();
     router.post("/login", this.postLogin.bind(this));
     router.post("/signup", this.postSignup.bind(this));
-    router.post("/login/facebook", this.postFbLogin.bind(this));
+    router.put("/login/facebook", this.postFbLogin.bind(this));
+    router.put("/login/google", this.postGoogleLogin.bind(this));
     return router;
   }
 
@@ -45,12 +43,17 @@ class AuthRouter {
       if (req.body.email && req.body.password) {
         let email = req.body.email;
         let password = req.body.password;
+        let hashedPassword = await hashFunction.hashPassword(password);
 
         let repeatedUser = await this.authService.checkExist(email);
-        if (repeatedUser) {
+        let repeatedUserPw = await this.authService.checkExistPassword(email);
+        if (repeatedUser && repeatedUserPw) {
           res.json({ message: "User already exist" });
+        } else if (repeatedUser && !repeatedUserPw) {
+          await this.authService.postPw(email, hashedPassword).then((data) => {
+            res.status(200).json({ id: data.id });
+          });
         } else {
-          let hashedPassword = await hashFunction.hashPassword(password);
           let newUser = {
             email: email,
             password: hashedPassword,
@@ -73,50 +76,75 @@ class AuthRouter {
   }
 
   async postFbLogin(req, res, next) {
-    if (req.body.userInfo.accessToken) {
-      const accessToken = req.body.userInfo.accessToken;
-      axios
-        .get(`https://graph.facebook.com/me?access_token=${accessToken}`)
-        .then(async (data) => {
-          if (!data.data.error) {
-            let email = req.body.userInfo.email;
-            let facebookId = req.body.userInfo.id;
-            let repeatedUser = await this.authService.checkExist(email);
-            if (!repeatedUser) {
-              let newUser = {
-                email: email,
-                facebookId: facebookId,
-                isAdmin: false,
-                token: 100,
-                grade: "-",
-                blacklist: false,
-              };
-              await this.authService.postFbLogin(newUser).then((token) => {
-                res.json({
-                  token: token,
-                });
-              });
-            } else {
-              // extract the facebook stored token and send it back here
-              console.log(data);
-              console.log("new place");
-              await this.authService
-                .getFbUser(req.body.userInfo.id)
-                .then((token) => {
-                  res.json({
-                    token: token,
-                  });
-                });
-            }
-          } else {
-            res.sendStatus(401);
-          }
-        })
-        .catch((err) => {
-          throw new Error(err);
+    try {
+      let email = req.body.userInfo.email;
+      let facebookId = req.body.userInfo.id;
+      let repeatedUser = await this.authService.checkExist(email);
+      let repeatedFbUser = await this.authService.checkExistFb(facebookId);
+      if (!repeatedUser && !repeatedFbUser) {
+        let newUser = {
+          email: email,
+          facebookId: facebookId,
+          isAdmin: false,
+          token: 100,
+          grade: "-",
+          blacklist: false,
+        };
+        await this.authService.postFbLogin(newUser).then((token) => {
+          res.json({ token: token });
         });
-    } else {
-      res.sendStatus(401);
+      } else if (repeatedUser && !repeatedFbUser) {
+        await this.authService.postFbId(email, facebookId).then((token) => {
+          res.json({ token: token });
+        });
+      } else {
+        await this.authService.getFbUser(facebookId).then((token) => {
+          res.json({ token: token });
+        });
+      }
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  async postGoogleLogin(req, res, next) {
+    try {
+      let email = req.body.userInfo.email;
+      let googleId = req.body.userInfo.googleId;
+      let firstname = req.body.userInfo.givenName;
+      let lastname = req.body.userInfo.familyName;
+
+      let repeatedUser = await this.authService.checkExist(email);
+      let repeatedGoogleUser = await this.authService.checkExistGoogle(
+        googleId
+      );
+      if (!repeatedUser && !repeatedGoogleUser) {
+        let newUser = {
+          email: email,
+          gmailId: googleId,
+          firstName: firstname,
+          lastName: lastname,
+          isAdmin: false,
+          token: 100,
+          grade: "-",
+          blacklist: false,
+        };
+        await this.authService.postGoogleLogin(newUser).then((token) => {
+          res.json({ token: token });
+        });
+      } else if (repeatedUser && !repeatedGoogleUser) {
+        await this.authService.postGoogleId(email, googleId).then((token) => {
+          res.json({ token: token });
+        });
+      } else {
+        await this.authService.getGoogleUser(googleId).then((token) => {
+          res.json({ token: token });
+        });
+      }
+    } catch (err) {
+      next(err);
+      throw new Error(err);
     }
   }
 }

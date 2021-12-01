@@ -1,13 +1,18 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import ReportMember from "./ReportMember";
+import { clearReportMsg } from "../../Redux/reportMember/reportMemberActions";
 
 import "../../Pages/SCSS/memberProfile.scss";
 
 function FellowProfileReportBar() {
   const [modalBoolean, setModalBoolean] = useState(false);
 
+  const dispatch = useDispatch();
+
   const closeModal = () => {
     setModalBoolean(false);
+    dispatch(clearReportMsg());
   };
 
   return (

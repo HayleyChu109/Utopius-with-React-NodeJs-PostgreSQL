@@ -8,25 +8,9 @@ class PublicRouter {
 
   router() {
     let router = express.Router();
-    router.get("/allusername", this.getAllUsername.bind(this));
     router.get("/requestList/:userId", this.getRequestList.bind(this));
     router.post("/message", this.postMsg.bind(this));
     return router;
-  }
-
-  // Get all username
-  async getAllUsername(req, res, next) {
-    try {
-      let allUsername = await this.publicService.getAllUsername();
-      if (allUsername) {
-        res.json(allUsername);
-      } else {
-        res.json([]);
-      }
-    } catch (err) {
-      next(err);
-      throw new Error(err);
-    }
   }
 
   async getRequestList(req, res, next) {
@@ -62,9 +46,8 @@ class PublicRouter {
     console.log("LEAVE A MESSAGE");
     return this.publicService
       .postMsg(req.body.email, req.body.name, req.body.title, req.body.message)
-      .then((msg) => {
-        console.log("Msg added", msg);
-        res.json(msg);
+      .then((guestMsgId) => {
+        res.json(guestMsgId);
       })
       .catch((err) => {
         res.status(500).json(err);

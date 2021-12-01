@@ -54,12 +54,31 @@ export const logoutAdmin = () => (dispatch) => {
 
 export const loginFacebookThunk = (userInfo) => async (dispatch) => {
   try {
-    const response = await axios.post(
+    const response = await axios.put(
       `${process.env.REACT_APP_API_SERVER}/login/facebook`,
       { userInfo: userInfo }
     );
     const { data } = response;
-    console.log(data);
+    if (data == null) {
+      dispatch({ type: LOGIN_FAILURE_ACTION, payload: "Unknown error" });
+    } else if (!data.token) {
+      dispatch({ type: LOGIN_FAILURE_ACTION, payload: data.message || "" });
+    } else {
+      localStorage.setItem("token", data.token);
+      dispatch({ type: LOGIN_SUCCESS_ACTION });
+    }
+  } catch (err) {
+    dispatch({ type: LOGIN_FAILURE_ACTION, payload: err.message });
+  }
+};
+
+export const loginGoogleThunk = (userInfo) => async (dispatch) => {
+  try {
+    const response = await axios.put(
+      `${process.env.REACT_APP_API_SERVER}/login/google`,
+      { userInfo: userInfo }
+    );
+    const { data } = response;
     if (data == null) {
       dispatch({ type: LOGIN_FAILURE_ACTION, payload: "Unknown error" });
     } else if (!data.token) {
