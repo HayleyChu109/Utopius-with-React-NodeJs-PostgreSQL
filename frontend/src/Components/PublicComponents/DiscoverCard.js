@@ -1,4 +1,6 @@
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+
 import { searchReq } from "../../Redux/request/actions";
 
 import { Card } from "reactstrap";
@@ -6,9 +8,11 @@ import FadeIn from "react-fade-in";
 
 const DiscoverCard = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleSearch = (val) => {
     dispatch(searchReq(val));
+    history.push("/");
   };
 
   return (

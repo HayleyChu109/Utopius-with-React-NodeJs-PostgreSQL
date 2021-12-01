@@ -5,6 +5,7 @@
   img {
     width: 80px;
     height: 80px;
+    border-radius: 50%;
     transform: translateX(0px);
   }
 }
@@ -12,8 +13,15 @@
 .comment-card-body {
   background-color: $beige;
   border-radius: 25px;
+  font-size: 14px;
+  letter-spacing: 2px;
 }
 
 .rating {
   color: $dark-blue;
+  font-family: $nunito;
+}
+
+.dark-orange {
+  color: $dark-orange;
 }

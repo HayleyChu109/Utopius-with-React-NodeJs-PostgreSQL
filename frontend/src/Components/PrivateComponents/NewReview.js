@@ -27,7 +27,9 @@ function NewReview({ isOpen, requestId, setReviewModalBoolean }) {
     if (Object.keys(reviewObj).length < 1) {
       setReviewErrMsg("Please complete this review and submit");
     } else {
-      dispatch(postReviewThunk(reviewObj, Number(requestId), userId, requestDetail));
+      dispatch(
+        postReviewThunk(reviewObj, Number(requestId), userId, requestDetail)
+      );
     }
   };
 
@@ -52,7 +54,8 @@ function NewReview({ isOpen, requestId, setReviewModalBoolean }) {
               <div className="review-helper p-3">{reviewErrorMsg}</div>
             ) : (
               <div className="review-helper p-3">
-                ! ! No token transaction will occur until you submit this review
+                * No token transaction will proceed until the requester submit
+                review
               </div>
             )}
             <div className="mb-3">

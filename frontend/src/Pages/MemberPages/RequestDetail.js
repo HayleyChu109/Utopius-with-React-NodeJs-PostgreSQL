@@ -13,6 +13,8 @@ import ResponseJoined from "../../Components/PrivateComponents/ResponseJoined";
 import ResponseHost from "../../Components/PrivateComponents/ResponseHost";
 import RequestMeetup from "../../Components/PrivateComponents/RequestMeetup";
 import NewReview from "../../Components/PrivateComponents/NewReview";
+import Discover from "../../Components/PublicComponents/Discover";
+import Footer from "../../Components/PublicComponents/Footer";
 import {
   searchReq,
   clearMessage,
@@ -717,6 +719,8 @@ const RequestDetail = () => {
           &#60; GO BACK
         </button>
       </div>
+      <Discover />
+      <Footer />
       <SuccessModal
         isOpen={modalBoolean}
         close={closeModal}

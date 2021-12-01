@@ -372,7 +372,7 @@ class RequestService {
       if (ratingQuery.length > 1) {
         return ratingQuery;
       } else {
-        return "Hello";
+        return [];
       }
     } catch (err) {
       throw new Error(err);

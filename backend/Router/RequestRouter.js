@@ -459,7 +459,7 @@ class RequestRouter {
         let rateArr = ratingQuery.map((review) => review.rating);
         let averageRate = parseFloat(
           (
-            rateArr.reduce((prev, current) => prev + current) /
+            rateArr.reduce((prev, current) => prev + current, 0) /
             ratingQuery.length
           ).toFixed(1)
         );
