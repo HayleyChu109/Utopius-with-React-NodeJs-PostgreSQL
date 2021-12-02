@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Card } from "react-bootstrap";
 import {
   Chart as ChartJS,
@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Chart, Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
 // import {
 //   ResponsiveContainer,

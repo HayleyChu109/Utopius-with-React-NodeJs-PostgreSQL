@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Card, Table } from "react-bootstrap";
 import { GetTokenUserTransaction } from "../../../Redux/adminToken/action";
-import { FaDollarSign } from "react-icons/fa";
+// import { FaDollarSign } from "react-icons/fa";
 import "../../../Pages/SCSS/dashboard.scss";
 
 export function TokenTransactionList() {

@@ -2,10 +2,10 @@
 import { useSelector, useDispatch } from "react-redux";
 // import { useHistory } from "react-router-dom";
 import { FaRegHandshake } from "react-icons/fa";
-import "../../../Pages/SCSS/adminNavBar.scss"
+import "../../../Pages/SCSS/adminNavBar.scss";
 
 import { logoutAdmin } from "../../../Redux/login/actions";
-import { Drop } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import Search from "../../PublicComponents/Search";
 
 const AdminNavbar = () => {
@@ -41,10 +41,15 @@ const AdminNavbar = () => {
             ) : (
               <a href="/login">LOGIN SIGNUP</a>
             )}
-            |<a href="/admin/dashboard">DASHBOARD</a>|<a href="/admin/request">REQ</a>|
+            |<a href="/admin/dashboard">DASHBOARD</a>|
+            <a href="/admin/request">REQ</a>|
             <a href="/admin/announcement">ANNOUNCEMENT</a>|
             <a href="/admin/task">TASK</a>|
-            <a href="/admin/token">TOKEN</a>|<span>SEARCH</span>
+            <Dropdown>
+              <a href="/admin/token">TOKEN</a>
+              <Dropdown.Menu></Dropdown.Menu>
+            </Dropdown>
+            |<span>SEARCH</span>
             <Search />
           </div>
         </div>

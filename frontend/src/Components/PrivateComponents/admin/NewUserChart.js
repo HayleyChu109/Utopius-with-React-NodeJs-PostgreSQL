@@ -3,15 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { GetUserGrowth } from "../../../Redux/adminData/action";
 import { Card } from "react-bootstrap";
 import moment from "moment";
-// import {
-//     XAxis,
-//     YAxis,
-//     Tooltip,
-//     Line,
-//     Bar,
-//     ComposedChart,ResponsiveContainer,
-//     Label,Text
-//   } from "recharts"
+
 
 import {
   Chart as ChartJS,
@@ -24,7 +16,7 @@ import {
   Legend,
   Tooltip
 } from "chart.js";
-import { Chart, Bar } from "react-chartjs-2";
+import { Chart } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -81,7 +73,7 @@ export function NewUserChart() {
   const dispatch = useDispatch();
 
   const { userGrowth } = useSelector((state) => state.adminDataStore);
-  const { data, XAxisTitle, bar, line } = userGrowth;
+  const { data } = userGrowth;
   console.log(data);
   var labels;
   var dataParsed;

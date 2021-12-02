@@ -1,15 +1,7 @@
-import { useEffect, useState } from "react";
 import "../SCSS/dashboard.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { FaDollarSign, FaCheck } from "react-icons/fa";
-import { BsChatSquareQuote } from "react-icons/bs";
-import moment from "moment";
-import { GetUserGrowth } from "../../Redux/adminData/action";
+import { useSelector } from "react-redux";
 import AdminNavbar from "../../Components/PrivateComponents/admin/adminNavBar";
 import { Card, Row, Col, Container } from "react-bootstrap";
-import LineBarComposed from "../../Components/PrivateComponents/admin/LineBarComposedchartComponent";
-import { UserList } from "../../Components/PrivateComponents/admin/userList";
-import { RequestList } from "../../Components/PrivateComponents/admin/requestList";
 import { TagCountChart } from "../../Components/PrivateComponents/admin/tagCountChart";
 import { NewUserChart } from "../../Components/PrivateComponents/admin/NewUserChart";
 import { RequestTypeCard } from "../../Components/PrivateComponents/admin/RequestCountCard";
@@ -22,13 +14,7 @@ import { Link } from "react-router-dom";
 
 export default function DashboardPage(props) {
   const adminDataStore = useSelector((state) => state.adminDataStore);
-  const request = adminDataStore.request;
-  const userGrowth = adminDataStore.user.userGrowth;
-  const newUserList = adminDataStore.user.newUserList;
-  const dispatch = useDispatch();
-  console.log(typeof moment().toDate());
-  useEffect(() => {
-  }, []);
+
   console.log(adminDataStore);
   return (
     <>

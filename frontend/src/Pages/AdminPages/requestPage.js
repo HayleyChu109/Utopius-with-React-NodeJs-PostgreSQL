@@ -1,11 +1,7 @@
-import { useState, useEffect } from "react";
-import { useParams,useHistory } from "react-router";
 import { Container, Row, Col } from "react-bootstrap";
 import AdminNavbar from "../../Components/PrivateComponents/admin/adminNavBar";
 import { RequestTypeCard } from "../../Components/PrivateComponents/admin/RequestCountCard";
-import { useSelector, useDispatch } from "react-redux";
-import { GetRequestList } from "../../Redux/adminRequest/action";
-import { searchReq } from "../../Redux/request/actions";
+
 import { RequestListTable } from "../../Components/PrivateComponents/admin/requestListTable";
 import { FinishedRequestCard } from "../../Components/PrivateComponents/admin/fininshedRequestCard";
 import { ResponseRateCard } from "../../Components/PrivateComponents/admin/responseCountCard";

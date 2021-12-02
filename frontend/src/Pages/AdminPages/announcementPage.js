@@ -32,7 +32,7 @@ export default function AnnouncementPage(props) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(GetAnnouncementList());
-  }, [dispatch,announce]);
+  }, [dispatch]);
   return (
     <>
       <AdminNavbar />

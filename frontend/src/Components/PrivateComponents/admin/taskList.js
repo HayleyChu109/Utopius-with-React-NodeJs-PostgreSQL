@@ -14,7 +14,7 @@ export function TaskList() {
   const [selected, setSelected] = useState("unread");
   let { task } = useSelector((state) => state.taskStore);
 
-if(selected==='unread')
+if(task&&task.length>0&&selected==='unread')
 {
   task=task.filter(item=>item.status==="unread")
 
