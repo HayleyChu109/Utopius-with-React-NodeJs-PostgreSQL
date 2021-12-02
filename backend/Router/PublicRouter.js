@@ -22,7 +22,6 @@ class PublicRouter {
         let tagNameArr = [];
         tag.forEach((tagObj) => {
           tagNameArr.push(tagObj.tagName);
-          // console.log(tagObj.tagName, "<<< TagName");
         });
         openReq[i].tag = tagNameArr;
         let requesterInfo = await this.requestService.getRequesterDetail(
@@ -32,9 +31,7 @@ class PublicRouter {
         openReq[i].username = requesterInfo.username;
         openReq[i].grade = requesterInfo.grade;
         openReq[i].profilePath = requesterInfo.profilePath;
-        // console.log("PubRouter getRequestList requesterInfo: ", requesterInfo);
       }
-      console.log("PubRouter getReqList OpenReq: ", openReq);
       res.json(openReq);
     } catch (err) {
       next(err);
@@ -43,7 +40,6 @@ class PublicRouter {
   }
 
   postMsg(req, res) {
-    console.log("LEAVE A MESSAGE");
     return this.publicService
       .postMsg(req.body.email, req.body.name, req.body.title, req.body.message)
       .then((guestMsgId) => {

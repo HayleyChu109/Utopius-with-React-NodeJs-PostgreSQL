@@ -101,6 +101,11 @@
   color: $dark-blue;
 }
 
+.username-id-res {
+  color: $light-blue;
+  cursor: pointer;
+}
+
 .coin {
   color: $coin;
 }
@@ -151,10 +156,7 @@
   color: $bookmark-true;
 }
 
-.username-id {
-  color: $dark-orange;
-}
-
-.username-id:hover {
+.username-id:hover,
+.username-id-res:hover {
   color: $dark-blue;
 }

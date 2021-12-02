@@ -21,12 +21,9 @@ const UserInfoCombo = ({ userId }) => {
   }, [userId]);
 
   const handleFellow = (fellowId) => {
-    if(localStorage.getItem('isAdmin'))
-    {
-
+    if (localStorage.getItem("isAdmin")) {
       history.push(`/admin/user/${fellowId}`);
-    }else{
-
+    } else {
       history.push(`/member/fellow/${fellowId}`);
     }
   };

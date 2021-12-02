@@ -1,5 +1,3 @@
-const { request } = require("express");
-
 class RequestService {
   constructor(knex) {
     this.knex = knex;
@@ -57,7 +55,11 @@ class RequestService {
       await this.knex("request")
         .where("id", requestId)
         .update({ status: newStatus });
-      return { message: "Request status updated" };
+      if (newStatus === "cancelled") {
+        return { message: "Request cancelled" };
+      } else if (newStatus === "completed") {
+        return { message: "Request completed" };
+      }
     } catch (err) {
       throw new Error(err);
     }
@@ -85,7 +87,6 @@ class RequestService {
   async postNewTag(newTag) {
     const addTag = async (tag) => {
       let matchedTag = await this.knex("tag").select("*").where("tagName", tag);
-      // console.log("MemberService postNewTag", matchedTag);
       if (!matchedTag || matchedTag.length < 1) {
         console.log("Posting new tag..");
         return this.knex.insert({ tagName: tag }).into("tag").returning("id");
@@ -96,7 +97,6 @@ class RequestService {
     };
     try {
       let tagIdArr = newTag.map((tag) => addTag(tag));
-      // console.log("tagIdArr: ", tagIdArr);
       return tagIdArr;
     } catch (err) {
       throw new Error(err);
@@ -325,6 +325,69 @@ class RequestService {
     }
   }
   /**************** Response service ****************/
+
+  /**************** Review service ****************/
+  async getReviewList(requestId, userId) {
+    try {
+      let reviewQuery = await this.knex("review")
+        .select("*")
+        .where("reviewerId", userId)
+        .andWhere("requestId", requestId);
+      return reviewQuery;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async postReview(
+    requestId,
+    reviewerId,
+    revieweeId,
+    rating,
+    contributed,
+    ratingComment
+  ) {
+    try {
+      return await this.knex
+        .insert({
+          requestId,
+          reviewerId,
+          revieweeId,
+          rating: rating ? rating : 0,
+          contributed: contributed,
+          ratingComment: ratingComment ? ratingComment : null,
+        })
+        .into("review");
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async getUserOverallRating(userId) {
+    try {
+      let ratingQuery = await this.knex("review")
+        .select("rating")
+        .where("revieweeId", userId);
+      console.log(ratingQuery);
+      if (ratingQuery.length > 1) {
+        return ratingQuery;
+      } else {
+        return [];
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async putUserGrade(userId, newGrade) {
+    try {
+      return await this.knex("account")
+        .update({ grade: newGrade })
+        .where("id", userId);
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
 }
 
 module.exports = RequestService;

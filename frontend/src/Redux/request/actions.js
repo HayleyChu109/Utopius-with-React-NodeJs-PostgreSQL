@@ -2,6 +2,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 
 export const SEARCH_REQ_ACTION = "SEARCH_REQ_ACTION";
+export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 export const GET_REQUEST_LIST = "GET_REQUEST_LIST";
 export const GET_REQUEST_DETAIL = "GET_REQUEST_DETAIL";
 export const POST_NEW_REQUEST = "POST_NEW_REQUEST";
@@ -14,12 +15,22 @@ export const DELETE_RESPONSE = "DELETE_RESPONSE";
 export const MATCH_RESPONSE = "MATCH_RESPONSE";
 export const GET_TEAM_LIST = "GET_TEAM_LIST";
 export const CHANGE_REQ_STATUS = "CHANGE_REQ_STATUS";
+export const GET_REVIEW_LIST = "GET_REVIEW_LIST";
+export const REVIEW_SUCCESS = "REVIEW_SUCCESS";
 
 // For nav search-bar
 export const searchReq = (search) => {
   return {
     type: SEARCH_REQ_ACTION,
     payload: search,
+  };
+};
+
+// For clearing up the message
+export const clearMessage = () => {
+  console.log("Clearing messages..");
+  return {
+    type: CLEAR_MESSAGE,
   };
 };
 
@@ -418,5 +429,49 @@ export const changeRequestStatusThunk =
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+
+// For checking if review is completed or not
+export const getReviewInfoThunk = (requestId, userId) => async (dispatch) => {
+  try {
+    let token = await localStorage.getItem("token");
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_SERVER}/member/request/review/${requestId}/${userId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    const { data } = response;
+    if (data.message === "Not reviewed") {
+      console.log("review msg: ", data.message);
+      dispatch({
+        type: GET_REVIEW_LIST,
+        payload: true,
+      });
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+// For submitting new review
+export const postReviewThunk =
+  (reviewInfo, requestId, userId, requestDetail) => async (dispatch) => {
+    console.log("ReviewInfo: ", reviewInfo, requestId, userId);
+    try {
+      let token = await localStorage.getItem("token");
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_SERVER}/member/request/review/new`,
+        { reviewInfo, requestId, userId, requestDetail },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const { data } = response;
+      if (data.message) {
+        dispatch({
+          type: REVIEW_SUCCESS,
+          payload: data.message,
+        });
+      }
+    } catch (err) {
+      throw new Error(err);
     }
   };

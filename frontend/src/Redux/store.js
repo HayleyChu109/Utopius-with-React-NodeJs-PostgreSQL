@@ -25,6 +25,7 @@ import { buyTokenReducer } from "./token/buyTokenReducer";
 import { AdminTokenReducer } from "./adminToken/reducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const rootReducer = combineReducers({
   loginStore: loginReducer,
   signupStore: signupReducer,
@@ -41,12 +42,12 @@ const rootReducer = combineReducers({
   tokenRecordStore: tokenRecordReducer,
   buyTokenStore: buyTokenReducer,
   footerStore: footerReducer,
-  adminDataStore:AdminDataReducer,
-  announceStore:AnnounceReducer,
-  tagStore:TagReducer,
-  adminRequestStore:AdminRequestReducer,
-  taskStore:TaskReducer,
-  adminTokenStore:AdminTokenReducer,
+  adminDataStore: AdminDataReducer,
+  announceStore: AnnounceReducer,
+  tagStore: TagReducer,
+  adminRequestStore: AdminRequestReducer,
+  taskStore: TaskReducer,
+  adminTokenStore: AdminTokenReducer,
 });
 
 export const store = createStore(

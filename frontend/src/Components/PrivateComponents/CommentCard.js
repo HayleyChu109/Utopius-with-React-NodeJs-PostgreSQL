@@ -18,17 +18,18 @@ function CommentCard(props) {
                   <img src={review.profilePath} alt="Profile pic" />
                 </div>
                 <div className="col-lg-11 comment-card-body">
-                  <div className="mt-3 ms-5 ps-2">
+                  <div className="mt-3 ms-5 ps-2 dark-orange">
                     <GradeBall grade={review.grade} />
                     <span>
                       {review.username} UID#{review.reviewerId}
                     </span>
                   </div>
                   <p className="mt-3 ms-5 ps-2">
-                    Rating: <span className="rating">{review.rating}</span>
+                    Rating: <span className="rating">{review.rating} / 5</span>
                   </p>
                   <p className="ms-5 ps-2">
-                    Review: <br /> {review.ratingComment}
+                    Review: <br />
+                    <span className="rating"> {review.ratingComment}</span>
                   </p>
                 </div>
               </div>

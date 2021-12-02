@@ -13,6 +13,7 @@
   max-height: 500px;
   width: auto;
   border-radius: 20px 0 0 0;
+  overflow: hidden;
   img {
     height: 23em;
     width: 23em;
@@ -115,31 +116,41 @@
 .req-detail-nav-res {
   color: $dark-blue;
   cursor: pointer;
+  letter-spacing: 3px;
 }
 
 .req-detail-nav-join {
   color: $dark-grey;
   cursor: pointer;
+  letter-spacing: 3px;
 }
 
 .req-detail-nav-join:hover {
   color: $dark-blue;
   cursor: pointer;
+  letter-spacing: 3px;
 }
 
 .req-detail-nav-joined {
   color: $dark-blue;
   cursor: pointer;
+  letter-spacing: 3px;
 }
 
 .req-detail-nav-comment,
 .req-detail-nav-matched {
   color: $dark-blue;
   cursor: pointer;
+  letter-spacing: 3px;
 }
 
 .req-detail-nav-locked {
   color: $dark-grey;
+  letter-spacing: 3px;
+}
+
+.req-detail-nav-status {
+  letter-spacing: 3px;
 }
 
 .request-detail-footer {
@@ -190,6 +201,29 @@
   background: $white;
   color: $dark-blue;
   border: 2px solid $dark-orange;
+}
+
+.btn-white-lightorange-sm,
+.btn-white-lightorange-sm:focus {
+  background: $white;
+  color: $light-orange;
+  font-family: $nunito;
+  font-size: 15px;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  border: 2px solid $light-orange;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.btn-white-lightorange-sm:hover,
+.btn-white-lightorange-sm:focus:hover {
+  background: $white;
+  color: $dark-blue;
+  border: 2px solid $light-orange;
 }
 
 .btn-white-blue-sm,
@@ -243,7 +277,8 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: hsla(205, 20%, 88%, 0.226);
+  background-color: hsla(208, 48%, 87%, 0.171);
+  backdrop-filter: blur(5px);
 }
 
 .response-matching-msg {
@@ -255,4 +290,8 @@
   font-family: $nunito;
   font-weight: bold;
   letter-spacing: 1px;
+}
+
+.no-res-no-cm {
+  color: $dark;
 }

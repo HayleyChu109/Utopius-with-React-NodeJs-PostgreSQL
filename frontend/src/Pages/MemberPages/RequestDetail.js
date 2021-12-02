@@ -5,17 +5,19 @@ import jwt_decode from "jwt-decode";
 import moment from "moment";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
-import UserInfoCombo from "../../Components/PublicComponents/UserInfoCombo";
-// import GradeBall from "../../Components/PublicComponents/GradeBall";
+import GradeBall from "../../Components/PublicComponents/GradeBall";
 import SuccessModal from "../../Components/PublicComponents/SuccessModal";
 import RequestDetailNav from "../../Components/PrivateComponents/RequestDetailNav";
 import RequestDetailComment from "../../Components/PrivateComponents/RequestDetailComment";
 import ResponseJoined from "../../Components/PrivateComponents/ResponseJoined";
 import ResponseHost from "../../Components/PrivateComponents/ResponseHost";
 import RequestMeetup from "../../Components/PrivateComponents/RequestMeetup";
-// import Review from "../../Components/PrivateComponents/Review";
+import NewReview from "../../Components/PrivateComponents/NewReview";
+import Discover from "../../Components/PublicComponents/Discover";
+import Footer from "../../Components/PublicComponents/Footer";
 import {
   searchReq,
+  clearMessage,
   getRequestDetailThunk,
   getBookmarkListThunk,
   bookmarkToggleThunk,
@@ -27,6 +29,7 @@ import {
   deleteResponseThunk,
   putMatchedResponseThunk,
   getTeamListThunk,
+  getReviewInfoThunk,
 } from "../../Redux/request/actions";
 
 import { Card, CardBody, CardFooter, Button } from "reactstrap";
@@ -40,16 +43,20 @@ import "../SCSS/requestDetail.scss";
 
 const RequestDetail = () => {
   const {
-    requestDetail,
-    requestStatus,
     bookmarkList,
-    publicCommentList,
-    privateCommentList,
+
+    requestDetail,
+    requestStatusMessage,
+
     responseList,
-    teamList,
     editSuccessMsg,
     deleteSuccessMsg,
     matchSuccessMsg,
+
+    teamList,
+
+    notReviewed,
+    reviewSuccessMsg,
   } = useSelector((state) => state.requestStore);
   /* Notes to the states from store:
   requestDetail: Contains all the request body info
@@ -75,9 +82,8 @@ const RequestDetail = () => {
   const [matchList, setMatchList] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
   const [modalBoolean, setModalBoolean] = useState(false);
-  // For preventing user enters wrong path
-  // const [wrongPathNoti, setWrongPathNoti] = useState("");
-  // const [wrongPathBoolean, setWrongPathBoolean] = useState(false);
+  // For review
+  const [reviewModalBoolean, setReviewModalBoolean] = useState(false);
 
   const { requestId } = useParams();
   const { tab } = useParams();
@@ -87,25 +93,28 @@ const RequestDetail = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // Get the req data
+  // Dispatch thunk to get all necessary data
   useEffect(() => {
     console.log("request id: ", requestId);
     console.log("user id: ", userId);
     dispatch(getRequestDetailThunk(requestId, userId));
-  }, [dispatch, requestId, userId]);
-
-  // Get the bookmark list to check bookmark status
-  useEffect(() => {
     dispatch(getBookmarkListThunk(userId));
-  }, [dispatch, userId]);
-
-  // Get public comments, private comments, response list, team list
-  useEffect(() => {
     dispatch(getCommentThunk(requestId, false));
     dispatch(getCommentThunk(requestId, true));
     dispatch(getResponseListThunk(requestId));
     dispatch(getTeamListThunk(requestId));
-  }, [dispatch, requestId, editSuccessMsg]);
+    dispatch(getReviewInfoThunk(requestId, userId));
+  }, [
+    dispatch,
+    userId,
+    requestId,
+    requestStatusMessage,
+    editSuccessMsg,
+    deleteSuccessMsg,
+    matchSuccessMsg,
+    reviewSuccessMsg,
+    tab,
+  ]);
 
   // Prevent user entering wrong path
   useEffect(() => {
@@ -134,6 +143,8 @@ const RequestDetail = () => {
             history.push(`/member/request/detail/${requestId}/meetup`);
           }
           break;
+        default:
+          return;
       }
     } else {
       console.log("User is not the req");
@@ -162,6 +173,7 @@ const RequestDetail = () => {
             teamList.map((team) => team.responserId).indexOf(userId) === -1
           ) {
             console.log("3");
+            console.log(teamList);
             history.push(`/member/request/detail/${requestId}/comment`);
           }
           break;
@@ -196,9 +208,13 @@ const RequestDetail = () => {
           history.push(`/member/request/detail/${requestId}/comment`);
           break;
         case "meetup":
-          console.log("8");
           // Req status not matched
-          if (teamList.length < 1) {
+          if (
+            requestDetail.status === "cancelled" ||
+            requestDetail.status === "open"
+          ) {
+            console.log(requestDetail.status);
+            console.log("8");
             history.push(`/member/request/detail/${requestId}/comment`);
           }
           // Req status matched but member is not in the team
@@ -206,15 +222,27 @@ const RequestDetail = () => {
             teamList.length > 0 &&
             teamList.map((team) => team.responserId).indexOf(userId) === -1
           ) {
+            console.log("9");
             history.push(`/member/request/detail/${requestId}/comment`);
-            // setWrongPathBoolean(true);
-            // setWrongPathNoti("Sorry ! Only matched members are allowed");
           }
+          break;
+        default:
+          return;
       }
     }
-  }, [requestStatus, requestDetail, userId, responseList, tab]);
+  }, [
+    dispatch,
+    history,
+    tab,
+    requestId,
+    userId,
+    requestDetail,
+    responseList,
+    teamList,
+    requestStatusMessage,
+  ]);
 
-  // Success modal toggle
+  // Modal toggle
   useEffect(() => {
     if (matchSuccessMsg !== "") {
       setModalBoolean(true);
@@ -223,11 +251,56 @@ const RequestDetail = () => {
     } else if (editSuccessMsg !== "") {
       setEditSuccessBoolean(true);
     }
-  }, [matchSuccessMsg, deleteSuccessMsg, editSuccessMsg]);
+    if (requestDetail.status === "completed" && notReviewed) {
+      setReviewModalBoolean(true);
+    }
+  }, [
+    dispatch,
+    matchSuccessMsg,
+    deleteSuccessMsg,
+    editSuccessMsg,
+    notReviewed,
+    requestDetail,
+  ]);
+
+  // Close success modal
+  const closeModal = () => {
+    if (modalBoolean) {
+      // Modal for confirm match
+      setModalBoolean(false);
+      history.push(`/member/request/detail/${requestId}/meetup`);
+      // Hotfix for not pushing member to the meetup
+      window.location.reload();
+    } else if (responseModalBoolean) {
+      // Modal for success delete response
+      setResponseModalBoolean(false);
+      history.push(`/member/request/detail/${requestId}/comment`);
+    } else if (editSuccessBoolean) {
+      // Modal for success edit response
+      setEditSuccessBoolean(false);
+    } else if (reviewModalBoolean) {
+      // Modal for success review
+      setReviewModalBoolean(false);
+    }
+    dispatch(clearMessage());
+  };
+
+  // // Close modal when receive success message
+  useEffect(() => {
+    if (reviewSuccessMsg !== "") {
+      setReviewModalBoolean(false);
+      history.push(`/member/request/detail/${requestId}/comment`);
+    }
+  }, [history, requestId, requestDetail, reviewSuccessMsg]);
 
   // Bookmark toggle function
   const handleBookmark = (bookmarked) => {
     dispatch(bookmarkToggleThunk(requestId, userId, bookmarked));
+  };
+
+  // Visit member profile when clicked
+  const handleFellow = (fellowId) => {
+    history.push(`/member/fellow/${fellowId}`);
   };
 
   // Search the tag when clicked
@@ -239,43 +312,6 @@ const RequestDetail = () => {
   // Changing tab
   const handleTab = (displayOption) => {
     history.push(`/member/request/detail/${requestId}/${displayOption}`);
-  };
-
-  // Close success modal
-  const closeModal = () => {
-    if (modalBoolean) {
-      setModalBoolean(false);
-      history.push(`/member/request/detail/${requestId}/meetup`);
-      // Hotfix for not pushing member to the meetup
-      window.location.reload();
-    } else if (responseModalBoolean) {
-      setResponseModalBoolean(false);
-      history.push(`/member/request/detail/${requestId}/comment`);
-    } else if (setEditSuccessBoolean) {
-      setEditSuccessBoolean(false);
-    }
-  };
-
-  // Matching response
-  const handleMatch = (newMatchId) => {
-    setErrorMsg("");
-    if (matchList && matchList.length > 0 && matchList.includes(newMatchId)) {
-      let newMatch = matchList.filter((resId) => resId !== newMatchId);
-      setMatchList(newMatch);
-      console.log("NewMatch: ", newMatch);
-    } else if (matchList.length >= requestDetail.requiredPpl) {
-      setErrorMsg(
-        `You are reaching the response limit ! ( ${requestDetail.requiredPpl} response )`
-      );
-    } else {
-      let newMatch = matchList.concat([newMatchId]);
-      if (newMatch.length >= requestDetail.requiredPpl) {
-        setErrorMsg(
-          `You are reaching the response limit ! ( ${requestDetail.requiredPpl} response )`
-        );
-      }
-      setMatchList(newMatch);
-    }
   };
 
   // Submit new comment
@@ -307,6 +343,28 @@ const RequestDetail = () => {
   const deleteResponse = () => {
     console.log("Sending delete res thunk..");
     dispatch(deleteResponseThunk(requestId, userId));
+  };
+
+  // Matching response
+  const handleMatch = (newMatchId) => {
+    setErrorMsg("");
+    if (matchList && matchList.length > 0 && matchList.includes(newMatchId)) {
+      let newMatch = matchList.filter((resId) => resId !== newMatchId);
+      setMatchList(newMatch);
+      console.log("NewMatch: ", newMatch);
+    } else if (matchList.length >= requestDetail.requiredPpl) {
+      setErrorMsg(
+        `You are reaching the response limit ! ( ${requestDetail.requiredPpl} response )`
+      );
+    } else {
+      let newMatch = matchList.concat([newMatchId]);
+      if (newMatch.length >= requestDetail.requiredPpl) {
+        setErrorMsg(
+          `You are reaching the response limit ! ( ${requestDetail.requiredPpl} response )`
+        );
+      }
+      setMatchList(newMatch);
+    }
   };
 
   // Submit matched response
@@ -341,7 +399,21 @@ const RequestDetail = () => {
               </div>
               <div className="request-main mx-auto col-md-7 col-sm-12 col-xs-12 px-3 pt-3 position-relative">
                 <div className="py-2">
-                  <UserInfoCombo userId={requestDetail.requesterId} />
+                  <div
+                    className="username-id"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFellow(requestDetail.requesterId);
+                    }}
+                  >
+                    <GradeBall grade={requestDetail.requesterGrade} />
+                    <span className="requester-username me-3">
+                      {requestDetail.requesterUsername}
+                    </span>
+                    <span className="requester-id">
+                      UID#{requestDetail.requesterId}
+                    </span>
+                  </div>
                 </div>
                 <div className="request-detail-createdAt py-2">
                   Created at : {moment(requestDetail.createdAt).format("LLL")}
@@ -421,6 +493,7 @@ const RequestDetail = () => {
               ) : tab === "meetup" ? (
                 <RequestMeetup
                   requestId={requestId}
+                  userId={userId}
                   type={true}
                   matchList={matchList}
                   errorMsg={errorMsg}
@@ -435,20 +508,34 @@ const RequestDetail = () => {
                   status="open"
                 />
               ) : tab === "join" ? (
-                <div className="response-form p-4 mx-auto">
-                  <div className="response-heading px-2 pb-3">
-                    CREATE RESPONSE
+                <>
+                  <div className="response-matching-bg">
+                    <div className="response-form response-matching-msg">
+                      <div className="response-form p-2 mx-auto">
+                        <div className="response-heading pt-3 pb-1">
+                          Create Response
+                        </div>
+                        <div
+                          className="response-matching-helper pb-2"
+                          style={{ color: "#ff6161" }}
+                        >
+                          Only you and the requester can see this note
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <textarea
-                    className="form-control response-ta mx-auto pb-4"
-                    placeholder="Join this request and leave a message.."
-                    rows="10"
-                    maxLength="250"
-                    onChange={(e) => {
-                      setResponseMsg(e.currentTarget.value);
-                    }}
-                  ></textarea>
-                </div>
+                  <div className="response-form p-4 mx-auto">
+                    <textarea
+                      className="form-control response-ta mx-auto pb-4"
+                      placeholder="Join this request and leave a message.."
+                      rows="10"
+                      maxLength="250"
+                      onChange={(e) => {
+                        setResponseMsg(e.currentTarget.value);
+                      }}
+                    ></textarea>
+                  </div>
+                </>
               ) : tab === "joined" ? (
                 <ResponseJoined
                   requestId={requestId}
@@ -541,29 +628,40 @@ const RequestDetail = () => {
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div>
                   {editRes ? (
-                    <Button
-                      className="btn-white-blue-sm mx-2"
-                      onClick={editResponse}
-                    >
-                      SUBMIT
-                    </Button>
+                    <>
+                      <Button
+                        className="btn-white-blue-sm mx-2"
+                        onClick={editResponse}
+                      >
+                        SUBMIT
+                      </Button>
+                      <Button
+                        className="btn-white-blue-sm mx-2"
+                        onClick={() => {
+                          setEditRes(false);
+                        }}
+                      >
+                        DISPOSE
+                      </Button>
+                    </>
                   ) : (
-                    <Button
-                      className="btn-white-blue-sm mx-2"
-                      onClick={() => {
-                        setEditRes(true);
-                      }}
-                    >
-                      EDIT
-                    </Button>
+                    <>
+                      <Button
+                        className="btn-white-blue-sm mx-2"
+                        onClick={() => {
+                          setEditRes(true);
+                        }}
+                      >
+                        EDIT
+                      </Button>
+                      <Button
+                        className="btn-white-blue-sm mx-2"
+                        onClick={deleteResponse}
+                      >
+                        DELETE
+                      </Button>
+                    </>
                   )}
-
-                  <Button
-                    className="btn-white-blue-sm mx-2"
-                    onClick={deleteResponse}
-                  >
-                    DELETE
-                  </Button>
                 </div>
               </div>
             ) : tab === "meetup" ? (
@@ -616,6 +714,13 @@ const RequestDetail = () => {
           </CardFooter>
         </Card>
       </div>
+      <div className="text-center my-3">
+        <button className="mb-5 btn-goback" onClick={() => history.goBack()}>
+          &#60; GO BACK
+        </button>
+      </div>
+      <Discover />
+      <Footer />
       <SuccessModal
         isOpen={modalBoolean}
         close={closeModal}
@@ -631,11 +736,15 @@ const RequestDetail = () => {
         close={closeModal}
         message={editSuccessMsg}
       />
-      {/* {requestDetail.state === "completed" ? (
-        <>
-          <Review isOpen={true} close={} review={} />
-        </>
-      ) : null} */}
+      {requestDetail.requesterId === userId ||
+      teamList.map((team) => team.responserId).includes(userId) ? (
+        <NewReview
+          isOpen={reviewModalBoolean}
+          close={closeModal}
+          requestId={requestId}
+          setReviewModalBoolean={setReviewModalBoolean}
+        />
+      ) : null}
     </>
   );
 };

@@ -339,7 +339,9 @@ const NewRequest = (props) => {
                 }}
                 required
               />
-
+              <div className="review-helper ps-1 pt-1">
+                * Tagname must start with a # and separate by blank space
+              </div>
               <br />
               <div className="mt-3 row g-1">
                 <div className="col-1 new-req-coin">

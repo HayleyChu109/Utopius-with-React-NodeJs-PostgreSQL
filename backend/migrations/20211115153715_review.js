@@ -8,6 +8,7 @@ exports.up = function (knex) {
     table.integer("revieweeId").unsigned();
     table.foreign("revieweeId").references("account.id");
     table.integer("rating");
+    table.boolean("contributed");
     table.string("ratingComment");
     table.timestamps(false, true);
   });
