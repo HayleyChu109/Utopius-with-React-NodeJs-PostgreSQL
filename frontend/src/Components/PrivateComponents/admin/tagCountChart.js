@@ -41,13 +41,34 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "right",
+      display:false
     },
     title: {
       display: true,
       text: "Most used tag",
     },
   },
+  scales: {
+    x: {
+      title: {
+        display: true,
+        text: "count",
+      },
+      ticks: {
+        stepSize: 1,
+      },
+      min: 0,
+      max: 10,
+    },
+    y: {
+      title: {
+        display: true,
+        text: "tag",
+      },
+      min: 0,
+      max: 5,
+    },
+}
 };
 
 export const TagCountChart = () => {

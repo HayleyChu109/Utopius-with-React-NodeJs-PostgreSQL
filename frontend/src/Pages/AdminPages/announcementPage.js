@@ -36,19 +36,21 @@ export default function AnnouncementPage(props) {
   return (
     <>
       <AdminNavbar />
+      <div className='p-4 '>
       <h1>Announcement</h1>
-      <p>Welcome back, admin!</p>
 
-      {draft=={} ? (
+      {draft==={} ? (
         <Button href="/admin/announcement/new">Continue your post</Button>
       ) : (
-        <Button href="/admin/announcement/new">
+        <Button className='my-4' href="/admin/announcement/new">
           <FaPlusCircle className='me-2' />
           Add 
         </Button>
       )}
-      <Table>
-        <thead>
+      <div className='table-responsive rounded-3'>
+
+      <Table  className='' >
+        <thead className='table-secondary'>
           <tr>
             <th></th>
             <th>title</th>
@@ -60,7 +62,7 @@ export default function AnnouncementPage(props) {
         <tbody>
           {announce && announce.length > 0 ? (
             announce.map((item) => (
-              <tr key={item.id}  >
+              <tr key={item.id}  className='align-middle'>
                 <td>
                 </td>
                 <td onClick={() => modalOpen(item.title, item.content)}>{item.title}</td>
@@ -77,11 +79,13 @@ export default function AnnouncementPage(props) {
                 </td>
               </tr>
             ))
-          ) : (
-            <tr>There are no announcement yet</tr>
-          )}
+            ) : (
+              <tr>There are no announcement yet</tr>
+              )}
         </tbody>
       </Table>
+              </div>
+      </div>
       <AnnouncementPreview modal={modal} handle={modalClose} data={content}title={title}/>
     
     </>

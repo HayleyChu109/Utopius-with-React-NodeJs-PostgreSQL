@@ -60,7 +60,6 @@ export const options = {
             text: "Value",
           },
           min: 0,
-          max: 5,
           ticks: {
             stepSize: 1,
           },

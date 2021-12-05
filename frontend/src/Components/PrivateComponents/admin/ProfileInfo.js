@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import moment from "moment";
-
 import MemberReqCollapse from "../MemberReqCollapse";
 import FellowResCollapse from "../FellowResCollapse";
 import GradeBall from "../../PublicComponents/GradeBall";
@@ -34,6 +33,7 @@ function ProfileInfo(props) {
 
   return (
     <>
+    
       <div className="container mt-5">
         <div className="row d-flex justify-content-center">
           <div className="col-lg-12 col-md-12 col-sm-12-col-xs-12 memberProfileInfo">
@@ -80,6 +80,7 @@ function ProfileInfo(props) {
           &#60; GO BACK
         </button>
       </div>
+      
     </>
   );
 }

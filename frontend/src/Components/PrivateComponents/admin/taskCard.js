@@ -19,7 +19,7 @@ export function TaskCountCard() {
   return (
 <>
       <Card>
-          <FaTasks className="icon"/>
+          <FaTasks className="dashboard-icon"/>
         <p className="me-2 mt-2 text-end">Task</p>
         <p className="me-2 mt-2 text-end">{length}</p>
         

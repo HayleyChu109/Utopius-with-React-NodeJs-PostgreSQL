@@ -25,7 +25,7 @@ export function ResponseRateCard(){
               <p className="me-2 mt-2 text-end">Matched Response Rate</p>
               {rate?<p className="me-2 mt-2 text-end">{rate}%</p>:<p className="me-2 mt-2 text-end">0%</p>}
               
-              <FaPeopleCarry className="icon" />
+              <FaPeopleCarry className="dashboard-icon" />
 
             </Card>
         </>

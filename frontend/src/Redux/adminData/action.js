@@ -3,6 +3,7 @@ export const Load_USER_GROWTH_SUCCESS = "LOAD_USER_GROWTH_SUCCESS";
 export const Load_DATA_FAILED = "LOAD_DATA_FAILED";
 export const Load_NEWUSERLIST_SUCCESS='Load_NEWUSERLIST_SUCCESS'
 export const Load_USER_SUCCESS='Load_USER_SUCCESS'
+export const Load_USER_LIST_SUCCESS='Load_USER_LIST_SUCCESS'
 export const Load_USER_BlOCK_SUCCESS='Load_USER_BLOCK_SUCCESS'
 export const GetUserGrowth = (start, end) => async (dispatch) => {
   let userToken = localStorage.getItem("token");
@@ -80,6 +81,26 @@ export const PutUserBlock = (userId,status) => async (dispatch) => {
     );
     console.log(response.data[0])
   dispatch({type:Load_USER_BlOCK_SUCCESS,payload:response.data[0]})
+ 
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: Load_DATA_FAILED });
+  }
+};
+export const GetUserList = (column,order) => async (dispatch) => {
+  console.log(order)
+  let userToken = localStorage.getItem("token");
+  console.log(userToken);
+  try {
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_SERVER}/admin/user/list`,
+      {
+        params:{column:column,order:order},
+        headers: { Authorization: `Bearer ${userToken}` },
+      }
+    );
+    console.log(response.data)
+  dispatch({type:Load_USER_LIST_SUCCESS,payload:response.data})
  
   } catch (error) {
     console.log(error);

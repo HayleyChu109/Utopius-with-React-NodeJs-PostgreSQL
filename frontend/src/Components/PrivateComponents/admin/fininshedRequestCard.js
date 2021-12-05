@@ -29,7 +29,7 @@ export function FinishedRequestCard(){
               <p className="me-2 mt-2 text-end">Finished request</p>
               {finish&&isNaN(finish)===false?<p className="me-2 mt-2 text-end">{finish}</p>:<p className="me-2 mt-2 text-end">0</p>}
               
-              <FaCheck className="icon" />
+              <FaCheck className="dashboard-icon" />
 
             </Card>
         </>

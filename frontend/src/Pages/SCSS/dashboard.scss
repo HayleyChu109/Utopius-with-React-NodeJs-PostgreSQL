@@ -1,3 +1,4 @@
+@import 'basic';
 .graph {
   display: flex;
   align-items: center;
@@ -10,8 +11,7 @@ a {
 a:hover{
   color:black;
 }
-
-.icon {
+.dashboard-icon {
   position: absolute;
   border-radius: 5px 20px 20px 5px;
  background-color: #0bb1e4;
@@ -29,6 +29,67 @@ position: relative;
   min-height: 65vh;
 }
 
-.table{
+.dashboard-table{
   min-height: 50vh;
+}
+
+.profile{
+width: 30px;
+height: 30px;
+border-radius: 100px;
+}
+
+.user-canva{
+  width: 70vw;
+}
+
+.new-plan{
+  width: 150px;
+  height:150px
+}
+.new-item{
+  width: 150px;
+  height:150px
+}
+
+.admin-footer{
+  background-color: $dark-blue;
+border-radius: 1px !important;
+
+}
+.admin-modal{
+  background-color: $dark-blue;
+border-radius: 100px;
+
+}
+
+.token-list{
+  display: flex;
+  
+  overflow: visible;
+}
+
+.token-link{
+  color: $dark-blue;
+  font-size: 15px;
+}
+
+.redeem-card {
+  min-width: 250px;
+  height: 350px;
+  background-color: $white;
+  border: 3px solid $coin;
+  border-radius: 15px;
+  font-size: $nunito;
+  filter: drop-shadow(4px 4px 3px $light-grey);
+  transition: 1s ease-in-out;
+  cursor: pointer;
+  img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.token-text{
+  font-size: large;
 }
