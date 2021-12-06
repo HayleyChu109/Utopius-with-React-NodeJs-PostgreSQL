@@ -25,11 +25,7 @@ export default function DashboardPage(props) {
         <div className="my-5 mx-5 px-4 discover-title">
           <GiDiamonds className="me-2 mb-1" />
           DASHBOARD
-        <select className='float-end' name="" id="">
-          <option value="1">Today</option>
-          <option value="2">This Week</option>
-          <option value="3">This Month</option>
-        </select>
+        
         </div>
         <Container fluid>
           <h2>Today</h2>

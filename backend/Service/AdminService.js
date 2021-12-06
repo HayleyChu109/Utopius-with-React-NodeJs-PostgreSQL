@@ -56,42 +56,53 @@ class AdminService {
         "blacklist",
         "profilePath"
       )
-      .count({ request: "request.id", response: "response.id" })
+      .count({
+        request: "request.id",
+        requestMatched: "request.matched",
+        response: "response.id",
+      })
       .leftJoin("request", "account.id", "request.requesterId")
       .leftJoin("response", "account.id", "response.responserId")
       .where({ "account.id": userId })
       .groupBy("account.id");
   }
   getUserReview(userId) {
-    return this.knex("review")
-      .select("rating", "ratingComment")
-      .join("account", "reviewerId", "account.id")
-      .where({ isAdmin: false })
-      .orderBy("created_at")
-      .groupBy("requestId");
+    return this.knex("account")
+      .select(
+        this.knex.raw(
+          `account.id,avg(rating) as "average_rating", count(review.id) filter (where contributed) as "contributed",count(review.id) "people_reviewed", json_agg(json_build_object('comment',review."ratingComment",'rating',review.rating,'contributed',review.contributed,'requestId',review."requestId",'reviewerId',"reviewerId",'request',request.title)) filter (where review.id is not null) as "review"`
+        )
+      )
+      .leftJoin("review", "account.id", "revieweeId")
+      .groupBy("account.id", "revieweeId")
+      .where("account.id", userId);
   }
   getUserResponse(userId) {
-    return this.knex("response")
-      .select("rating", "ratingComment")
-      .where({ isAdmin: false,responserId:userId })
-      .orderBy("created_at")
-      .groupBy("requestId");
-  }
-  
-  getUserComment(userId) {
-    return this.knex("comment")
+    return this.knex("account")
       .select(
-        "id",
-        "title",
-        "detail",
-        "reward",
-        "requirePpl",
-        "district",
-        "status"
+        this.knex.raw(
+          `count(matched) as "matched",count(response.id) as "total_response",json_agg(json_build_object ('detail',response."detail",'request',request.title,'requestId',"requestId")) filter (where response.id is not null) as "response"`
+        )
       )
-      .join("account", "requesterId", "account.id");
+      .leftJoin("response", "account.id", "responseId")
+      .leftJoin("request", "requestId")
+      .where({ responserId: userId })
+      .orderBy("created_at")
+      .groupBy("account.id");
   }
-  getUserList(col,order) {
+
+  getUserComment(userId) {
+    return this.knex("account")
+      .select(
+        this.knex.raw(
+          `json_agg(json_build_object ('detail',comment."detail",'request',request.title,'requestId',"requestId")) filter (where comment.id is not null) as "response"`
+        )
+      )
+      .leftJoin("comment", "commenterId", "account.id")
+      .leftJoin("request", "requestId", "request.id")
+      .groupBy("account.id");
+  }
+  getUserList(col, order) {
     return this.knex("account")
       .select(
         "account.id",
@@ -101,13 +112,17 @@ class AdminService {
         "blacklist",
         "grade",
         "account.district",
-        "token","account.created_at"
+        "token",
+        "account.created_at"
       )
       .count({ requestCount: "request.id", responseCount: "response.id" })
+      .avg("rating as rating")
       .leftJoin("request", "account.id", "requesterId")
       .leftJoin("response", "account.id", "responserId")
+      .leftJoin("review", "revieweeId", "account.id")
       .where({ isAdmin: false })
-      .groupBy("account.id").orderBy(col,order);
+      .groupBy("account.id")
+      .orderBy(col, order);
   }
   getReqResGrowth(startDate, endDate) {
     startDate = moment(startDate).format("YYYY-MM-DD");

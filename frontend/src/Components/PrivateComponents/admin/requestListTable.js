@@ -208,7 +208,7 @@ export function RequestListTable() {
                           alt="profile"
                           className="profile"
                         />{" "}
-                        {item.username}
+                        {item.username?item.username:`New User id: ${item.requesterId}`}
                       </Link>
                     </td>
                     <td>{item.reward}</td>

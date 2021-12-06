@@ -93,3 +93,20 @@ border-radius: 100px;
 .token-text{
   font-size: large;
 }
+
+.wrapper{
+  height: 65vh;
+  border: black;
+  border-width:5px ;
+  border-style: solid;
+  overflow: auto;
+}
+
+.editor{
+  min-height: 60vh;
+
+}
+
+.title-bar{
+  width: 70vw;
+}
