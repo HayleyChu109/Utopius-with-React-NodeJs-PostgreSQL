@@ -1,7 +1,6 @@
-import { useState, useMemo, useRef, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  PutDraft,
   PutStartDate,
   PutEndDate,
   GetAnnouncement,
@@ -12,21 +11,14 @@ import {
   PutAnnouncement,
 } from "../../Redux/announceData/action";
 import parse from "html-react-parser";
-import { createReactEditorJS } from "react-editor-js";
-import { convertFromRaw, convertToRaw,EditorState } from "draft-js";
+
 import { TextEditor } from "../../Components/PrivateComponents/TextEditor";
 import draftToHtml from "draftjs-to-html";
-import Embed from "@editorjs/embed";
-import Output from "editorjs-react-renderer";
+
 import "../SCSS/announce.scss";
-import Header from "@editorjs/header";
-import Table from "@editorjs/table";
-import List from "@editorjs/list";
-import LinkTool from "@editorjs/link";
+
 import { useHistory, useParams } from "react-router";
-import ImageTool from "@editorjs/image";
-import S3 from "react-aws-s3";
-import { announceConfig } from "../../s3Bucket/s3Config";
+
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import moment from "moment";
 
@@ -46,8 +38,6 @@ export function AnnouncemnetEditPage() {
   console.log(data);
   const dispatch = useDispatch();
   const history = useHistory();
-  const ReactS3Client = new S3(announceConfig);
-  const [editorState, setEditorState] = useState(null);
   const [modal, setModal] = useState(false);
   const [save, setSave] = useState(false);
   const handleClose = () => setModal(false);
@@ -57,11 +47,7 @@ export function AnnouncemnetEditPage() {
 
   
 
-  const handleChange = (state) => {
-    setEditorState(state);
-    console.log(convertToRaw(state.getCurrentContent()));
-    dispatch(PutDraft(convertToRaw(state.getCurrentContent())))
-  };
+  
   const handlePublish = () => {
     if (id === undefined) {
       dispatch(PostAnnouncement(title, data, false));
@@ -186,7 +172,7 @@ export function AnnouncemnetEditPage() {
 
       <label htmlFor="content">Content</label>
       {Object.keys(data).length>0&&id?
-      <TextEditor data={data}/>:null
+      <TextEditor data={data}/>:<TextEditor data={null}/>
       }
         </div>
       
