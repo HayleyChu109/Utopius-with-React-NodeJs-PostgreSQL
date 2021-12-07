@@ -2,7 +2,6 @@
 const express = require("express");
 const app = express();
 
-const getLinkPreview=require('link-preview-js').getLinkPreview
 // Setup middlewares
 const cors = require("cors");
 app.use(cors());

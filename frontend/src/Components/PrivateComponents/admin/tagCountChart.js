@@ -48,6 +48,25 @@ export const options = {
       text: "Most used tag",
     },
   },
+  scales: {
+    x: {
+      title: {
+        display: true,
+        text: "tag",
+      },
+      ticks: {
+        stepSize: 1,
+      },
+    },
+    y: {
+      title: {
+        display: true,
+        text: "Value",
+      },
+      min: 0,
+      max: 10,
+    },
+  },
 };
 
 export const TagCountChart = () => {

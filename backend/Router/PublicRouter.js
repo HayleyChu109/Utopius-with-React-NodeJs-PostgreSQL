@@ -8,13 +8,27 @@ class PublicRouter {
 
   router() {
     let router = express.Router();
+    // Getting all open announcements
+    router.get("/announcementlist", this.getAnnouncementList.bind(this));
+    // Getting all open request
     router.get("/requestList/:userId", this.getRequestList.bind(this));
+    // Posting guest message
     router.post("/message", this.postMsg.bind(this));
     return router;
   }
 
+  async getAnnouncementList(req, res, next) {
+    try {
+      let announcementList =
+        await this.publicService.getPublicAnnouncementList();
+      res.json({ announcementList });
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
   async getRequestList(req, res, next) {
-    console.log("Getting all the open request");
     try {
       let openReq = await this.publicService.getOpenRequest();
       for (let i = 0; i < openReq.length; i++) {
