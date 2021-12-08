@@ -11,7 +11,7 @@ export const AnalysisComponent = () => {
   const { review, response, comment } = requestUser;
   return (
     <>
-      <div className="my-2 mx-2 px-2 discover-title">
+      <div className="my-2 ms-3 px-2 discover-title">
         <GiDiamonds className="me-2 mb-1" />
         Review
       </div>
@@ -86,7 +86,7 @@ export const AnalysisComponent = () => {
         </div>
       </div>
       <div>
-        <div className="my-2 mx-2 px-2  discover-title">
+        <div className="my-2 ms-3 px-2  discover-title">
           <GiDiamonds className="me-2 mb-1" />
           Response
           <div className="px-3">
@@ -100,7 +100,7 @@ export const AnalysisComponent = () => {
                   </div>
                   <div className="mx-5 my-2 ">
                     <GiDiamonds className=" mx -5 me-2 mb-1" />
-                    Last response
+                    Recent response
                   </div>
 
                   {response[0].response.map((item) => (
@@ -138,7 +138,7 @@ export const AnalysisComponent = () => {
           </div>
         </div>
       </div>
-      <div className="my-2 mx-2 px-2  discover-title">
+      <div className="my-2 ms-3 px-2  discover-title">
         <GiDiamonds className="me-2 mb-1" />
         Comment
         <div className="px-3">
@@ -147,7 +147,7 @@ export const AnalysisComponent = () => {
               <div className="analysis-title">
                 <div className="mx-5 my-2">
                   <GiDiamonds className=" mx -5 me-2 mb-1" />
-                  Last Comment
+                  Recent Comment
                 </div>
               </div>
               {comment[0].response.map((item) => (
