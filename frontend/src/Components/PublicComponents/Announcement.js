@@ -4,7 +4,7 @@ import moment from "moment";
 
 import { getAnnouncementPublicThunk } from "../../Redux/announcePublic/actions.js";
 
-import AnnouncementPreview from "../PrivateComponents/announcementPreview";
+import AnnouncementPublicPreview from "./AnnouncementPublicPreview";
 
 import "../../Pages/SCSS/discover.scss";
 
@@ -85,7 +85,7 @@ const Announcement = () => {
                             </div>
                           </Card>
                         </FadeIn>
-                        <AnnouncementPreview
+                        <AnnouncementPublicPreview
                           modal={modalOpen}
                           handle={modalClose}
                           title={modalTitle}

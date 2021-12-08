@@ -45,18 +45,24 @@ export function AnnouncemnetEditPage() {
   const handleShow = () => setModal(true);
   const handleSaveClose = () => setSave(false);
   const handleSaveShow = () => setSave(true);
-const handleStartDate=(e)=>{
-  dispatch(PutStartDate(new Date(e)))
-}
-const handleEndDate=(e)=>{
-  dispatch(PutEndDate(new Date(e)))
-}
+  const handleStartDate = (e) => {
+    if(e&&e<endDate)
+    {
+    dispatch(PutStartDate(new Date(e)));
+    }
+  };
+  const handleEndDate = (e) => {
+    if(e&&e>startDate)
+    {
+    dispatch(PutEndDate(new Date(e)));
+    }
+  };
   const handlePublish = () => {
     if (id === undefined) {
-      dispatch(PostAnnouncement(title, data, false,startDate,endDate));
+      dispatch(PostAnnouncement(title, data, false, startDate, endDate));
       dispatch(DeleteDraft());
     } else {
-      dispatch(PutAnnouncement(id, title, data, false,startDate,endDate));
+      dispatch(PutAnnouncement(id, title, data, false, startDate, endDate));
       dispatch(DeleteDraft());
     }
     setSave(false);
@@ -64,10 +70,10 @@ const handleEndDate=(e)=>{
   };
   const handleSaveDraft = () => {
     if (id === undefined) {
-      dispatch(PostAnnouncement(title, data, true,startDate,endDate));
+      dispatch(PostAnnouncement(title, data, true, startDate, endDate));
       dispatch(DeleteDraft());
     } else {
-      dispatch(PutAnnouncement(id, title, data, true,startDate,endDate));
+      dispatch(PutAnnouncement(id, title, data, true, startDate, endDate));
       dispatch(DeleteDraft());
     }
     setSave(false);
@@ -115,14 +121,17 @@ const handleEndDate=(e)=>{
       </div>
 
       <div className="px-3">
-       
-{id?<DateSelection startDate={startDate} endDate={endDate}/>:<DateSelection startDate={startDate} endDate={endDate}/>}
+        {id ? (
+          <DateSelection startDate={startDate} endDate={endDate} />
+        ) : (
+          <DateSelection startDate={startDate} endDate={endDate} />
+        )}
         <label htmlFor="content">Content</label>
         {Object.keys(data).length > 0 && id ? (
           <TextEditor data={data} />
-        ) : !id?(
+        ) : !id ? (
           <TextEditor data={null} />
-        ):null}
+        ) : null}
       </div>
 
       <Modal show={modal} onHide={handleClose} size="xl" scrollable={true}>
@@ -139,7 +148,7 @@ const handleEndDate=(e)=>{
               })
             )
           ) : (
-            <p className='text-center'>Write something ✍️</p>
+            <p className="text-center">Write something ✍️</p>
           )}
         </Modal.Body>
         <Modal.Footer className="admin-footer">

@@ -1,21 +1,65 @@
-.InputFromTo .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
-    background-color: #f0f8ff !important;
-    color: #4a90e2;
+@import "basic";
+
+.InputFromTo
+  .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+  background-color: #f0f8ff !important;
+  color: #4a90e2;
+}
+.InputFromTo .DayPicker-Day {
+  border-radius: 0 !important;
+}
+.InputFromTo .DayPicker-Day--start {
+  border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important;
+}
+.InputFromTo .DayPicker-Day--end {
+  border-top-right-radius: 50% !important;
+  border-bottom-right-radius: 50% !important;
+}
+.InputFromTo .DayPickerInput-Overlay {
+  width: 550px;
+}
+.InputFromTo-to .DayPickerInput-Overlay {
+  margin-left: -198px;
+}
+
+// Public member landing page announcement modal
+.announce-pub-modal {
+  min-width: 600px;
+  max-height: 300px;
+  border-radius: 20px;
+}
+
+// .announce-pub-overflow {
+//   overflow-y: scroll;
+// }
+
+// .announce-pub-overflow::-webkit-scrollbar {
+//   display: hidden;
+// }
+
+.announce-pub-body {
+  img {
+    max-width: 500px;
+    max-height: 400px;
   }
-  .InputFromTo .DayPicker-Day {
-    border-radius: 0 !important;
-  }
-  .InputFromTo .DayPicker-Day--start {
-    border-top-left-radius: 50% !important;
-    border-bottom-left-radius: 50% !important;
-  }
-  .InputFromTo .DayPicker-Day--end {
-    border-top-right-radius: 50% !important;
-    border-bottom-right-radius: 50% !important;
-  }
-  .InputFromTo .DayPickerInput-Overlay {
-    width: 550px;
-  }
-  .InputFromTo-to .DayPickerInput-Overlay {
-    margin-left: -198px;
-  }
+}
+
+.announce-pub-modal-heading {
+  font-family: $sora;
+  color: $dark-orange;
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.announce-pub-modal-footer {
+  border: none;
+  background-color: $white;
+  text-align: center;
+}
+
+.announce-pub-modal-footer:last-child {
+  border-radius: 0 0 20px 20px;
+}
+// Public member landing page announcement modal

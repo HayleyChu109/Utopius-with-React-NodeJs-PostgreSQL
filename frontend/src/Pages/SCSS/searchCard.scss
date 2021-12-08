@@ -160,3 +160,21 @@
 .username-id-res:hover {
   color: $dark-blue;
 }
+
+// Search result
+.btn-showmore,
+.btn-showmore:focus {
+  background: $white;
+  color: $dark-grey;
+  font-family: $sora;
+  font-size: 15px;
+  font-weight: bolder;
+  letter-spacing: 1px;
+  border: none;
+}
+
+.btn-showmore:hover,
+.btn-showmore:focus:hover {
+  background: $white;
+  color: $dark;
+}

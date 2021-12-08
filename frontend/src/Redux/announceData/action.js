@@ -106,13 +106,19 @@ export const GetAnnouncement = (requestId) => async (dispatch) => {
   }
 };
 export const PostAnnouncement =
-  (title, content, isPrivate,startDate,endDate) => async (dispatch) => {
+  (title, content, isPrivate, startDate, endDate) => async (dispatch) => {
     let userToken = localStorage.getItem("token");
     console.log(userToken);
     try {
       let response = await axios.post(
         `${process.env.REACT_APP_API_SERVER}/announce`,
-        { title: title, content: content, isPrivate: isPrivate,startDate:startDate,endDate:endDate  },
+        {
+          title: title,
+          content: content,
+          isPrivate: isPrivate,
+          startDate: startDate,
+          endDate: endDate,
+        },
 
         {
           headers: { Authorization: `Bearer ${userToken}` },
@@ -126,20 +132,26 @@ export const PostAnnouncement =
     }
   };
 export const PutAnnouncement =
-  (id, title, content, isPrivate,startDate,endDate) => async (dispatch) => {
+  (id, title, content, isPrivate, startDate, endDate) => async (dispatch) => {
     let userToken = localStorage.getItem("token");
     console.log(userToken);
     try {
       let response = await axios.put(
         `${process.env.REACT_APP_API_SERVER}/announce/${id}`,
-        { title: title, content: content, isPrivate: isPrivate,startDate:startDate,endDate:endDate },
+        {
+          title: title,
+          content: content,
+          isPrivate: isPrivate,
+          startDate: startDate,
+          endDate: endDate,
+        },
 
         {
           headers: { Authorization: `Bearer ${userToken}` },
         }
       );
       console.log(response.data[0]);
-      dispatch({ type: LOAD_LIST_SUCCESS, payload: response.data[0] });
+      dispatch({ type: LOAD_LIST_SUCCESS, payload: response.data });
     } catch (error) {
       console.log(error);
       dispatch({ type: Load_DATA_FAILED });
@@ -157,7 +169,7 @@ export const DeleteAnnouncement = (id) => async (dispatch) => {
       }
     );
     console.log(response.data[0]);
-    dispatch({ type: LOAD_LIST_SUCCESS, payload: response.data[0] });
+    dispatch({ type: LOAD_LIST_SUCCESS, payload: response.data });
   } catch (error) {
     console.log(error);
     dispatch({ type: Load_DATA_FAILED });
