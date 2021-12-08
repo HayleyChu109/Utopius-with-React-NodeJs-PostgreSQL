@@ -15,7 +15,7 @@ import { Button } from "reactstrap";
 
 const LoginForm = () => {
   const loginStore = useSelector((state) => state.loginStore);
-  const { isAuthenticated, errorMsg, isAdmin } = loginStore;
+  const { isAuthenticated, errorMsg, isAdmin, blacklist } = loginStore;
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -30,12 +30,12 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    if (isAuthenticated && !isAdmin) {
+    if (isAuthenticated && !isAdmin && !blacklist) {
       history.push("/member/profile");
     } else if (isAuthenticated && isAdmin) {
       history.push("/admin");
     }
-  }, [isAuthenticated, isAdmin, history]);
+  }, [isAuthenticated, isAdmin, blacklist, history]);
 
   const login = () => {
     if (email !== "" && password !== "") {

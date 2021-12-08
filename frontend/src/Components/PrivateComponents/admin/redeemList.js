@@ -17,15 +17,15 @@ export const RedeemList = () => {
   const ReactS3Client = new S3(s3Config);
   const handleOpen = () => setModal(true);
   const handleClose = () => {
-      setError('')
-      setName('')
-      setPhoto({
-        src: "",
-        path: "",
-        alt: "wait for upload",
-      })
-      setToken('')
-      setStock('')
+    setError("");
+    setName("");
+    setPhoto({
+      src: "",
+      path: "",
+      alt: "wait for upload",
+    });
+    setToken("");
+    setStock("");
     setModal(false);
   };
   const { redeemItem } = useSelector((state) => state.adminTokenStore);
@@ -70,16 +70,18 @@ export const RedeemList = () => {
 
   return (
     <>
-      <Button onClick={handleOpen}>Add</Button>
-      <Row xs={4}>
-
-      {redeemItem && redeemItem.length > 0 ? (
-          redeemItem.map((item) => <Col  key={item.id}>
-          <RedeemProductCard {...item} /></Col>)
-          ) : (
-              <p className="mx-auto text-center">There is no redeem item yet</p>
-              )}
-              </Row>
+      <button onClick={handleOpen} className="ms-4 btn-coin">
+        ADD
+      </button>
+      <div xs={4} className="d-flex flex-wrap justify-content-center">
+        {redeemItem && redeemItem.length > 0 ? (
+          redeemItem.map((item) => (
+            <RedeemProductCard key={item.id} {...item} />
+          ))
+        ) : (
+          <p className="mx-auto text-center">There is no redeem item yet</p>
+        )}
+      </div>
       <Modal show={modal} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>

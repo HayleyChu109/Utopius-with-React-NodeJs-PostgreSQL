@@ -10,6 +10,7 @@ const initialState = {
   isAuthenticated: false || localStorage.getItem("token") != null,
   errorMsg: null,
   isAdmin: false || localStorage.getItem("isAdmin") === "true",
+  blacklist: false,
 };
 
 export function loginReducer(state = initialState, action) {
@@ -20,15 +21,32 @@ export function loginReducer(state = initialState, action) {
         isAuthenticated: true,
         errorMsg: null,
         isAdmin: false,
+        blacklist: false,
       };
     case LOGIN_ADMIN_SUCCESS_ACTION:
-      return { ...state, isAuthenticated: true, errorMsg: null, isAdmin: true };
+      return {
+        ...state,
+        isAuthenticated: true,
+        errorMsg: null,
+        isAdmin: true,
+        blacklist: false,
+      };
     case LOGIN_FAILURE_ACTION:
       return { ...state, errorMsg: action.message };
     case LOGOUT_ACTION:
-      return { ...state, isAuthenticated: false, isAdmin: false };
+      return {
+        ...state,
+        isAuthenticated: false,
+        isAdmin: false,
+        blacklist: false,
+      };
     case LOGOUT_ADMIN_ACTION:
-      return { ...state, isAuthenticated: false, isAdmin: false };
+      return {
+        ...state,
+        isAuthenticated: false,
+        isAdmin: false,
+        blacklist: false,
+      };
     default:
       return state;
   }

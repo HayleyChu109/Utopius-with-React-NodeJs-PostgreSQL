@@ -33,7 +33,6 @@ function FellowProfilePage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(fellowId);
     dispatch(memberInfoThunk(fellowId));
     dispatch(memberReqDetailsThunk(fellowId));
     dispatch(memberResDetailsThunk(fellowId));

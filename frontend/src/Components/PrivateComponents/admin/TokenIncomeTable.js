@@ -4,7 +4,6 @@ import { Table, Pagination } from "react-bootstrap";
 import FadeIn from "react-fade-in/lib/FadeIn";
 import moment from "moment";
 export const TokenIncomeTable = ({ items, itemsPerPage }) => {
-
   const [currentItems, setCurrentItems] = useState(null);
   const [activePage, setActivePage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
@@ -74,72 +73,81 @@ export const TokenIncomeTable = ({ items, itemsPerPage }) => {
   }, [itemOffset, itemsPerPage, items]);
   return (
     <>
-            <FadeIn>
-      <Table>
-        <thead>
-          <tr>  
-            <th>#</th>
-            <th>User</th>
-            <th>Plan</th>
-            <th>token</th>
-            <th>Income</th>
-            <th>created_at</th>
-          </tr>
-        </thead>
-        <tbody className="table-secondary">
-          {currentItems &&
-            currentItems.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>
-                  <Link to={`/admin/user/${item.accountId}`}>
-                    {item.profilePath ? (
-                      <img
-                        src={item.profilePath}
-                        alt=""
-                        className="profile mx-2"
-                      />
-                    ) : (
-                      <img
-                        src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
-                        alt="profile pic"
-                        className="profile mx-2"
-                      />
-                    )}
-                    {item.username?item.username:`New user UID#${item.accountId}`}
-                  </Link>
-                </td>
-               
-                <td>
-                    <img src={item.photoPath} alt="plan" className='profile' />{item.planName}
-                </td>
-                <td>{item.noOfToken}</td>
-                <td>{item.hkd}</td>
-                <td>
-                  {moment().diff(item.created_at, "day") >= 1
-                    ? moment(item.created_at).format("YYYY-MM-DD HH:MM")
-                    : moment(item.created_at).fromNow()}
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </Table>
+      <FadeIn>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>User</th>
+              <th>Plan</th>
+              <th>token</th>
+              <th>Income</th>
+              <th>created_at</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentItems &&
+              currentItems.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>
+                    <Link to={`/admin/user/${item.accountId}`}>
+                      {item.profilePath ? (
+                        <img
+                          src={item.profilePath}
+                          alt=""
+                          className="profile mx-2"
+                        />
+                      ) : (
+                        <img
+                          src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
+                          alt="profile pic"
+                          className="profile mx-2"
+                        />
+                      )}
+                      {item.username
+                        ? item.username
+                        : `New user UID#${item.accountId}`}
+                    </Link>
+                  </td>
 
-      <Pagination className='justify-content-center'>
-        <Pagination.First onClick={handleFirstpage} disabled={activePage === 1} />
-        <Pagination.Prev onClick={handlePrevious} disabled={activePage === 1}>
-          Previous
-        </Pagination.Prev>
-        {paginate}
-        <Pagination.Next
-          disabled={activePage === pageCount||pageCount===0}
-          onClick={handleNext}
+                  <td>
+                    <img src={item.photoPath} alt="plan" className="profile" />
+                    {item.planName}
+                  </td>
+                  <td>{item.noOfToken}</td>
+                  <td>{item.hkd}</td>
+                  <td>
+                    {moment().diff(item.created_at, "day") >= 1
+                      ? moment(item.created_at).format("YYYY-MM-DD HH:MM")
+                      : moment(item.created_at).fromNow()}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+
+        <Pagination className="justify-content-center">
+          <Pagination.First
+            onClick={handleFirstpage}
+            disabled={activePage === 1}
+          />
+          <Pagination.Prev onClick={handlePrevious} disabled={activePage === 1}>
+            Previous
+          </Pagination.Prev>
+          {paginate}
+          <Pagination.Next
+            disabled={activePage === pageCount || pageCount === 0}
+            onClick={handleNext}
           >
-          Next
-        </Pagination.Next>
-        <Pagination.Last onClick={handleLastpage} disabled={activePage === pageCount||pageCount===0}/>
-      </Pagination>
-            </FadeIn>
+            Next
+          </Pagination.Next>
+          <Pagination.Last
+            onClick={handleLastpage}
+            disabled={activePage === pageCount || pageCount === 0}
+          />
+        </Pagination>
+      </FadeIn>
     </>
   );
 };

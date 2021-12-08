@@ -4,6 +4,7 @@ import PrivateRoute from "./Components/PrivateRoute";
 import PrivateAdminRoute from "./Components/PrivateAdminRoute";
 import LandingPage from "./Pages/PublicPages/LandingPage";
 import LoginPage from "./Pages/PublicPages/LoginPage";
+import ErrorPage from "./Pages/PublicPages/ErrorPage";
 import SignupPage from "./Pages/MemberPages/SignupPage";
 import RequestDetail from "./Pages/MemberPages/RequestDetail";
 import NewRequest from "./Components/PrivateComponents/NewRequest";
@@ -11,6 +12,8 @@ import FellowProfilePage from "./Pages/MemberPages/FellowProfilePage";
 import MemberProfilePage from "./Pages/MemberPages/MemberProfilePage";
 import NewReview from "./Components/PrivateComponents/NewReview";
 import TokenPage from "./Pages/MemberPages/TokenPage";
+import RedeemPage from "./Pages/MemberPages/RedeemPage";
+import RedeemCheckoutPage from "./Pages/MemberPages/RedeemCheckoutPage";
 import StripeContainer from "./Components/PrivateComponents/StripeContainer";
 
 // Admin Page
@@ -56,7 +59,8 @@ function App() {
         path="/admin/announcement/new"
         component={AnnouncemnetEditPage}
       />
-      <PrivateAdminRoute exact
+      <PrivateAdminRoute
+        exact
         path="/admin/announcement/edit/:id"
         component={AnnouncemnetEditPage}
       />
@@ -91,15 +95,13 @@ function App() {
         path="/member/token/payment/:planname"
         component={StripeContainer}
       />
-      <Route
-        component={() => {
-          return (
-            <div>
-              <h3>Error, path not found</h3>
-            </div>
-          );
-        }}
+      <PrivateRoute exact path="/member/redeem" component={RedeemPage} />
+      <PrivateRoute
+        exact
+        path="/member/redeem/:redeemItemId"
+        component={RedeemCheckoutPage}
       />
+      <Route component={ErrorPage} />
     </Switch>
   );
 }

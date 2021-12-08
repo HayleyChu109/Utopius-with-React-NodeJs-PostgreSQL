@@ -66,17 +66,38 @@ class TokenService {
           "tokenTransaction.id",
           "tokenTransaction.requestId",
           "tokenTransaction.payerId",
+          "tokenTransaction.payeeId",
           "tokenTransaction.amount",
           "tokenTransaction.created_at",
           "account.username",
           "account.grade",
-          "request.title",
-          "request.reward"
+          "request.title"
         )
-        .where("tokenTransaction.payeeId", memberId)
+        .where("tokenTransaction.payerId", memberId)
+        .orWhere("tokenTransaction.payeeId", memberId)
         .orderBy("tokenTransaction.id", "desc");
+      let newList = [];
+      for (let i = 0; i < tokenTransActRecord.length; i++) {
+        let payeeDetails = await this.knex("account")
+          .select("username", "grade")
+          .where("id", tokenTransActRecord[i].payeeId);
+        let eachList = {
+          id: tokenTransActRecord[i].id,
+          requestId: tokenTransActRecord[i].requestId,
+          title: tokenTransActRecord[i].title,
+          payerId: tokenTransActRecord[i].payerId,
+          payerName: tokenTransActRecord[i].username,
+          payerGrade: tokenTransActRecord[i].grade,
+          payeeId: tokenTransActRecord[i].payeeId,
+          payeeName: payeeDetails[0].username,
+          payeeGrade: payeeDetails[0].grade,
+          amount: tokenTransActRecord[i].amount,
+          created_at: tokenTransActRecord[i].created_at,
+        };
+        newList.push(eachList);
+      }
       if (tokenTransActRecord.length > 0) {
-        return tokenTransActRecord;
+        return newList;
       } else {
         return [];
       }
@@ -142,6 +163,98 @@ class TokenService {
       await this.knex("account")
         .where("id", payeeId)
         .update({ token: currentPayeeToken[0].token + amount });
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  // Redeem
+  async getRedeemItems() {
+    try {
+      const redeemItems = await this.knex("redeemItem").select("*");
+      if (redeemItems.length > 0) {
+        return redeemItems;
+      } else {
+        return [];
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async postRedeem(memberId, redeemItemId, quantity, requiredToken) {
+    try {
+      const redeemId = await this.knex("redeemDetail")
+        .insert({
+          redeemItemId: redeemItemId,
+          quantity: Number(quantity),
+          amount: Number(quantity) * requiredToken,
+          status: "completed",
+        })
+        .returning("id");
+      const redeemAccJoinId = await this.knex("redeemAccJoin")
+        .insert({
+          accountId: memberId,
+          redeemDetailId: Number(redeemId),
+        })
+        .returning("id");
+      return redeemAccJoinId;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async deductStock(redeemItemId, quantity) {
+    try {
+      const redeemItemStock = await this.knex("redeemItem")
+        .select("stock")
+        .where("redeemItem.id", redeemItemId);
+      await this.knex("redeemItem")
+        .update({
+          stock: redeemItemStock[0].stock - quantity,
+        })
+        .where("redeemItem.id", redeemItemId);
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async deductMemberToken(accountId, quantity, requiredToken) {
+    try {
+      const totalToken = quantity * requiredToken;
+      const memberToken = await this.knex("account")
+        .select("token")
+        .where("account.id", accountId);
+      await this.knex("account")
+        .update({
+          token: memberToken[0].token - totalToken,
+        })
+        .where("account.id", accountId);
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async getRedeemHistory(memberId) {
+    try {
+      const redeemList = await this.knex("redeemAccJoin")
+        .join("redeemDetail", "redeemDetail.id", "redeemAccJoin.redeemDetailId")
+        .join("redeemItem", "redeemItem.id", "redeemDetail.redeemItemId")
+        .select(
+          "redeemItem.name",
+          "redeemItem.itemPhotoPath",
+          "redeemDetail.id",
+          "redeemDetail.quantity",
+          "redeemDetail.amount",
+          "redeemDetail.created_at"
+        )
+        .where("redeemAccJoin.accountId", memberId)
+        .orderBy("redeemAccJoin.id", "desc");
+      if (redeemList.length > 0) {
+        return redeemList;
+      } else {
+        return [];
+      }
     } catch (err) {
       throw new Error(err);
     }

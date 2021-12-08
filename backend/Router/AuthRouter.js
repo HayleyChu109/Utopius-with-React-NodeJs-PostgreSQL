@@ -16,7 +16,6 @@ class AuthRouter {
   }
 
   async postLogin(req, res, next) {
-    console.log(req.body);
     try {
       if (req.body.email && req.body.password) {
         let email = req.body.email;
@@ -27,6 +26,7 @@ class AuthRouter {
           res.status(200).json({
             token: result.token,
             isAdmin: result.isAdmin,
+            blacklist: result.blacklist,
           });
         } else {
           res.json({ message: result.message });
@@ -58,7 +58,7 @@ class AuthRouter {
             email: email,
             password: hashedPassword,
             isAdmin: false,
-            token: 100,
+            token: 0,
             grade: "-",
             blacklist: false,
           };
@@ -86,7 +86,7 @@ class AuthRouter {
           email: email,
           facebookId: facebookId,
           isAdmin: false,
-          token: 100,
+          token: 0,
           grade: "-",
           blacklist: false,
         };
@@ -126,7 +126,7 @@ class AuthRouter {
           firstName: firstname,
           lastName: lastname,
           isAdmin: false,
-          token: 100,
+          token: 0,
           grade: "-",
           blacklist: false,
         };

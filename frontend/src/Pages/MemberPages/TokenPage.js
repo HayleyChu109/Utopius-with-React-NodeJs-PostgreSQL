@@ -39,6 +39,10 @@ function TokenPage() {
     dispatch(tokenTransActThunk(memberId));
   }, [dispatch, memberId]);
 
+  const handleRedeem = () => {
+    history.push("/member/redeem");
+  };
+
   return (
     <>
       <NavBar />
@@ -63,7 +67,7 @@ function TokenPage() {
               <TokenCard key={plan.planName} tokenPlan={plan} />
             ))
           ) : (
-            <div className="text-center">No token</div>
+            <div className="text-center">No token plan</div>
           )}
         </div>
 
@@ -79,7 +83,11 @@ function TokenPage() {
         </div>
         {showHistory ? <PurchaseHistory /> : <TokenTransAct />}
         <div className="mx-auto pb-4">
-          <div className="mb-5 memberProfileBottom-orange"></div>
+          <div className="d-flex justify-content-center align-items-center col-lg-12 mb-5 memberProfileBottom-orange">
+            <button className="btn-white-orange" onClick={handleRedeem}>
+              REDEEM GIFT
+            </button>
+          </div>
         </div>
 
         <div className="text-center">
