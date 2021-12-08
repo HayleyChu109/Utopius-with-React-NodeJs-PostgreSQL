@@ -33,7 +33,7 @@ export function AnnouncemnetEditPage() {
   const { title, data, startDate, endDate } = useSelector(
     (state) => state.announceStore.draft
   );
-
+console.log(data)
   const { id } = useParams();
   console.log(id);
   console.log(startDate);
