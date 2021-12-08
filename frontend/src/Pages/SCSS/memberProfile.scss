@@ -13,26 +13,7 @@
 .memberProfileBg-beige {
   @include memberProfileBg;
 }
-.memberResponse-beige {
-  background-color: $beige;
-  width: 50vw;
-}
-.blacklist {
-  background-color: black;
-  width: 50vw;
-  height: 10vh;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-}
-.header{
-  background-color: $dark-blue;
-}
-.header-text{
-  color: white;
-}
-.footer{
-  background-color: white;
-}
+
 .memberProfileBg-white {
   @include memberProfileBg($theme: $white);
   height: 15vh;
@@ -51,7 +32,7 @@
 
 // Member Profile Info
 .memberProfileInfo {
-  width: 50vw;
+  width: 55vw;
   margin-left: 6vw;
   font-size: 15px;
   letter-spacing: 4px;
@@ -63,22 +44,6 @@
     font-size: 12px;
     color: $dark-grey;
   }
-}
-
-.heart {
-  @include ReqResButton($theme: $heart);
-}
-
-.heart:hover {
-  @include ReqResButton($theme: $light-heart);
-}
-
-.heart:disabled {
-  @include ReqResButton($theme: $dark-grey);
-}
-
-.heart-icon {
-  font-size: 25px;
 }
 
 .REQ {
@@ -105,6 +70,48 @@
   @include ReqResButton($theme: $dark-grey);
 }
 
+.heart {
+  @include ReqResButton($theme: $heart);
+}
+
+.heart:hover {
+  @include ReqResButton($theme: $light-heart);
+}
+
+.heart:disabled {
+  @include ReqResButton($theme: $dark-grey);
+}
+
+.heart-icon,
+.follower-icon,
+.following-icon {
+  font-size: 25px;
+}
+
+.follower {
+  @include ReqResButton($theme: $peopleTwo);
+}
+
+.follower:hover {
+  @include ReqResButton($theme: $dark-orange);
+}
+
+.follower:disabled {
+  @include ReqResButton($theme: $dark-grey);
+}
+
+.following {
+  @include ReqResButton($theme: $people);
+}
+
+.following:hover {
+  @include ReqResButton($theme: $dark-blue);
+}
+
+.following:disabled {
+  @include ReqResButton($theme: $dark-grey);
+}
+
 // Member Profile Edit & Report
 .memberProfileBottom-orange {
   @include memberProfileBottom;
@@ -113,38 +120,7 @@
 .memberProfileBottom-blue {
   @include memberProfileBottom($theme: $dark-blue);
 }
-.memberProfileBottom-black {
-  @include memberProfileBottom($theme: black);
-}
 
-.btn-blue{
-  background-color: $dark-blue;
-}
-.btn-blue:focus{
-  background-color: $dark-blue;
-}
-.btn-black{
-  background-color: black;
-  border-color: black;
-
-}
-.btn-black:focus{
-  background-color: black;
-  border-color: black;
-
-}
-.btn-black:hover{
-  background-color:white;
-  color: black;
-  border-color: black;
-
-}
-.btn-blue:hover{
-  background-color:black;
-  color:white;
-  border-color: black;
-
-}
 .btn-white-orange,
 .btn-white-orange:focus {
   @include btn-white;
@@ -208,4 +184,22 @@
 .btn-goback:focus:hover {
   background: $white;
   color: $dark;
+}
+
+// Follower & Following
+.follow-card {
+  width: 20vw;
+  cursor: pointer;
+}
+
+.follow-pic {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+.follow-body {
+  background-color: $beige;
+  font-size: 13px;
+  letter-spacing: 3px;
 }

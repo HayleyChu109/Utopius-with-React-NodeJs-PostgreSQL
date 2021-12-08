@@ -1,3 +1,5 @@
+@import "basic";
+
 .graph {
   display: flex;
   align-items: center;
@@ -5,30 +7,80 @@
 }
 a {
   text-decoration: none;
-  color:black;
+  color: black;
 }
-a:hover{
-  color:black;
+a:hover {
+  color: black;
 }
 
 .icon {
   position: absolute;
   border-radius: 5px 20px 20px 5px;
- background-color: #0bb1e4;
+  background-color: #0bb1e4;
   width: 30%;
   height: 100%;
   top: 0;
   padding: 10px;
 }
 
-.column{
-position: relative;
+.column {
+  position: relative;
 }
 
-.chart{
+.chart {
   min-height: 65vh;
 }
 
-.table{
+.dashboard-table {
   min-height: 50vh;
+}
+
+.blacklist {
+  background-color: black;
+  width: 50vw;
+  height: 10vh;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.header {
+  background-color: $dark-blue;
+}
+
+.header-text {
+  color: white;
+}
+
+.memberResponse-beige {
+  background-color: $beige;
+  width: 50vw;
+}
+
+.btn-blue {
+  background-color: $dark-blue;
+}
+.btn-blue:focus {
+  background-color: $dark-blue;
+}
+.btn-black {
+  background-color: black;
+  border-color: black;
+}
+.btn-black:focus {
+  background-color: black;
+  border-color: black;
+}
+.btn-black:hover {
+  background-color: white;
+  color: black;
+  border-color: black;
+}
+.btn-blue:hover {
+  background-color: black;
+  color: white;
+  border-color: black;
+}
+
+.memberProfileBottom-black {
+  @include memberProfileBottom($theme: black);
 }

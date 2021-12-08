@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 import NavBar from "../PublicComponents/NavBar";
@@ -28,6 +28,7 @@ function StripeContainer() {
     return plan.planName === planname;
   });
 
+  const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -83,6 +84,12 @@ function StripeContainer() {
             ) : null}
           </Card.Body>
         </Card>
+      </div>
+
+      <div className="text-center">
+        <button className="mb-5 btn-goback" onClick={() => history.goBack()}>
+          &#60; GO BACK
+        </button>
       </div>
       <Footer />
     </>

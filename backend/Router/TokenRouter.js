@@ -9,6 +9,7 @@ class TokenRouter {
   router() {
     let router = express.Router();
 
+    // Token
     router.get("/tokenplan", this.getTokenPlan.bind(this));
     router.get("/currenttoken/:id", this.getCurrentToken.bind(this));
     router.get(
@@ -25,6 +26,11 @@ class TokenRouter {
     );
     router.post("/updatepurchaserecord", this.postPurchaseRecord.bind(this));
     router.put("/updatetoken", this.putToken.bind(this));
+
+    // Redeem
+    router.get("/redeemitems", this.getRedeemItems.bind(this));
+    router.post("/redeem", this.postRedeem.bind(this));
+    router.get("/redeemhistory/:id", this.getRedeemHistory.bind(this));
 
     return router;
   }
@@ -134,12 +140,62 @@ class TokenRouter {
         req.body.memberId,
         req.body.noOfToken
       );
-      
+
       if (totalToken) {
         res.json(totalToken);
       } else {
         res.json([]);
       }
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  // Redeem
+  async getRedeemItems(req, res, next) {
+    try {
+      const redeemItems = await this.tokenService.getRedeemItems();
+      res.json(redeemItems);
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  async postRedeem(req, res, next) {
+    try {
+      const redeemId = await this.tokenService.postRedeem(
+        req.body.accountId,
+        req.body.redeemItemId,
+        req.body.quantity,
+        req.body.requiredToken
+      );
+      if (redeemId) {
+        await this.tokenService.deductStock(
+          req.body.redeemItemId,
+          req.body.quantity
+        );
+        await this.tokenService.deductMemberToken(
+          req.body.accountId,
+          req.body.quantity,
+          req.body.requiredToken
+        );
+      }
+      console.log(redeemId);
+      res.json(redeemId);
+    } catch (err) {
+      next(err);
+      throw new Error(err);
+    }
+  }
+
+  async getRedeemHistory(req, res, next) {
+    try {
+      const redeemList = await this.tokenService.getRedeemHistory(
+        req.params.id
+      );
+      res.json(redeemList);
     } catch (err) {
       next(err);
       throw new Error(err);

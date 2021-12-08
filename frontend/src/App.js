@@ -4,6 +4,7 @@ import PrivateRoute from "./Components/PrivateRoute";
 import PrivateAdminRoute from "./Components/PrivateAdminRoute";
 import LandingPage from "./Pages/PublicPages/LandingPage";
 import LoginPage from "./Pages/PublicPages/LoginPage";
+import ErrorPage from "./Pages/PublicPages/ErrorPage";
 import SignupPage from "./Pages/MemberPages/SignupPage";
 import RequestDetail from "./Pages/MemberPages/RequestDetail";
 import NewRequest from "./Components/PrivateComponents/NewRequest";
@@ -11,6 +12,8 @@ import FellowProfilePage from "./Pages/MemberPages/FellowProfilePage";
 import MemberProfilePage from "./Pages/MemberPages/MemberProfilePage";
 import NewReview from "./Components/PrivateComponents/NewReview";
 import TokenPage from "./Pages/MemberPages/TokenPage";
+import RedeemPage from "./Pages/MemberPages/RedeemPage";
+import RedeemCheckoutPage from "./Pages/MemberPages/RedeemCheckoutPage";
 import StripeContainer from "./Components/PrivateComponents/StripeContainer";
 
 // Admin Page
@@ -19,7 +22,7 @@ import AnnouncementPage from "./Pages/AdminPages/announcementPage";
 import AnnouncemnetEditPage from "./Pages/AdminPages/announcementEditPage";
 import UserPage from "./Pages/AdminPages/userPage";
 import ProfileInfo from "./Components/PrivateComponents/admin/ProfileInfo";
-import AdminHome from './Pages/AdminPages/AdminHome'
+import AdminHome from "./Pages/AdminPages/AdminHome";
 import RequestPage from "./Pages/AdminPages/requestPage";
 import TaskPage from "./Pages/AdminPages/taskPage";
 import TokenAdminPage from "./Pages/AdminPages/tokenPage";
@@ -30,17 +33,36 @@ function App() {
     <Switch>
       <Route exact path="/" component={LandingPage} />
       <Route exact path="/login" component={LoginPage} />
-      <PrivateAdminRoute exact path='/admin' component={AdminHome}/>
-      <PrivateAdminRoute exact path='/admin/dashboard' component={DashboardPage}/>
-      <PrivateAdminRoute exact path='/admin/user/:id' component={UserPage}/>
-      <PrivateAdminRoute exact path='/admin/task' component={TaskPage}/>
-      <PrivateAdminRoute exact path='/admin/request' component={RequestPage}/>
-      <PrivateAdminRoute exact path='/admin/request/:requestId/:tab' component={AdminRequestDetail}/>
-      <PrivateAdminRoute exact path='/admin/token' component={TokenAdminPage}/>
-      <PrivateAdminRoute exact  path='/admin/announcement' component={AnnouncementPage}/>
-      <PrivateAdminRoute exact  path='/admin/announcement/new' component={AnnouncemnetEditPage}/>
-      <PrivateAdminRoute  path='/admin/announcement/edit/:id' component={AnnouncemnetEditPage}/>
-      <PrivateAdminRoute path='/admin/user/:id'component={UserPage}/>
+      <PrivateAdminRoute exact path="/admin" component={AdminHome} />
+      <PrivateAdminRoute
+        exact
+        path="/admin/dashboard"
+        component={DashboardPage}
+      />
+      <PrivateAdminRoute exact path="/admin/user/:id" component={UserPage} />
+      <PrivateAdminRoute exact path="/admin/task" component={TaskPage} />
+      <PrivateAdminRoute exact path="/admin/request" component={RequestPage} />
+      <PrivateAdminRoute
+        exact
+        path="/admin/request/:requestId/:tab"
+        component={AdminRequestDetail}
+      />
+      <PrivateAdminRoute exact path="/admin/token" component={TokenAdminPage} />
+      <PrivateAdminRoute
+        exact
+        path="/admin/announcement"
+        component={AnnouncementPage}
+      />
+      <PrivateAdminRoute
+        exact
+        path="/admin/announcement/new"
+        component={AnnouncemnetEditPage}
+      />
+      <PrivateAdminRoute
+        path="/admin/announcement/edit/:id"
+        component={AnnouncemnetEditPage}
+      />
+      <PrivateAdminRoute path="/admin/user/:id" component={UserPage} />
 
       <PrivateRoute path="/member/signup" component={SignupPage} />
       <PrivateRoute
@@ -60,15 +82,13 @@ function App() {
         path="/member/token/payment/:planname"
         component={StripeContainer}
       />
-      <Route
-        component={() => {
-          return (
-            <div>
-              <h3>Error, path not found</h3>
-            </div>
-          );
-        }}
+      <PrivateRoute exact path="/member/redeem" component={RedeemPage} />
+      <PrivateRoute
+        exact
+        path="/member/redeem/:redeemItemId"
+        component={RedeemCheckoutPage}
       />
+      <Route component={ErrorPage} />
     </Switch>
   );
 }

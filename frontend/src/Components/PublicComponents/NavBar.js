@@ -69,9 +69,13 @@ const NavBar = () => {
               <a href="/login">LOGIN SIGNUP</a>
             )}
             |<a href="/member/profile">PROFILE</a>|
-            <a href="/member/token">
-              TOKEN : {myInfo && myInfo.token ? myInfo.token : null}
-            </a>
+            {isAuthenticated ? (
+              <a href="/member/token">
+                TOKEN{myInfo && myInfo.token ? " : " + myInfo.token : null}
+              </a>
+            ) : (
+              <a href="/member/token">TOKEN</a>
+            )}
             |<span>SEARCH</span>
             <Search />
           </div>

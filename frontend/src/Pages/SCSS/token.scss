@@ -34,19 +34,7 @@
 
 // Token card
 .token-card {
-  min-width: 250px;
-  height: 350px;
-  background-color: $white;
-  border: 3px solid $coin;
-  border-radius: 15px;
-  font-size: $nunito;
-  filter: drop-shadow(4px 4px 3px $light-grey);
-  transition: 1s ease-in-out;
-  cursor: pointer;
-  img {
-    width: 150px;
-    height: 150px;
-  }
+  @include coin-card;
 }
 
 .token-card:hover {
@@ -140,4 +128,73 @@
 
 .history-row:hover {
   color: $dark-blue;
+}
+
+// Redeem Page
+.redeem-card {
+  @include coin-card;
+}
+
+.redeem-card:hover {
+  transform: scale(1.1);
+}
+
+.redeem-card-title {
+  color: $dark;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.redeem-card-footer {
+  background-color: $coin;
+  color: $white;
+  border: none;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+
+// Redeem history
+.redeem-history-table {
+  width: 80vw;
+}
+
+.redeem-history-pic {
+  width: 100px;
+  height: 100px;
+}
+
+// Redeem Checkout Page
+.redeem-checkout {
+  width: 70vw;
+  border: 5px solid $coin;
+  border-radius: 20px;
+  letter-spacing: 2px;
+}
+
+.redeem-checkout-header {
+  background-color: $white;
+  border: none;
+  color: $dark-orange;
+}
+
+.redeem-checkout-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 15px;
+}
+
+.redeem-checkout-footer {
+  background-color: $white;
+}
+
+.btn-redeem {
+  background-color: $white;
+  border: 2px solid $coin;
+  border-radius: 5px;
+}
+
+.redeem-checkout-errorMsg {
+  color: $dark-orange;
+  font-weight: 900;
 }
