@@ -56,11 +56,13 @@ const Announcement = () => {
               <div className="announcement-overflow">
                 {announcementList && announcementList.length > 0 ? (
                   announcementList
-                    // .filter(
-                    //   (announcement) =>
-                    //     Date.now() > announcement.start_date &&
-                    //     Date.now() < announcement.end_date
-                    // )
+                    .filter(
+                      (announcement) =>
+                        moment().toDate() >
+                          moment(announcement.start_date).startOf("day") &&
+                        moment().toDate() <
+                          moment(announcement.end_date).endOf("day")
+                    )
                     .map((announcement) => (
                       <>
                         <FadeIn>
