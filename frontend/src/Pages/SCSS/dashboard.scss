@@ -133,3 +133,41 @@ width:70vw;
 .admin-slider{
   width:30vw;
 }
+
+.admin-btn{
+  @include btn-color-hover($theme:$light-grey);
+  border-radius: 0%;
+}
+.admin-btn:active{
+  @include btn-color-hover($theme:$dark-blue);
+  border-radius: 0%;
+
+}
+.admin-message{
+  color: black;
+}
+
+.date{
+  border-radius:10px ;
+}
+.admin-footnote{
+font-size: 5px;
+}
+.admin-content{
+font-size: 12px;
+}
+.admin-rating{
+color:$dark-blue;
+}
+
+.btn-analytics{
+  font-size: 15px;
+  background-color:white;
+  border-color: $dark-blue;
+  font-weight: bold;
+  color: black;
+}
+
+.analysis-title{
+color: black;
+}

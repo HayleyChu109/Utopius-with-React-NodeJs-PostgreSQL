@@ -4,7 +4,7 @@ class AdminTokenService {
   }
 
   getTransactionList(){
-      return this.knex('tokenPurchaseRecord').select("noOfToken","username","tokenPurchaseRecord.id","accountId","profilePath","photoPath","planName","hkd", "tokenPurchaseRecord.created_at").join("tokenPlan","tokenPlanId","tokenPlan.id").join("account","accountId","account.id")
+      return this.knex('tokenPurchaseRecord').select("noOfToken","username","tokenPurchaseRecord.id","accountId","profilePath","photoPath","planName","hkd", "tokenPurchaseRecord.created_at").join("tokenPlan","tokenPlanId","tokenPlan.id").join("account","accountId","account.id").orderBy()
   }
   getUserTransactionList(){
     return this.knex.with('payee',this.knex.raw(`select "username" as "payee","profilePath" as "payeeProfile",account.id from "tokenTransaction" join account on "payeeId"=account.id`)).distinct("amount","title","requestId","tokenTransaction.id","payerId","payeeId").distinct(this.knex.raw(`"username" as "payer","profilePath" as "payerProfile",payee.payee as "payee",payee."payeeProfile" as "payeeProfile","tokenTransaction".created_at`)).from('tokenTransaction').join("account","payerId","account.id").join('payee','payeeId','payee.id').join('request',"requestId","request.id").orderBy("tokenTransaction.created_at")

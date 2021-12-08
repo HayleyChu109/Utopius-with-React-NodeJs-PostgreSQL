@@ -85,8 +85,8 @@ export default function UserListpage() {
               className="d-flex align-items-center justify-content-center"
             >
               <ListGroup className="mx-auto">
-                <ListGroup.Item
-                  action
+                <ListGroup.Item 
+                  className='admin-btn'
                   eventKey="daily"
                   onClick={() => {
                     dispatch(GetUserGrowth(startDate, endDate));
@@ -96,7 +96,7 @@ export default function UserListpage() {
                   Daily new user
                 </ListGroup.Item>
                 <ListGroup.Item
-                  action
+                   className='admin-btn'
                   eventKey="monthly"
                   onClick={() => {
                     dispatch(GetUserGrowthMonthly(startMonth, endMonth));
@@ -177,12 +177,7 @@ export default function UserListpage() {
             </Col>
           </Row>
         </Tab.Container>
-        {/* <div className="my-4 px-4 memberProfile-title">
-          <BsStars className="mb-1 me-2" />
-          User
-          <Card>
-
-          {/* </Card> */}
+        
         <div className="my-4 px-4 memberProfile-title">
           <BsStars className="mb-1 me-2" />
           USER LIST

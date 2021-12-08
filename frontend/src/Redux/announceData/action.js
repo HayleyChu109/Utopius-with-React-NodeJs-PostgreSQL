@@ -139,7 +139,7 @@ export const PutAnnouncement =
         }
       );
       console.log(response.data[0]);
-      dispatch({ type: LOAD_LIST_SUCCESS, payload: response.data[0] });
+      dispatch({ type: LOAD_LIST_SUCCESS, payload: response.data });
     } catch (error) {
       console.log(error);
       dispatch({ type: Load_DATA_FAILED });
@@ -157,7 +157,7 @@ export const DeleteAnnouncement = (id) => async (dispatch) => {
       }
     );
     console.log(response.data[0]);
-    dispatch({ type: LOAD_LIST_SUCCESS, payload: response.data[0] });
+    dispatch({ type: LOAD_LIST_SUCCESS, payload: response.data });
   } catch (error) {
     console.log(error);
     dispatch({ type: Load_DATA_FAILED });

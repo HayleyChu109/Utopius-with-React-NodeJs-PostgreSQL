@@ -46,7 +46,8 @@ class AdminTokenRouter {
       token,
       stock,
       itemPath}=req.body
-    let result=await this.adminTokenService.postRedeemItem(name,token,itemPath,stock)
+    let item=await this.adminTokenService.postRedeemItem(name,token,itemPath,stock)
+    let result=await this.adminTokenService.getRedeemItemList()
     res.send(result)
   }
   async putRedeemItem(req,res){
