@@ -34,13 +34,8 @@ module.exports = (knex) => {
       return passport.authenticate("jwt", config.jwtSession);
     },
 
-    isAdmin: function (req,res,next) {
-      console.log(req)
-      // Code to verify admin boolean here
-    },
-
-    isSetup: function() {
+    isSetup: function () {
       // Code to check if member finished setting up
-    }
+    },
   };
 };
