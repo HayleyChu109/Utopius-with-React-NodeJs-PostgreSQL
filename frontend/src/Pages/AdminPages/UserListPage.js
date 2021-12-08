@@ -3,10 +3,9 @@ import { useEffect, useState } from "react";
 import { GetUserList } from "../../Redux/adminData/action";
 import { useSelector, useDispatch } from "react-redux";
 import { enGB } from "date-fns/locale";
-import { Range, getTrackBackground } from "react-range";
 import { DateRangePicker, START_DATE, END_DATE } from "react-nice-dates";
 import "react-nice-dates/build/style.css";
-import { Row, Col, Card, ListGroup, Tab, Form } from "react-bootstrap";
+import { Row, Col, ListGroup, Tab, Form } from "react-bootstrap";
 import moment from "moment";
 import {
   GetUserGrowth,
@@ -129,7 +128,7 @@ export default function UserListpage() {
                             </label>
                             <input
                               className={
-                                "input my-3 mx-3" +
+                                "input my-3 mx-3 rounded-pill text-center" +
                                 (focus === START_DATE ? " -focused" : "")
                               }
                               {...startDateInputProps}
@@ -142,7 +141,7 @@ export default function UserListpage() {
                             <label htmlFor="">To:</label>
                             <input
                               className={
-                                "input my-3 mx-3" +
+                                "input my-3 mx-3 rounded-pill text-center" +
                                 (focus === END_DATE ? " -focused" : "")
                               }
                               {...endDateInputProps}

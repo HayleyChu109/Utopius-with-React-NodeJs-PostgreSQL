@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { GiDiamonds } from "react-icons/gi";
 import FormRange from "react-bootstrap/esm/FormRange";
 import { Card, CardBody } from "reactstrap";

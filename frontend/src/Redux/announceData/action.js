@@ -84,7 +84,7 @@ export const GetAnnouncement = (requestId) => async (dispatch) => {
       }
     );
     console.log(response.data[0]);
-    const { id, content, isPrivate, start_date, end_date, title } =
+    const {  content, start_date, end_date, title } =
       response.data[0];
     console.log(content);
     dispatch({ type: LOAD_ANNOUNCEMENT_SUCCESS, payload: response.data[0] });
