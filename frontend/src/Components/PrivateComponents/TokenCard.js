@@ -22,7 +22,8 @@ function TokenCard(props) {
         <Card.Img
           variant="top"
           src={tokenPlan.photoPath}
-          alt="Token pic"
+          alt="Toke
+          n pic"
           className="mx-auto my-3"
         />
         <Card.Body>

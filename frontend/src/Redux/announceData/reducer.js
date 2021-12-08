@@ -17,10 +17,10 @@ const initialState = {
       ? {
           startDate: moment(JSON.parse(localStorage.getItem("start"))).toDate(),
         }
-      : { startDate: "" }),
+      : { startDate: new Date() }),
     ...(JSON.parse(localStorage.getItem("end"))
       ? { endDate: moment(JSON.parse(localStorage.getItem("start"))).toDate() }
-      : { endDate: "" }),
+      : { endDate: new Date() }),
   },
 
   announce: [],

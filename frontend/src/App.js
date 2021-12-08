@@ -21,7 +21,9 @@ import DashboardPage from "./Pages/AdminPages/dashboardPage";
 import AnnouncementPage from "./Pages/AdminPages/announcementPage";
 import AnnouncemnetEditPage from "./Pages/AdminPages/announcementEditPage";
 import UserPage from "./Pages/AdminPages/userPage";
-import ProfileInfo from "./Components/PrivateComponents/admin/ProfileInfo";
+import UserListpage from "./Pages/AdminPages/UserListPage";
+import TokenPaymentTransction from "./Pages/AdminPages/TokenPayementTransaction";
+import TokenUserTransction from "./Pages/AdminPages/tokenUserTransaction";
 import AdminHome from "./Pages/AdminPages/AdminHome";
 import RequestPage from "./Pages/AdminPages/requestPage";
 import TaskPage from "./Pages/AdminPages/taskPage";
@@ -39,7 +41,6 @@ function App() {
         path="/admin/dashboard"
         component={DashboardPage}
       />
-      <PrivateAdminRoute exact path="/admin/user/:id" component={UserPage} />
       <PrivateAdminRoute exact path="/admin/task" component={TaskPage} />
       <PrivateAdminRoute exact path="/admin/request" component={RequestPage} />
       <PrivateAdminRoute
@@ -59,10 +60,22 @@ function App() {
         component={AnnouncemnetEditPage}
       />
       <PrivateAdminRoute
+        exact
         path="/admin/announcement/edit/:id"
         component={AnnouncemnetEditPage}
       />
-      <PrivateAdminRoute path="/admin/user/:id" component={UserPage} />
+      <PrivateAdminRoute exact path="/admin/user" component={UserListpage} />
+      <PrivateAdminRoute
+        exact
+        path="/admin/token/record"
+        component={TokenPaymentTransction}
+      />
+      <PrivateAdminRoute
+        exact
+        path="/admin/token/history"
+        component={TokenUserTransction}
+      />
+      <PrivateAdminRoute exact path="/admin/user/:id" component={UserPage} />
 
       <PrivateRoute path="/member/signup" component={SignupPage} />
       <PrivateRoute

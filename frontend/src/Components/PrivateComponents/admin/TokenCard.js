@@ -31,7 +31,7 @@ export function TokenCountCard() {
           <p>Today's income</p>
           {income ? <p>HKD$ {income}</p> : <p>HKD$0</p>}
         </div>
-        <FaDollarSign className="icon" />
+        <FaDollarSign className="dashboard-icon" />
       </Card>
     </>
   );

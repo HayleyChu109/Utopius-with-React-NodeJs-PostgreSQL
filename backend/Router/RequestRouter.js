@@ -478,8 +478,10 @@ class RequestRouter {
           newGrade = "D";
         } else if (0.0 <= averageRate && averageRate < 1.0) {
           newGrade = "E";
-        } else {
+        } else if (averageRate < 0.0) {
           newGrade = "F";
+        } else {
+          newGrade = "-";
         }
         await this.requestService.putUserGrade(reviewee, newGrade);
       }

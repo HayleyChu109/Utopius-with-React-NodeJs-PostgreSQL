@@ -1,260 +1,128 @@
-import { useState,useMemo, useRef, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { DateSelection } from "../../Components/PrivateComponents/admin/dateSelection";
 import {
-  PutDraft,
   PutStartDate,
-  PutEndDate,GetAnnouncement,
+  PutEndDate,
+  GetAnnouncement,
   PutTitle,
-  DeleteDraft,PostAnnouncement,DeleteAnnouncement,PutAnnouncement
+  DeleteDraft,
+  PostAnnouncement,
+  DeleteAnnouncement,
+  PutAnnouncement,
 } from "../../Redux/announceData/action";
-import { createReactEditorJS } from "react-editor-js";
-import Embed from '@editorjs/embed';
-import Output from "editorjs-react-renderer";
+import parse from "html-react-parser";
+
+import { TextEditor } from "../../Components/PrivateComponents/TextEditor";
+import draftToHtml from "draftjs-to-html";
+
 import "../SCSS/announce.scss";
-import Header from "@editorjs/header";
-import Table from "@editorjs/table";
-import List from "@editorjs/list";
-import LinkTool from "@editorjs/link";
+
 import { useHistory, useParams } from "react-router";
-import ImageTool from "@editorjs/image";
-import S3 from "react-aws-s3";
-import { announceConfig } from "../../s3Bucket/s3Config";
+
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import moment from "moment";
+
 import { formatDate, parseDate } from "react-day-picker/moment";
 import "react-day-picker/lib/style.css";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
+import "../SCSS/dashboard.scss";
 import AdminNavbar from "../../Components/PrivateComponents/admin/adminNavBar";
 
 export function AnnouncemnetEditPage() {
-  const { title, data, startDate, endDate} = useSelector(
+  const { title, data, startDate, endDate } = useSelector(
     (state) => state.announceStore.draft
   );
 
   const { id } = useParams();
   console.log(id);
-  console.log(data);
+  console.log(startDate);
   const dispatch = useDispatch();
-  const ReactS3Client = new S3(announceConfig);
-  const ReactEditorJS = createReactEditorJS();
+  const history = useHistory();
   const [modal, setModal] = useState(false);
   const [save, setSave] = useState(false);
   const handleClose = () => setModal(false);
   const handleShow = () => setModal(true);
   const handleSaveClose = () => setSave(false);
   const handleSaveShow = () => setSave(true);
+const handleStartDate=(e)=>{
+  dispatch(PutStartDate(new Date(e)))
+}
+const handleEndDate=(e)=>{
+  dispatch(PutEndDate(new Date(e)))
+}
   const handlePublish = () => {
-    if(id===undefined){
-      dispatch(PostAnnouncement(title,data,false))
-      dispatch(DeleteDraft())
-
-    }else{
-    dispatch(PutAnnouncement(id,title,data,false))
-    dispatch(DeleteDraft())
-
+    if (id === undefined) {
+      dispatch(PostAnnouncement(title, data, false,startDate,endDate));
+      dispatch(DeleteDraft());
+    } else {
+      dispatch(PutAnnouncement(id, title, data, false,startDate,endDate));
+      dispatch(DeleteDraft());
     }
     setSave(false);
-    history.push('/admin/announcement')
+    history.push("/admin/announcement");
   };
   const handleSaveDraft = () => {
-    if(id===undefined)
-    {
-    dispatch(PostAnnouncement(title,data,true))
-    dispatch(DeleteDraft())
-  }else{
-    dispatch(PutAnnouncement(id,title,data,true))
-    dispatch(DeleteDraft())
-
-  }
-  setSave(false);
-    history.push('/admin/announcement')
+    if (id === undefined) {
+      dispatch(PostAnnouncement(title, data, true,startDate,endDate));
+      dispatch(DeleteDraft());
+    } else {
+      dispatch(PutAnnouncement(id, title, data, true,startDate,endDate));
+      dispatch(DeleteDraft());
+    }
+    setSave(false);
+    history.push("/admin/announcement");
   };
   useEffect(() => {
-    if(id!==undefined)
-    {
-      dispatch(GetAnnouncement(id))
-
+    if (id !== undefined) {
+      dispatch(GetAnnouncement(id));
     }
-  }, [dispatch,id]);
-  const EDITOR_JS_TOOLS = {
-    // NOTE: Paragraph is default tool. Declare only when you want to change paragraph option.
-    // paragraph: Paragraph,
-    embed: {
-      class: Embed,
-      config: {
-        services: {
-          youtube: true,
-        }
-      },
-    },
-    table: Table,
-    list: List,
-    // warning: Warning,
-    // code: Code,
+  }, [dispatch, id]);
 
-    image: {
-      class: ImageTool,
-      config: {
-        uploader: {
-          uploadByFile(file) {
-            console.log(file);
-            return ReactS3Client.uploadFile(file)
-              .then((data) => {
-                console.log(data.location);
-                return {
-                  success: 1,
-                  file: {
-                    url: data.location,
-                  },
-                };
-              })
-              .catch((e) => console.log(e));
-          },
-        },
-      },
-    },
-    // raw: Raw,
-    header: Header,
-    // quote: Quote,
-    // marker: Marker,
-    // checklist: CheckList,
-    // delimiter: Delimiter,
-    // inlineCode: InlineCode,
-    // simpleImage: SimpleImage,
-  };
-  const history = useHistory();
-  const editorJS = useRef(null || data);
-
-  
-  const handleInitialize = useCallback((instance) => {
-    editorJS.current = instance;
-  }, []);
-
-  const handleSave = useCallback(async () => {
-    const savedData = await editorJS.current.save();
-    console.log(savedData);
-    dispatch(PutDraft(savedData));
-  }, [dispatch]);
   const handleDiscard = useCallback(() => {
-    if(id===undefined)
-    {
-
-    dispatch(DeleteDraft());
-  
-    }else{
-      dispatch(DeleteAnnouncement(id))
+    if (id === undefined) {
+      dispatch(DeleteDraft());
+    } else {
+      dispatch(DeleteAnnouncement(id));
     }
     history.push("/admin/announcement");
-  }, [history, dispatch,id]);
-  const modifiers = { start: startDate, end: endDate };
-  let end = HTMLInputElement | null;
-  const showFromMonth = () => {
-    if (!startDate) {
-      return;
-    }
-    if (moment(endDate).diff(moment(startDate), "months") < 2) {
-      end.getDayPicker().showMonth(endDate);
-    }
-  };
+  }, [history, dispatch, id]);
 
-  const handleToChange = (to) => {
-    dispatch(PutEndDate(to));
-    showFromMonth();
-  };
   return (
     <>
       <AdminNavbar />
-      <Button>Go Back</Button>
-      <div className="d-flex ">
-        <div
-          style={{
-            backgroundColor: "beige",
-            width: "80vw",
-            height: "90vh",
-            margin: "5vh auto 5vh",
-            justifyContent: "center",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <label htmlFor="title">Title</label>
-          <br />
-          <input
-            type="text"
-            name="title"
-            value={title}
-            onChange={(e) => dispatch(PutTitle(e.target.value))}
-          />
-          <br />
-          <label htmlFor="content">Content</label>
-          <div
-            className="d-flex flex-column mx-auto"
-            style={{
-              backgroundColor: "white",
-              width: "70vw",
-              height: "70vh",
-              overflow: "auto",
-            }}
-          >
-            <ReactEditorJS
-              onInitialize={handleInitialize}
-              placeholder="Enter your content"
-              defaultValue={data}
-              tools={EDITOR_JS_TOOLS}
-              onChange={() => handleSave()}
-            />
-          </div>
-          <div className="d-flex justify-content-center">
-            <div className="d-flex flex-column mx-5">
-              <label htmlFor="">From:</label>
-              <DayPickerInput
-                placeholder="from"
-                value={startDate}
-                formatDate={formatDate}
-                parseDate={parseDate}
-                onDayChange={(day) => dispatch(PutStartDate(day))}
-                dayPickerProps={{
-                  selectedDays: [startDate, { startDate, endDate }],
-                  disabledDays: { after: startDate },
-                  toMonth: endDate,
-                  modifiers,
-                  numberOfMonths: 2,
-                  onDayClick: () => end.getInput().focus(),
-                }}
-              />
-            </div>
-            <div className="d-flex flex-column mx-5">
-              <label htmlFor="">To:</label>
-              <DayPickerInput
-                ref={(el) => (end = el)}
-                value={endDate}
-                placeholder="To"
-                formatDate={formatDate}
-                parseDate={parseDate}
-                dayPickerProps={{
-                  selectedDays: [startDate, { startDate, endDate }],
-                  disabledDays: { before: startDate },
-                  modifiers,
-                  month: startDate,
-                  fromMonth: startDate,
-                  numberOfMonths: 2,
-                }}
-                onDayChange={handleToChange}
-              />
-            </div>
-          </div>
-          <div className="d-flex justify-content-end">
-            <Button className="m-2" onClick={handleShow}>
-              Preview
-            </Button>
-            <Button className="m-2" onClick={handleSaveShow}>
-              Save
-            </Button>
-            <Button className="m-2" variant="danger" onClick={handleDiscard}>
-              Discard
-            </Button>
-          </div>
+      <div>
+        <Form.Control
+          type="text"
+          name="title"
+          value={title}
+          placeholder="title"
+          className="ms-4 mt-4 mx-auto title-bar"
+          onChange={(e) => dispatch(PutTitle(e.target.value))}
+        />
+        <div className="float-end me-3 mt-3">
+          <Button className="m-2" onClick={handleShow}>
+            Preview
+          </Button>
+          <Button className="m-2" onClick={handleSaveShow}>
+            Save
+          </Button>
+          <Button className="m-2" variant="danger" onClick={handleDiscard}>
+            Discard
+          </Button>
         </div>
+        <div className="mx-auto"></div>
+      </div>
+
+      <div className="px-3">
+       
+{id?<DateSelection startDate={startDate} endDate={endDate}/>:<DateSelection startDate={startDate} endDate={endDate}/>}
+        <label htmlFor="content">Content</label>
+        {Object.keys(data).length > 0 && id ? (
+          <TextEditor data={data} />
+        ) : !id?(
+          <TextEditor data={null} />
+        ):null}
       </div>
 
       <Modal show={modal} onHide={handleClose} size="xl" scrollable={true}>
@@ -263,9 +131,18 @@ export function AnnouncemnetEditPage() {
         </Modal.Header>
         <Modal.Body>
           <h2>{title}</h2>
-          <Output data={data} />
+          {data ? (
+            parse(
+              draftToHtml(data, {
+                trigger: "#",
+                separator: " ",
+              })
+            )
+          ) : (
+            <p className='text-center'>Write something ✍️</p>
+          )}
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="admin-footer">
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
@@ -276,7 +153,7 @@ export function AnnouncemnetEditPage() {
           <Modal.Title>Save</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you ready to publish the announcement?</Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="admin-footer">
           <Button variant="primary" onClick={handlePublish}>
             Publish
           </Button>

@@ -3,15 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { GetUserGrowth } from "../../../Redux/adminData/action";
 import { Card } from "react-bootstrap";
 import moment from "moment";
-// import {
-//     XAxis,
-//     YAxis,
-//     Tooltip,
-//     Line,
-//     Bar,
-//     ComposedChart,ResponsiveContainer,
-//     Label,Text
-//   } from "recharts"
+
 
 import {
   Chart as ChartJS,
@@ -24,7 +16,7 @@ import {
   Legend,
   Tooltip
 } from "chart.js";
-import { Chart, Bar } from "react-chartjs-2";
+import { Chart } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -52,6 +44,7 @@ export const options = {
     title: {
       display: true,
       text: "Daily new users",
+      font:{size:20}
     },
    
     },
@@ -59,16 +52,17 @@ export const options = {
         x: {
           title: {
             display: true,
-            text: "Month",
+            text: "Date",
+            font:{size:15}
           },
         },
         y: {
           title: {
             display: true,
-            text: "Value",
+           
+            
           },
           min: 0,
-          max: 5,
           ticks: {
             stepSize: 1,
           },
@@ -81,7 +75,7 @@ export function NewUserChart() {
   const dispatch = useDispatch();
 
   const { userGrowth } = useSelector((state) => state.adminDataStore);
-  const { data, XAxisTitle, bar, line } = userGrowth;
+  const { data } = userGrowth;
   console.log(data);
   var labels;
   var dataParsed;
@@ -115,12 +109,7 @@ export function NewUserChart() {
     };
   }
 
-  useEffect(() => {
-    dispatch(
-      GetUserGrowth(moment().subtract(7, "day").toDate(), moment().toDate())
-    );
-  }, [dispatch]);
-  console.log("hell");
+ 
   return (
     <Card className='chart'>
       {data&&data.length>0 ? <Chart datasetIdKey='id' options={options} type="bar" data={dataParsed} /> : null}
