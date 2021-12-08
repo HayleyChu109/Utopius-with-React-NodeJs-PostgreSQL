@@ -1,5 +1,5 @@
 const { response } = require("express");
-
+const moment = require("moment");
 class AdminRequestService {
   constructor(knex) {
     this.knex = knex;
@@ -25,7 +25,11 @@ class AdminRequestService {
         "request.created_at"
       )
       .select(this.knex.raw(`array_agg(distinct tag."tagName") as "tag"`))
-      .select(this.knex.raw(`count("response"."requestId") filter(where "matched"='true') as "matched"`))
+      .select(
+        this.knex.raw(
+          `count("response"."requestId") filter(where "matched"='true') as "matched"`
+        )
+      )
       .join("account", "requesterId", "account.id")
       .leftJoin("tagReqJoin", "request.id", "requestId")
       .leftJoin("response", "response.requestId", "response.id")
@@ -55,7 +59,11 @@ class AdminRequestService {
         "request.created_at"
       )
       .select(this.knex.raw(`array_agg(distinct tag."tagName") as "tag"`))
-      .select(this.knex.raw(`count("response"."requestId") filter(where "matched"='true') as "matched"`))
+      .select(
+        this.knex.raw(
+          `count("response"."requestId") filter(where "matched"='true') as "matched"`
+        )
+      )
       .join("account", "requesterId", "account.id")
       .leftJoin("tagReqJoin", "request.id", "requestId")
       .leftJoin("response", "response.requestId", "response.id")
@@ -76,6 +84,55 @@ class AdminRequestService {
         )
       )
       .groupBy("status");
+  }
+  getReqMatched() {
+    return this.knex("request")
+      .select(
+        this.knex.raw(
+          `request.id,"requiredPpl",count(response.id) filter(where matched='true') as "matched", count(response.id) filter(where matched='true')::Decimal/ "requiredPpl"* 100 as "percentage"`
+        )
+      )
+      .leftJoin("response", "request.id", "requestId")
+      .groupBy("request.id");
+  }
+
+  getReqResGrowth(startDate, endDate) {
+    startDate = moment(startDate).format("YYYY-MM-DD HH:mm");
+    endDate = moment(endDate).format("YYYY-MM-DD HH:mm");
+    return this.knex
+      .with("date_ranges", (qb) => {
+        qb.select(this.knex.raw(`date_d::date as date_d`)).from(
+          this.knex.raw(
+            `GENERATE_SERIES(date '${startDate}'::DATE,'${endDate}'::DATE,'1 day'::INTERVAL)date_d`
+          )
+        );
+      })
+      .with("request_counts", (qb) => {
+        qb.select(this.knex.raw(`created_at::date as date_d`))
+          .select(this.knex.raw(`count(id)as cnt`))
+          .from("request")
+          .whereBetween("created_at", [startDate, endDate])
+          .groupBy("created_at");
+      })
+      .with("response_counts", (qb) => {
+        qb.select(this.knex.raw(`created_at::date as date_d`))
+          .select(this.knex.raw(`count(id)as cnt`))
+          .from("response")
+          .whereBetween("created_at", [startDate, endDate])
+          .groupBy("date_d");
+      })
+      .select(
+        this.knex.raw(
+          `date_ranges.date_d AS "Date",COALESCE(request_counts.cnt,0)as "Request Count",date_ranges.date_d AS "Date",COALESCE(response_counts.cnt,0)as "Response Count"`
+        )
+      )
+      .from("date_ranges")
+      .leftJoin("request_counts", "request_counts.date_d", "date_ranges.date_d")
+      .leftJoin(
+        "response_counts",
+        "response_counts.date_d",
+        "date_ranges.date_d"
+      );
   }
 }
 

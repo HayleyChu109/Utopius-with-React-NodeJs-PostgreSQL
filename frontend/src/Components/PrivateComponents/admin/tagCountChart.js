@@ -46,6 +46,7 @@ export const options = {
     title: {
       display: true,
       text: "Most used tag",
+      font:{size:20}
     },
   },
   scales: {

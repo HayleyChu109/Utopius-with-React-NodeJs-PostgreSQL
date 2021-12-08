@@ -5,7 +5,6 @@ exports.up = function (knex) {
     table.foreign("guestMsgId").references("guestMsg.id");
     table.integer("reportMemberId").unsigned();
     table.foreign("reportMemberId").references("reportMember.id");
-    table.boolean('resolved')
     table.string('solution')
     table.string("status");
   });

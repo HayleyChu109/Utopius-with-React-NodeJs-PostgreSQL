@@ -92,12 +92,12 @@ export const GetAnnouncement = (requestId) => async (dispatch) => {
     if (start_date === null) {
       dispatch(PutStartDate(""));
     } else {
-      dispatch(PutStartDate(start_date));
+      dispatch(PutStartDate(new Date(start_date)));
     }
     if (end_date === null) {
       dispatch(PutEndDate(""));
     } else {
-      dispatch(PutEndDate(start_date));
+      dispatch(PutEndDate(new Date(end_date)));
     }
     dispatch(PutTitle(title));
   } catch (error) {
@@ -106,13 +106,13 @@ export const GetAnnouncement = (requestId) => async (dispatch) => {
   }
 };
 export const PostAnnouncement =
-  (title, content, isPrivate) => async (dispatch) => {
+  (title, content, isPrivate,startDate,endDate) => async (dispatch) => {
     let userToken = localStorage.getItem("token");
     console.log(userToken);
     try {
       let response = await axios.post(
         `${process.env.REACT_APP_API_SERVER}/announce`,
-        { title: title, content: content, isPrivate: isPrivate },
+        { title: title, content: content, isPrivate: isPrivate,startDate:startDate,endDate:endDate  },
 
         {
           headers: { Authorization: `Bearer ${userToken}` },
@@ -126,13 +126,13 @@ export const PostAnnouncement =
     }
   };
 export const PutAnnouncement =
-  (id, title, content, isPrivate) => async (dispatch) => {
+  (id, title, content, isPrivate,startDate,endDate) => async (dispatch) => {
     let userToken = localStorage.getItem("token");
     console.log(userToken);
     try {
       let response = await axios.put(
         `${process.env.REACT_APP_API_SERVER}/announce/${id}`,
-        { title: title, content: content, isPrivate: isPrivate },
+        { title: title, content: content, isPrivate: isPrivate,startDate:startDate,endDate:endDate },
 
         {
           headers: { Authorization: `Bearer ${userToken}` },

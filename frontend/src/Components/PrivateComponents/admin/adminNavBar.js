@@ -39,7 +39,7 @@ const AdminNavbar = () => {
 
   return (
     <>
-      <div className="navbarAdmin">
+      <div className="navbarAdmin sticky-top">
         <div className="mx-3 py-2 row">
           <div className="col-2">
             <a href="/admin" className="nav-logo">

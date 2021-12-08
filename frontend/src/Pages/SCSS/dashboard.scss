@@ -1,4 +1,5 @@
 @import 'basic';
+@import 'react-nice-dates/src/style.scss';
 .graph {
   display: flex;
   align-items: center;
@@ -97,16 +98,38 @@ border-radius: 100px;
 .wrapper{
   height: 65vh;
   border: black;
-  border-width:5px ;
+  border-width:2px ;
   border-style: solid;
+  border-radius: 5px;
   overflow: auto;
 }
 
 .editor{
   min-height: 60vh;
-
+ 
 }
 
 .title-bar{
   width: 80vw;
+}
+
+.nice-dates-popover {
+  box-shadow: none;
+  display: grid-ms-grid;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  max-width: 300px !important;
+  transition: none;
+  z-index: 100 !important;
+}
+
+.admin-offcanva{
+width:70vw;
+}
+
+.admin-slider::-webkit-slider-thumb,.admin-slider:disabled {
+  color: blue !important;
+}
+.admin-slider{
+  width:30vw;
 }

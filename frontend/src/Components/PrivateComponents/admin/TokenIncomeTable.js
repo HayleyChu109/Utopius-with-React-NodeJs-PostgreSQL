@@ -106,7 +106,7 @@ export const TokenIncomeTable = ({ items, itemsPerPage }) => {
                         className="profile mx-2"
                       />
                     )}
-                    {item.username}
+                    {item.username?item.username:`New user UID#${item.accountId}`}
                   </Link>
                 </td>
                
@@ -114,7 +114,7 @@ export const TokenIncomeTable = ({ items, itemsPerPage }) => {
                     <img src={item.photoPath} alt="plan" className='profile' />{item.planName}
                 </td>
                 <td>{item.noOfToken}</td>
-                <td>${item.hkd}</td>
+                <td>{item.hkd}</td>
                 <td>
                   {moment().diff(item.created_at, "day") >= 1
                     ? moment(item.created_at).format("YYYY-MM-DD HH:MM")
@@ -132,12 +132,12 @@ export const TokenIncomeTable = ({ items, itemsPerPage }) => {
         </Pagination.Prev>
         {paginate}
         <Pagination.Next
-          disabled={activePage === pageCount}
+          disabled={activePage === pageCount||pageCount===0}
           onClick={handleNext}
           >
           Next
         </Pagination.Next>
-        <Pagination.Last onClick={handleLastpage} disabled={activePage === pageCount}/>
+        <Pagination.Last onClick={handleLastpage} disabled={activePage === pageCount||pageCount===0}/>
       </Pagination>
             </FadeIn>
     </>

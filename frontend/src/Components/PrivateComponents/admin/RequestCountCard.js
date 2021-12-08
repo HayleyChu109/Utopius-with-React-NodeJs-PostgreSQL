@@ -11,6 +11,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export const RequestTypeCard=()=>{
     const dispatch=useDispatch()
     const {stat}=useSelector((state)=>state.adminRequestStore)
+    const {reqStat}=stat
     useEffect(()=>{
         dispatch(GetRequestStat())
     },[dispatch])
@@ -29,15 +30,15 @@ export const RequestTypeCard=()=>{
         }
       }
     
-    if(stat&&stat.length>0)
+    if(reqStat&&reqStat.length>0)
     {
-        label=stat.map(item=>item.status)
+        label=reqStat.map(item=>item.status)
         dataset = {
             labels: label,
             datasets: [
               {
                 label: 'percentage',
-                data: stat.map(item=>item.count),
+                data: reqStat.map(item=>item.count),
                 backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -56,7 +57,7 @@ export const RequestTypeCard=()=>{
     }
     return(
         <>
-       {stat&&stat.length>0?<Doughnut options={options} data={dataset} />:null}
+       {reqStat&&reqStat.length>0?<Doughnut options={options} data={dataset} />:null}
 
         </>
     )

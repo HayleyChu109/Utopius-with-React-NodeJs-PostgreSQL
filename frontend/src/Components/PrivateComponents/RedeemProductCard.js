@@ -1,5 +1,6 @@
 import { Card } from "react-bootstrap";
 import { FaCoins } from "react-icons/fa";
+import {BsCartCheckFill} from 'react-icons/bs'
 export const RedeemProductCard = ({ item_pic, name, token_cost, stock }) => {
   return (
     <>
@@ -13,7 +14,7 @@ export const RedeemProductCard = ({ item_pic, name, token_cost, stock }) => {
 
             <FaCoins className='coin me-3'/>{token_cost}
             <br />
-                {stock}
+               <BsCartCheckFill className='me-4 color-success'/> {stock}
                   </div>
               </div>
           

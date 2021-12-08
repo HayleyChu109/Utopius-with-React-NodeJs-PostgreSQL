@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { Table, Pagination,Form } from "react-bootstrap";
+import { Table, Pagination,Form,Button,ButtonToolbar,ButtonGroup } from "react-bootstrap";
 import FadeIn from "react-fade-in/lib/FadeIn";
-import { GetUserList } from "../../../Redux/adminData/action";
+import { GetUserList,PutUserGroupBlock } from "../../../Redux/adminData/action";
 import { ImSortAlphaAsc,ImSortAlphaDesc } from "react-icons/im";
 import moment from "moment";
 export const UserListTable = ({ items, itemsPerPage }) => {
+const[toolbar,setToolbar]=useState(false)
 const[column,setColumn]=useState('id')
 const dispatch=useDispatch()
 const [asc,setAsc]=useState(true)
@@ -132,6 +133,20 @@ const[selectAll,setSelectAll]=useState(false)
   return (
     <>
             <FadeIn>
+   {selection.length>0? <div className='d-flex ms-5'>
+       {selection.length} items has selected
+    <ButtonToolbar aria-label="Toolbar with button groups" className='ms-4'>
+  <ButtonGroup className="me-2 ms-3" aria-label="First group">
+    <Button variant='secondary' onClick={()=>dispatch(PutUserGroupBlock(selection))}>Block/Unblock</Button> 
+  </ButtonGroup>
+  <ButtonGroup className="me-2" aria-label="Second group">
+    <Button variant='outline-secondary' onClick={()=>{setSelection([])
+    setSelectAll(false)
+    }}>Unselect</Button>
+  </ButtonGroup>
+  
+</ButtonToolbar>
+    </div>:null}
       <Table>
         <thead>
           <tr>
@@ -185,7 +200,7 @@ const[selectAll,setSelectAll]=useState(false)
         <tbody >
           {currentItems &&
             currentItems.map((item,index) => (
-              <tr key={item.id} className={index%2!==0? "table-primary":null}>
+              <tr key={item.id} className={index%2!==0? "table-primary":null||selection.includes(item.id)?'table-secondary':null}>
                   <td><Form.Check onChange={()=>handleSelection(item.id)} checked={selection.includes(item.id)}/></td>
                   <td>{item.id}</td>
                 <td>
@@ -203,8 +218,9 @@ const[selectAll,setSelectAll]=useState(false)
                         className="profile mx-2"
                       />
                     )}
-                    {item.username?item.username:`New member id:${item.id}`}
+                    {item.username?item.username:`Member UID${item.id}`}
                   </Link>
+                  {item.blacklist?<span className='text-muted mx-2'>blocked</span>:null}
                 </td>
                 <td>
                   {item.requestCount}

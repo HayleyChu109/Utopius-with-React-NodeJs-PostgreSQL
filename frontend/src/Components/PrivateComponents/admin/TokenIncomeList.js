@@ -15,7 +15,7 @@ export function TokenIncomeList() {
 
   return (
     <>
-      <TokenIncomeTable items={transaction} itemsPerPage={10}/>
+      <TokenIncomeTable items={transaction} itemsPerPage={5}/>
 
     </>
   );

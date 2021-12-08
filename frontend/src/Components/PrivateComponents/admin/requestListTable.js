@@ -18,8 +18,7 @@ export function RequestListTable() {
   const [query, setQuery] = useState("");
   const [order, setOrder] = useState("title");
   const [desc, setDesc] = useState(false);
-  const [selection, setSelection] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
+
   const dispatch = useDispatch();
   const { requestList } = useSelector((state) => state.adminRequestStore);
   const handleOrder = (name) => {
@@ -32,16 +31,7 @@ export function RequestListTable() {
       setDesc(false);
     }
   };
-  const handleSelection = (id) => {
-    let index = selection.indexOf(id);
-    console.log(index);
-    if (index > -1) {
-      setSelection(selection.splice(index, 1));
-    } else {
-      setSelection(selection.concat(id));
-    }
-    console.log(selection);
-  };
+  
   const history = useHistory();
   const handleSearch = (val) => {
     history.push("/admin");
@@ -68,21 +58,10 @@ export function RequestListTable() {
         return <td>{status}</td>;
     }
   };
-  const handleSelectAll = () => {
-    if (selectAll) {
-      setSelection([]);
-      setSelectAll(false);
-    } else {
-      let select = requestList.map((item) => item.id);
-      setSelection(select);
-      setSelectAll(true);
-    }
-    console.log(selection);
-  };
-
+ 
   useEffect(() => {
     dispatch(GetRequestList());
-  }, [dispatch, selection]);
+  }, [dispatch]);
   return (
     <>
       <div className="d-flex justify-content-end ">
@@ -98,9 +77,7 @@ export function RequestListTable() {
         <Table className="text-center">
           <thead className="table-secondary">
             <tr>
-              <th>
-                <FormCheckInput checked={selectAll} onClick={handleSelectAll} />
-              </th>
+              
               <th onClick={() => handleOrder("id")}>
                 id
                 {order === "id" ? (
@@ -187,13 +164,7 @@ export function RequestListTable() {
             {requestList && requestList.length > 0
               ? requestList.map((item) => (
                   <tr key={item.id}>
-                    <td>
-                      <FormCheckInput
-                        type="checkbox"
-                        checked={selection.includes(item.id)}
-                        onChange={() => handleSelection(item.id)}
-                      />
-                    </td>
+                    
                     <td>{item.id}</td>
 
                     <td>
@@ -203,11 +174,16 @@ export function RequestListTable() {
                     </td>
                     <td>
                       <Link to={`/admin/user/${item.requesterId}`}>
+                        {item.profilePath?
                         <img
                           src={item.profilePath}
                           alt="profile"
                           className="profile"
-                        />{" "}
+                        />:<img
+                        src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
+                        alt="profile pic"
+                        className="profile mx-2"
+                      />}{" "}
                         {item.username?item.username:`New User id: ${item.requesterId}`}
                       </Link>
                     </td>

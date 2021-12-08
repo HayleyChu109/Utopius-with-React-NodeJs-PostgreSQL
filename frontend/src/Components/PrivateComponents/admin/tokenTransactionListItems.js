@@ -107,10 +107,11 @@ export const TokenTransactionListItem = ({ items, itemsPerPage }) => {
                         className="profile mx-2"
                       />
                     )}
-                    {item.payer}
+                    {item.payer?item.payer:`New user UID#${item.payerId}`}
                   </Link>
                 </td>
                 <td>
+                  <Link to={`/admin/user/${item.payeeId}`}>
                   {item.payererofile ? (
                     <img
                       src={item.payeeProfile}
@@ -124,7 +125,8 @@ export const TokenTransactionListItem = ({ items, itemsPerPage }) => {
                       className="profile mx-2"
                     />
                   )}
-                  {item.payee}
+                  {item.payee?item.payee:`New user ID#${item.payeeId}`}
+                  </Link>
                 </td>
                 <td>
                   <Link to={`/admin/request/${item.requestId}/comment`}>

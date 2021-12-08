@@ -11,9 +11,16 @@ import {
 import moment from "moment";
 const initialState = {
   draft: {
-    title: '',
-    data: {},
-    startDate:new Date(),endDate:new Date()
+    title: JSON.parse(localStorage.getItem("title")) || "",
+    data: JSON.parse(localStorage.getItem("cache")) || {},
+    ...(JSON.parse(localStorage.getItem("start"))
+      ? {
+          startDate: moment(JSON.parse(localStorage.getItem("start"))).toDate(),
+        }
+      : { startDate: new Date() }),
+    ...(JSON.parse(localStorage.getItem("end"))
+      ? { endDate: moment(JSON.parse(localStorage.getItem("start"))).toDate() }
+      : { endDate: new Date() }),
   },
 
   announce: [],

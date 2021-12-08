@@ -5,10 +5,13 @@ import AdminNavbar from "../../Components/PrivateComponents/admin/adminNavBar";
 import { Link,useParams } from "react-router-dom";
 import { Row,Col,Offcanvas,Button } from "react-bootstrap";
 import { BsStars } from "react-icons/bs";
+import { GiDiamonds } from "react-icons/gi";
+import { GetUserData } from "../../Redux/adminData/action";
 import { memberInfoThunk } from "../../Redux/memberProfile/memberProfileActions";
 import { memberResDetailsThunk } from "../../Redux/memberProfile/memberResDetailsActions";
 import { memberReqDetailsThunk } from "../../Redux/memberProfile/memberReqDetailsActions";
 import { getReviewThunk } from "../../Redux/review/getReviewActions";
+import { AnalysisComponent } from "../../Components/PrivateComponents/admin/AnalysisComponent";
 import MemberProfilePic from "../../Components/PrivateComponents/MemberProfilePic";
 import ProfileInfo from "../../Components/PrivateComponents/admin/ProfileInfo";
 export default function UserPage() {
@@ -21,6 +24,7 @@ const {id}=useParams()
 const handleClose=()=>setShow(false)
 const toggleShow = () => setShow((s) => !s)
   useEffect(() => {
+    dispatch(GetUserData(id))
     dispatch(memberInfoThunk(id));
     dispatch(memberReqDetailsThunk(id));
     dispatch(memberResDetailsThunk(id));
@@ -40,13 +44,15 @@ const toggleShow = () => setShow((s) => !s)
         <ProfileInfo/>
       </div>
       <Offcanvas show={show} onHide={handleClose} scroll={true}
-    backdrop={true} placement='end'>
+    backdrop={true} placement='end' className='admin-offcanva'>
         <Offcanvas.Header closeButton className='user-canva'>
-          <Offcanvas.Title>Analytics</Offcanvas.Title>
+          <Offcanvas.Title> <div className=" discover-title">
+          <GiDiamonds className="me-2 mb-1" />
+          Analytics
+        </div></Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          Some text as placeholder. In real life you can have the elements you
-          have chosen. Like, text, images, lists, etc.
+         <AnalysisComponent/>
         </Offcanvas.Body>
       </Offcanvas>
     </>

@@ -61,26 +61,28 @@ export default function AnnouncementPage(props) {
               <Col key={item.id}>
               <Card
                 
-                onClick={() => modalOpen(item.title, item.content)}
+               
                 className="text-center"
               >
-                <Card.Header>
+                <Card.Header  onClick={() => modalOpen(item.title, item.content)}>
                   <GrArticle className="mx-auto new-item" />
                   
                 </Card.Header>
                 <Card.Body>
                   <Card.Title>{item.title}</Card.Title>
                   <p>Published: {item.isPrivate ? "No" : "Yes"}</p>
-                  <div>
-                    <Button href={`/admin/announcement/edit/${item.id}`}>
+                  <div className="d-grid gap-2">
+                    <Button variant='outline-secondary' className='rounded-pill'  href={`/admin/announcement/edit/${item.id}`}>
                       Edit
                     </Button>
                     <Button
                       onClick={() => dispatch(DeleteAnnouncement(item.id))}
-                      variant="danger"
+                      variant="outline-danger" className='rounded-pill'
                     >
                       delete
                     </Button>
+                   From: {moment(item.start_date).format('DD-MM-YYYY')} -
+                    <br /> {moment(item.end_date).format('DD-MM-YYYY')}
                   </div>
                 </Card.Body>
                 <Card.Footer>

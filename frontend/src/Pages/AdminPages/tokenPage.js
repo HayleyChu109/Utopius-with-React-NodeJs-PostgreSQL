@@ -9,7 +9,7 @@ import { TokenIncomeList } from "../../Components/PrivateComponents/admin/TokenI
 import { s3Config } from "../../s3Bucket/s3Config";
 import S3 from "react-aws-s3";
 import { FaCoins } from "react-icons/fa";
-import {BsArrowReturnRight} from 'react-icons/bs'
+import { BsArrowReturnRight } from "react-icons/bs";
 import { GiReceiveMoney } from "react-icons/gi";
 import { BsStars } from "react-icons/bs";
 import { Modal, Button, InputGroup } from "react-bootstrap";
@@ -21,7 +21,7 @@ export default function TokeNAdminPage() {
   const ReactS3Client = new S3(s3Config);
   const tokenPlans = useSelector((state) => state.tokenPlanStore.tokenPlan);
   const [addPlan, setaddPlan] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [tokenPlan, setTokenPlan] = useState("");
   const [token, setToken] = useState("");
   const [detail, setDetail] = useState("");
@@ -32,29 +32,28 @@ export default function TokeNAdminPage() {
     alt: "wait for upload",
   });
   const handleSubmission = (event) => {
-    setError('')
+    setError("");
     event.preventDefault();
-    if(path!=='')
-    {
-    ReactS3Client.uploadFile(path, alt).then((data) => {
-      let planObj = {
-        planName: tokenPlan,
-        noOfToken: token,
-        detail: detail,
-        hkd: cost,
-        photoPath: data.location,
-      };
+    if (path !== "") {
+      ReactS3Client.uploadFile(path, alt).then((data) => {
+        let planObj = {
+          planName: tokenPlan,
+          noOfToken: token,
+          detail: detail,
+          hkd: cost,
+          photoPath: data.location,
+        };
 
-      dispatch(PostTokenPlan(planObj));
-      closeAddPlan()
-    });
-  }else{
-    setError('Photo cannot be null')
-    return false
-  }
+        dispatch(PostTokenPlan(planObj));
+        closeAddPlan();
+      });
+    } else {
+      setError("Photo cannot be null");
+      return false;
+    }
   };
   const closeAddPlan = () => {
-    setError('')
+    setError("");
     setaddPlan(false);
     setPlanPhoto("");
     setCost("");
@@ -87,60 +86,61 @@ export default function TokeNAdminPage() {
           Token Plan
         </div>
         <div className="d-flex justify-content-center align-items-center align-content-around text-center token-list ">
-            <Row xs={4}>
-
-          {tokenPlans && tokenPlans.length > 0
-            ? tokenPlans.map((plan) => (
-              <Col key={plan.planName}>
-                <TokenCard  tokenPlan={plan} />
-              </Col>
-              ))
+          <Row xs={4}>
+            {tokenPlans && tokenPlans.length > 0
+              ? tokenPlans.map((plan) => (
+                  <Col key={plan.planName}>
+                    <TokenCard tokenPlan={plan} />
+                  </Col>
+                ))
               : null}
-              <Col className='mx-auto'>
-            <Card
-              className=" my-2 me-5 text-center token-card"
-              onClick={() => setaddPlan(true)}
+            <Col className="mx-auto">
+              {/* <Card
+                className=" my-2 me-5 text-center token-card"
+                onClick={() => setaddPlan(true)}
               >
-              <FaPlusCircle className="mx-auto my-3 new-plan text-secondary" />
-              <Card.Body>
-                <Card.Title className="py-1 token-card-title">
-                  New Plan
-                </Card.Title>
-                <Card.Text className="py-2 token-card-text">
-                  <br />
-                  <br />
-                </Card.Text>
-              </Card.Body>
-            </Card>
+                <FaPlusCircle className="mx-auto my-3 new-plan text-secondary" />
+                <Card.Body>
+                  <Card.Title className="py-1 token-card-title">
+                    New Plan
+                  </Card.Title>
+                  <Card.Text className="py-2 token-card-text">
+                    <br />
+                    <br />
+                  </Card.Text>
+                </Card.Body>
+              </Card> */}
             </Col>
-                </Row>
-              <div>
-          </div>
+          </Row>
+          <div></div>
         </div>
       </div>
       <div className="container py-4">
         <div className="my-4 px-4 memberProfile-title">
           <BsStars className="mb-1 me-2" />
-          Redeem items
+          Redeem Items
         </div>
-        <RedeemList/>
-        </div>
+        <RedeemList />
+      </div>
       <div className="container py-4">
         <div className="my-4 px-4 memberProfile-title">
           <BsStars className="mb-1 me-2" />
-          user Token Transaction
-        <a href="/token/history" className='float-end token-link'><BsArrowReturnRight/> more Transaction history</a>
+          User Token Transaction
+          <a href="/admin/token/history" className="float-end token-link">
+            <BsArrowReturnRight /> more transaction history
+          </a>
         </div>
         <TokenTransactionList itemsPerPage={4} />
       </div>
       <div className="container py-4">
         <div className="my-4 px-4 memberProfile-title">
           <BsStars className="mb-1 me-2" />
-          Token purchase record
-        <a href="/token/history" className='float-end token-link'><BsArrowReturnRight/> more purchase record</a>
+          Token Purchase Record
+          <a href="/admin/token/record" className="float-end token-link">
+            <BsArrowReturnRight /> more purchase record
+          </a>
         </div>
         <TokenIncomeList />
-
       </div>
       <Modal show={addPlan} onHide={() => closeAddPlan()} size="lg">
         <Modal.Header>
@@ -215,7 +215,7 @@ export default function TokeNAdminPage() {
                 </Form.Floating>
               </Col>
             </Row>
-            {error!==''?<p className='text-danger'>{error}</p>:null}
+            {error !== "" ? <p className="text-danger">{error}</p> : null}
           </Modal.Body>
 
           <Modal.Footer className="admin-footer">
@@ -228,8 +228,6 @@ export default function TokeNAdminPage() {
           </Modal.Footer>
         </Form>
       </Modal>
-
-      
     </>
   );
 }

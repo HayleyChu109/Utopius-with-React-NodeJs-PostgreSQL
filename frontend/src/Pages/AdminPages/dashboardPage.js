@@ -1,4 +1,8 @@
 import "../SCSS/dashboard.scss";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import moment from "moment";
+import { GetUserGrowth } from "../../Redux/adminData/action";
 import { useSelector } from "react-redux";
 import AdminNavbar from "../../Components/PrivateComponents/admin/adminNavBar";
 import { GiDiamonds } from "react-icons/gi";
@@ -15,8 +19,16 @@ import { Link } from "react-router-dom";
 import FadeIn from "react-fade-in/lib/FadeIn";
 
 export default function DashboardPage(props) {
+  const dispatch = useDispatch();
   const adminDataStore = useSelector((state) => state.adminDataStore);
-
+  useEffect(() => {
+    dispatch(
+      GetUserGrowth(
+        moment().subtract(7, "day").startOf("day").format("YYYY-MM-DD"),
+        moment().endOf("day").format("YYYY-MM-DD")
+      )
+    );
+  }, [dispatch]);
   console.log(adminDataStore);
   return (
     <>
@@ -25,10 +37,8 @@ export default function DashboardPage(props) {
         <div className="my-5 mx-5 px-4 discover-title">
           <GiDiamonds className="me-2 mb-1" />
           DASHBOARD
-        
         </div>
-        <Container fluid>
-          <h2>Today</h2>
+        <Container  >
           <Row xs={1} md={2} lg={4} className="my-2">
             <Col>
               <Link to="/admin/token">
@@ -49,27 +59,40 @@ export default function DashboardPage(props) {
               </Link>
             </Col>
           </Row>
-          <h2>This week</h2>
-          {/* <Col lg={3}> */}
-          {/* <Card style={{textAlign:'center'}} className='mx-2'> */}
-          <Row>
+          <Row >
             <Col xs={12} lg={8} className="chart">
+            <div className="my-2 mx-2 discover-title">
+                    <GiDiamonds className="me-2 mb-1" />
+                   Daily New User
+                  </div>
               <NewUserChart />
             </Col>
             <Col xs={12} lg={4}>
+            <div className="my-2 mx-2 discover-title">
+                    <GiDiamonds className="me-2 mb-1" />
+                    Most used tag
+                  </div>
               <TagCountChart />
             </Col>
           </Row>
           <Row className="my-4">
             <Col xs={12} lg={4}>
+            <div className="my-2 mx-2 discover-title">
+                    <GiDiamonds className="me-2 mb-1" />
+                    Request Status
+                  </div>
               <Card>
                 <RequestTypeCard />
               </Card>
             </Col>
             <Col xs={12} lg={8}>
               <Link to="/admin/token">
+                  <div className="my-2 mx-2 discover-title">
+                    <GiDiamonds className="me-2 mb-1" />
+                    User Token Transaction record
+                  </div>
                 <Card>
-                  <TokenTransactionList itemsPerPage={4} />
+                  <TokenTransactionList itemsPerPage={5} />
                 </Card>
               </Link>
             </Col>

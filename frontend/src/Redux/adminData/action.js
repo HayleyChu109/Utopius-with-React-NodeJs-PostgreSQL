@@ -11,9 +11,36 @@ export const GetUserGrowth = (start, end) => async (dispatch) => {
   console.log(start)
   try {
     let response = await axios.get(
-      `${process.env.REACT_APP_API_SERVER}/admin/dashboard`,
+      `${process.env.REACT_APP_API_SERVER}/admin/user/stat/daily`,
 
       {
+        params:{start:start,end:end},
+        headers: { Authorization: `Bearer ${userToken}` },
+      }
+    );
+    console.log(response.data)
+    let userGrowth = response.data.userGrowth;
+    let newUserList = response.data.newUserList;
+    console.log(userGrowth)
+   
+    dispatch({ type: Load_USER_GROWTH_SUCCESS, payload: userGrowth });
+    dispatch({ type: Load_NEWUSERLIST_SUCCESS, payload: newUserList });
+    console.log(userGrowth);
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: Load_DATA_FAILED });
+  }
+};
+export const GetUserGrowthMonthly = (start, end) => async (dispatch) => {
+  let userToken = localStorage.getItem("token");
+  console.log(userToken);
+  console.log(start)
+  try {
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_SERVER}/admin/user/stat/monthly`,
+
+      {
+        params:{start:start,end:end},
         headers: { Authorization: `Bearer ${userToken}` },
       }
     );
@@ -42,7 +69,7 @@ export const GetUserData = (userId) => async (dispatch) => {
       }
     );
     console.log(response.data[0])
-  dispatch({type:Load_USER_SUCCESS,payload:response.data[0]})
+  dispatch({type:Load_USER_SUCCESS,payload:response.data})
  
   } catch (error) {
     console.log(error);
@@ -79,9 +106,29 @@ export const PutUserBlock = (userId,status) => async (dispatch) => {
         headers: { Authorization: `Bearer ${userToken}` },
       }
     );
-    console.log(response.data[0])
+    console.log(response.data)
+  
   dispatch({type:Load_USER_BlOCK_SUCCESS,payload:response.data[0]})
  
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: Load_DATA_FAILED });
+  }
+};
+export const PutUserGroupBlock = (userId,status) => async (dispatch) => {
+  let userToken = localStorage.getItem("token");
+  console.log(userToken);
+  console.log(userId)
+  try {
+    let response = await axios.put(
+      `${process.env.REACT_APP_API_SERVER}/admin/user/block/`,{status:status,user:userId},
+      {
+        headers: { Authorization: `Bearer ${userToken}` },
+      }
+    );
+    console.log(response.data)
+    dispatch({type:Load_USER_LIST_SUCCESS,payload:response.data})
+  
   } catch (error) {
     console.log(error);
     dispatch({ type: Load_DATA_FAILED });
