@@ -43,7 +43,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Daily new users",
+      text: "New Response and Request",
       font:{size:20}
     },
    
@@ -71,18 +71,16 @@ export const options = {
   }
 
 
-export function NewUserChart() {
-  const dispatch = useDispatch();
+export function RequestResponseChart() {
 
-  const { userGrowth } = useSelector((state) => state.adminDataStore);
-  const { data } = userGrowth;
-  console.log(data);
+  const { chart } = useSelector((state) => state.adminRequestStore);
+  console.log(chart);
   var labels;
   var dataParsed;
 
-  if (data&&data.length>0) {
-    labels = data.map((item) => item.date);
-    let cumulativeUser=data.map((item) => item["Cumulative Users"])
+  if (chart&&chart.length>0) {
+    labels = chart.map((item) => moment(item.Date).format('YYYY-MM-DD'));
+    let cumulativeUser=chart.map((item) => item["Response Count"])
 
     console.log(cumulativeUser)
     console.log(labels)
@@ -90,8 +88,8 @@ export function NewUserChart() {
       labels,
       datasets: [
         {
-          type: "line",
-          label: "Cumulative Users",
+          type: "bar",
+          label: "Response",
           borderColor: "rgb(255, 99, 132)",
           borderWidth: 2,
           fill: false,
@@ -99,9 +97,9 @@ export function NewUserChart() {
         },
         {
           type: "bar",
-          label: "Daily Users",
+          label: "Request",
           backgroundColor: "rgb(75, 192, 192)",
-          data: data.map((item) => item["Daily Users"]),
+          data: chart.map((item) => item["Request Count"]),
           borderColor: "white",
           borderWidth: 2,
         },
@@ -112,7 +110,7 @@ export function NewUserChart() {
  
   return (
     <Card className='chart'>
-      {data&&data.length>0 ? <Chart datasetIdKey='id' options={options} type="bar" data={dataParsed} /> : null}
+      {chart&&chart.length>0 ? <Chart datasetIdKey='id' options={options} type="bar" data={dataParsed} /> : null}
     </Card>
   );
 }
