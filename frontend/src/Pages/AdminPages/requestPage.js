@@ -90,7 +90,7 @@ export default function RequestPage() {
                           </label>
                           <input
                             className={
-                              "input my-3 mx-3" +
+                              "input my-3 mx-3 rounded-pill text-center" +
                               (focus === START_DATE ? " -focused" : "")
                             }
                             {...startDateInputProps}
@@ -103,7 +103,7 @@ export default function RequestPage() {
                           <label htmlFor="">To:</label>
                           <input
                             className={
-                              "input my-3 mx-3" +
+                              "input my-3 mx-3 rounded-pill text-center" +
                               (focus === END_DATE ? " -focused" : "")
                             }
                             {...endDateInputProps}
