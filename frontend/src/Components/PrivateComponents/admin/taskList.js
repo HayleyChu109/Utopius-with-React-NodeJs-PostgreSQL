@@ -131,8 +131,9 @@ export function TaskList() {
               </p>
               {item.solution ? (
                 <div className="border border-5 mb-5">
-                  
-                  <p className='my-3 ms-3'>Solution: <span>{item.solution}</span></p>
+                  <p className="my-3 ms-3">
+                    Solution: <span>{item.solution}</span>
+                  </p>
                 </div>
               ) : null}
             </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+
 import GradeBall from "../PublicComponents/GradeBall";
 import moment from "moment";
 import { Table } from "reactstrap";
@@ -11,10 +12,6 @@ function TokenTransAct() {
   );
 
   const history = useHistory();
-
-  const handleMember = (payerId) => {
-    history.push(`/member/fellow/${payerId}`);
-  };
 
   const showRequestDetail = (requestId) => {
     history.push(`/member/request/detail/${requestId}/comment`);
@@ -28,8 +25,9 @@ function TokenTransAct() {
             <tr className="history-title">
               <th>Date</th>
               <th>From</th>
+              <th>To</th>
               <th>Request</th>
-              <th>Token Earned</th>
+              <th>Token Transfered</th>
             </tr>
           </thead>
           <tbody>
@@ -37,17 +35,33 @@ function TokenTransAct() {
               ? tokenTransAct.map((record) => {
                   return (
                     <tr key={record.id}>
-                      <th scope="row">
+                      <td scope="row">
                         {moment(record.created_at).format("LLL")}
-                      </th>
-                      <td onClick={() => handleMember(record.payerId)}>
-                        <GradeBall grade={record.grade} />
-                        <span className="history-row">{record.username}</span>
                       </td>
+                      {record.payerId === 1 ? (
+                        <td>
+                          <span>Utopius</span>
+                        </td>
+                      ) : (
+                        <td>
+                          <GradeBall grade={record.payerGrade} />
+                          <span>{record.payerName}</span>
+                        </td>
+                      )}
+                      {record.payeeId === 1 ? (
+                        <td>
+                          <span>Utopius</span>
+                        </td>
+                      ) : (
+                        <td>
+                          <GradeBall grade={record.payeeGrade} />
+                          <span>{record.payeeName}</span>
+                        </td>
+                      )}
                       <td onClick={() => showRequestDetail(record.requestId)}>
                         <span className="history-row">{record.title}</span>
                       </td>
-                      <td>{record.reward}</td>
+                      <td>{record.amount}</td>
                     </tr>
                   );
                 })

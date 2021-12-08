@@ -157,9 +157,27 @@ $nunito: "Nunito", sans-serif;
     background-color: $beige;
     color: $theme;
     font-weight: bolder;
+    letter-spacing: 3px;
     border: none;
     &:hover {
       color: $theme2;
     }
+  }
+}
+
+// Token & Redeem Page
+@mixin coin-card() {
+  width: 250px;
+  height: 350px;
+  background-color: $white;
+  border: 3px solid $coin;
+  border-radius: 15px;
+  font-size: $nunito;
+  filter: drop-shadow(4px 4px 3px $light-grey);
+  transition: 1s ease-in-out;
+  cursor: pointer;
+  img {
+    width: 150px;
+    height: 150px;
   }
 }

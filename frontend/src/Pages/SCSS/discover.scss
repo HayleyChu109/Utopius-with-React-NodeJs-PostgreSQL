@@ -6,11 +6,17 @@
 }
 
 .discover-title,
-.new-search-title {
+.new-search-title,
+.announcement-title {
   @include heading;
   span {
     color: $dark-orange;
   }
+}
+
+.announcement-title:hover {
+  color: $dark-orange;
+  cursor: pointer;
 }
 
 .discover-card {
@@ -38,4 +44,59 @@
   font-size: 13px;
   color: $dark;
   letter-spacing: 1px;
+}
+
+.announcement-div {
+  // min-height: 50vh;
+  background-color: $white;
+}
+
+.announcement-table {
+  padding: 1rem;
+  height: 230px;
+  border-radius: 20px;
+  background-color: $beige;
+  filter: drop-shadow(4px 4px 3px $light-grey);
+}
+
+.annoucenment-overflow {
+  overflow-y: scroll;
+}
+
+.announcement-overflow::-webkit-scrollbar {
+  display: hidden;
+}
+
+.announcement-card {
+  background-color: $white;
+  border-radius: 15px;
+  border: none;
+  height: 40px;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+.announcement-card:hover {
+  background-color: $white;
+  border: none;
+  transform: translate(0, 0);
+  transform: rotate(0);
+  filter: drop-shadow(4px 4px 3px $light-grey);
+  cursor: pointer;
+  box-shadow: none;
+  div {
+    color: $dark-blue;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+  }
+}
+
+.announcement-date,
+.announcement-heading {
+  font-family: $sora;
+  font-weight: bolder;
+  text-align: start;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 30px;
 }

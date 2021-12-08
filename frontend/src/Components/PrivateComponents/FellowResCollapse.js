@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import SearchCard from "../PublicComponents/SearchCard";
 import Review from "./Review";
 
+import { Collapse } from "reactstrap";
 import "../../Pages/SCSS/memberProfile.scss";
 
 function FellowResCollapse(props) {
@@ -36,29 +37,31 @@ function FellowResCollapse(props) {
 
   return (
     <>
-      <div className="container pt-4">
-        <div className="row text-center memberProfileMiddle-blue">
-          <div className="d-flex justify-content-around col-lg-12">
-            <button>MATCHED</button>
+      <Collapse isOpen={props.isOpen}>
+        <div className="container pt-4">
+          <div className="row text-center memberProfileMiddle-blue">
+            <div className="d-flex justify-content-around col-lg-12">
+              <button>MATCHED</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="col-12 row g-3 m-0">
-        {responseList && responseList.length > 0 ? (
-          responseList
-            .filter((res) => res.matched === true)
-            .map((res) => (
-              <SearchCard
-                key={res.id}
-                request={res}
-                handleClick={showRequestDetail}
-              />
-            ))
-        ) : (
-          <div className="text-center">No response for this member</div>
-        )}
-      </div>
+        <div className="col-12 row g-3 m-0">
+          {responseList && responseList.length > 0 ? (
+            responseList
+              .filter((res) => res.matched === true)
+              .map((res) => (
+                <SearchCard
+                  key={res.id}
+                  request={res}
+                  handleClick={showRequestDetail}
+                />
+              ))
+          ) : (
+            <div className="text-center">No response for this member</div>
+          )}
+        </div>
+      </Collapse>
       <Review
         isOpen={modalBoolean}
         close={closeModal}

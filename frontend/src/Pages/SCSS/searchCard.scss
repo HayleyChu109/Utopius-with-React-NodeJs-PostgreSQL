@@ -115,16 +115,8 @@
   font-size: 25px;
 }
 
-.personTwo-icon {
-  font-size: 22px;
-}
-
 .person {
   color: $people;
-}
-
-.personTwo {
-  color: $peopleTwo;
 }
 
 .district {
@@ -159,4 +151,22 @@
 .username-id:hover,
 .username-id-res:hover {
   color: $dark-blue;
+}
+
+// Search result
+.btn-showmore,
+.btn-showmore:focus {
+  background: $white;
+  color: $dark-grey;
+  font-family: $sora;
+  font-size: 15px;
+  font-weight: bolder;
+  letter-spacing: 1px;
+  border: none;
+}
+
+.btn-showmore:hover,
+.btn-showmore:focus:hover {
+  background: $white;
+  color: $dark;
 }

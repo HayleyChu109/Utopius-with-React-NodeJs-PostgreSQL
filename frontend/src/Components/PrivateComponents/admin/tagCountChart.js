@@ -41,12 +41,12 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      display:false
+      display: false,
     },
     title: {
       display: true,
       text: "Most used tag",
-      font:{size:20}
+      font: { size: 20 },
     },
   },
   scales: {
@@ -69,7 +69,7 @@ export const options = {
       min: 0,
       max: 5,
     },
-}
+  },
 };
 
 export const TagCountChart = () => {
@@ -94,8 +94,7 @@ export const TagCountChart = () => {
   };
   return (
     <>
-      <Card className='chart'>
-   
+      <Card className="chart">
         <Bar options={options} data={data} />
       </Card>
     </>

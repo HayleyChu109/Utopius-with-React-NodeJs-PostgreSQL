@@ -317,11 +317,15 @@ const RequestDetail = () => {
   // Submit new comment
   const submitComment = (type) => {
     if (type) {
-      dispatch(postNewCommentThunk(requestId, userId, privateComment, type));
-      setPrivateComment("");
+      if (privateComment !== "") {
+        dispatch(postNewCommentThunk(requestId, userId, privateComment, type));
+        setPrivateComment("");
+      }
     } else {
-      dispatch(postNewCommentThunk(requestId, userId, publicComment, type));
-      setPublicComment("");
+      if (publicComment !== "") {
+        dispatch(postNewCommentThunk(requestId, userId, publicComment, type));
+        setPublicComment("");
+      }
     }
   };
 
@@ -553,7 +557,7 @@ const RequestDetail = () => {
             {tab === "comment" ? (
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div className="col-6">
-                  {requestDetail.status === "cancelled" ||
+                  {requestDetail.status === "canceled" ||
                   requestDetail.status === "completed" ? (
                     <input
                       className="input-message form-control"

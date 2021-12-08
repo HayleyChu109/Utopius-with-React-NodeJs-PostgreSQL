@@ -3,6 +3,17 @@ class PublicService {
     this.knex = knex;
   }
 
+  async getPublicAnnouncementList() {
+    try {
+      return await this.knex("announcement")
+        .select("*")
+        .where("isPrivate", false)
+        .orderBy("created_at", "desc");
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   async getOpenRequest() {
     try {
       let openReq = await this.knex("request")

@@ -1,14 +1,16 @@
-  import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { getRequestListThunk } from "../../Redux/request/actions";
 import SearchCard from "./SearchCard";
 
+import { Button } from "reactstrap";
 import { BsStars } from "react-icons/bs";
 
 const SearchResult = () => {
   const { search, requestList } = useSelector((state) => state.requestStore);
+  const [reqDisplayQty, setReqDisplayQty] = useState(4);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -18,12 +20,9 @@ const SearchResult = () => {
   }, [dispatch]);
 
   const showRequestDetail = (requestId) => {
-    if(localStorage.getItem('isAdmin'))
-    {
+    if (localStorage.getItem("isAdmin")) {
       history.push(`/admin/request/${requestId}/comment`);
-
-    }else{
-
+    } else {
       history.push(`/member/request/detail/${requestId}/comment`);
     }
   };
@@ -40,13 +39,15 @@ const SearchResult = () => {
               </div>
               <div className="col-12 row g-3 m-0">
                 {requestList && requestList.length > 0 ? (
-                  requestList.map((req) => (
-                    <SearchCard
-                      key={req.id}
-                      request={req}
-                      handleClick={showRequestDetail}
-                    />
-                  ))
+                  requestList.map((req, i) =>
+                    i < reqDisplayQty ? (
+                      <SearchCard
+                        key={req.id}
+                        request={req}
+                        handleClick={showRequestDetail}
+                      />
+                    ) : null
+                  )
                 ) : (
                   <div className="ps-4">No open request !</div>
                 )}
@@ -90,6 +91,14 @@ const SearchResult = () => {
               </div>
             </div>
           )}
+        </div>
+        <div className="text-center mx-auto py-5">
+          <Button
+            className="btn-white-lightorange-sm"
+            onClick={() => setReqDisplayQty(reqDisplayQty + 4)}
+          >
+            Show more
+          </Button>
         </div>
       </div>
     </>

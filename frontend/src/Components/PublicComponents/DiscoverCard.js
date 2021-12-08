@@ -11,14 +11,10 @@ const DiscoverCard = (props) => {
   const history = useHistory();
 
   const handleSearch = (val) => {
-    if(localStorage.getItem('isAdmin'))
-    {
+    if (localStorage.getItem("isAdmin")) {
       dispatch(searchReq(val));
-
       history.push("/admin");
-
-    }else{
-
+    } else {
       dispatch(searchReq(val));
       history.push("/");
     }

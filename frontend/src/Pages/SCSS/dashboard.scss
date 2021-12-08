@@ -1,5 +1,5 @@
-@import 'basic';
-@import 'react-nice-dates/src/style.scss';
+@import "basic";
+@import "react-nice-dates/src/style.scss";
 .graph {
   display: flex;
   align-items: center;
@@ -7,70 +7,113 @@
 }
 a {
   text-decoration: none;
-  color:black;
+  color: black;
 }
-a:hover{
-  color:black;
+a:hover {
+  color: black;
 }
 .dashboard-icon {
   position: absolute;
   border-radius: 5px 20px 20px 5px;
- background-color: #0bb1e4;
+  background-color: #0bb1e4;
+  color:white;
   width: 30%;
   height: 100%;
   top: 0;
-  padding: 10px;
+  padding: 20px ;
 }
 
-.column{
-position: relative;
+.column {
+  position: relative;
 }
 
-.chart{
+.chart {
   min-height: 65vh;
 }
 
-.dashboard-table{
+.dashboard-table {
   min-height: 50vh;
 }
 
-.profile{
-width: 30px;
-height: 30px;
-border-radius: 100px;
+.blacklist {
+  background-color: black;
+  width: 50vw;
+  height: 10vh;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
-.user-canva{
+.header {
+  background-color: $dark-blue;
+}
+
+.header-text {
+  color: white;
+}
+
+.memberResponse-beige {
+  background-color: $beige;
+  width: 50vw;
+}
+
+.btn-white-black {
+  @include btn-white($theme: $dark);
+}
+.btn-white-black:focus {
+  @include btn-white($theme: $dark);
+}
+.btn-white-black:hover {
+  @include btn-white($theme: $dark-grey);
+}
+
+.btn-white-blue {
+  @include btn-white($theme: $dark-blue);
+}
+
+.btn-white-blue:focus {
+  @include btn-white($theme: $dark-blue);
+}
+
+.btn-white-blue:hover {
+  @include btn-white($theme: $light-blue);
+}
+
+.memberProfileBottom-black {
+  @include memberProfileBottom($theme: black);
+}
+.dashboard-table {
+  min-height: 50vh;
+}
+
+.profile {
+  width: 30px;
+  height: 30px;
+  border-radius: 100px;
+}
+
+.user-canva {
   width: 70vw;
 }
 
-.new-plan{
+.new-plan {
   width: 150px;
-  height:150px
+  height: 150px;
 }
-.new-item{
+.new-item {
   width: 150px;
-  height:150px
+  height: 150px;
 }
 
-.admin-footer{
+.admin-footer {
   background-color: $dark-blue;
-border-radius: 1px !important;
-
+  border-radius: 1px !important;
 }
-.admin-modal{
+.admin-modal {
   background-color: $dark-blue;
-border-radius: 100px;
-
+  border-radius: 100px;
 }
 
-.token-list{
-  display: flex;
-  
-  overflow: visible;
-}
-
-.token-link{
+.token-link {
   color: $dark-blue;
   font-size: 15px;
 }
@@ -91,25 +134,24 @@ border-radius: 100px;
   }
 }
 
-.token-text{
+.token-text {
   font-size: large;
 }
 
-.wrapper{
+.wrapper {
   height: 65vh;
   border: black;
-  border-width:2px ;
+  border-width: 2px;
   border-style: solid;
   border-radius: 5px;
   overflow: auto;
 }
 
-.editor{
+.editor {
   min-height: 60vh;
- 
 }
 
-.title-bar{
+.title-bar {
   width: 80vw;
 }
 
@@ -123,11 +165,12 @@ border-radius: 100px;
   z-index: 100 !important;
 }
 
-.admin-offcanva{
-width:70vw;
+.admin-offcanva {
+  width: 70vw;
 }
 
-.admin-slider::-webkit-slider-thumb,.admin-slider:disabled {
+.admin-slider::-webkit-slider-thumb,
+.admin-slider:disabled {
   color: blue !important;
 }
 .admin-slider{
@@ -171,3 +214,32 @@ color:$dark-blue;
 .analysis-title{
 color: black;
 }
+.admin-slider {
+  width: 30vw;
+}
+
+// Block user modal
+.block-user-modal {
+  // min-width: 600px;
+  max-height: 300px;
+  border-radius: 20px;
+}
+
+.block-user-heading {
+  font-family: $sora;
+  color: $dark-orange;
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.block-user-footer {
+  border: none;
+  background-color: $white;
+  text-align: center;
+}
+
+.block-user-footer:last-child {
+  border-radius: 0 0 20px 20px;
+}
+// Block user modal

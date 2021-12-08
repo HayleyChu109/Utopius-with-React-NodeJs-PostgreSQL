@@ -56,33 +56,35 @@ export default function AnnouncementPage(props) {
         )}
       </div>
       <Row xs={4} className="px-5">
-          {announce && announce.length > 0 ? (
-            announce.map((item) => (
-              <Col key={item.id}>
-              <Card
-                
-               
-                className="text-center"
-              >
-                <Card.Header  onClick={() => modalOpen(item.title, item.content)}>
+        {announce && announce.length > 0 ? (
+          announce.map((item) => (
+            <Col key={item.id}>
+              <Card className="text-center">
+                <Card.Header
+                  onClick={() => modalOpen(item.title, item.content)}
+                >
                   <GrArticle className="mx-auto new-item" />
-                  
                 </Card.Header>
                 <Card.Body>
                   <Card.Title>{item.title}</Card.Title>
                   <p>Published: {item.isPrivate ? "No" : "Yes"}</p>
                   <div className="d-grid gap-2">
-                    <Button variant='outline-secondary' className='rounded-pill'  href={`/admin/announcement/edit/${item.id}`}>
+                    <Button
+                      variant="outline-secondary"
+                      className="rounded-pill"
+                      href={`/admin/announcement/edit/${item.id}`}
+                    >
                       Edit
                     </Button>
                     <Button
                       onClick={() => dispatch(DeleteAnnouncement(item.id))}
-                      variant="outline-danger" className='rounded-pill'
+                      variant="outline-danger"
+                      className="rounded-pill"
                     >
                       delete
                     </Button>
-                   From: {moment(item.start_date).format('DD-MM-YYYY')} -
-                    <br /> {moment(item.end_date).format('DD-MM-YYYY')}
+                    From: {moment(item.start_date).format("DD-MM-YYYY")} -
+                    <br /> {moment(item.end_date).format("DD-MM-YYYY")}
                   </div>
                 </Card.Body>
                 <Card.Footer>
@@ -91,11 +93,11 @@ export default function AnnouncementPage(props) {
                   </small>
                 </Card.Footer>
               </Card>
-        </Col>
-            ))
-          ) : (
-            <tr>There are no announcement yet</tr>
-          )}
+            </Col>
+          ))
+        ) : (
+          <tr>There are no announcement yet</tr>
+        )}
       </Row>
       <AnnouncementPreview
         modal={modal}

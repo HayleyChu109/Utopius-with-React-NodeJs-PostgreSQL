@@ -7,6 +7,8 @@ import MemberProfileEditBar from "./MemberProfileEditBar";
 import BookmarkCollapse from "./BookmarkCollapse";
 import MemberReqCollapse from "./MemberReqCollapse";
 import MemberResCollapse from "./MemberResCollapse";
+import FollowerCollapse from "./FollowerCollapse";
+import FollowingCollapse from "./FollowingCollapse";
 import MemberProfileNewReqBar from "./MemberProfileNewReqBar";
 import GradeBall from "../PublicComponents/GradeBall";
 
@@ -41,12 +43,17 @@ function MemberProfileInfo(props) {
   const bookmarkId = useSelector((state) => state.requestStore.bookmarkList);
 
   const [showEdit, setShowEdit] = useState(true);
-  const [showBookmark, setShowBookmark] = useState(false);
   const [showReq, setShowReq] = useState(false);
   const [showRes, setShowRes] = useState(false);
-  const [disableBookmark, setDisableBookmark] = useState(false);
+  const [showBookmark, setShowBookmark] = useState(false);
+  const [showFollower, setShowFollower] = useState(false);
+  const [showFollowing, setShowFollowing] = useState(false);
+
   const [disableReq, setDisableReq] = useState(false);
   const [disableRes, setDisableRes] = useState(false);
+  const [disableBookmark, setDisableBookmark] = useState(false);
+  const [disableFollower, setDisableFollower] = useState(false);
+  const [disableFollowing, setDisableFollowing] = useState(false);
 
   const history = useHistory();
 
@@ -97,13 +104,30 @@ function MemberProfileInfo(props) {
               <FaCoins className="mx-2 coin" />
               <span className="coin me-2">{memberProfileFromStore.token}</span>
               <button
+                disabled={disableBookmark}
+                className="me-2 heart"
+                onClick={() => {
+                  setShowEdit(showEdit);
+                  setShowBookmark(!showBookmark);
+                  setDisableReq(!disableRes);
+                  setDisableRes(!disableRes);
+                  setDisableFollower(!disableFollower);
+                  setDisableFollowing(!disableFollowing);
+                }}
+              >
+                <AiFillHeart className="mx-2 heart-icon" />
+                {bookmarkId.length}
+              </button>
+              <button
                 disabled={disableReq}
                 className="me-2 REQ"
                 onClick={() => {
                   setShowEdit(!showEdit);
                   setShowReq(!showReq);
-                  setDisableBookmark(!disableBookmark);
                   setDisableRes(!disableRes);
+                  setDisableBookmark(!disableBookmark);
+                  setDisableFollower(!disableFollower);
+                  setDisableFollowing(!disableFollowing);
                 }}
               >
                 REQ#{memberReqDetailsFromStore.length}
@@ -114,38 +138,51 @@ function MemberProfileInfo(props) {
                 onClick={() => {
                   setShowEdit(!showEdit);
                   setShowRes(!showRes);
-                  setDisableBookmark(!disableBookmark);
                   setDisableReq(!disableReq);
+                  setDisableBookmark(!disableBookmark);
+                  setDisableFollower(!disableFollower);
+                  setDisableFollowing(!disableFollowing);
                 }}
               >
                 RES#{memberResDetailsFromStore.length}
               </button>
               <button
-                disabled={disableBookmark}
-                className="me-2 heart"
+                disabled={disableFollower}
+                className="follower me-2"
                 onClick={() => {
-                  setShowEdit(showEdit);
-                  setShowBookmark(!showBookmark);
-                  setDisableReq(!disableRes);
+                  setShowEdit(true);
+                  setShowFollower(!showFollower);
+                  setDisableReq(!disableReq);
                   setDisableRes(!disableRes);
+                  setDisableBookmark(!disableBookmark);
+                  setDisableFollowing(!disableFollowing);
                 }}
               >
-                <AiFillHeart className="mx-2 heart-icon" />
-                {bookmarkId.length}
-              </button>
-              <IoPersonAdd className="mx-2 personTwo personTwo-icon" />
-              <span className="personTwo me-2">
+                <IoPersonAdd className="mx-2 follower-icon" />
                 Follower#{followerlist.length}
-              </span>
-              <BsFillPersonPlusFill className="mx-2 person person-icon" />
-              <span className="person me-2">
+              </button>
+              <button
+                disabled={disableFollowing}
+                className="following me-2"
+                onClick={() => {
+                  setShowEdit(true);
+                  setShowFollowing(!showFollowing);
+                  setDisableReq(!disableReq);
+                  setDisableRes(!disableRes);
+                  setDisableBookmark(!disableBookmark);
+                  setDisableFollower(!disableFollower);
+                }}
+              >
+                <BsFillPersonPlusFill className="mx-2 following-icon" />
                 Following#{followinglist.length}
-              </span>
+              </button>
             </div>
           </div>
         </div>
       </div>
       <BookmarkCollapse isOpen={showBookmark} />
+      <FollowerCollapse isOpen={showFollower} list={followerlist} />
+      <FollowingCollapse isOpen={showFollowing} list={followinglist} />
       <MemberProfileEditBar isOpen={showEdit} />
       <MemberReqCollapse isOpen={showReq} />
       <MemberResCollapse isOpen={showRes} />

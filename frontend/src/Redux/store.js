@@ -7,6 +7,7 @@ import { signupReducer } from "./signup/reducer";
 import { memberInfoFormReducer } from "./signup/memberInfoFormReducer";
 import { memberProfileReducer } from "./memberProfile/memberProfileReducer";
 import { requestReducer } from "./request/reducer";
+import { publicAnnounceReducer } from "./announcePublic/reducer";
 import { footerReducer } from "./footer/footerReducer";
 import { AdminDataReducer } from "./adminData/reducer";
 import { memberReqDetailsReducer } from "./memberProfile/memberReqDetailsReducer";
@@ -22,6 +23,7 @@ import { memberFollowUnfollowReducer } from "./memberProfile/memberFollowReducer
 import { tokenPlanReducer } from "./token/tokenPlanReducer";
 import { tokenRecordReducer } from "./token/tokenRecordReducer";
 import { buyTokenReducer } from "./token/buyTokenReducer";
+import { redeemReducer } from "./token/redeemReducer";
 import { AdminTokenReducer } from "./adminToken/reducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -34,6 +36,7 @@ const rootReducer = combineReducers({
   memberReqDetailsStore: memberReqDetailsReducer,
   memberResDetailsStore: memberResDetailsReducer,
   requestStore: requestReducer,
+  publicAnnounceStore: publicAnnounceReducer,
   getReviewStore: getReviewReducer,
   memberBookmarkStore: memberBookmarkReducer,
   reportMemberStore: reportMemberReducer,
@@ -41,6 +44,7 @@ const rootReducer = combineReducers({
   tokenPlanStore: tokenPlanReducer,
   tokenRecordStore: tokenRecordReducer,
   buyTokenStore: buyTokenReducer,
+  redeemStore: redeemReducer,
   footerStore: footerReducer,
   adminDataStore: AdminDataReducer,
   announceStore: AnnounceReducer,

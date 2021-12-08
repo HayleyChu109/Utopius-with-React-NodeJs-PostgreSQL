@@ -10,7 +10,7 @@ const Footer = () => {
   const dispatch = useDispatch();
 
   const footerStore = useSelector((state) => state.footerStore);
-  const { successMsg, errorMsg } = footerStore;
+  const { successMsg } = footerStore;
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");

@@ -7,6 +7,7 @@ import { getBookmarkListThunk } from "../../Redux/request/actions";
 
 import NavBar from "../../Components/PublicComponents/NavBar";
 import Discover from "../../Components/PublicComponents/Discover";
+import Announcement from "../../Components/PublicComponents/Announcement";
 import SearchResult from "../../Components/PublicComponents/SearchResult";
 import Footer from "../../Components/PublicComponents/Footer";
 
@@ -46,6 +47,7 @@ const LandingPage = () => {
     <>
       <NavBar />
       <Collapse isOpen={show}>
+        <Announcement />
         <Discover />
       </Collapse>
       <SearchResult />
