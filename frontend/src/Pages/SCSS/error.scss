@@ -1,0 +1,30 @@
+@import "basic";
+
+.error {
+  padding-left: 30px;
+}
+
+.error-title {
+  color: $dark-orange;
+  font-size: 70px;
+}
+
+.error-text {
+  color: $dark-orange;
+}
+
+.error-pic {
+  width: 400px;
+}
+
+.btn-dark-orange,
+.btn-dark-orange:focus {
+  @include btn-color;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.btn-dark-orange:hover,
+.btn-dark-orange:focus:hover {
+  @include btn-color-hover;
+}

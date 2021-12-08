@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { Table, Pagination } from "react-bootstrap";
 import FadeIn from "react-fade-in/lib/FadeIn";
 import moment from "moment";
-export const TokenTransactionListItem = ({ items, itemsPerPage }) => {
+import "../../../Pages/SCSS/dashboard.scss";
 
+export const TokenTransactionListItem = ({ items, itemsPerPage }) => {
   const [currentItems, setCurrentItems] = useState(null);
   const [activePage, setActivePage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
@@ -75,90 +76,96 @@ export const TokenTransactionListItem = ({ items, itemsPerPage }) => {
   }, [itemOffset, itemsPerPage, items]);
   return (
     <>
-            <FadeIn>
-      <Table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Request</th>
-            <th>amount</th>
-            <th>created_at</th>
-          </tr>
-        </thead>
-        <tbody className="table-secondary">
-          {currentItems &&
-            currentItems.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>
-                  <Link to={`/admin/user/${item.payerId}`}>
-                    {item.payerProfile ? (
-                      <img
-                        src={item.payerProfile}
-                        alt=""
-                        className="profile mx-2"
-                      />
-                    ) : (
-                      <img
-                        src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
-                        alt="profile pic"
-                        className="profile mx-2"
-                      />
-                    )}
-                    {item.payer?item.payer:`New user UID#${item.payerId}`}
-                  </Link>
-                </td>
-                <td>
-                  <Link to={`/admin/user/${item.payeeId}`}>
-                  {item.payererofile ? (
-                    <img
-                      src={item.payeeProfile}
-                      alt=""
-                      className="profile mx-2"
-                    />
-                  ) : (
-                    <img
-                      src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
-                      alt="profile pic"
-                      className="profile mx-2"
-                    />
-                  )}
-                  {item.payee?item.payee:`New user ID#${item.payeeId}`}
-                  </Link>
-                </td>
-                <td>
-                  <Link to={`/admin/request/${item.requestId}/comment`}>
-                    {item.title}
-                  </Link>
-                </td>
-                <td>{item.amount}</td>
-                <td>
-                  {moment().diff(item.created_at, "day") >= 1
-                    ? moment(item.created_at).format("YYYY-MM-DD HH:MM")
-                    : moment(item.created_at).fromNow()}
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </Table>
+      <FadeIn>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Request</th>
+              <th>amount</th>
+              <th>created_at</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentItems &&
+              currentItems.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>
+                    <Link to={`/admin/user/${item.payerId}`}>
+                      {item.payerProfile ? (
+                        <img
+                          src={item.payerProfile}
+                          alt=""
+                          className="profile mx-2"
+                        />
+                      ) : (
+                        <img
+                          src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
+                          alt="profile pic"
+                          className="profile mx-2"
+                        />
+                      )}
+                      {item.payer ? item.payer : `New user UID#${item.payerId}`}
+                    </Link>
+                  </td>
+                  <td>
+                    <Link to={`/admin/user/${item.payeeId}`}>
+                      {item.payeeProfile ? (
+                        <img
+                          src={item.payeeProfile}
+                          alt=""
+                          className="profile mx-2"
+                        />
+                      ) : (
+                        <img
+                          src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
+                          alt="profile pic"
+                          className="profile mx-2"
+                        />
+                      )}
+                      {item.payee ? item.payee : `New user ID#${item.payeeId}`}
+                    </Link>
+                  </td>
+                  <td>
+                    <Link to={`/admin/request/${item.requestId}/comment`}>
+                      {item.title}
+                    </Link>
+                  </td>
+                  <td>{item.amount}</td>
+                  <td>
+                    {moment().diff(item.created_at, "day") >= 1
+                      ? moment(item.created_at).format("YYYY-MM-DD HH:MM")
+                      : moment(item.created_at).fromNow()}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
 
-      <Pagination className='justify-content-center'>
-        <Pagination.First onClick={handleFirstpage} disabled={activePage === 1} />
-        <Pagination.Prev onClick={handlePrevious} disabled={activePage === 1}>
-          Previous
-        </Pagination.Prev>
-        {paginate}
-        <Pagination.Next
-          disabled={activePage === pageCount}
-          onClick={handleNext}
+        <Pagination className="justify-content-center">
+          <Pagination.First
+            onClick={handleFirstpage}
+            disabled={activePage === 1}
+          />
+          <Pagination.Prev onClick={handlePrevious} disabled={activePage === 1}>
+            Previous
+          </Pagination.Prev>
+          {paginate}
+          <Pagination.Next
+            disabled={activePage === pageCount}
+            onClick={handleNext}
           >
-          Next
-        </Pagination.Next>
-        <Pagination.Last onClick={handleLastpage} disabled={activePage === pageCount}/>
-      </Pagination>
-            </FadeIn>
+            Next
+          </Pagination.Next>
+          <Pagination.Last
+            onClick={handleLastpage}
+            disabled={activePage === pageCount}
+          />
+        </Pagination>
+      </FadeIn>
     </>
   );
 };

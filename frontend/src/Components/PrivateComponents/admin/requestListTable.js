@@ -31,7 +31,7 @@ export function RequestListTable() {
       setDesc(false);
     }
   };
-  
+
   const history = useHistory();
   const handleSearch = (val) => {
     history.push("/admin");
@@ -58,7 +58,7 @@ export function RequestListTable() {
         return <td>{status}</td>;
     }
   };
- 
+
   useEffect(() => {
     dispatch(GetRequestList());
   }, [dispatch]);
@@ -77,7 +77,6 @@ export function RequestListTable() {
         <Table className="text-center">
           <thead className="table-secondary">
             <tr>
-              
               <th onClick={() => handleOrder("id")}>
                 id
                 {order === "id" ? (
@@ -164,7 +163,6 @@ export function RequestListTable() {
             {requestList && requestList.length > 0
               ? requestList.map((item) => (
                   <tr key={item.id}>
-                    
                     <td>{item.id}</td>
 
                     <td>
@@ -174,17 +172,22 @@ export function RequestListTable() {
                     </td>
                     <td>
                       <Link to={`/admin/user/${item.requesterId}`}>
-                        {item.profilePath?
-                        <img
-                          src={item.profilePath}
-                          alt="profile"
-                          className="profile"
-                        />:<img
-                        src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
-                        alt="profile pic"
-                        className="profile mx-2"
-                      />}{" "}
-                        {item.username?item.username:`New User id: ${item.requesterId}`}
+                        {item.profilePath ? (
+                          <img
+                            src={item.profilePath}
+                            alt="profile"
+                            className="profile"
+                          />
+                        ) : (
+                          <img
+                            src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
+                            alt="profile pic"
+                            className="profile mx-2"
+                          />
+                        )}{" "}
+                        {item.username
+                          ? item.username
+                          : `New User id: ${item.requesterId}`}
                       </Link>
                     </td>
                     <td>{item.reward}</td>

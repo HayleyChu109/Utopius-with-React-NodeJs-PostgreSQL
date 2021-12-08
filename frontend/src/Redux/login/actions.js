@@ -17,7 +17,6 @@ export const loginUserThunk = (email, password) => async (dispatch) => {
       }
     );
     const { data } = response;
-    console.log(data);
 
     if (data == null) {
       dispatch({
@@ -27,7 +26,13 @@ export const loginUserThunk = (email, password) => async (dispatch) => {
     } else if (!data.token) {
       console.log("No token, data.message: ", data.message);
       dispatch({ type: LOGIN_FAILURE_ACTION, message: data.message || "" });
-    } else if (data.token && !data.isAdmin) {
+    } else if (data.token && !data.isAdmin && data.blacklist) {
+      dispatch({
+        type: LOGIN_FAILURE_ACTION,
+        message:
+          "Your account is suspended. Please contact administrator for further information.",
+      });
+    } else if (data.token && !data.isAdmin && !data.blacklist) {
       localStorage.setItem("token", data.token);
       dispatch({ type: LOGIN_SUCCESS_ACTION });
       dispatch({ type: CLEAR_ERR_MSG });

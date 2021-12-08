@@ -13,8 +13,7 @@ import { BsArrowReturnRight } from "react-icons/bs";
 import { GiReceiveMoney } from "react-icons/gi";
 import { BsStars } from "react-icons/bs";
 import { Modal, Button, InputGroup } from "react-bootstrap";
-import { Card, Form, Col, Row } from "react-bootstrap";
-import { FaPlusCircle } from "react-icons/fa";
+import { Form, Col, Row } from "react-bootstrap";
 import TokenCard from "../../Components/PrivateComponents/TokenCard";
 export default function TokeNAdminPage() {
   const dispatch = useDispatch();
@@ -81,43 +80,21 @@ export default function TokeNAdminPage() {
     <>
       <AdminNavbar />
       <div className="container py-4">
-        <div className="my-4 px-4 memberProfile-title">
-          <BsStars className="mb-1 me-2" />
+        <div className="my-4 px-4 token-title">
+          <FaCoins className="mb-1 me-2" />
           Token Plan
         </div>
-        <div className="d-flex justify-content-center align-items-center align-content-around text-center token-list ">
-          <Row xs={4}>
-            {tokenPlans && tokenPlans.length > 0
-              ? tokenPlans.map((plan) => (
-                  <Col key={plan.planName}>
-                    <TokenCard tokenPlan={plan} />
-                  </Col>
-                ))
-              : null}
-            <Col className="mx-auto">
-              {/* <Card
-                className=" my-2 me-5 text-center token-card"
-                onClick={() => setaddPlan(true)}
-              >
-                <FaPlusCircle className="mx-auto my-3 new-plan text-secondary" />
-                <Card.Body>
-                  <Card.Title className="py-1 token-card-title">
-                    New Plan
-                  </Card.Title>
-                  <Card.Text className="py-2 token-card-text">
-                    <br />
-                    <br />
-                  </Card.Text>
-                </Card.Body>
-              </Card> */}
-            </Col>
-          </Row>
-          <div></div>
+        <div className="d-flex justify-content-center text-center">
+          {tokenPlans && tokenPlans.length > 0
+            ? tokenPlans.map((plan) => (
+                <TokenCard key={plan.planName} tokenPlan={plan} />
+              ))
+            : null}
         </div>
       </div>
       <div className="container py-4">
-        <div className="my-4 px-4 memberProfile-title">
-          <BsStars className="mb-1 me-2" />
+        <div className="my-4 px-4 token-title">
+          <FaCoins className="mb-1 me-2" />
           Redeem Items
         </div>
         <RedeemList />

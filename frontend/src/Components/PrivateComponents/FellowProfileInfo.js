@@ -6,6 +6,8 @@ import moment from "moment";
 
 import MemberReqCollapse from "./MemberReqCollapse";
 import FellowResCollapse from "./FellowResCollapse";
+import FollowerCollapse from "./FollowerCollapse";
+import FollowingCollapse from "./FollowingCollapse";
 import FellowProfileReportBar from "./FellowProfileReportBar";
 import GradeBall from "../PublicComponents/GradeBall";
 
@@ -40,7 +42,10 @@ function FellowProfileInfo(props) {
     (state) => state.memberFollowUnfollowStore.followinglist
   );
 
-  const [showReq, setShowReq] = useState(true);
+  const [showReq, setShowReq] = useState(false);
+  const [showRes, setShowRes] = useState(false);
+  const [showFollower, setShowFollower] = useState(false);
+  const [showFollowing, setShowFollowing] = useState(false);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -88,6 +93,9 @@ function FellowProfileInfo(props) {
                 className="me-2 REQ"
                 onClick={() => {
                   setShowReq(true);
+                  setShowRes(false);
+                  setShowFollower(false);
+                  setShowFollowing(false);
                 }}
               >
                 REQ#{memberReqDetailsFromStore.length}
@@ -96,24 +104,45 @@ function FellowProfileInfo(props) {
                 className="RES"
                 onClick={() => {
                   setShowReq(false);
+                  setShowRes(true);
+                  setShowFollower(false);
+                  setShowFollowing(false);
                 }}
               >
                 RES#{memberResDetailsFromStore.length}
               </button>
-              <IoPersonAdd className="mx-2 personTwo personTwo-icon" />
-              <span className="personTwo me-2">
+              <button
+                className="follower me-2"
+                onClick={() => {
+                  setShowReq(false);
+                  setShowRes(false);
+                  setShowFollower(true);
+                  setShowFollowing(false);
+                }}
+              >
+                <IoPersonAdd className="mx-2 follower-icon" />
                 Follower#{followerlist.length}
-              </span>
-              <BsFillPersonPlusFill className="mx-2 person person-icon" />
-              <span className="person me-2">
+              </button>
+              <button
+                className="following me-2"
+                onClick={() => {
+                  setShowReq(false);
+                  setShowRes(false);
+                  setShowFollower(false);
+                  setShowFollowing(true);
+                }}
+              >
+                <BsFillPersonPlusFill className="mx-2 following-icon" />
                 Following#{followinglist.length}
-              </span>
+              </button>
             </div>
           </div>
         </div>
       </div>
-      {showReq ? <MemberReqCollapse isOpen={showReq} /> : <FellowResCollapse />}
-
+      <MemberReqCollapse isOpen={showReq} />
+      <FellowResCollapse isOpen={showRes} />
+      <FollowerCollapse isOpen={showFollower} list={followerlist} />
+      <FollowingCollapse isOpen={showFollowing} list={followinglist} />
       <FellowProfileReportBar />
       <div className="text-center">
         <button className="mb-5 btn-goback" onClick={() => history.goBack()}>

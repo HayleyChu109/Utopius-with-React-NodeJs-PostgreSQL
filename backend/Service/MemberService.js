@@ -312,9 +312,15 @@ class MemberService {
 
   async getFollowinglist(memberId) {
     try {
-      let followinglist = await this.knex("friendship")
-        .select("*")
-        .where("followerId", memberId);
+      let followinglist = await this.knex("account")
+        .join("friendship", "friendship.followingId", "account.id")
+        .select(
+          "friendship.followingId",
+          "account.username",
+          "account.grade",
+          "account.profilePath"
+        )
+        .where("friendship.followerId", memberId);
       if (followinglist) {
         return followinglist;
       } else {
@@ -327,8 +333,14 @@ class MemberService {
 
   async getFollowerlist(memberId) {
     try {
-      let followerlist = await this.knex("friendship")
-        .select("*")
+      let followerlist = await this.knex("account")
+        .join("friendship", "friendship.followerId", "account.id")
+        .select(
+          "friendship.followerId",
+          "account.username",
+          "account.grade",
+          "account.profilePath"
+        )
         .where("followingId", memberId);
       if (followerlist) {
         return followerlist;

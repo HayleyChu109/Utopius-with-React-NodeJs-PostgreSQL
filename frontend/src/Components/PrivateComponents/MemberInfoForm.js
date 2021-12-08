@@ -138,6 +138,10 @@ const MemberInfoForm = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
+  useEffect(() => {
     dispatch(memberInfoThunk(memberId));
     dispatch(getAllUsernameThunk());
   }, [dispatch, memberId]);
