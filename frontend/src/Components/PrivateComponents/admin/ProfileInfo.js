@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import moment from "moment";
-import {BlockStatusBar} from './blockStatusBar'
+import { BlockStatusBar } from "./blockStatusBar";
 import MemberProfileEditBar from "../MemberProfileEditBar";
 import BookmarkCollapse from "../BookmarkCollapse";
 import MemberReqCollapse from "../MemberReqCollapse";
@@ -133,14 +133,14 @@ function ProfileInfo(props) {
                 <AiFillHeart className="mx-2 heart-icon" />
                 {bookmarkId.length}
               </button>
-              <IoPersonAdd className="mx-2 personTwo personTwo-icon" />
-              <span className="personTwo me-2">
+              <button className="follower me-2">
+                <IoPersonAdd className="mx-2 follower-icon" />
                 Follower#{followerlist.length}
-              </span>
-              <BsFillPersonPlusFill className="mx-2 person person-icon" />
-              <span className="person me-2">
+              </button>
+              <button className="following me-2">
+                <BsFillPersonPlusFill className="mx-2 following-icon" />
                 Following#{followinglist.length}
-              </span>
+              </button>
             </div>
           </div>
         </div>
@@ -149,7 +149,7 @@ function ProfileInfo(props) {
       <MemberReqCollapse isOpen={showReq} />
       <MemberResCollapse isOpen={showRes} />
       <MemberProfileNewReqBar isOpen={!showEdit} />
-<BlockStatusBar/>
+      <BlockStatusBar />
       <div className="text-center">
         <button className="mb-5 btn-goback" onClick={() => history.goBack()}>
           &#60; GO BACK
@@ -158,8 +158,5 @@ function ProfileInfo(props) {
     </>
   );
 }
-
-
-
 
 export default ProfileInfo;

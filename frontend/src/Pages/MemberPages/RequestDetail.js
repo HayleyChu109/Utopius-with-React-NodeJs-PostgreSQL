@@ -317,11 +317,15 @@ const RequestDetail = () => {
   // Submit new comment
   const submitComment = (type) => {
     if (type) {
-      dispatch(postNewCommentThunk(requestId, userId, privateComment, type));
-      setPrivateComment("");
+      if (privateComment !== "") {
+        dispatch(postNewCommentThunk(requestId, userId, privateComment, type));
+        setPrivateComment("");
+      }
     } else {
-      dispatch(postNewCommentThunk(requestId, userId, publicComment, type));
-      setPublicComment("");
+      if (publicComment !== "") {
+        dispatch(postNewCommentThunk(requestId, userId, publicComment, type));
+        setPublicComment("");
+      }
     }
   };
 

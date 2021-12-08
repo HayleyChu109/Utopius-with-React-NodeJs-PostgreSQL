@@ -6,8 +6,8 @@ class AdminService {
   }
 
   getUserGrowth(startDate, endDate) {
-    startDate = moment(startDate).format("YYYY-MM-DD HH:mm");
-    endDate = moment(endDate).format("YYYY-MM-DD HH:mm");
+    startDate = moment(startDate).startOf('day').format("YYYY-MM-DD HH:mm");
+    endDate = moment(endDate).endOf('day').format("YYYY-MM-DD HH:mm");
     return this.knex
       .with("date_ranges", (qb) => {
         qb.select(this.knex.raw(`date_d::date as date_d`)).from(

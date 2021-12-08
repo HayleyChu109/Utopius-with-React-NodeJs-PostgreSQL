@@ -97,8 +97,8 @@ class AdminRequestService {
   }
 
   getReqResGrowth(startDate, endDate) {
-    startDate = moment(startDate).format("YYYY-MM-DD HH:mm");
-    endDate = moment(endDate).format("YYYY-MM-DD HH:mm");
+    startDate = moment(startDate).startOf('day').format("YYYY-MM-DD HH:mm");
+    endDate = moment(endDate).endOf('day').format("YYYY-MM-DD HH:mm");
     return this.knex
       .with("date_ranges", (qb) => {
         qb.select(this.knex.raw(`date_d::date as date_d`)).from(
@@ -112,7 +112,7 @@ class AdminRequestService {
           .select(this.knex.raw(`count(id)as cnt`))
           .from("request")
           .whereBetween("created_at", [startDate, endDate])
-          .groupBy("created_at");
+          .groupBy("date_d");
       })
       .with("response_counts", (qb) => {
         qb.select(this.knex.raw(`created_at::date as date_d`))

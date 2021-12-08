@@ -55,29 +55,26 @@ a:hover {
   width: 50vw;
 }
 
-.btn-blue {
-  background-color: $dark-blue;
+.btn-white-black {
+  @include btn-white($theme: $dark);
 }
-.btn-blue:focus {
-  background-color: $dark-blue;
+.btn-white-black:focus {
+  @include btn-white($theme: $dark);
 }
-.btn-black {
-  background-color: black;
-  border-color: black;
+.btn-white-black:hover {
+  @include btn-white($theme: $dark-grey);
 }
-.btn-black:focus {
-  background-color: black;
-  border-color: black;
+
+.btn-white-blue {
+  @include btn-white($theme: $dark-blue);
 }
-.btn-black:hover {
-  background-color: white;
-  color: black;
-  border-color: black;
+
+.btn-white-blue:focus {
+  @include btn-white($theme: $dark-blue);
 }
-.btn-blue:hover {
-  background-color: black;
-  color: white;
-  border-color: black;
+
+.btn-white-blue:hover {
+  @include btn-white($theme: $light-blue);
 }
 
 .memberProfileBottom-black {
@@ -178,3 +175,29 @@ a:hover {
 .admin-slider {
   width: 30vw;
 }
+
+// Block user modal
+.block-user-modal {
+  // min-width: 600px;
+  max-height: 300px;
+  border-radius: 20px;
+}
+
+.block-user-heading {
+  font-family: $sora;
+  color: $dark-orange;
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.block-user-footer {
+  border: none;
+  background-color: $white;
+  text-align: center;
+}
+
+.block-user-footer:last-child {
+  border-radius: 0 0 20px 20px;
+}
+// Block user modal

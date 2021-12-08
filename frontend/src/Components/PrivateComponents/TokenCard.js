@@ -10,7 +10,10 @@ function TokenCard(props) {
   const history = useHistory();
 
   const sentToPayment = (planname) => {
-    history.push(`/member/token/payment/${planname}`);
+    let isAdmin = localStorage.getItem("isAdmin");
+    if (!isAdmin) {
+      history.push(`/member/token/payment/${planname}`);
+    }
   };
 
   return (
