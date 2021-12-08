@@ -49,6 +49,7 @@ export const RedeemList = () => {
           itemPath: data.location,
         };
         dispatch(PostRedeemItem(dataObj));
+        handleClose()
       });
     } else {
       setError("Photo cannot be null");

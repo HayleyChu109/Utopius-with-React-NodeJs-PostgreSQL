@@ -97,7 +97,7 @@ const SearchResult = () => {
             className="btn-white-lightorange-sm"
             onClick={() => setReqDisplayQty(reqDisplayQty + 4)}
           >
-            Showmore
+            Show more
           </Button>
         </div>
       </div>
