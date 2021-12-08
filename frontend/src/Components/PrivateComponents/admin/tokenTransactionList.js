@@ -1,20 +1,17 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Card, Table,Pagination } from "react-bootstrap";
+import { Card, Table, Pagination } from "react-bootstrap";
 import { GetTokenUserTransaction } from "../../../Redux/adminToken/action";
 import { TokenTransactionListItem } from "./tokenTransactionListItems";
-import ReactPaginate from 'react-paginate'
+import ReactPaginate from "react-paginate";
 import "../../../Pages/SCSS/dashboard.scss";
-import 'bootstrap//dist/css/bootstrap.min.css'
+import "bootstrap//dist/css/bootstrap.min.css";
 
-export function TokenTransactionList({itemsPerPage}) {
+export function TokenTransactionList({ itemsPerPage }) {
   const { userTransaction } = useSelector((state) => state.adminTokenStore);
 
   const disptach = useDispatch();
- 
-
-
 
   useEffect(() => {
     disptach(GetTokenUserTransaction());
@@ -22,9 +19,10 @@ export function TokenTransactionList({itemsPerPage}) {
 
   return (
     <>
-       
-            <TokenTransactionListItem items={userTransaction} itemsPerPage={itemsPerPage}/>
-       
+      <TokenTransactionListItem
+        items={userTransaction}
+        itemsPerPage={itemsPerPage}
+      />
     </>
   );
 }

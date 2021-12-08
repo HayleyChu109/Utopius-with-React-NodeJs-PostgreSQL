@@ -189,17 +189,21 @@
 // Follower & Following
 .follow-card {
   width: 20vw;
+  border-radius: 15px;
   cursor: pointer;
 }
 
 .follow-pic {
   width: 70px;
   height: 70px;
-  border-radius: 50%;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 
 .follow-body {
   background-color: $beige;
   font-size: 13px;
   letter-spacing: 3px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
 }

@@ -15,7 +15,7 @@ function FellowProfileCard(props) {
     <>
       <div className="col-lg-3 col-md-3 p-3">
         <Card
-          className="follow-card"
+          className="border-0 follow-card"
           onClick={() => showFellowDetail(list.followerId || list.followingId)}
         >
           <div className="row d-flex g-0">
