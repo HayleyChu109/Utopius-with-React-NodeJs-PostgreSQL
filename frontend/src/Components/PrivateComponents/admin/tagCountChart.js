@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Card } from "react-bootstrap";
 import {
   Chart as ChartJS,
@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Chart, Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
 // import {
 //   ResponsiveContainer,
@@ -41,13 +41,35 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "right",
+      display:false
     },
     title: {
       display: true,
       text: "Most used tag",
+      font:{size:20}
     },
   },
+  scales: {
+    x: {
+      title: {
+        display: true,
+        text: "count",
+      },
+      ticks: {
+        stepSize: 1,
+      },
+      min: 0,
+      max: 10,
+    },
+    y: {
+      title: {
+        display: true,
+        text: "tag",
+      },
+      min: 0,
+      max: 5,
+    },
+}
 };
 
 export const TagCountChart = () => {

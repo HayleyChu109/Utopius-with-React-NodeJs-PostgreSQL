@@ -4,6 +4,7 @@ exports.up = function(knex) {
         table.increments()
         table.string("name");
         table.integer('token_cost')
+        table.string('item_pic')
         table.integer('stock')
       });
 };

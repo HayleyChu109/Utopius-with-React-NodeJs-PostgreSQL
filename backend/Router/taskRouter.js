@@ -19,9 +19,9 @@ class TaskRouter {
  
   async putTask(req,res){
       let id=req.params.id
-    let tagReq=await this.taskService.putTask(id,req.body.status)
-
-    res.json(tagReq)
+    let tagReq=await this.taskService.putTask(id,req.body.status,req.body.solution)
+    let result=await this.taskService.getTaskList()
+    res.json(result)
   }
 }
 

@@ -1,15 +1,12 @@
-import { useEffect, useState } from "react";
 import "../SCSS/dashboard.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { FaDollarSign, FaCheck } from "react-icons/fa";
-import { BsChatSquareQuote } from "react-icons/bs";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import moment from "moment";
 import { GetUserGrowth } from "../../Redux/adminData/action";
+import { useSelector } from "react-redux";
 import AdminNavbar from "../../Components/PrivateComponents/admin/adminNavBar";
+import { GiDiamonds } from "react-icons/gi";
 import { Card, Row, Col, Container } from "react-bootstrap";
-import LineBarComposed from "../../Components/PrivateComponents/admin/LineBarComposedchartComponent";
-import { UserList } from "../../Components/PrivateComponents/admin/userList";
-import { RequestList } from "../../Components/PrivateComponents/admin/requestList";
 import { TagCountChart } from "../../Components/PrivateComponents/admin/tagCountChart";
 import { NewUserChart } from "../../Components/PrivateComponents/admin/NewUserChart";
 import { RequestTypeCard } from "../../Components/PrivateComponents/admin/RequestCountCard";
@@ -19,72 +16,89 @@ import { ResponseRateCard } from "../../Components/PrivateComponents/admin/respo
 import { TokenCountCard } from "../../Components/PrivateComponents/admin/TokenCard";
 import { TokenTransactionList } from "../../Components/PrivateComponents/admin/tokenTransactionList";
 import { Link } from "react-router-dom";
+import FadeIn from "react-fade-in/lib/FadeIn";
 
 export default function DashboardPage(props) {
-  const adminDataStore = useSelector((state) => state.adminDataStore);
-  const request = adminDataStore.request;
-  const userGrowth = adminDataStore.user.userGrowth;
-  const newUserList = adminDataStore.user.newUserList;
   const dispatch = useDispatch();
-  console.log(typeof moment().toDate());
+  const adminDataStore = useSelector((state) => state.adminDataStore);
   useEffect(() => {
-  }, []);
+    dispatch(
+      GetUserGrowth(
+        moment().subtract(7, "day").startOf("day").format("YYYY-MM-DD"),
+        moment().endOf("day").format("YYYY-MM-DD")
+      )
+    );
+  }, [dispatch]);
   console.log(adminDataStore);
   return (
     <>
       <AdminNavbar />
-      <h1>Welcome back, admin!</h1>
-      <p>Here is some of the detail you need to see</p>
-      <Container fluid>
-          <h2>Today</h2>
-        <Row xs={1} md={2} lg={4} className="my-2">
-          <Col>
-              <Link to='/admin/token'>
-            <TokenCountCard/>
+      <FadeIn className="p-2">
+        <div className="my-5 mx-5 px-4 discover-title">
+          <GiDiamonds className="me-2 mb-1" />
+          DASHBOARD
+        </div>
+        <Container  >
+          <Row xs={1} md={2} lg={4} className="my-2">
+            <Col>
+              <Link to="/admin/token">
+                <TokenCountCard />
               </Link>
-          </Col>
-          <Col className="column">
-          <Link to='/admin/request'>
-           <FinishedRequestCard/>
-            </Link>
-          </Col>
-          <Col className="column">
-           <ResponseRateCard/>
-          </Col>
-          <Col>
-          <Link to='/admin/task'>
-            <TaskCountCard/>
-            </Link>
-          </Col>
-        </Row>
-          <h2>This week</h2>
-        {/* <Col lg={3}> */}
-        {/* <Card style={{textAlign:'center'}} className='mx-2'> */}
-        <Row>
-          <Col xs={12} lg={8} className='chart'>
+            </Col>
+            <Col className="column">
+              <Link to="/admin/request">
+                <FinishedRequestCard />
+              </Link>
+            </Col>
+            <Col className="column">
+              <ResponseRateCard />
+            </Col>
+            <Col>
+              <Link to="/admin/task">
+                <TaskCountCard />
+              </Link>
+            </Col>
+          </Row>
+          <Row >
+            <Col xs={12} lg={8} className="chart">
+            <div className="my-2 mx-2 discover-title">
+                    <GiDiamonds className="me-2 mb-1" />
+                   Daily New User
+                  </div>
               <NewUserChart />
-          </Col>
-          <Col xs={12} lg={4} >
-            <TagCountChart />
-          </Col>
-        </Row>
-        <Row  className="my-4">
-          <Col xs={12} lg={4}>
-            <Card>
-              <RequestTypeCard />
-            </Card>
-          </Col>
-          <Col xs={12} lg={8} >
-          <Link to="/admin/token">
-            <Card className='table'>
-
-           <TokenTransactionList/>
-            </Card>
-          </Link>
-          </Col>
-        </Row>
-       
-      </Container>
+            </Col>
+            <Col xs={12} lg={4}>
+            <div className="my-2 mx-2 discover-title">
+                    <GiDiamonds className="me-2 mb-1" />
+                    Most used tag
+                  </div>
+              <TagCountChart />
+            </Col>
+          </Row>
+          <Row className="my-4">
+            <Col xs={12} lg={4}>
+            <div className="my-2 mx-2 discover-title">
+                    <GiDiamonds className="me-2 mb-1" />
+                    Request Status
+                  </div>
+              <Card>
+                <RequestTypeCard />
+              </Card>
+            </Col>
+            <Col xs={12} lg={8}>
+              <Link to="/admin/token">
+                  <div className="my-2 mx-2 discover-title">
+                    <GiDiamonds className="me-2 mb-1" />
+                    User Token Transaction record
+                  </div>
+                <Card>
+                  <TokenTransactionList itemsPerPage={5} />
+                </Card>
+              </Link>
+            </Col>
+          </Row>
+        </Container>
+      </FadeIn>
     </>
   );
 }
