@@ -38,7 +38,7 @@ export default function DashboardPage(props) {
           <GiDiamonds className="me-2 mb-1" />
           DASHBOARD
         </div>
-        <Container  >
+        <Container>
           <Row xs={1} md={2} lg={4} className="my-2">
             <Col>
               <Link to="/admin/token">
@@ -59,38 +59,38 @@ export default function DashboardPage(props) {
               </Link>
             </Col>
           </Row>
-          <Row >
+          <Row>
             <Col xs={12} lg={8} className="chart">
-            <div className="my-2 mx-2 discover-title">
-                    <GiDiamonds className="me-2 mb-1" />
-                   Daily New User
-                  </div>
+              <div className="my-2 mx-2 discover-title">
+                <GiDiamonds className="me-2 mb-1" />
+                Daily New User
+              </div>
               <NewUserChart />
             </Col>
             <Col xs={12} lg={4}>
-            <div className="my-2 mx-2 discover-title">
-                    <GiDiamonds className="me-2 mb-1" />
-                    Most used tag
-                  </div>
+              <div className="my-2 mx-2 discover-title">
+                <GiDiamonds className="me-2 mb-1" />
+                Most used tag
+              </div>
               <TagCountChart />
             </Col>
           </Row>
           <Row className="my-4">
             <Col xs={12} lg={4}>
-            <div className="my-2 mx-2 discover-title">
-                    <GiDiamonds className="me-2 mb-1" />
-                    Request Status
-                  </div>
+              <div className="my-2 mx-2 discover-title">
+                <GiDiamonds className="me-2 mb-1" />
+                Request Status
+              </div>
               <Card>
                 <RequestTypeCard />
               </Card>
             </Col>
             <Col xs={12} lg={8}>
               <Link to="/admin/token">
-                  <div className="my-2 mx-2 discover-title">
-                    <GiDiamonds className="me-2 mb-1" />
-                    User Token Transaction record
-                  </div>
+                <div className="my-2 mx-2 discover-title">
+                  <GiDiamonds className="me-2 mb-1" />
+                  User Token Transaction record
+                </div>
                 <Card>
                   <TokenTransactionList itemsPerPage={5} />
                 </Card>

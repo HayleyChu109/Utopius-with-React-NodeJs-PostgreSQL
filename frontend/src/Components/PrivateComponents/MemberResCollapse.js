@@ -20,6 +20,8 @@ function MemberResCollapse(props) {
     (state) => state.memberResDetailsStore.resDetails
   );
 
+  console.log(responseList);
+
   const showRequestDetail = (requestId) => {
     const result = reviewFromStore.filter((review) => {
       return review.requestId === requestId;
@@ -68,11 +70,18 @@ function MemberResCollapse(props) {
               </button>
               <button
                 onClick={() => {
-                  setFilterRes(["matched", "completed", "cancelled"]);
+                  setFilterRes(["matched", "completed"]);
                   setFilterMatched(false);
                 }}
               >
                 UNMATCHED
+              </button>
+              <button
+                onClick={() => {
+                  setFilterRes(["cancelled"]);
+                }}
+              >
+                CANCELLED
               </button>
             </div>
           </div>

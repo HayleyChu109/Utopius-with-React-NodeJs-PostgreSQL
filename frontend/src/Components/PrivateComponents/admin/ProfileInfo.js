@@ -3,8 +3,6 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import moment from "moment";
 import { BlockStatusBar } from "./blockStatusBar";
-import MemberProfileEditBar from "../MemberProfileEditBar";
-import BookmarkCollapse from "../BookmarkCollapse";
 import MemberReqCollapse from "../MemberReqCollapse";
 import MemberResCollapse from "../MemberResCollapse";
 import MemberProfileNewReqBar from "../MemberProfileNewReqBar";
@@ -40,11 +38,8 @@ function ProfileInfo(props) {
 
   const bookmarkId = useSelector((state) => state.requestStore.bookmarkList);
 
-  const [showEdit, setShowEdit] = useState(true);
-  const [showBookmark, setShowBookmark] = useState(false);
   const [showReq, setShowReq] = useState(false);
   const [showRes, setShowRes] = useState(false);
-  const [disableBookmark, setDisableBookmark] = useState(false);
   const [disableReq, setDisableReq] = useState(false);
   const [disableRes, setDisableRes] = useState(false);
 
@@ -100,9 +95,7 @@ function ProfileInfo(props) {
                 disabled={disableReq}
                 className="me-2 REQ"
                 onClick={() => {
-                  setShowEdit(!showEdit);
                   setShowReq(!showReq);
-                  setDisableBookmark(!disableBookmark);
                   setDisableRes(!disableRes);
                 }}
               >
@@ -112,24 +105,13 @@ function ProfileInfo(props) {
                 disabled={disableRes}
                 className="RES"
                 onClick={() => {
-                  setShowEdit(!showEdit);
                   setShowRes(!showRes);
-                  setDisableBookmark(!disableBookmark);
                   setDisableReq(!disableReq);
                 }}
               >
                 RES#{memberResDetailsFromStore.length}
               </button>
-              <button
-                disabled={disableBookmark}
-                className="me-2 heart"
-                onClick={() => {
-                  setShowEdit(showEdit);
-                  setShowBookmark(!showBookmark);
-                  setDisableReq(!disableRes);
-                  setDisableRes(!disableRes);
-                }}
-              >
+              <button className="me-2 heart">
                 <AiFillHeart className="mx-2 heart-icon" />
                 {bookmarkId.length}
               </button>
@@ -145,10 +127,9 @@ function ProfileInfo(props) {
           </div>
         </div>
       </div>
-      <BookmarkCollapse isOpen={showBookmark} />
       <MemberReqCollapse isOpen={showReq} />
       <MemberResCollapse isOpen={showRes} />
-      <MemberProfileNewReqBar isOpen={!showEdit} />
+      <MemberProfileNewReqBar />
       <BlockStatusBar />
       <div className="text-center">
         <button className="mb-5 btn-goback" onClick={() => history.goBack()}>

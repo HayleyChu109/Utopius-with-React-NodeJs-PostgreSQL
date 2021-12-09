@@ -15,7 +15,7 @@ import { Collapse } from "reactstrap";
 
 const LandingPage = () => {
   const { search } = useSelector((state) => state.requestStore);
-  const history=useHistory()
+  const history = useHistory();
   const [show, setShow] = useState(true);
   let token = localStorage.getItem("token");
   let userId = "";
@@ -28,16 +28,15 @@ const LandingPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(localStorage.getItem('isAdmin'))
-    {
-      history.push('/admin/dashboard')
+    if (localStorage.getItem("isAdmin")) {
+      history.push("/admin/dashboard");
     }
     if (search !== "") {
       setShow(false);
     } else {
       setShow(true);
     }
-  }, [search]);
+  }, [history, search]);
 
   useEffect(() => {
     dispatch(getBookmarkListThunk(userId));

@@ -43,8 +43,7 @@ class AdminTokenService {
       .from("tokenTransaction")
       .join("account", "payerId", "account.id")
       .join("payee", "payeeId", "payee.id")
-      .join("request", "requestId", "request.id")
-      .orderBy("tokenTransaction.created_at");
+      .join("request", "requestId", "request.id");
   }
   getPayee(reqId) {
     return this.knex

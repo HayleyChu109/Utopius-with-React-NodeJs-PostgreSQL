@@ -24,7 +24,7 @@ const Announcement = () => {
 
   useEffect(() => {
     dispatch(getAnnouncementPublicThunk());
-  }, []);
+  }, [dispatch]);
 
   const modalClick = (title, data) => {
     setModalTitle(title);

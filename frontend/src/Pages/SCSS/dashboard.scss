@@ -16,10 +16,11 @@ a:hover {
   position: absolute;
   border-radius: 5px 20px 20px 5px;
   background-color: #0bb1e4;
+  color: white;
   width: 30%;
   height: 100%;
   top: 0;
-  padding: 10px;
+  padding: 20px;
 }
 
 .column {
@@ -176,6 +177,46 @@ a:hover {
   width: 30vw;
 }
 
+.admin-btn {
+  @include btn-color-hover($theme: $light-grey);
+  border-radius: 0%;
+}
+.admin-btn:active {
+  @include btn-color-hover($theme: $dark-blue);
+  border-radius: 0%;
+}
+.admin-message {
+  color: black;
+}
+
+.date {
+  border-radius: 10px;
+}
+.admin-footnote {
+  font-size: 12px;
+}
+.admin-content {
+  font-size: 12px;
+}
+.admin-rating {
+  color: $dark-blue;
+}
+
+.btn-analytics {
+  font-size: 15px;
+  background-color: white;
+  border-color: $dark-blue;
+  font-weight: bold;
+  color: black;
+}
+
+.analysis-title {
+  color: black;
+}
+.admin-slider {
+  width: 30vw;
+}
+
 // Block user modal
 .block-user-modal {
   // min-width: 600px;
@@ -200,4 +241,3 @@ a:hover {
 .block-user-footer:last-child {
   border-radius: 0 0 20px 20px;
 }
-// Block user modal

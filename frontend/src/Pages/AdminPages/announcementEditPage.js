@@ -2,8 +2,6 @@ import { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DateSelection } from "../../Components/PrivateComponents/admin/dateSelection";
 import {
-  PutStartDate,
-  PutEndDate,
   GetAnnouncement,
   PutTitle,
   DeleteDraft,
@@ -20,10 +18,7 @@ import "../SCSS/announce.scss";
 
 import { useHistory, useParams } from "react-router";
 
-import DayPickerInput from "react-day-picker/DayPickerInput";
-import moment from "moment";
 
-import { formatDate, parseDate } from "react-day-picker/moment";
 import "react-day-picker/lib/style.css";
 import { Button, Form, Modal } from "react-bootstrap";
 import "../SCSS/dashboard.scss";
@@ -45,18 +40,7 @@ console.log(data)
   const handleShow = () => setModal(true);
   const handleSaveClose = () => setSave(false);
   const handleSaveShow = () => setSave(true);
-  const handleStartDate = (e) => {
-    if(e&&e<endDate)
-    {
-    dispatch(PutStartDate(new Date(e)));
-    }
-  };
-  const handleEndDate = (e) => {
-    if(e&&e>startDate)
-    {
-    dispatch(PutEndDate(new Date(e)));
-    }
-  };
+  
   const handlePublish = () => {
     if (id === undefined) {
       dispatch(PostAnnouncement(title, data, false, startDate, endDate));

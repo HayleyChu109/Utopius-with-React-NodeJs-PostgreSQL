@@ -40,9 +40,10 @@ const NavBar = () => {
           <div className="col-2">
             <a href="/" className="nav-logo">
               <img
-                src={"/heart.png"}
+                src={"/utopius.png"}
                 alt="logo"
                 style={{ width: "20px", height: "20px" }}
+                className="mb-1 me-2"
               />
               UTOPIUS
             </a>

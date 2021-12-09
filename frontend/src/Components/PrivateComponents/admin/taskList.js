@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   GetTaskList,
   PutTaskList,
-  FilterTaskList,
 } from "../../../Redux/task/action";
 import { Link } from "react-router-dom";
 import { Nav, Button, Modal } from "react-bootstrap";
@@ -37,16 +36,14 @@ export function TaskList() {
         <>
           {" "}
           <Button
-            className="mx-5 my-1 taskButton"
-            variant="light"
+            className="mx-5 my-1"
             name="read"
             onClick={(e) => handleStatus(item.id, e, "")}
           >
             READ
           </Button>{" "}
           <Button
-            className="mx-5 my-1 taskButton"
-            variant="light"
+            className="mx-5 my-1"
             name="completed"
             onClick={() => {
               setCurrentItem(item.id);
@@ -61,7 +58,7 @@ export function TaskList() {
       return (
         <>
           <Button
-            className="mx-5 my-1 taskButton"
+            className="mx-5 my-1"
             variant="light"
             name="unread"
             onClick={(e) => handleStatus(item.id, e, "")}
@@ -69,7 +66,7 @@ export function TaskList() {
             Mark as Unread
           </Button>
           <Button
-            className="mx-5 my-1 taskButton"
+            className="mx-5 my-1"
             variant="light"
             name="completed"
             onClick={() => {
@@ -149,8 +146,8 @@ export function TaskList() {
           </div>
         ))
       ) : (
-        <div className="mx-auto my-2">
-          <p>There are no task yet</p>
+        <div className="mx-auto my-5">
+          <p>There is no task yet</p>
         </div>
       )}
       <Modal show={modal} onHide={() => setModal(false)}>

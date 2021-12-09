@@ -17,7 +17,6 @@ import {
 import { ImSortAlphaAsc, ImSortAlphaDesc } from "react-icons/im";
 import moment from "moment";
 export const UserListTable = ({ items, itemsPerPage }) => {
-  const [toolbar, setToolbar] = useState(false);
   const [column, setColumn] = useState("id");
   const dispatch = useDispatch();
   const [asc, setAsc] = useState(true);

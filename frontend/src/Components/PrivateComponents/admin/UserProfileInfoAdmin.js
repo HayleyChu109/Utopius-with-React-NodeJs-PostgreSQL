@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Nav, Button } from "react-bootstrap";
 import UserRequestList from "./userRequestList";
 import { FaCoins } from "react-icons/fa";

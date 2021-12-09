@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useSelector,useDispatch } from "react-redux";
-import { Card } from "react-bootstrap";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import {GetRequestStat} from '../../../Redux/adminRequest/action'

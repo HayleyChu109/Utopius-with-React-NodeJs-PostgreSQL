@@ -11,14 +11,6 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
-// import {
-//   ResponsiveContainer,
-//   Bar,
-//   BarChart,
-//   XAxis,
-//   YAxis,
-//   Label,
-// } from "recharts";
 import { GetTagCount } from "../../../Redux/tag/action";
 import { useSelector, useDispatch } from "react-redux";
 

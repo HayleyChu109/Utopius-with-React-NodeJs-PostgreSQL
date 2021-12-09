@@ -1,10 +1,6 @@
-import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { LinkPreview } from "@dhaiwat10/react-link-preview";
 import draftToHtml from "draftjs-to-html";
-import { convertFromRaw, convertToRaw } from "draft-js";
 import parse from 'react-html-parser'
-import Output from "editorjs-react-renderer";
 
 export default function AnnouncementPreview({ modal, handle, title, data }) {
 console.log(data)
