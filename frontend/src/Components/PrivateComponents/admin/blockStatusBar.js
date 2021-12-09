@@ -63,20 +63,20 @@ export function BlockStatusBar() {
         contentClassName="block-user-modal"
         className="border-0"
       >
-        <div closeButton className="block-user-heading p-3">
-          {userIsBlock ? `Unblock` : `Are you going to block this user?`}
+        <div closeButton className="block-user-heading px-5 pt-4">
+          {userIsBlock ? `UNBLOCK` : `BLOCK`}
         </div>
-        <div className="p-3">
+        <div className="px-5 py-3">
           {userIsBlock
             ? `Are you going to unblock this user?`
             : `Are you going to block this user?`}
         </div>
         <div className="block-user-footer">
-          <button className="btn-dark-blue m-2" onClick={() => BlockUser(id)}>
-            Yes
+          <button className="btn-dark-blue m-3" onClick={() => BlockUser(id)}>
+            YES
           </button>
-          <button className="btn-dark-blue m-2" onClick={closeModal}>
-            No
+          <button className="btn-dark-blue m-3" onClick={closeModal}>
+            NO
           </button>
         </div>
       </Modal>

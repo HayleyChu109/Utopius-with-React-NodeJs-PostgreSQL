@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { GiDiamonds } from "react-icons/gi";
 import FormRange from "react-bootstrap/esm/FormRange";
 import { Card, CardBody } from "reactstrap";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Container } from "react-bootstrap";
 export const AnalysisComponent = () => {
   const { requestUser } = useSelector((state) => state.adminDataStore);
   const { memberInfo } = useSelector((state) => state.memberProfileStore);
@@ -48,41 +48,43 @@ export const AnalysisComponent = () => {
           ) : (
             <p>We don't have enough data for this user</p>
           )}
-          <Row xs={3}>
-            {review[0].review !== null
-              ? review[0].review.map((item) => (
-                  <Col>
-                    <Card className="">
-                      <img
-                        src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
-                        alt="profile pic"
-                        className="profile mx-2"
-                      />
-                      <CardBody>
-                        <div>
-                          rating:{" "}
-                          <span className="admin-rating">{item.rating}</span>
-                        </div>
-                        <div className="my-2 admin-content">
-                          {item.comment ? item.comment : `no comment`}
-                        </div>
-                        <div className="text-muted my-3">
-                          {item.comtributed ? (
-                            <span className="admin-footnote">
-                              Reviewer find user has contribution
-                            </span>
-                          ) : (
-                            <span className="admin-footnote">
-                              Reviewer find user has no contribution
-                            </span>
-                          )}
-                        </div>
-                      </CardBody>
-                    </Card>
-                  </Col>
-                ))
-              : null}
-          </Row>
+          <Container>
+            <Row xs={3}>
+              {review[0].review !== null
+                ? review[0].review.map((item) => (
+                    <Col>
+                      <Card>
+                        <img
+                          src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
+                          alt="profile pic"
+                          className="profile mx-2"
+                        />
+                        <CardBody>
+                          <div>
+                            rating:{" "}
+                            <span className="admin-rating">{item.rating}</span>
+                          </div>
+                          <div className="my-2 admin-content">
+                            {item.comment ? item.comment : `no comment`}
+                          </div>
+                          <div className="text-muted my-3">
+                            {item.comtributed ? (
+                              <span className="admin-footnote">
+                                Reviewer find user has contribution
+                              </span>
+                            ) : (
+                              <span className="admin-footnote">
+                                Reviewer find user has no contribution
+                              </span>
+                            )}
+                          </div>
+                        </CardBody>
+                      </Card>
+                    </Col>
+                  ))
+                : null}
+            </Row>
+          </Container>
         </div>
       </div>
       <div>
@@ -107,7 +109,11 @@ export const AnalysisComponent = () => {
                     <Card className="request-message-card mx-auto my-3">
                       <CardBody className="pt-1">
                         {profilePath ? (
-                          <img src={profilePath} alt="profile" />
+                          <img
+                            src={profilePath}
+                            alt="profile"
+                            className="profile mx-2"
+                          />
                         ) : (
                           <img
                             src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
@@ -153,15 +159,19 @@ export const AnalysisComponent = () => {
               {comment[0].response.map((item) => (
                 <Card className="request-message-card mx-auto my-3">
                   <CardBody className="pt-1">
-                  {profilePath ? (
-                          <img src={profilePath} alt="profile" />
-                        ) : (
-                          <img
-                            src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
-                            alt="profile pic"
-                            className="profile mx-2"
-                          />
-                        )}
+                    {profilePath ? (
+                      <img
+                        src={profilePath}
+                        alt="profile"
+                        className="profile mx-2"
+                      />
+                    ) : (
+                      <img
+                        src="https://utopius.s3.ap-southeast-1.amazonaws.com/anonymous.jpeg"
+                        alt="profile pic"
+                        className="profile mx-2"
+                      />
+                    )}
                     <div className="position-relative d-flex align-items-start">
                       <div className="req-msg-card-propic"></div>
                       <div className="req-msg-body">

@@ -557,7 +557,7 @@ const RequestDetail = () => {
             {tab === "comment" ? (
               <div className="text-center my-2 row d-flex align-items-center justify-content-center">
                 <div className="col-6">
-                  {requestDetail.status === "canceled" ||
+                  {requestDetail.status === "cancelled" ||
                   requestDetail.status === "completed" ? (
                     <input
                       className="input-message form-control"

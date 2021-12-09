@@ -16,11 +16,11 @@ a:hover {
   position: absolute;
   border-radius: 5px 20px 20px 5px;
   background-color: #0bb1e4;
-  color:white;
+  color: white;
   width: 30%;
   height: 100%;
   top: 0;
-  padding: 20px ;
+  padding: 20px;
 }
 
 .column {
@@ -173,46 +173,45 @@ a:hover {
 .admin-slider:disabled {
   color: blue !important;
 }
-.admin-slider{
-  width:30vw;
+.admin-slider {
+  width: 30vw;
 }
 
-.admin-btn{
-  @include btn-color-hover($theme:$light-grey);
+.admin-btn {
+  @include btn-color-hover($theme: $light-grey);
   border-radius: 0%;
 }
-.admin-btn:active{
-  @include btn-color-hover($theme:$dark-blue);
+.admin-btn:active {
+  @include btn-color-hover($theme: $dark-blue);
   border-radius: 0%;
-
 }
-.admin-message{
+.admin-message {
   color: black;
 }
 
-.date{
-  border-radius:10px ;
+.date {
+  border-radius: 10px;
 }
-.admin-footnote{
-font-size: 5px;
+.admin-footnote {
+  font-size: 12px;
 }
-.admin-content{
-font-size: 12px;
+.admin-content {
+  font-size: 12px;
 }
-.admin-rating{
-color:$dark-blue;
+.admin-rating {
+  color: $dark-blue;
 }
 
-.btn-analytics{
+.btn-analytics {
   font-size: 15px;
-  background-color:white;
+  background-color: white;
   border-color: $dark-blue;
   font-weight: bold;
   color: black;
 }
 
-.analysis-title{
-color: black;
+.analysis-title {
+  color: black;
 }
 .admin-slider {
   width: 30vw;
@@ -242,4 +241,3 @@ color: black;
 .block-user-footer:last-child {
   border-radius: 0 0 20px 20px;
 }
-// Block user modal

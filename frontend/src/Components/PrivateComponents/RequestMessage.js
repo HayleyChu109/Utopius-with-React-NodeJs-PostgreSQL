@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 import FadeIn from "react-fade-in";
+import jwt_decode from "jwt-decode";
 
 import GradeBall from "../PublicComponents/GradeBall";
 
@@ -18,8 +19,14 @@ const RequestMessage = (props) => {
   const history = useHistory();
 
   // Visit member profile
+  let memberId = jwt_decode(localStorage.getItem("token")).id;
+
   const handleFellow = (fellowId) => {
-    history.push(`/member/fellow/${fellowId}`);
+    if (fellowId === memberId) {
+      history.push("/member/profile");
+    } else {
+      history.push(`/member/fellow/${fellowId}`);
+    }
   };
 
   return (

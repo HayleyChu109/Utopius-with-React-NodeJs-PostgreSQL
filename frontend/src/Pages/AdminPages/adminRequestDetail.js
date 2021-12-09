@@ -43,8 +43,6 @@ const AdminRequestDetail = () => {
     requestDetail,
     requestStatus,
     bookmarkList,
-    publicCommentList,
-    privateCommentList,
     responseList,
     teamList,
     editSuccessMsg,
@@ -212,7 +210,7 @@ const AdminRequestDetail = () => {
           }
       }
     }
-  }, [requestStatus, requestDetail, userId, responseList, tab]);
+  }, [history, requestStatus, requestDetail, userId, responseList, tab]);
 
   // Success modal toggle
   useEffect(() => {
