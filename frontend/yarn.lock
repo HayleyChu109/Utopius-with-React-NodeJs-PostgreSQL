@@ -1285,7 +1285,7 @@
   dependencies:
     "react-loading-skeleton" "^2.2.0"
 
-"@editorjs/editorjs@*", "@editorjs/editorjs@^2.22.2":
+"@editorjs/editorjs@*":
   "integrity" "sha512-rPCv7Z5LZebreQaaL4DZuWzoVGEqwB+P7BF1dsefGQNBmLyeLF412topeW2b6e+g4l1oQ7t75kCOACNTEyYYIA=="
   "resolved" "https://registry.npmjs.org/@editorjs/editorjs/-/editorjs-2.22.2.tgz"
   "version" "2.22.2"

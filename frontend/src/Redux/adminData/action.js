@@ -68,7 +68,7 @@ export const GetUserData = (userId) => async (dispatch) => {
         headers: { Authorization: `Bearer ${userToken}` },
       }
     );
-    console.log(response.data[0])
+    console.log(response.data)
   dispatch({type:Load_USER_SUCCESS,payload:response.data})
  
   } catch (error) {

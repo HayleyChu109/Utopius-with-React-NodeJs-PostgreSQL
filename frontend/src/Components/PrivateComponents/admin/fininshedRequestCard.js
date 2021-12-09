@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { GetRequestStat } from "../../../Redux/adminRequest/action";
 import { Card } from "react-bootstrap";
 import { FaCheck, FaHandsHelping } from "react-icons/fa";
-import { GiMagnifyingGlass } from "react-icons/gi";
 import { RiUserSearchLine } from "react-icons/ri";
 
 export function FinishedRequestCard() {
