@@ -3,10 +3,9 @@ import { useEffect, useState } from "react";
 import { GetUserList } from "../../Redux/adminData/action";
 import { useSelector, useDispatch } from "react-redux";
 import { enGB } from "date-fns/locale";
-import { Range, getTrackBackground } from "react-range";
 import { DateRangePicker, START_DATE, END_DATE } from "react-nice-dates";
 import "react-nice-dates/build/style.css";
-import { Row, Col, Card, ListGroup, Tab, Form } from "react-bootstrap";
+import { Row, Col, ListGroup, Tab, Form } from "react-bootstrap";
 import moment from "moment";
 import {
   GetUserGrowth,
@@ -85,8 +84,8 @@ export default function UserListpage() {
               className="d-flex align-items-center justify-content-center"
             >
               <ListGroup className="mx-auto">
-                <ListGroup.Item
-                  action
+                <ListGroup.Item 
+                  className='admin-btn'
                   eventKey="daily"
                   onClick={() => {
                     dispatch(GetUserGrowth(startDate, endDate));
@@ -96,7 +95,7 @@ export default function UserListpage() {
                   Daily new user
                 </ListGroup.Item>
                 <ListGroup.Item
-                  action
+                   className='admin-btn'
                   eventKey="monthly"
                   onClick={() => {
                     dispatch(GetUserGrowthMonthly(startMonth, endMonth));
@@ -129,7 +128,7 @@ export default function UserListpage() {
                             </label>
                             <input
                               className={
-                                "input my-3 mx-3" +
+                                "input my-3 mx-3 rounded-pill text-center" +
                                 (focus === START_DATE ? " -focused" : "")
                               }
                               {...startDateInputProps}
@@ -142,7 +141,7 @@ export default function UserListpage() {
                             <label htmlFor="">To:</label>
                             <input
                               className={
-                                "input my-3 mx-3" +
+                                "input my-3 mx-3 rounded-pill text-center" +
                                 (focus === END_DATE ? " -focused" : "")
                               }
                               {...endDateInputProps}
@@ -177,12 +176,7 @@ export default function UserListpage() {
             </Col>
           </Row>
         </Tab.Container>
-        {/* <div className="my-4 px-4 memberProfile-title">
-          <BsStars className="mb-1 me-2" />
-          User
-          <Card>
-
-          {/* </Card> */}
+        
         <div className="my-4 px-4 memberProfile-title">
           <BsStars className="mb-1 me-2" />
           USER LIST

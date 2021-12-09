@@ -2,8 +2,8 @@ import { useEffect,useState } from "react";
 import '../SCSS/dashboard.scss'
 import { useDispatch, useSelector } from "react-redux";
 import AdminNavbar from "../../Components/PrivateComponents/admin/adminNavBar";
-import { Link,useParams } from "react-router-dom";
-import { Row,Col,Offcanvas,Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import { Offcanvas } from "react-bootstrap";
 import { BsStars } from "react-icons/bs";
 import { GiDiamonds } from "react-icons/gi";
 import { GetUserData } from "../../Redux/adminData/action";
@@ -38,7 +38,7 @@ const toggleShow = () => setShow((s) => !s)
         <div className="my-4 px-4 memberProfile-title">
           <BsStars className="mb-1 me-2" />
           PROFILE OF: <span>{memberProfileFromStore.username}</span>
-          <Button className='float-end' variant='link' onClick={toggleShow}>Analytics</Button>
+          <button className='float-end btn-analytics p-2 rounded-pill border-3'  onClick={toggleShow}>Analytics</button>
         </div>
         <MemberProfilePic />
         <ProfileInfo/>

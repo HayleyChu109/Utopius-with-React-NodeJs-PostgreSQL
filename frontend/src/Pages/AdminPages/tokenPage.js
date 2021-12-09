@@ -43,8 +43,18 @@ export default function TokeNAdminPage() {
           photoPath: data.location,
         };
 
+        setError("");
+        setaddPlan(false);
+        setPlanPhoto("");
+        setCost("");
+        setToken("");
+        setDetail("");
+        setPlanPhoto({
+          src: "",
+          path: "",
+          alt: "wait for upload",
+        });
         dispatch(PostTokenPlan(planObj));
-        closeAddPlan();
       });
     } else {
       setError("Photo cannot be null");
@@ -129,7 +139,7 @@ export default function TokeNAdminPage() {
           </Modal.Title>
         </Modal.Header>
 
-        <Form onSubmit={handleSubmission}>
+        <Form>
           <Modal.Body>
             <Row>
               <Col className="d-flex flex-column justify-content-center">
@@ -196,7 +206,7 @@ export default function TokeNAdminPage() {
           </Modal.Body>
 
           <Modal.Footer className="admin-footer">
-            <Button variant="primary" type="submit">
+            <Button variant="primary" onClick={handleSubmission} >
               Save changes
             </Button>
             <Button variant="secondary" onClick={closeAddPlan}>

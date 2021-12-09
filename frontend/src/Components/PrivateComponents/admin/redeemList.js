@@ -51,6 +51,10 @@ export const RedeemList = () => {
         dispatch(PostRedeemItem(dataObj));
         handleClose()
       });
+      setName('')
+      setToken('')
+      setStock('')
+      setModal(false)
     } else {
       setError("Photo cannot be null");
       return false;
