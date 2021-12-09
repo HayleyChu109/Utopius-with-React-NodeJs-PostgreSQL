@@ -35,9 +35,7 @@ function TokenTransAct() {
               ? tokenTransAct.map((record) => {
                   return (
                     <tr key={record.id}>
-                      <td scope="row">
-                        {moment(record.created_at).format("LLL")}
-                      </td>
+                      <td>{moment(record.created_at).format("LLL")}</td>
                       {record.payerId === 1 ? (
                         <td>
                           <span>Utopius</span>
