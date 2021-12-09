@@ -71,7 +71,7 @@ const NavBar = () => {
             |<a href="/member/profile">PROFILE</a>|
             {isAuthenticated ? (
               <a href="/member/token">
-                TOKEN{myInfo && myInfo.token ? " : " + myInfo.token : null}
+                TOKEN{myInfo && myInfo.token ? " : " + myInfo.token : " : " + 0}
               </a>
             ) : (
               <a href="/member/token">TOKEN</a>
