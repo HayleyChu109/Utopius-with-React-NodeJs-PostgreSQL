@@ -56,7 +56,8 @@ export const redeemSubmitThunk =
         dispatch({
           type: REDEEM_ITEMS_SUCCESS_ACTION,
           payload: data,
-          message: "You have redeemed the product successfully",
+          message:
+            "You have redeemed the product successfully. We will send the redemption letter to your email.",
         });
       }
     } catch (err) {

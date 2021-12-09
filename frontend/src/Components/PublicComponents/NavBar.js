@@ -40,9 +40,10 @@ const NavBar = () => {
           <div className="col-2">
             <a href="/" className="nav-logo">
               <img
-                src={"/heart.png"}
+                src={"/utopius.png"}
                 alt="logo"
                 style={{ width: "20px", height: "20px" }}
+                className="mb-1 me-2"
               />
               UTOPIUS
             </a>
@@ -71,7 +72,7 @@ const NavBar = () => {
             |<a href="/member/profile">PROFILE</a>|
             {isAuthenticated ? (
               <a href="/member/token">
-                TOKEN{myInfo && myInfo.token ? " : " + myInfo.token : null}
+                TOKEN{myInfo && myInfo.token ? " : " + myInfo.token : " : " + 0}
               </a>
             ) : (
               <a href="/member/token">TOKEN</a>

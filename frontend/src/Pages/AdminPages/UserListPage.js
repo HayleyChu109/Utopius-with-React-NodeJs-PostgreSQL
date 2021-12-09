@@ -25,7 +25,6 @@ export default function UserListpage() {
   const [startMonth, setStartMonth] = useState(
     moment().subtract(1, "month").startOf("month").toDate()
   );
-  const [endMonth, setEndMonth] = useState(moment().endOf("month").toDate());
   const [range, setRange] = useState(0);
   const { userList } = useSelector((state) => state.adminDataStore);
 
@@ -48,23 +47,23 @@ export default function UserListpage() {
     }
   }, [dispatch, active]);
   const handleStartDate = (e) => {
-    if (e&&e<endDate) {
+    if (e && e < endDate) {
       setStartDate(e);
       dispatch(GetUserGrowth(moment(e).format("YYYY-MM-DD"), endDate));
     }
   };
   const handleRange = (e) => {
     console.log(e);
-    setRange(e)
+    setRange(e);
     let lastMonth = moment()
       .subtract(Number(e), "month")
       .startOf("month")
       .format("YYYY-MM-DD");
     setStartMonth(lastMonth);
-    dispatch(GetUserGrowthMonthly(lastMonth, endMonth));
+    dispatch(GetUserGrowthMonthly(lastMonth, moment().endOf("month").toDate()));
   };
   const handleEndDate = (e) => {
-    if (e&&e>startDate) {
+    if (e && e > startDate) {
       setEndDate(e);
       dispatch(GetUserGrowth(startDate, moment(e).format("YYYY-MM-DD")));
     }
@@ -73,9 +72,9 @@ export default function UserListpage() {
     <>
       <AdminNavbar />
       <div className="my-4 px-4 memberProfile-title">
-          <BsStars className="mb-1 me-2" />
-          New User
-        </div>
+        <BsStars className="mb-1 me-2" />
+        New User
+      </div>
       <div className="container-fluid">
         <Tab.Container activeKey={active}>
           <Row className="p-3">
@@ -84,8 +83,8 @@ export default function UserListpage() {
               className="d-flex align-items-center justify-content-center"
             >
               <ListGroup className="mx-auto">
-                <ListGroup.Item 
-                  className='admin-btn'
+                <ListGroup.Item
+                  className="admin-btn"
                   eventKey="daily"
                   onClick={() => {
                     dispatch(GetUserGrowth(startDate, endDate));
@@ -95,10 +94,15 @@ export default function UserListpage() {
                   Daily new user
                 </ListGroup.Item>
                 <ListGroup.Item
-                   className='admin-btn'
+                  className="admin-btn"
                   eventKey="monthly"
                   onClick={() => {
-                    dispatch(GetUserGrowthMonthly(startMonth, endMonth));
+                    dispatch(
+                      GetUserGrowthMonthly(
+                        startMonth,
+                        moment().endOf("month").toDate()
+                      )
+                    );
                     SetActive("monthly");
                   }}
                 >
@@ -157,26 +161,28 @@ export default function UserListpage() {
                 </Tab.Pane>
 
                 <Tab.Pane eventKey="monthly">
-                    <div>
-                              <label htmlFor="">Last month</label>
-                              <label htmlFor="" className='float-end'>Last six month</label>
-                  <Form.Range
-                    type="range"
-                    className="border-0"
-                    min={1}
-                    step={1}
-                    max={6}
-                    value={range}
-                    onChange={(e) => handleRange(e.target.value)}
+                  <div>
+                    <label htmlFor="">Last month</label>
+                    <label htmlFor="" className="float-end">
+                      Last six month
+                    </label>
+                    <Form.Range
+                      type="range"
+                      className="border-0"
+                      min={1}
+                      step={1}
+                      max={6}
+                      value={range}
+                      onChange={(e) => handleRange(e.target.value)}
                     />
-                    </div>
+                  </div>
                   <NewUserChartMonthly />
                 </Tab.Pane>
               </Tab.Content>
             </Col>
           </Row>
         </Tab.Container>
-        
+
         <div className="my-4 px-4 memberProfile-title">
           <BsStars className="mb-1 me-2" />
           USER LIST

@@ -1,14 +1,21 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import GradeBall from "../PublicComponents/GradeBall";
 import { Card } from "reactstrap";
 
 function FellowProfileCard(props) {
   const list = props.list;
 
+  let userId = jwt_decode(localStorage.getItem("token")).id;
+
   const history = useHistory();
   const showFellowDetail = (memberId) => {
-    history.push(`/member/fellow/${memberId}`);
+    if (memberId === userId) {
+      history.push("/member/profile");
+    } else {
+      history.push(`/member/fellow/${memberId}`);
+    }
   };
 
   return (

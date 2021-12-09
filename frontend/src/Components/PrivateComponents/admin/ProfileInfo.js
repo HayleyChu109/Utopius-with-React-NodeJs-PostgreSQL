@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import moment from "moment";
 import { BlockStatusBar } from "./blockStatusBar";
-import BookmarkCollapse from "../BookmarkCollapse";
 import MemberReqCollapse from "../MemberReqCollapse";
 import MemberResCollapse from "../MemberResCollapse";
 import MemberProfileNewReqBar from "../MemberProfileNewReqBar";
