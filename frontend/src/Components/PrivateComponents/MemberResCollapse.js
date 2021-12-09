@@ -20,8 +20,6 @@ function MemberResCollapse(props) {
     (state) => state.memberResDetailsStore.resDetails
   );
 
-  console.log(responseList);
-
   const showRequestDetail = (requestId) => {
     const result = reviewFromStore.filter((review) => {
       return review.requestId === requestId;

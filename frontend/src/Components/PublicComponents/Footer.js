@@ -29,7 +29,6 @@ const Footer = () => {
 
   useEffect(() => {
     if (successMsg !== null) {
-      console.log(successMsg);
       setModalBoolean(true);
     }
   }, [successMsg]);

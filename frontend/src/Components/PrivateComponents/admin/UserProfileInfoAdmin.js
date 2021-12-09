@@ -6,26 +6,21 @@ import { FaCoins } from "react-icons/fa";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import "../../../Pages/SCSS/memberProfile.scss";
 function UserProfileInfoAdmin({ user, ...props }) {
-  console.log(user);
-  console.log(typeof user.id);
-  const adminDataStore=useSelector((state)=>state.adminDataStore)
-  console.log(adminDataStore)
-  const request=adminDataStore.request
-  console.log(request)
+  const adminDataStore = useSelector((state) => state.adminDataStore);
+  const request = adminDataStore.request;
   const [tab, setTab] = useState("request");
-  const displayContent=()=>{
-      switch (tab){
-          case 'request':
-          return(<UserRequestList request={request}/>)
-        //   case 'response':
-        //   return(<UserRequestList request={request}/>)
-        //   case 'review':
-        //   return(<UserRequestList request={request}/>)
-          default:
-              return(<p className='text-center'>There is nothing</p>)
-      }
-    
-  }
+  const displayContent = () => {
+    switch (tab) {
+      case "request":
+        return <UserRequestList request={request} />;
+      //   case 'response':
+      //   return(<UserRequestList request={request}/>)
+      //   case 'review':
+      //   return(<UserRequestList request={request}/>)
+      default:
+        return <p className="text-center">There is nothing</p>;
+    }
+  };
   return (
     <>
       <div className="container">
@@ -68,14 +63,13 @@ function UserProfileInfoAdmin({ user, ...props }) {
               </Nav.Item>
               <Nav.Item className="mx-2">
                 <Nav.Link eventKey="response">Response</Nav.Link>
-                </Nav.Item>
+              </Nav.Item>
               <Nav.Item className="mx-2">
                 <Nav.Link eventKey="review">Review</Nav.Link>
-                
               </Nav.Item>
             </Nav>
 
-          {displayContent()}
+            {displayContent()}
           </div>
 
           <div

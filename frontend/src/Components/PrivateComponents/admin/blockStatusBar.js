@@ -17,7 +17,6 @@ export function BlockStatusBar() {
     setModalBoolean(false);
   };
   const BlockUser = (id) => {
-    console.log(id);
     setModalBoolean(false);
     if (userIsBlock) {
       dispatch(PutUserBlock(id, false));

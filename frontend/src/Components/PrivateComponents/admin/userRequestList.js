@@ -7,7 +7,6 @@ import "../../../Pages/SCSS/memberProfile.scss";
 import SearchCard from "../../PublicComponents/SearchCard";
 
 function UserRequestList({ request, ...props }) {
-  console.log(request);
   const [limit, setLimit] = useState(4);
   const showMore = () => {
     if (limit + 4 < request.length) {

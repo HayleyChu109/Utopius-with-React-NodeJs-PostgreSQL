@@ -54,7 +54,6 @@ const NewRequest = (props) => {
   }, [requestId, history]);
 
   const ImgPreview = (e) => {
-    console.log(e.currentTarget.files[0]);
     if (e.currentTarget.files[0]) {
       setPreviewImg({
         src: URL.createObjectURL(e.currentTarget.files[0]),
@@ -107,7 +106,6 @@ const NewRequest = (props) => {
             .filter((newTag) => newTag[0] === "#" && newTag.length > 1)
             .map((newTag) => newTag.slice(1)),
         };
-        console.log(newReq);
         dispatch(createNewRequestThunk(newReq));
       });
     } else {

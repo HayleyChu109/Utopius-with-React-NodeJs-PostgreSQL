@@ -20,7 +20,6 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const loginEnter = (event) => {
-    console.log(event.key);
     if (event.key === "Enter") {
       login();
     }
@@ -44,7 +43,6 @@ const LoginForm = () => {
   };
 
   const responseFacebook = (userInfo) => {
-    console.log(userInfo);
     if (userInfo.accessToken) {
       dispatch(loginFacebookThunk(userInfo));
     }
@@ -52,7 +50,6 @@ const LoginForm = () => {
   };
 
   const responseGoogle = (userInfo) => {
-    console.log(userInfo.profileObj);
     if (userInfo.profileObj) {
       dispatch(loginGoogleThunk(userInfo.profileObj));
     }

@@ -65,10 +65,9 @@ export const options = {
 };
 
 export const TagCountChart = () => {
-  console.log("why");
   const dispatch = useDispatch();
   const { tagStat } = useSelector((state) => state.tagStore);
-  console.log(tagStat);
+
   const labels = tagStat.map((item) => item.tagName);
   useEffect(() => {
     dispatch(GetTagCount());

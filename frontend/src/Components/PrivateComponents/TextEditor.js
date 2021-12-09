@@ -20,13 +20,11 @@ export const TextEditor = ({ data }) => {
   const handleUpload = (file) => {
     return ReactS3Client.uploadFile(file)
       .then((link) => {
-        console.log(link.location);
         return { data: { link: link.location } };
       })
       .catch((e) => console.log(e));
   };
   const handleChange = (state) => {
-    console.log(convertToRaw(state.getCurrentContent()));
     setState(state);
     dispatch(PutDraft(convertToRaw(state.getCurrentContent())));
   };

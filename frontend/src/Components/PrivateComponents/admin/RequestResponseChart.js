@@ -1,4 +1,4 @@
-import { useSelector,  } from "react-redux";
+import { useSelector } from "react-redux";
 import { Card } from "react-bootstrap";
 import moment from "moment";
 
@@ -66,7 +66,7 @@ export const options = {
 
 export function RequestResponseChart() {
   const { chart } = useSelector((state) => state.adminRequestStore);
-  console.log(chart);
+
   var labels;
   var dataParsed;
 
@@ -74,8 +74,6 @@ export function RequestResponseChart() {
     labels = chart.map((item) => moment(item.Date).format("YYYY-MM-DD"));
     let cumulativeUser = chart.map((item) => item["Response Count"]);
 
-    console.log(cumulativeUser);
-    console.log(labels);
     dataParsed = {
       labels,
       datasets: [

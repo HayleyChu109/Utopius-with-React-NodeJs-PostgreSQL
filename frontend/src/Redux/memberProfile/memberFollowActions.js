@@ -84,7 +84,6 @@ export const followtoggleThunk =
         );
       }
       const { data } = response;
-      console.log(data);
       if (data) {
         dispatch({
           type: MEMBER_FOLLOWTOGGLE_SUCCESS_ACTION,

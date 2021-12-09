@@ -14,35 +14,34 @@ export const TokenTransactionListItem = ({ items, itemsPerPage }) => {
   const handleFirstpage = () => {
     setActivePage(1);
     const newOffset = (0 * itemsPerPage) % items.length;
-    console.log(
-      `User requested page number ${activePage}, which is offset ${newOffset}`
-    );
+    // console.log(
+    //   `User requested page number ${activePage}, which is offset ${newOffset}`
+    // );
     setItemOffset(newOffset);
   };
   const handleLastpage = () => {
     setActivePage(pageCount);
     const newOffset = (pageCount - 1 * itemsPerPage) % items.length;
-    console.log(
-      `User requested page number ${activePage}, which is offset ${newOffset}`
-    );
+    // console.log(
+    //   `User requested page number ${activePage}, which is offset ${newOffset}`
+    // );
     setItemOffset(newOffset);
   };
   const handlePageClick = (number) => {
     setActivePage(number + 1);
     const newOffset = (number * itemsPerPage) % items.length;
-    console.log(
-      `User requested page number ${number}, which is offset ${newOffset}`
-    );
+    // console.log(
+    //   `User requested page number ${number}, which is offset ${newOffset}`
+    // );
     setItemOffset(newOffset);
   };
   const handlePrevious = () => {
     if (activePage > 1) {
-      console.log(activePage - 1);
       setActivePage(activePage - 1);
       const newOffset = (activePage * itemsPerPage) % items.length;
-      console.log(
-        `User requested page number ${activePage}, which is offset ${newOffset}`
-      );
+      // console.log(
+      //   `User requested page number ${activePage}, which is offset ${newOffset}`
+      // );
       setItemOffset(newOffset);
     }
   };
@@ -50,9 +49,9 @@ export const TokenTransactionListItem = ({ items, itemsPerPage }) => {
     if (activePage < pageCount) {
       setActivePage(activePage + 1);
       const newOffset = (activePage * itemsPerPage) % items.length;
-      console.log(
-        `User requested page number ${activePage}, which is offset ${newOffset}`
-      );
+      // console.log(
+      //   `User requested page number ${activePage}, which is offset ${newOffset}`
+      // );
       setItemOffset(newOffset);
     }
   };
@@ -68,8 +67,6 @@ export const TokenTransactionListItem = ({ items, itemsPerPage }) => {
   }
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    console.log(endOffset);
-    console.log(items.slice(itemOffset, endOffset));
     setCurrentItems(items.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(items.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, items]);

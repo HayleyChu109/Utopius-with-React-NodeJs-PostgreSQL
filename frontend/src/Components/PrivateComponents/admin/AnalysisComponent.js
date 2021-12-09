@@ -7,7 +7,6 @@ export const AnalysisComponent = () => {
   const { requestUser } = useSelector((state) => state.adminDataStore);
   const { memberInfo } = useSelector((state) => state.memberProfileStore);
   const { profilePath } = memberInfo;
-  console.log(memberInfo);
   const { review, response, comment } = requestUser;
   return (
     <>

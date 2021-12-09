@@ -60,7 +60,6 @@ const MemberInfoForm = () => {
 
   // Profile pic preview
   const ImgPreview = (e) => {
-    console.log(e.currentTarget.files[0]);
     if (e.currentTarget.files[0]) {
       setPreviewImg({
         src: URL.createObjectURL(e.currentTarget.files[0]),

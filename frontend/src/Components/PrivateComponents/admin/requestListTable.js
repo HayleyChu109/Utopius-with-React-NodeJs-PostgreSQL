@@ -37,7 +37,6 @@ export function RequestListTable() {
   };
   const handleQuery = (event) => {
     setQuery(event.target.value);
-    console.log(event.target.value.toLowerCase());
 
     dispatch(FilterRequestList(event.target.value.toLowerCase(), order, desc));
   };
@@ -125,9 +124,9 @@ export function RequestListTable() {
                   )
                 ) : null}
               </th>
-              <th onClick={() => handleOrder("matched")}>
-                matched/required
-                {order === "matched" ? (
+              <th onClick={() => handleOrder("requiredPpl")}>
+                requiredPpl
+                {order === "requiredPpl" ? (
                   desc ? (
                     <ImSortAlphaDesc />
                   ) : (
@@ -190,9 +189,7 @@ export function RequestListTable() {
                     </td>
                     <td>{item.reward}</td>
                     {handleStatus(item.status)}
-                    <td>
-                      {item.matched}/{item.requiredPpl}
-                    </td>
+                    <td>{item.requiredPpl}</td>
                     <td>
                       {item.tag && item.tag.length > 0
                         ? item.tag.map((tag, index) => (

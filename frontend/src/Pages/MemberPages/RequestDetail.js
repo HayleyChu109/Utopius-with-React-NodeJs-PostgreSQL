@@ -95,8 +95,6 @@ const RequestDetail = () => {
 
   // Dispatch thunk to get all necessary data
   useEffect(() => {
-    console.log("request id: ", requestId);
-    console.log("user id: ", userId);
     dispatch(getRequestDetailThunk(requestId, userId));
     dispatch(getBookmarkListThunk(userId));
     dispatch(getCommentThunk(requestId, false));
@@ -121,25 +119,20 @@ const RequestDetail = () => {
     // if the user = requester
     if (requestDetail.requesterId === userId) {
       setFooterColor("#fe7235");
-      console.log("User is the req");
       switch (tab) {
         case "join":
-          console.log("R1");
           history.push(`/member/request/detail/${requestId}/comment`);
           break;
         case "joined":
-          console.log("R2");
           history.push(`/member/request/detail/${requestId}/comment`);
           break;
         case "meetup":
           if (!teamList || teamList.length < 1) {
-            console.log("R3");
             history.push(`/member/request/detail/${requestId}/response`);
           }
           break;
         case "response":
           if (teamList && teamList.length > 0) {
-            console.log("R4");
             history.push(`/member/request/detail/${requestId}/meetup`);
           }
           break;
@@ -147,7 +140,6 @@ const RequestDetail = () => {
           return;
       }
     } else {
-      console.log("User is not the req");
       setFooterColor("#0077ff");
       switch (tab) {
         case "join":
@@ -156,7 +148,6 @@ const RequestDetail = () => {
             responseList.length > 0 &&
             responseList.map((res) => res.responserId).includes(userId)
           ) {
-            console.log("1");
             history.push(`/member/request/detail/${requestId}/joined`);
           }
           // Req status matched and user in the team
@@ -164,7 +155,6 @@ const RequestDetail = () => {
             teamList.length > 0 &&
             teamList.map((team) => team.responserId).includes(userId)
           ) {
-            console.log("2");
             history.push(`/member/request/detail/${requestId}/meetup`);
           }
           // Req status matched and user is NOT in the team
@@ -172,8 +162,6 @@ const RequestDetail = () => {
             teamList.length > 0 &&
             teamList.map((team) => team.responserId).indexOf(userId) === -1
           ) {
-            console.log("3");
-            console.log(teamList);
             history.push(`/member/request/detail/${requestId}/comment`);
           }
           break;
@@ -183,7 +171,6 @@ const RequestDetail = () => {
             !responseList ||
             responseList.map((res) => res.responserId).indexOf(userId) === -1
           ) {
-            console.log("4");
             history.push(`/member/request/detail/${requestId}/join`);
           }
           // Req status matched and user is in the team
@@ -191,7 +178,6 @@ const RequestDetail = () => {
             teamList.length > 0 &&
             teamList.map((team) => team.responserId).includes(userId)
           ) {
-            console.log("5");
             history.push(`/member/request/detail/${requestId}/meetup`);
           }
           // Req status matched and user is NOT in the team
@@ -199,12 +185,10 @@ const RequestDetail = () => {
             teamList.length > 0 &&
             teamList.map((team) => team.responserId).indexOf(userId) === -1
           ) {
-            console.log("6");
             history.push(`/member/request/detail/${requestId}/comment`);
           }
           break;
         case "response":
-          console.log("7");
           history.push(`/member/request/detail/${requestId}/comment`);
           break;
         case "meetup":
@@ -213,8 +197,6 @@ const RequestDetail = () => {
             requestDetail.status === "cancelled" ||
             requestDetail.status === "open"
           ) {
-            console.log(requestDetail.status);
-            console.log("8");
             history.push(`/member/request/detail/${requestId}/comment`);
           }
           // Req status matched but member is not in the team
@@ -222,7 +204,6 @@ const RequestDetail = () => {
             teamList.length > 0 &&
             teamList.map((team) => team.responserId).indexOf(userId) === -1
           ) {
-            console.log("9");
             history.push(`/member/request/detail/${requestId}/comment`);
           }
           break;
@@ -337,7 +318,6 @@ const RequestDetail = () => {
 
   // Edit response
   const editResponse = () => {
-    console.log("Sending edit res thunk..");
     dispatch(putNewResponseThunk(requestId, userId, responseMsg));
     setResponseMsg("");
     setEditRes(false);
@@ -345,7 +325,6 @@ const RequestDetail = () => {
 
   // Delete response
   const deleteResponse = () => {
-    console.log("Sending delete res thunk..");
     dispatch(deleteResponseThunk(requestId, userId));
   };
 
@@ -355,7 +334,6 @@ const RequestDetail = () => {
     if (matchList && matchList.length > 0 && matchList.includes(newMatchId)) {
       let newMatch = matchList.filter((resId) => resId !== newMatchId);
       setMatchList(newMatch);
-      console.log("NewMatch: ", newMatch);
     } else if (matchList.length >= requestDetail.requiredPpl) {
       setErrorMsg(
         `You are reaching the response limit ! ( ${requestDetail.requiredPpl} response )`
@@ -379,7 +357,6 @@ const RequestDetail = () => {
         `Please match at least 1 response ! ( ${matchList.length} / ${requestDetail.requiredPpl} response matched )`
       );
     } else {
-      console.log("Submitting response match..");
       dispatch(putMatchedResponseThunk(matchList, requestId));
     }
   };

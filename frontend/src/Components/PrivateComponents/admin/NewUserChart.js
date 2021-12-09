@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { Card } from "react-bootstrap";
 
-
 import {
   Chart as ChartJS,
   LinearScale,
@@ -11,7 +10,7 @@ import {
   LineElement,
   Title,
   Legend,
-  Tooltip
+  Tooltip,
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 
@@ -41,47 +40,40 @@ export const options = {
     title: {
       display: true,
       text: "Daily new users",
-      font:{size:20}
+      font: { size: 20 },
     },
-   
+  },
+  scales: {
+    x: {
+      title: {
+        display: true,
+        text: "Date",
+        font: { size: 15 },
+      },
     },
-    scales: {
-        x: {
-          title: {
-            display: true,
-            text: "Date",
-            font:{size:15}
-          },
-        },
-        y: {
-          title: {
-            display: true,
-           
-            
-          },
-          min: 0,
-          ticks: {
-            stepSize: 1,
-          },
-        },
-    }
-  }
-
+    y: {
+      title: {
+        display: true,
+      },
+      min: 0,
+      ticks: {
+        stepSize: 1,
+      },
+    },
+  },
+};
 
 export function NewUserChart() {
-
   const { userGrowth } = useSelector((state) => state.adminDataStore);
   const { data } = userGrowth;
-  console.log(data);
+
   var labels;
   var dataParsed;
 
-  if (data&&data.length>0) {
+  if (data && data.length > 0) {
     labels = data.map((item) => item.date);
-    let cumulativeUser=data.map((item) => item["Cumulative Users"])
+    let cumulativeUser = data.map((item) => item["Cumulative Users"]);
 
-    console.log(cumulativeUser)
-    console.log(labels)
     dataParsed = {
       labels,
       datasets: [
@@ -105,10 +97,16 @@ export function NewUserChart() {
     };
   }
 
- 
   return (
-    <Card className='chart'>
-      {data&&data.length>0 ? <Chart datasetIdKey='id' options={options} type="bar" data={dataParsed} /> : null}
+    <Card className="chart">
+      {data && data.length > 0 ? (
+        <Chart
+          datasetIdKey="id"
+          options={options}
+          type="bar"
+          data={dataParsed}
+        />
+      ) : null}
     </Card>
   );
 }

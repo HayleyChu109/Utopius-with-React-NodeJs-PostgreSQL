@@ -7,7 +7,7 @@ class AdminRequestService {
 
   getReqList() {
     return this.knex("request")
-      .select(
+      .select( 
         "request.id",
         "requesterId",
         "title",
@@ -25,11 +25,11 @@ class AdminRequestService {
         "request.created_at"
       )
       .select(this.knex.raw(`array_agg(distinct tag."tagName") as "tag"`))
-      .select(
-        this.knex.raw(
-          `count("response"."requestId") filter(where "matched"='true') as "matched"`
-        )
-      )
+      // .select(
+      //   this.knex.raw(
+      //     `count("response"."matched") filter(where "matched"='t') as "matched"`
+      //   )
+      // )
       .join("account", "requesterId", "account.id")
       .leftJoin("tagReqJoin", "request.id", "requestId")
       .leftJoin("response", "response.requestId", "response.id")
@@ -59,11 +59,11 @@ class AdminRequestService {
         "request.created_at"
       )
       .select(this.knex.raw(`array_agg(distinct tag."tagName") as "tag"`))
-      .select(
-        this.knex.raw(
-          `count("response"."requestId") filter(where "matched"='true') as "matched"`
-        )
-      )
+      // .select(
+      //   this.knex.raw(
+      //     `count("response"."requestId") filter(where "matched"='t') as "matched"`
+      //   )
+      // )
       .join("account", "requesterId", "account.id")
       .leftJoin("tagReqJoin", "request.id", "requestId")
       .leftJoin("response", "response.requestId", "response.id")

@@ -1,28 +1,21 @@
 import { enGB } from "date-fns/locale";
 import { DateRangePicker, START_DATE, END_DATE } from "react-nice-dates";
 import "react-nice-dates/build/style.css";
-import {  useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { BsArrowRight } from "react-icons/bs";
-import {
-  PutStartDate,
-  PutEndDate,
-  
-} from "../../../Redux/announceData/action";
+import { PutStartDate, PutEndDate } from "../../../Redux/announceData/action";
 import moment from "moment";
 export const DateSelection = ({ startDate, endDate }) => {
-  
-  console.log(startDate);
-  console.log(endDate);
   const dispatch = useDispatch();
 
   const handleStartDate = (e) => {
-    if (e&&e<endDate) {
+    if (e && e < endDate) {
       dispatch(PutStartDate(new Date(e)));
     }
   };
   const handleEndDate = (e) => {
-    if (e&&e>startDate) {
+    if (e && e > startDate) {
       dispatch(PutEndDate(new Date(e)));
     }
   };
