@@ -41,7 +41,6 @@ function RedeemCheckoutPage() {
   };
 
   const increase = () => {
-    console.log(selectedItem[0].stock);
     if (qty < selectedItem[0].stock) {
       setQty(Number(qty) + 1);
     }

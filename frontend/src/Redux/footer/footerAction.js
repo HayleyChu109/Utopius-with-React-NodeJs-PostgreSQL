@@ -4,7 +4,6 @@ export const SEND_MSG_FAILURE_ACTION = "SEND_MSG_FAILURE_ACTION";
 export const SEND_MSG_SUCCESS_ACTION = "SEND_MSG_SUCCESS_ACTION";
 
 export const sendMsgThunk = (email, name, title, message) => {
-  console.log("Add new message");
   return (dispatch) => {
     axios
       .post(`${process.env.REACT_APP_API_SERVER}/message`, {

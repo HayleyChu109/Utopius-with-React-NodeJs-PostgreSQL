@@ -28,7 +28,6 @@ export const searchReq = (search) => {
 
 // For clearing up the message
 export const clearMessage = () => {
-  console.log("Clearing messages..");
   return {
     type: CLEAR_MESSAGE,
   };
@@ -214,7 +213,6 @@ export const postNewCommentThunk =
   (requestId, userId, comment, type) => async (dispatch) => {
     try {
       let token = await localStorage.getItem("token");
-      console.log("Type: ", type);
       let response = await axios.post(
         `${process.env.REACT_APP_API_SERVER}/member/request/comment`,
         {
@@ -375,7 +373,6 @@ export const putMatchedResponseThunk =
           payload: data.result.message,
         });
       }
-      console.log(data);
     } catch (err) {
       console.log("Error", err);
     }
@@ -442,7 +439,6 @@ export const getReviewInfoThunk = (requestId, userId) => async (dispatch) => {
     );
     const { data } = response;
     if (data.message === "Not reviewed") {
-      console.log("review msg: ", data.message);
       dispatch({
         type: GET_REVIEW_LIST,
         payload: true,
@@ -456,7 +452,6 @@ export const getReviewInfoThunk = (requestId, userId) => async (dispatch) => {
 // For submitting new review
 export const postReviewThunk =
   (reviewInfo, requestId, userId, requestDetail) => async (dispatch) => {
-    console.log("ReviewInfo: ", reviewInfo, requestId, userId);
     try {
       let token = await localStorage.getItem("token");
       const response = await axios.post(

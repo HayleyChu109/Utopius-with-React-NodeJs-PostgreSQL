@@ -37,7 +37,6 @@ export function RequestListTable() {
   };
   const handleQuery = (event) => {
     setQuery(event.target.value);
-    console.log(event.target.value.toLowerCase());
 
     dispatch(FilterRequestList(event.target.value.toLowerCase(), order, desc));
   };

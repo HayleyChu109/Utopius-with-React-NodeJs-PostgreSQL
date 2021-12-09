@@ -14,15 +14,12 @@ export function TokenCountCard() {
     disptach(GetTokenTransaction());
   }, [disptach]);
   if (transaction && transaction.length > 0) {
-    console.log(transaction);
-    console.log();
     income = transaction;
     income = income.filter(
       (item) => moment().startOf("date").toDate() <= new Date(item.created_at)
     );
-    console.log(income);
+
     income = income.map((dollar) => dollar.hkd).reduce((a, b) => a + b, 0);
-    console.log(income);
   }
   return (
     <>

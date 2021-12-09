@@ -19,7 +19,6 @@ const Search = () => {
   };
 
   const searchEnter = (e) => {
-    console.log(e.key);
     if (e.key === "Enter") {
       history.push("/");
     }

@@ -25,7 +25,6 @@ function RedeemPage() {
   const redeemItems = useSelector((state) => state.redeemStore.redeemItems);
 
   const redeemList = useSelector((state) => state.redeemStore.redeemList);
-  console.log(redeemList);
 
   const history = useHistory();
   const dispatch = useDispatch();

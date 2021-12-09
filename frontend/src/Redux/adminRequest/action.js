@@ -13,25 +13,23 @@ export const GetRequestStat = () => async (dispatch) => {
         headers: { Authorization: `Bearer ${userToken}` },
       }
     );
-    console.log(response.data);
     dispatch({ type: Load_REQUEST_STAT_SUCCESS, payload: response.data });
   } catch (error) {
     console.log(error);
     dispatch({ type: Load_DATA_FAILED });
   }
 };
-export const GetRequestChart = (start,end) => async (dispatch) => {
+export const GetRequestChart = (start, end) => async (dispatch) => {
   let userToken = localStorage.getItem("token");
   try {
     let response = await axios.get(
       `${process.env.REACT_APP_API_SERVER}/request/chart`,
 
       {
-        params:{start:start,end},
+        params: { start: start, end },
         headers: { Authorization: `Bearer ${userToken}` },
       }
     );
-    console.log(response.data);
     dispatch({ type: Load_REQUEST_CHART_SUCCESS, payload: response.data });
   } catch (error) {
     console.log(error);
@@ -48,7 +46,6 @@ export const GetRequestList = () => async (dispatch) => {
         headers: { Authorization: `Bearer ${userToken}` },
       }
     );
-    console.log(response.data);
     dispatch({ type: Load_REQUEST_SUCCESS, payload: response.data });
   } catch (error) {
     console.log(error);
@@ -58,35 +55,31 @@ export const GetRequestList = () => async (dispatch) => {
 export const FilterRequestList = (query, order, desc) => async (dispatch) => {
   let userToken = localStorage.getItem("token");
   try {
-    let response
-    if(query!=="")
-    {
-    response = await axios.get(
-      `${process.env.REACT_APP_API_SERVER}/request/search`,
+    let response;
+    if (query !== "") {
+      response = await axios.get(
+        `${process.env.REACT_APP_API_SERVER}/request/search`,
 
-      {
-        params:{query:query},
-        headers: { Authorization: `Bearer ${userToken}` },
-      }
-    );
-    console.log(response.data);
-    
-    }else{
-      response=await axios.get(
-        `${process.env.REACT_APP_API_SERVER}/request/`,
-  
         {
-          params:{column:desc,order:order},
+          params: { query: query },
+          headers: { Authorization: `Bearer ${userToken}` },
+        }
+      );
+    } else {
+      response = await axios.get(
+        `${process.env.REACT_APP_API_SERVER}/request/`,
+
+        {
+          params: { column: desc, order: order },
           headers: { Authorization: `Bearer ${userToken}` },
         }
       );
     }
-    let result = response.data
-    .sort((a, b) => {
+    let result = response.data.sort((a, b) => {
       if (typeof a[order] === "string" && typeof b[order] === "string") {
-        return b[order].toLowerCase() -a[order].toLowerCase;
-      }else if(order==='tag'){
-        return a[order].length-b[order].length
+        return b[order].toLowerCase() - a[order].toLowerCase;
+      } else if (order === "tag") {
+        return a[order].length - b[order].length;
       } else {
         return a[order] - b[order];
       }
@@ -94,7 +87,6 @@ export const FilterRequestList = (query, order, desc) => async (dispatch) => {
     if (desc) {
       result = result.reverse();
     }
-    console.log(result);
 
     dispatch({ type: Load_REQUEST_SUCCESS, payload: result });
   } catch (error) {
@@ -102,4 +94,3 @@ export const FilterRequestList = (query, order, desc) => async (dispatch) => {
     dispatch({ type: Load_DATA_FAILED });
   }
 };
-

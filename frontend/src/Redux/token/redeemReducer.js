@@ -17,7 +17,6 @@ export function redeemReducer(state = initialState, action) {
       return { ...state, redeemItems: action.payload };
 
     case REDEEM_ITEMS_SUCCESS_ACTION:
-      console.log(action.message);
       return { ...state, message: action.message };
 
     case CLEAR_REDEEM_SUCCESSMSG_ACTION:

@@ -29,7 +29,7 @@ export default function DashboardPage(props) {
       )
     );
   }, [dispatch]);
-  console.log(adminDataStore);
+
   return (
     <>
       <AdminNavbar />

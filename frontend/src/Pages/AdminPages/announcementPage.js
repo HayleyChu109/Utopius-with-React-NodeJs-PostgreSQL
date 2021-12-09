@@ -12,7 +12,7 @@ import {
 } from "../../Redux/announceData/action";
 import moment from "moment";
 import AdminNavbar from "../../Components/PrivateComponents/admin/adminNavBar";
-import { Card, Row, Col, } from "react-bootstrap";
+import { Card, Row, Col } from "react-bootstrap";
 
 export default function AnnouncementPage(props) {
   const { draft, announce } = useSelector((state) => state.announceStore);
@@ -21,13 +21,11 @@ export default function AnnouncementPage(props) {
   const [title, setTitle] = useState("");
   const modalClose = () => setModal(false);
   const modalOpen = (givenTitle, givenContent) => {
-    console.log(givenTitle);
-    console.log(givenContent);
     setTitle(givenTitle);
     setContent(givenContent);
     setModal(true);
   };
-  console.log(announce);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(GetAnnouncementList());

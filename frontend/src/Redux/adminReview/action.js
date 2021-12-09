@@ -12,9 +12,7 @@ export const GetReviewList = () => async (dispatch) => {
         headers: { Authorization: `Bearer ${userToken}` },
       }
     );
-    console.log(response.data)
-   dispatch({type:Load_REVIEW_LIST_SUCCESS,payload:response.data})
-    
+    dispatch({ type: Load_REVIEW_LIST_SUCCESS, payload: response.data });
   } catch (error) {
     console.log(error);
     dispatch({ type: Load_DATA_FAILED });
@@ -30,12 +28,9 @@ export const GetReviewStat = () => async (dispatch) => {
         headers: { Authorization: `Bearer ${userToken}` },
       }
     );
-    console.log(response.data)
-   dispatch({type:Load_REVIEW_STAT_SUCCESS,payload:response.data})
-    
+    dispatch({ type: Load_REVIEW_STAT_SUCCESS, payload: response.data });
   } catch (error) {
     console.log(error);
     dispatch({ type: Load_DATA_FAILED });
   }
 };
-

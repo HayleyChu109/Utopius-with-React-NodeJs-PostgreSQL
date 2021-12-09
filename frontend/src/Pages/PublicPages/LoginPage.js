@@ -1,7 +1,3 @@
-// import { useEffect } from "react";
-// import { useSelector } from "react-redux";
-// import { useHistory } from "react-router-dom";
-
 import NavBar from "../../Components/PublicComponents/NavBar";
 import LoginForm from "../../Components/PublicComponents/LoginForm";
 import SignupForm from "../../Components/PublicComponents/SignupForm";
@@ -10,19 +6,6 @@ import Footer from "../../Components/PublicComponents/Footer";
 import "../SCSS/loginPage.scss";
 
 const LoginPage = () => {
-  // const { isAuthenticated } = useSelector((state) => state.loginStore);
-
-  // const history = useHistory();
-
-  // useEffect(() => {
-  //   console.log(isAuthenticated);
-  //   if (isAuthenticated === true) {
-  //     history.push("/");
-  //   } else {
-  //     console.log("Not authenticated");
-  //   }
-  // }, [isAuthenticated, history]);
-
   return (
     <>
       <NavBar />

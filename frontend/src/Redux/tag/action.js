@@ -15,7 +15,6 @@ export const GetTagCount = () => async (dispatch) => {
           headers: { Authorization: `Bearer ${userToken}` },
         }
       );
-      console.log(response.data[0])
     dispatch({type:LOAD_TAG_COUNT_SUCCESS,payload:response.data})
    
     } catch (error) {
@@ -33,7 +32,6 @@ export const GetTagList = () => async (dispatch) => {
           headers: { Authorization: `Bearer ${userToken}` },
         }
       );
-      console.log(response.data)
     dispatch({type:LOAD_REQ_LIST_SUCCESS,payload:response.data})
    
     } catch (error) {
@@ -51,7 +49,6 @@ export const GetReqList = (tagId) => async (dispatch) => {
           headers: { Authorization: `Bearer ${userToken}` },
         }
       );
-      console.log(response.data)
     dispatch({type:LOAD_REQ_LIST_SUCCESS,payload:response.data})
    
     } catch (error) {

@@ -18,7 +18,6 @@ import "../SCSS/announce.scss";
 
 import { useHistory, useParams } from "react-router";
 
-
 import "react-day-picker/lib/style.css";
 import { Button, Form, Modal } from "react-bootstrap";
 import "../SCSS/dashboard.scss";
@@ -28,10 +27,9 @@ export function AnnouncemnetEditPage() {
   const { title, data, startDate, endDate } = useSelector(
     (state) => state.announceStore.draft
   );
-console.log(data)
+
   const { id } = useParams();
-  console.log(id);
-  console.log(startDate);
+
   const dispatch = useDispatch();
   const history = useHistory();
   const [modal, setModal] = useState(false);
@@ -40,7 +38,7 @@ console.log(data)
   const handleShow = () => setModal(true);
   const handleSaveClose = () => setSave(false);
   const handleSaveShow = () => setSave(true);
-  
+
   const handlePublish = () => {
     if (id === undefined) {
       dispatch(PostAnnouncement(title, data, false, startDate, endDate));

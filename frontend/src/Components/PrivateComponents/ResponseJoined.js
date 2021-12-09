@@ -24,7 +24,6 @@ const ResponseJoined = ({ requestId, userId, editRes, setResponseMsg }) => {
       let resRec = responseList.filter((res) => res.responserId === userId);
       setResponseHistory(resRec);
     } else {
-      console.log("responseList empty");
       return;
     }
   }, [responseList, userId, editSuccessMsg]);

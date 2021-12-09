@@ -24,7 +24,6 @@ export const loginUserThunk = (email, password) => async (dispatch) => {
         message: "Unknown error, empty response",
       });
     } else if (!data.token) {
-      console.log("No token, data.message: ", data.message);
       dispatch({ type: LOGIN_FAILURE_ACTION, message: data.message || "" });
     } else if (data.token && !data.isAdmin && data.blacklist) {
       dispatch({

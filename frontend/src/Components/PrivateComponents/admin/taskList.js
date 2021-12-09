@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  GetTaskList,
-  PutTaskList,
-} from "../../../Redux/task/action";
+import { GetTaskList, PutTaskList } from "../../../Redux/task/action";
 import { Link } from "react-router-dom";
 import { Nav, Button, Modal } from "react-bootstrap";
 import "../../../Pages/SCSS/taskList.scss";
@@ -22,12 +19,9 @@ export function TaskList() {
 
   const handleFilter = (key) => {
     setSelected(key);
-    console.log(key);
   };
 
   const handleStatus = (id, event, sol) => {
-    console.log(event.target.name);
-    console.log(id);
     disptach(PutTaskList(id, event.target.name, sol));
   };
   const OptionDisplay = (item) => {

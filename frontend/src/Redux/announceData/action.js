@@ -10,7 +10,6 @@ export const PUT_TITLE = "PUT_TITLE";
 export const DELETE_DRAFT = "DELETE_DRAFT";
 
 export const PutDraft = (content) => {
-  console.log(content);
   localStorage.setItem("cache", JSON.stringify(content));
   return {
     type: PUT_DRAFT_DATA,
@@ -18,7 +17,6 @@ export const PutDraft = (content) => {
   };
 };
 export const PutStartDate = (content) => {
-  console.log(content);
   localStorage.setItem("start", JSON.stringify(content));
   return {
     type: PUT_START_DATE,
@@ -26,18 +24,14 @@ export const PutStartDate = (content) => {
   };
 };
 export const PutEndDate = (content) => {
-  console.log(content);
   localStorage.setItem("end", JSON.stringify(content));
-
   return {
     type: PUT_END_DATE,
     payload: content,
   };
 };
 export const PutTitle = (content) => {
-  console.log(content);
   localStorage.setItem("title", JSON.stringify(content));
-
   return {
     type: PUT_TITLE,
     payload: content,
@@ -56,7 +50,6 @@ export const DeleteDraft = () => {
 
 export const GetAnnouncementList = () => async (dispatch) => {
   let userToken = localStorage.getItem("token");
-  console.log(userToken);
   try {
     let response = await axios.get(
       `${process.env.REACT_APP_API_SERVER}/announce`,
@@ -65,7 +58,6 @@ export const GetAnnouncementList = () => async (dispatch) => {
         headers: { Authorization: `Bearer ${userToken}` },
       }
     );
-    console.log(response.data);
     dispatch({ type: LOAD_LIST_SUCCESS, payload: response.data });
   } catch (error) {
     console.log(error);
@@ -74,7 +66,6 @@ export const GetAnnouncementList = () => async (dispatch) => {
 };
 export const GetAnnouncement = (requestId) => async (dispatch) => {
   let userToken = localStorage.getItem("token");
-  console.log(userToken);
   try {
     let response = await axios.get(
       `${process.env.REACT_APP_API_SERVER}/announce/${requestId}`,
@@ -83,10 +74,7 @@ export const GetAnnouncement = (requestId) => async (dispatch) => {
         headers: { Authorization: `Bearer ${userToken}` },
       }
     );
-    console.log(response.data[0]);
-    const {  content, start_date, end_date, title } =
-      response.data[0];
-    console.log(content);
+    const { content, start_date, end_date, title } = response.data[0];
     dispatch({ type: LOAD_ANNOUNCEMENT_SUCCESS, payload: response.data[0] });
     dispatch(PutDraft(content));
     if (start_date === null) {
@@ -108,7 +96,6 @@ export const GetAnnouncement = (requestId) => async (dispatch) => {
 export const PostAnnouncement =
   (title, content, isPrivate, startDate, endDate) => async (dispatch) => {
     let userToken = localStorage.getItem("token");
-    console.log(userToken);
     try {
       let response = await axios.post(
         `${process.env.REACT_APP_API_SERVER}/announce`,
@@ -124,7 +111,6 @@ export const PostAnnouncement =
           headers: { Authorization: `Bearer ${userToken}` },
         }
       );
-      console.log(response.data[0]);
       // dispatch({type:LOAD_LIST_SUCCESS,payload:response.data[0]})
     } catch (error) {
       console.log(error);
@@ -134,7 +120,7 @@ export const PostAnnouncement =
 export const PutAnnouncement =
   (id, title, content, isPrivate, startDate, endDate) => async (dispatch) => {
     let userToken = localStorage.getItem("token");
-    console.log(userToken);
+
     try {
       let response = await axios.put(
         `${process.env.REACT_APP_API_SERVER}/announce/${id}`,
@@ -150,7 +136,6 @@ export const PutAnnouncement =
           headers: { Authorization: `Bearer ${userToken}` },
         }
       );
-      console.log(response.data[0]);
       dispatch({ type: LOAD_LIST_SUCCESS, payload: response.data });
     } catch (error) {
       console.log(error);
@@ -159,7 +144,6 @@ export const PutAnnouncement =
   };
 export const DeleteAnnouncement = (id) => async (dispatch) => {
   let userToken = localStorage.getItem("token");
-  console.log(userToken);
   try {
     let response = await axios.delete(
       `${process.env.REACT_APP_API_SERVER}/announce/${id}`,
@@ -168,7 +152,6 @@ export const DeleteAnnouncement = (id) => async (dispatch) => {
         headers: { Authorization: `Bearer ${userToken}` },
       }
     );
-    console.log(response.data[0]);
     dispatch({ type: LOAD_LIST_SUCCESS, payload: response.data });
   } catch (error) {
     console.log(error);

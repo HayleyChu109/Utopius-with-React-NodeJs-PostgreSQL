@@ -53,7 +53,6 @@ export default function UserListpage() {
     }
   };
   const handleRange = (e) => {
-    console.log(e);
     setRange(e);
     let lastMonth = moment()
       .subtract(Number(e), "month")

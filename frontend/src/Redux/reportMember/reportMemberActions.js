@@ -24,7 +24,6 @@ export const submitReportThunk =
       );
 
       const { data } = response;
-      console.log(data);
       if (data) {
         dispatch({
           type: REPORT_MEMBER_SUCCESS_ACTION,
